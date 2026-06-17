@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { c, err, heading, info } from "../lib/log.js";
 import { findRepoRoot, tryReadJson } from "../lib/repo.js";
+import { findSourceRoot } from "../lib/source.js";
 import type { Lockfile, Registry } from "../lib/types.js";
 
 export function list(args: string[]): number {
@@ -33,14 +34,12 @@ export function list(args: string[]): number {
     return 0;
   }
 
-  const root = findRepoRoot();
-  if (!root) {
-    err("Could not locate the loadout registry. Run inside a loadout checkout, or use --installed.");
-    return 1;
-  }
+  // Prefer a loadout checkout the user is standing in; otherwise resolve the registry
+  // bundled with the installed package (e.g. when run via `npx github:naffis/loadout`).
+  const root = findRepoRoot() ?? findSourceRoot();
   const reg = tryReadJson<Registry>(join(root, "registry.json"));
   if (!reg) {
-    err("registry.json is missing or invalid.");
+    err("Could not locate the loadout registry. Run inside a loadout checkout, or use --installed.");
     return 1;
   }
   heading(`Available assets (${reg.assets.length})`);

@@ -3,6 +3,7 @@ import { dirname, join, relative } from "node:path";
 import matter from "gray-matter";
 import { c, err, heading, info, ok, warn } from "../lib/log.js";
 import { findRepoRoot, tryReadJson } from "../lib/repo.js";
+import { findSourceRoot } from "../lib/source.js";
 import type {
   Lockfile,
   Marketplace,
@@ -406,11 +407,7 @@ function checkLockfile(root: string, f: Findings): void {
 }
 
 export function doctor(): number {
-  const root = findRepoRoot();
-  if (!root) {
-    err("Could not locate a loadout repo (no marketplace.json or registry.json found).");
-    return 1;
-  }
+  const root = findRepoRoot() ?? findSourceRoot();
   info(c.dim(`loadout doctor — ${root}`));
 
   const f: Findings = { errors: [], warnings: [] };
