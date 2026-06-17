@@ -15,6 +15,35 @@ done — not sit as an unordered pile.
 > Domain/vertical-specific assets are intentionally left out. See
 > `docs/external-practices.md` and `docs/loop-engineering.md` for the conventions behind them.
 
+## Quick start
+
+Install into any project, then pull in what you need:
+
+```bash
+cd your-project
+npx github:naffis/loadout init                       # detect Cursor/Claude, scaffold dirs, lockfile, notify hook
+npx github:naffis/loadout list                       # browse available skills, rules, docs, and workflows
+npx github:naffis/loadout add start getting-started ship-a-feature no-any  # vendor assets by id (one or many)
+```
+
+Then open the project in **Cursor** or **Claude Code** and use it:
+
+- **Rules** (e.g. `no-any`) apply automatically — the agent follows them on every edit.
+- **Skills** load on demand — ask in plain language ("plan a change", "fix CI"), or run
+  **`/start`** to have loadout clarify the goal, pick the right workflow, and hand you a
+  ready-to-run kickoff prompt.
+- **Workflows** (e.g. `ship-a-feature`) compose rules, skills, and subagents into one
+  named recipe.
+
+Pull upstream improvements anytime — local edits are preserved via a three-way merge:
+
+```bash
+npx github:naffis/loadout update                     # merges updates; conflicts shown as markers, never silent
+```
+
+Prefer native distribution (Claude Code plugins / Cursor Remote Rules) instead of
+vendoring? See [Consuming loadout](#consuming-loadout) below.
+
 ## Documentation
 
 - **[docs/usage.md](./docs/usage.md)** — how to install loadout, how each asset type loads and how you invoke it, and how the pieces compose. Start here.

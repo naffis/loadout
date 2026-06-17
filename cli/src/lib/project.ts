@@ -57,8 +57,15 @@ export function planTargets(asset: RegistryAsset, tools: Tools, projectRoot: str
       break;
     }
     case "command":
+      // Slash commands are plain markdown; vendor into each tool's command dir.
+      if (tools.cursor) actions.push({ kind: "copyFile", target: join(".cursor", "commands", `${asset.id}.md`) });
+      if (tools.claude) actions.push({ kind: "copyFile", target: join(".claude", "commands", `${asset.id}.md`) });
+      break;
     case "agent":
-      actions.push({ kind: "note", message: `${asset.type} '${asset.id}' is delivered via the plugin marketplace, not vendored: /plugin install <plugin>@loadout` });
+      // Claude Code loads subagent personas from .claude/agents. Cursor uses built-in
+      // subagents, so there is no file to vendor there.
+      if (tools.claude) actions.push({ kind: "copyFile", target: join(".claude", "agents", `${asset.id}.md`) });
+      if (tools.cursor) actions.push({ kind: "note", message: `agent '${asset.id}' is used via Cursor's built-in subagents; no file vendored for Cursor` });
       break;
     case "mcp":
       if (tools.cursor) actions.push({ kind: "mergeMcp", target: join(".cursor", "mcp.json") });
