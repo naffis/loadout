@@ -154,7 +154,53 @@ The quality loop is a good mini-example: `reviewing-code-quality` (find issues) 
 
 ---
 
-## 5. Authoring and keeping it sharp (self-improving)
+## 5. Build a feature, end to end
+
+A worked, copy-paste path for landing a non-trivial change with the `ship-a-feature`
+workflow.
+
+**Equip the project once.** Adding a workflow doesn't pull in its parts, so vendor the
+workflow plus the skills and rules it sequences (its `uses:` block):
+
+```bash
+npx github:naffis/loadout add \
+  ship-a-feature \
+  planning-a-change writing-tests reviewing-and-shipping \
+  writing-commit-messages opening-a-pr making-a-pr-reviewable updating-docs \
+  no-shortcuts size-limits testing-conventions test-coverage \
+  commit-and-pr-conventions regression-test documentation-updates
+```
+
+If you use Cursor **Remote Rules**, all rules auto-sync — drop the rule ids and just add the
+workflow + skills.
+
+**Invoke it.** You don't call each asset by hand: rules load automatically, and naming the
+workflow makes the agent walk its steps. In Cursor (Agent) or Claude Code, paste:
+
+> Follow the `ship-a-feature` workflow to build `<your feature>`.
+> Gate: `<your test + lint command>`.
+> Done when: tests + lint pass, a reviewer pass finds no correctness/intent gaps, PR opened.
+
+Unsure which workflow fits, or starting cold? Run **`/start`** (or *"I want to build X —
+what should I do?"*) and `getting-started` routes you and hands back a kickoff prompt.
+
+**What runs, in order:**
+
+1. **Plan** — `planning-a-change` explores the code and writes a stress-tested plan.
+2. **Implement** — smallest safe change first, under the background rules (`no-shortcuts`, `size-limits`, …).
+3. **Test** — `writing-tests`; bug fixes get a failing-then-passing test (`regression-test`).
+4. **Verify** — run the `gate` (your test + lint command) and show the evidence.
+5. **Docs** — `updating-docs` in the same change.
+6. **Review (maker ≠ checker)** — dispatch the `reviewer` on the diff vs the plan (*"use the reviewer subagent on this diff"*). In Cursor this is a separate review pass; in Claude Code it's the `reviewer` agent.
+7. **Commit & PR** — `writing-commit-messages` → `opening-a-pr` (`making-a-pr-reviewable` first if the diff is noisy).
+
+Set the `gate` to your real command so step 4 is objective. The workflow records progress in
+its `state` file, so a resumed run continues cleanly. Other workflows follow the same
+pattern: `fix-ci-until-green`, `cut-a-release`, `onboard-to-codebase`.
+
+---
+
+## 6. Authoring and keeping it sharp (self-improving)
 
 loadout is meant to compound — every mistake becomes a permanent guard ("the ratchet").
 
@@ -169,7 +215,7 @@ frontmatter, composition references, orphaned files, and lockfile integrity). CI
 
 ---
 
-## 6. See also
+## 7. See also
 
 - [`catalog.md`](./catalog.md) — one-line reference for every skill, rule, agent, command, workflow, runbook, and template.
 - [`external-practices.md`](./external-practices.md) — the Anthropic/Cursor conventions behind the assets.
