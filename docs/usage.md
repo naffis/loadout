@@ -62,8 +62,10 @@ Example: "plan and ship the auth refactor" will pull in `planning-a-change` then
 
 ### Commands
 
-Type the slash command: `/changelog`. Commands are explicit, repeatable actions delivered
-via the plugin.
+Type the slash command: `/start`, `/changelog`. Commands are explicit, repeatable actions.
+`loadout add <command>` vendors them to `.cursor/commands/<id>.md` (Cursor) and
+`.claude/commands/<id>.md` (Claude Code); Claude Code can alternatively get them via the
+plugin marketplace.
 
 ### Subagents
 
@@ -71,7 +73,7 @@ A subagent runs in its own context window and reports back, which keeps your mai
 clean and lets the maker differ from the checker.
 
 - Dispatch by asking: *"use the **reviewer** subagent on this diff"* or *"use **explorer** to find where sessions are handled."*
-- Claude Code defines them in `.claude/agents/`; Cursor in `.cursor/agents/`. They're delivered via the plugin.
+- Both tools load custom subagents from a per-tool dir: Claude Code from `.claude/agents/`, Cursor from `.cursor/agents/`. `loadout add <agent>` vendors the persona into both; Claude Code can also get them via the plugin.
 
 ### MCP servers
 
@@ -122,10 +124,11 @@ npx github:naffis/loadout doctor        # validate the loadout repo itself
 ```
 
 What `add` does per type: skills → `.cursor/skills/<id>/`; rules → `.cursor/rules/<id>.mdc`
-**and** projected into `CLAUDE.md`; MCP → merged into `.mcp.json`/`.cursor/mcp.json`;
-docs/workflows → copied preserving their path. Everything vendored is tracked in
-`loadout.lock.json`, so `update` can three-way merge without clobbering local edits (a true
-conflict gets markers, never silent data loss). Pin consumers to release tags, not `main`.
+**and** projected into `CLAUDE.md`; commands → `.cursor/commands/<id>.md` + `.claude/commands/<id>.md`;
+agents → `.cursor/agents/<id>.md` + `.claude/agents/<id>.md`; MCP → merged into
+`.mcp.json`/`.cursor/mcp.json`; docs/workflows → copied preserving their path. Everything
+vendored is tracked in `loadout.lock.json`, so `update` can three-way merge without clobbering
+local edits (a true conflict gets markers, never silent data loss).
 
 ---
 

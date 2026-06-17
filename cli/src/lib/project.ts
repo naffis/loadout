@@ -62,10 +62,9 @@ export function planTargets(asset: RegistryAsset, tools: Tools, projectRoot: str
       if (tools.claude) actions.push({ kind: "copyFile", target: join(".claude", "commands", `${asset.id}.md`) });
       break;
     case "agent":
-      // Claude Code loads subagent personas from .claude/agents. Cursor uses built-in
-      // subagents, so there is no file to vendor there.
+      // Both tools load custom subagent personas from a per-tool agents dir.
+      if (tools.cursor) actions.push({ kind: "copyFile", target: join(".cursor", "agents", `${asset.id}.md`) });
       if (tools.claude) actions.push({ kind: "copyFile", target: join(".claude", "agents", `${asset.id}.md`) });
-      if (tools.cursor) actions.push({ kind: "note", message: `agent '${asset.id}' is used via Cursor's built-in subagents; no file vendored for Cursor` });
       break;
     case "mcp":
       if (tools.cursor) actions.push({ kind: "mergeMcp", target: join(".cursor", "mcp.json") });

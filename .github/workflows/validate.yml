@@ -19,3 +19,34 @@ jobs:
         run: npm test
       - name: loadout doctor
         run: node dist/index.js doctor
+      - name: Lint workflow YAML
+        run: |
+          python3 - <<'PY'
+          import glob, sys
+          try:
+              import yaml
+          except ImportError:
+              print("PyYAML unavailable; skipping workflow YAML lint")
+              sys.exit(0)
+          bad = []
+          for f in sorted(glob.glob(".github/workflows/*.yml")):
+              try:
+                  yaml.safe_load(open(f))
+              except Exception as e:  # noqa: BLE001
+                  bad.append(f"{f}: {e}")
+          if bad:
+              print("Invalid workflow YAML:\n" + "\n".join(bad))
+              sys.exit(1)
+          print("workflow YAML OK")
+          PY
+      - name: Smoke test (init / add / list against a scratch project)
+        run: |
+          set -euo pipefail
+          tmp="$(mktemp -d)"
+          mkdir -p "$tmp/.cursor"
+          ( cd "$tmp" && node "$GITHUB_WORKSPACE/dist/index.js" init )
+          ( cd "$tmp" && node "$GITHUB_WORKSPACE/dist/index.js" add start no-any )
+          test -f "$tmp/.cursor/commands/start.md" || { echo "FAIL: /start command not vendored"; exit 1; }
+          test -f "$tmp/.cursor/rules/no-any.mdc"  || { echo "FAIL: no-any rule not vendored"; exit 1; }
+          ( cd "$tmp" && node "$GITHUB_WORKSPACE/dist/index.js" list ) | grep -q "Available assets"
+          echo "smoke OK"
