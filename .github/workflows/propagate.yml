@@ -1,0 +1,102 @@
+name: propagate
+
+# Open update PRs for the vendored (Layer C) assets in downstream consumer repos.
+# For each consumer: check it out, run `loadout update`, and open a PR if anything changed
+# — surfacing conflicts in the PR body so a human resolves them.
+#
+# Gated for safety:
+#   - Runs on manual dispatch by default. The weekly schedule is commented out; enable it
+#     only once CONSUMERS and a token are configured.
+#   - Requires repo variable `LOADOUT_CONSUMERS` (comma-separated `owner/repo`) or the
+#     `consumers` input, and secret `LOADOUT_PROPAGATE_TOKEN` (a PAT with repo + PR scope
+#     on the consumers).
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "loadout release tag consumers should move to (e.g. v1.4.0). Blank = main."
+        required: false
+        default: ""
+      consumers:
+        description: "Override consumer list (comma-separated owner/repo)."
+        required: false
+        default: ""
+  # schedule:
+  #   - cron: "0 13 * * 1"   # Mondays 13:00 UTC — enable once configured
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      consumers: ${{ steps.list.outputs.consumers }}
+    steps:
+      - id: list
+        env:
+          INPUT_CONSUMERS: ${{ github.event.inputs.consumers }}
+          VAR_CONSUMERS: ${{ vars.LOADOUT_CONSUMERS }}
+        run: |
+          raw="${INPUT_CONSUMERS:-$VAR_CONSUMERS}"
+          if [ -z "$raw" ]; then
+            echo "No consumers configured (set vars.LOADOUT_CONSUMERS or the 'consumers' input)."
+            echo "consumers=[]" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          json=$(printf '%s' "$raw" | tr ',' '\n' | sed '/^[[:space:]]*$/d' | jq -R . | jq -cs .)
+          echo "consumers=$json" >> "$GITHUB_OUTPUT"
+
+  propagate:
+    needs: plan
+    if: needs.plan.outputs.consumers != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        repo: ${{ fromJson(needs.plan.outputs.consumers) }}
+    steps:
+      - name: Checkout consumer
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ matrix.repo }}
+          token: ${{ secrets.LOADOUT_PROPAGATE_TOKEN }}
+          path: consumer
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Run loadout update
+        id: update
+        working-directory: consumer
+        run: |
+          REF="${{ github.event.inputs.ref }}"
+          SPEC="github:naffis/loadout${REF:+#$REF}"
+          npx -y "$SPEC" update | tee ../update.log || true
+          if git -C . diff --quiet && git -C . ls-files --others --exclude-standard --error-unmatch . >/dev/null 2>&1; then :; fi
+          if [ -n "$(git -C . status --porcelain)" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+          if grep -qi "CONFLICT" ../update.log; then echo "conflict=true" >> "$GITHUB_OUTPUT"; fi
+      - name: Open PR
+        if: steps.update.outputs.changed == 'true'
+        working-directory: consumer
+        env:
+          GH_TOKEN: ${{ secrets.LOADOUT_PROPAGATE_TOKEN }}
+        run: |
+          BRANCH="loadout/update-$(date +%Y%m%d)"
+          git config user.name "loadout-bot"
+          git config user.email "loadout-bot@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add -A
+          git commit -m "chore: loadout update"
+          git push -u origin "$BRANCH"
+          BODY="Automated \`loadout update\`."
+          if [ "${{ steps.update.outputs.conflict }}" = "true" ]; then
+            BODY="$BODY
+
+> :warning: Merge conflicts were written as markers. Resolve them before merging."
+          fi
+          gh pr create --title "chore: loadout update" --body "$BODY" --head "$BRANCH" || true

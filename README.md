@@ -1,0 +1,136 @@
+# loadout
+
+The kit you equip for a mission. `loadout` is the single source of truth for Claude
+Code skills and Cursor rules, plus the docs, processes, and project scaffolds that go
+with them. New projects pull from it, you push improvements back, and existing projects
+pick up updates on a schedule.
+
+Skills and rules are designed to **compose into named workflows** that get real work
+done — not sit as an unordered pile.
+
+> **Status: functional.** The CLI (`init`, `add`, `list`, `update`, `diff`, `doctor`) is
+> implemented with a lockfile and three-way merge. The library is general-purpose: 2
+> Claude Code plugins (28 skills, 2 commands, 4 subagents), 21 Cursor rules, 4 workflows, 4
+> runbooks, and templates — harvested from real projects, generalized, and sanitized.
+> Domain/vertical-specific assets are intentionally left out. See
+> `docs/external-practices.md` and `docs/loop-engineering.md` for the conventions behind them.
+
+## Documentation
+
+- **[docs/usage.md](./docs/usage.md)** — how to install loadout, how each asset type loads and how you invoke it, and how the pieces compose. Start here.
+- **[docs/catalog.md](./docs/catalog.md)** — one-line reference for every skill, rule, subagent, command, workflow, runbook, and template, with how to call each.
+- **[docs/external-practices.md](./docs/external-practices.md)** — the Anthropic/Cursor authoring conventions behind the assets.
+- **[docs/agent-harness-engineering.md](./docs/agent-harness-engineering.md)** and **[docs/loop-engineering.md](./docs/loop-engineering.md)** — the methodologies loadout is built on.
+
+## Three distribution layers
+
+| Layer | Covers | Mechanism |
+|---|---|---|
+| **A. Claude Code plugins** | skills, commands, subagents, hooks, MCP configs | native plugin marketplace (`.claude-plugin/marketplace.json`) |
+| **B. Cursor rules + skills** | `.mdc` rules, `SKILL.md` skills | Cursor Remote Rules + shared `SKILL.md` |
+| **C. Vendored assets** | docs, processes, workflows, scaffolds, `AGENTS.md`, MCP merges | the `loadout` CLI + per-project lockfile |
+
+`SKILL.md` is the portable unit — the same skill folder serves both Claude Code (via a
+plugin) and Cursor (via `.cursor/skills/`).
+
+## Consuming loadout
+
+**Claude Code plugins:**
+
+```bash
+/plugin marketplace add naffis/loadout
+/plugin install core-engineering@loadout
+/plugin update core-engineering
+/plugin marketplace update
+```
+
+**Cursor rules (Remote Rules, one time per machine):**
+
+> Settings → Rules and Commands → Remote Rule (GitHub) → paste
+> `https://github.com/naffis/loadout`, pointed at `rules/`. Rules auto-sync on push.
+
+**Vendored assets (CLI):**
+
+```bash
+npx github:naffis/loadout init        # bootstrap a project (detect tools, hook, lockfile)
+npx github:naffis/loadout add <id>    # vendor an asset into this project
+npx github:naffis/loadout list        # show available assets
+npx github:naffis/loadout update      # pull latest, three-way merge managed assets
+npx github:naffis/loadout doctor      # validate manifests, frontmatter, lockfile
+```
+
+Pin consumers to release tags, not `main`.
+
+## CLI commands
+
+| Command | Purpose |
+|---|---|
+| `loadout init` | Bootstrap a project: detect Cursor/Claude, scaffold dirs, install the SessionStart notify hook, write `loadout.lock.json` |
+| `loadout add <id...>` | Vendor assets into a project (rules → `.cursor/rules` + projected into `CLAUDE.md`; skills → `.cursor/skills`; MCP merged into `.mcp.json`/`.cursor/mcp.json`) |
+| `loadout list [--installed]` | Show available assets, or what is installed locally (with drift flags) |
+| `loadout update [--check]` | Pull latest and three-way merge managed assets; `--check` is a dry run that exits non-zero if updates exist |
+| `loadout diff <id>` | Show upstream vs local for one asset |
+| `loadout doctor` | Validate manifests, frontmatter, composition refs, orphaned files, and lockfile integrity |
+
+There is no `build` command. Nothing is generated; the manifests are hand-maintained
+and `doctor` catches mistakes.
+
+### Keeping projects up to date
+
+- **Cursor rules** auto-sync via Remote Rules — nothing to do.
+- **Claude Code plugins**: set `autoUpdate: true` in `.claude/settings.json` (best-effort
+  in this Claude Code version), and rely on the SessionStart notify hook to prompt
+  `/plugin update` once per day. Pin to release tags, not `main`.
+- **Vendored assets**: run `loadout update` per project, or schedule `loadout update --check`
+  in CI to open an update PR when drift exists.
+
+## Updates never clobber local edits
+
+The CLI tracks vendored copies in `loadout.lock.json`, recording a `baseHash` (upstream
+at install) and `localHash` (the file as written). On `loadout update`, a `diff3`-style
+three-way merge applies upstream changes while preserving local edits, and surfaces
+conflicts as markers rather than silently discarding either side.
+
+## Security: review skills before you install
+
+Skills and rules are instructions an agent will follow, so an installed asset is part of
+your trust boundary — a malicious instruction can hide in a description ("skills as
+injection vectors"). Before installing:
+
+- Read the `SKILL.md`/`.mdc` you are vendoring, not just its name.
+- Pin to a release tag and review the diff on `loadout update`.
+- Check `provenance` in `registry.json` to see where an asset came from.
+
+`loadout doctor` runs an injection-pattern lint over `SKILL.md`/`.mdc` (prompt-injection
+phrases, pipe-to-shell, hardcoded credentials, env-var exfiltration) and warns on matches.
+It is a backstop, not a substitute for reading what you install.
+
+## Development
+
+```bash
+npm install          # installs deps and builds (via `prepare`)
+npm run build        # tsc -> dist/
+npm run doctor       # node dist/index.js doctor
+npm run dev -- doctor # run the TS source directly via tsx
+```
+
+The CLI source lives in [`cli/`](./cli) and compiles to `dist/`.
+
+## Repository layout
+
+```
+.claude-plugin/marketplace.json   # plugin catalog (hand-maintained)
+plugins/<plugin>/                  # Claude Code plugins; skills live here
+rules/<rule>.mdc                   # Cursor rules (flat, for Remote Rules)
+docs/                              # reference docs (vendored)
+processes/runbooks/                # checklists, operational procedures
+processes/workflows/               # named recipes that compose assets
+templates/                         # AGENTS.md, CLAUDE.md, config starters
+hooks/check-plugin-updates.sh      # SessionStart update notify hook
+cli/                               # the loadout CLI source
+registry.json                      # CLI vendoring index + composition metadata
+```
+
+## License
+
+MIT

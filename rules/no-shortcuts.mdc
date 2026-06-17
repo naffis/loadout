@@ -1,0 +1,11 @@
+---
+description: No stubs, bandaids, or silent fallbacks. Fix root causes or state the scope cut explicitly.
+alwaysApply: true
+---
+
+# No shortcuts
+
+- Don't ship placeholder/stub implementations, `TODO`-and-move-on, or commented-out code paths as if done.
+- Don't swallow errors to make a symptom disappear. Fix the cause, or surface the error with context.
+- Don't add a fallback that masks a failure (e.g. silently returning empty data) unless the fallback is the explicit, documented intent.
+- If you must reduce scope to stay safe, say so plainly in your summary — what you did, what you deliberately left, and why.
