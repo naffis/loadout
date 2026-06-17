@@ -95,8 +95,6 @@ jobs:
           git push -u origin "$BRANCH"
           BODY="Automated \`loadout update\`."
           if [ "${{ steps.update.outputs.conflict }}" = "true" ]; then
-            BODY="$BODY
-
-> :warning: Merge conflicts were written as markers. Resolve them before merging."
+            BODY="$BODY"$'\n\n'"> :warning: Merge conflicts were written as markers. Resolve them before merging."
           fi
           gh pr create --title "chore: loadout update" --body "$BODY" --head "$BRANCH" || true
