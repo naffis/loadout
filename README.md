@@ -10,10 +10,11 @@ done — not sit as an unordered pile.
 
 > **Status: functional.** The CLI (`init`, `add`, `list`, `update`, `diff`, `doctor`) is
 > implemented with a lockfile and three-way merge. The library is general-purpose: 2
-> Claude Code plugins (28 skills, 2 commands, 4 subagents), 21 Cursor rules, 4 workflows, 4
+> Claude Code plugins (35 skills, 2 commands, 4 subagents), 25 Cursor rules, 5 workflows, 4
 > runbooks, and templates — harvested from real projects, generalized, and sanitized.
 > Domain/vertical-specific assets are intentionally left out. See
-> `docs/external-practices.md` and `docs/loop-engineering.md` for the conventions behind them.
+> `docs/external-practices.md`, `docs/agentic-patterns.md`, and `docs/loop-engineering.md`
+> for the conventions and patterns behind them.
 
 ## Quick start
 
@@ -49,6 +50,7 @@ vendoring? See [Consuming loadout](#consuming-loadout) below.
 - **[docs/usage.md](./docs/usage.md)** — how to install loadout, how each asset type loads and how you invoke it, and how the pieces compose. Start here.
 - **[docs/catalog.md](./docs/catalog.md)** — one-line reference for every skill, rule, subagent, command, workflow, runbook, and template, with how to call each.
 - **[docs/external-practices.md](./docs/external-practices.md)** — the Anthropic/Cursor authoring conventions behind the assets.
+- **[docs/agentic-patterns.md](./docs/agentic-patterns.md)** — the 2026 agentic-coding pattern catalog (context engineering, evaluator-optimizer, subagents, spec-driven, tool design, root-cause) mapped to the assets that encode each.
 - **[docs/agent-harness-engineering.md](./docs/agent-harness-engineering.md)** and **[docs/loop-engineering.md](./docs/loop-engineering.md)** — the methodologies loadout is built on.
 
 ## Three distribution layers

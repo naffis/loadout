@@ -10,12 +10,20 @@ command → `/changelog`.
 
 ---
 
-## Skills (28)
+## Skills (35)
 
 ### Getting started (start here)
 | Skill | What / when | Call |
 |---|---|---|
 | `getting-started` | Route a goal to the right workflow + supporting skills/rules, decide manual vs loop, and emit a ready-to-run kickoff prompt. | "I want to build X, what should I do?" / new to a repo |
+
+### Agentic loops & orchestration
+| Skill | What / when | Call |
+|---|---|---|
+| `agentic-loop` | Run a non-trivial task as a verifiable perceive→plan→act→observe→verify→reflect loop: stop-condition contract, ground-truth verification, maker≠checker, durable memory, context budget, bounded autonomy. | long-horizon/multi-step work; "run this as a loop" |
+| `running-a-dev-cycle` | Adaptive end-to-end cycle: classify a task (QUICK/ENHANCEMENT/INTEGRATION/INVESTIGATION/ITERATION) and route it through the lightest path, each phase an agentic loop. | "build this end to end" / "autonomous mode" |
+| `orchestrating-parallel-agents` | Run N independent items in parallel via sub-agents in git worktrees — bounded concurrency, full context per agent, serialized landing gated by maker-checker. | "do these in parallel" / "clear the queue" |
+| `agent-tool-design` | Design a product's agent-facing tools/MCP well (ACI): fewer higher-signal tools, namespacing, high-signal results, token efficiency, steering descriptions/errors. | authoring/editing a tool schema, description, or result shape |
 
 ### Shipping & pull requests
 | Skill | What / when | Call |
@@ -32,7 +40,9 @@ command → `/changelog`.
 ### Debugging & CI
 | Skill | What / when | Call |
 |---|---|---|
-| `debugging-an-issue` | Evidence-first root-cause loop (expected vs actual, repro, falsify, fix, regression test). | a non-obvious bug/failure |
+| `debugging-an-issue` | Evidence-first root-cause loop (read error, expected vs actual, repro, falsify, fix, regression test) + a per-symptom decision tree. | a non-obvious bug/failure |
+| `root-cause-fix` | Prove the one true cause (Loop A) → converge a no-bandaid class fix (Loop B) → implement at the root → regression-lock → independent checker. | "find the root cause and fix it properly" / "analyze and fix" |
+| `debugging-with-observability` | Debug a production/staging issue from runtime evidence (correlation ids → query logs/traces → interpret → tail → hand off). | "why did it fail in prod?" / no local repro |
 | `fixing-ci` | Find failing checks, classify (env/flake/real), fix the root cause. | red PR checks / failing build |
 | `triaging-flaky-tests` | Diagnose non-determinism with evidence; real fix, not retries. | a test that passes/fails randomly |
 
@@ -53,6 +63,7 @@ command → `/changelog`.
 | Skill | What / when | Call |
 |---|---|---|
 | `reviewing-dependencies` | Audit outdated deps; review version-bump PRs for breaking changes. | dependency reports / bump PRs |
+| `researching-a-dependency` | Research an unfamiliar API/library/service from primary sources and distill it into a versioned, cited, implementation-ready reference before integrating. | before adopting new tech / "research X before we build" |
 | `writing-a-migration` | Safe, reversible, expand/contract DB migration. | schema change or backfill |
 
 ### Documentation (keep docs current with code)
@@ -78,7 +89,7 @@ command → `/changelog`.
 
 ---
 
-## Rules (21)
+## Rules (25)
 
 How a rule loads is set by its frontmatter. You don't usually call rules; they load
 automatically (or `@rule-name` for manual ones).
@@ -115,6 +126,10 @@ automatically (or `@rule-name` for manual ones).
 | `audit-external-skills` | Treat third-party skills/rules/MCP as untrusted; review first. |
 | `lockfile-conflicts` | Never hand-merge lockfiles; resolve the manifest, regenerate. |
 | `dependency-version-management` | Detect/respect the version manager; don't switch runtimes unasked. |
+| `agentic-loop-rule` | The verified-loop non-negotiables (stop contract, ground-truth verify, maker≠checker, durable memory, context budget, bounded autonomy); loads the `agentic-loop` skill. |
+| `definition-of-done` | A change is done only when behavior + tests + docs + surface registration land in the SAME change, gate green, edits left for review. |
+| `no-regex-for-semantics` | Regex is structural, LLMs are semantic; don't keyword-match meaning — emit a structured field or call a model. |
+| `capability-removal` | Removing a capability means removing all of it — wiring, tests, docs, config, dead code — not just the entry point. |
 
 ---
 
@@ -138,7 +153,7 @@ Dispatch with "use the `<name>` subagent". They run in a fresh context and repor
 
 ---
 
-## Workflows (4)
+## Workflows (5)
 
 Named recipes (`processes/workflows/`). Each lists the rules/skills/commands/agents it
 composes and optional `gate` / `stop_condition` / `state`.
@@ -149,6 +164,7 @@ composes and optional `gate` / `stop_condition` / `state`.
 | `fix-ci-until-green` | `ci-watcher` → `fixing-ci` / `triaging-flaky-tests` / `debugging-an-issue`; stop = checks green |
 | `cut-a-release` | `assessing-release-readiness` → `/changelog` → `multi-plane-deploy`; gate = readiness GO |
 | `onboard-to-codebase` | `explorer` + `planning-a-change` |
+| `run-autonomous-loop` | `running-a-dev-cycle` + `agentic-loop` + `planning-a-change` + `root-cause-fix` → `reviewer` → `reviewing-and-shipping`; stop = contract met + reviewer SAFE + gate green |
 
 ---
 
@@ -174,4 +190,5 @@ composes and optional `gate` / `stop_condition` / `state`.
 ## Reference docs (`docs/`)
 
 `usage` (this guide's companion), `catalog` (this file), `external-practices` (Anthropic/Cursor
-conventions), `loop-engineering`, `agent-harness-engineering`.
+conventions), `agentic-patterns` (the 2026 agentic-coding pattern catalog behind these assets),
+`loop-engineering`, `agent-harness-engineering`.

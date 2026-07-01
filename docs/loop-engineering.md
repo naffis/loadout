@@ -134,11 +134,14 @@ authored during the harvest.
   consumer security note in the README.
 - **[done] runbooks** — The **execution-order law** recorded as a guardrail: manual
   run reliable → document as skill → wrap in loop → schedule last. Never skip to scheduling.
-- **[later] seed assets** *(harvest)* — Pre-flight checklists as ordinary seed assets:
-  the **4-condition test**, the **30-second loop check**, the **Ralph-Wiggum** self-test,
-  and the **security-tax** checklist. No dedicated loop-engineering plugin.
-- **[later] templates/** — A `STATE.md` and an automation/loop starter template, authored
-  with the harvest.
+- **[done] seed assets** *(harvest)* — Pre-flight checklists shipped as the `loop-preflight`
+  runbook (4-condition test, 30-second loop check, Ralph-Wiggum self-test, security tax). The
+  in-task loop discipline shipped as the `agentic-loop` skill (+ `agentic-loop.mdc` rule) with
+  references for context engineering, verification/stop-conditions, and subagents/parallelism;
+  the adaptive router as `running-a-dev-cycle`; parallel execution as
+  `orchestrating-parallel-agents`. The broader pattern catalog is `docs/agentic-patterns.md`.
+  No dedicated loop-engineering plugin — all folded into `core-engineering`.
+- **[done] templates/** — `STATE.md` and the `automation-loop` starter template shipped.
 
 ---
 

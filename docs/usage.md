@@ -155,6 +155,17 @@ automatically, the steps are skills, enforcement is a hook, and a separate subag
 The quality loop is a good mini-example: `reviewing-code-quality` (find issues) →
 `refactoring-code` (fix them safely) under the `size-limits` + `refactor-discipline` rules.
 
+**Running work as a verified loop.** For non-trivial or long-horizon work, the `agentic-loop`
+skill (and its `agentic-loop.mdc` rule) is the execution discipline *inside* any
+workflow/phase: write a stop-condition contract, verify against ground truth, keep a checker
+separate from the maker, manage the context budget, and stay git-safe. `running-a-dev-cycle`
+is the adaptive router that classifies a task and walks it through the right phases (each run
+as an agentic loop); `root-cause-fix` is the prove-cause-then-class-fix engine for defects; and
+`orchestrating-parallel-agents` fans independent work out across worktrees with a serialized,
+maker-checker-gated landing. The `run-autonomous-loop` workflow composes these for unattended,
+until-contract-met runs — gated by `loop-preflight`. See [`agentic-patterns.md`](./agentic-patterns.md)
+for the patterns behind them.
+
 ---
 
 ## 5. Build a feature, end to end
@@ -222,4 +233,5 @@ frontmatter, composition references, orphaned files, and lockfile integrity). CI
 
 - [`catalog.md`](./catalog.md) — one-line reference for every skill, rule, agent, command, workflow, runbook, and template.
 - [`external-practices.md`](./external-practices.md) — the Anthropic/Cursor conventions behind the assets.
+- [`agentic-patterns.md`](./agentic-patterns.md) — the 2026 agentic-coding pattern catalog (the loop, context engineering, maker-checker, tool design, root-cause) mapped to the assets that encode each.
 - [`agent-harness-engineering.md`](./agent-harness-engineering.md) and [`loop-engineering.md`](./loop-engineering.md) — the methodologies loadout is built on.

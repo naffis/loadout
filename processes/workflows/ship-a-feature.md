@@ -21,4 +21,4 @@ End-to-end recipe for landing a non-trivial change.
 6. **Review (maker ≠ checker)** — dispatch the `reviewer` agent on the diff vs the plan. Fix correctness/intent gaps; ignore over-engineering suggestions.
 7. **Commit & PR** — `writing-commit-messages`, then `opening-a-pr` with a validation-first description. For a noisy or large diff, `making-a-pr-reviewable` first (tidy history, reviewer guidance).
 
-Hand-off: planning-a-change produces the plan the reviewer checks against. The state file records what's done so a resumed run continues cleanly.
+Run each step as a verified loop (`agentic-loop`): write the stop contract, verify against ground truth, keep edits unstaged. Hand-off: planning-a-change produces the plan the reviewer checks against. The state file records what's done so a resumed run continues cleanly.

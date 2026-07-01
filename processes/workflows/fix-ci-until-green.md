@@ -16,4 +16,4 @@ state: ".loadout/state/fix-ci.md"
 3. **Re-run** the exact failing command locally, then push.
 4. **Loop** until the `gate` holds. Never disable a test to get green.
 
-Hand-off: ci-watcher surfaces failures; fixing-ci routes each to the right skill; the state file tracks which checks remain.
+Run the fix cycle as a verified loop (`agentic-loop`) with a hard iteration budget. Hand-off: ci-watcher surfaces failures; fixing-ci routes each to the right skill; the state file tracks which checks remain.
