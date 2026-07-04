@@ -144,7 +144,33 @@ the code path. Runtime evidence beats guessing at the source.
 
 - **Encoded by:** `debugging-with-observability` skill; `observability-first.mdc`.
 
-### 1.12 Research-before-integrate
+### 1.12 Close the UI feedback loop (UI claims require UI evidence)
+
+Backend work verifies itself (tests, exit codes); frontend work doesn't — and agents
+respond by faking it (injecting state to "reach" a screen, trusting the app's own
+success toast, declaring a CSS fix done from the diff alone). The pattern: treat the
+rendered UI as ground truth. Mechanical checks on markup first (cheap, deterministic),
+screenshots at decision points (vision is expensive), act through the real interface,
+re-verify after every mutating action, and attach the artifacts so a human can validate.
+Hybrid DOM+vision beats either alone — the 2026 GUI-agent consensus.
+
+- **Encoded by:** `ui-evidence.mdc`; `reviewing-ui` (+ `references/ui-evidence.md`, which
+  ships a reusable persistent-browser/one-shot-probe harness); `recreating-a-design`.
+
+### 1.13 The dogfooding quality loop (compounding rubric)
+
+Point the agentic loop at the product itself: drive real customer scenarios through the
+running app, judge every artifact against a rubric (deterministic checks for exact
+things, judgment grades for the rest), exercise every mutation path, and fix defects at
+the root with fail-on-revert tests. Two things make repeated runs compound instead of
+repeat: a **durable ledger** (known-fixed and known-open issues, so no cycle re-discovers
+old findings) and a **growing rubric** (every new failure mode becomes a named check the
+next cycle runs automatically — the ratchet applied to product quality).
+
+- **Encoded by:** `exercising-the-product` (+ `references/{session-state,quality-rubric}.md`);
+  `reviewing-ui`'s `UI-REVIEW.md` decision log; the `run-quality-loop` workflow.
+
+### 1.14 Research-before-integrate
 
 Before adopting an unfamiliar API/library, research it from primary sources
 (official docs → examples → changelog → vetted community), distill it into an
@@ -218,6 +244,8 @@ serialize merges.
 | Root cause over symptom | `root-cause-fix`, `debugging-an-issue`, `regression-test` |
 | Observability-first | `debugging-with-observability`, `observability-first` |
 | Research-before-integrate | `researching-a-dependency`, `documentation-updates` |
+| Close the UI feedback loop | `ui-evidence`, `reviewing-ui`, `recreating-a-design` |
+| Dogfooding quality loop | `exercising-the-product`, `reviewing-ui`, `run-quality-loop` |
 | Self-declared-done guard | `loop-preflight`, `agentic-loop`, `reviewer` |
 
 ---
@@ -247,3 +275,10 @@ Primary sources behind these patterns (accessed 2026-07-01):
   parallelism to review bandwidth.
   <https://addyosmani.com/blog/code-agent-orchestra/> ·
   <https://www.augmentcode.com/guides/git-worktrees-parallel-ai-agent-execution>
+- Jonathan Fulton, "AI Has a UX Validation Problem" (accessed 2026-07-04) — the broken
+  frontend feedback loop, agents bypassing the UI to fake validation, evidence-for-humans.
+  <https://medium.com/jonathans-musings/ai-has-a-ux-validation-problem-cf8d93ea4e92>
+- Zylos, "Computer Use and GUI Agents in 2026: State of the Art" (accessed 2026-07-04) —
+  hybrid DOM/accessibility + vision consensus, act-then-re-verify, agents not recognizing
+  their own failures.
+  <https://zylos.ai/research/2026-02-08-computer-use-gui-agents/>

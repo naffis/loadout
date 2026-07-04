@@ -10,7 +10,7 @@ command → `/changelog`.
 
 ---
 
-## Skills (35)
+## Skills (38)
 
 ### Getting started (start here)
 | Skill | What / when | Call |
@@ -24,6 +24,13 @@ command → `/changelog`.
 | `running-a-dev-cycle` | Adaptive end-to-end cycle: classify a task (QUICK/ENHANCEMENT/INTEGRATION/INVESTIGATION/ITERATION) and route it through the lightest path, each phase an agentic loop. | "build this end to end" / "autonomous mode" |
 | `orchestrating-parallel-agents` | Run N independent items in parallel via sub-agents in git worktrees — bounded concurrency, full context per agent, serialized landing gated by maker-checker. | "do these in parallel" / "clear the queue" |
 | `agent-tool-design` | Design a product's agent-facing tools/MCP well (ACI): fewer higher-signal tools, namespacing, high-signal results, token efficiency, steering descriptions/errors. | authoring/editing a tool schema, description, or result shape |
+
+### Product quality loops (dogfood, review, iterate)
+| Skill | What / when | Call |
+|---|---|---|
+| `exercising-the-product` | Dogfood the product end to end: drive real scenarios through the running app, judge every artifact against a compounding rubric, exercise every mutation tool, root-cause-fix defects with fail-on-revert tests, leave a ledger for the next run. | "exercise the product" / "run the quality loop" / "dogfood the app" |
+| `reviewing-ui` | Multi-cycle dual-lens UI/UX review-and-fix loop: context brief → screen inventory → cold walkthrough → heuristic audit → P0–P3 findings in `UI-REVIEW.md` → small fix batches → re-verify through the rendered UI. | "review the UI" / "usability audit" / resume `UI-REVIEW.md` |
+| `recreating-a-design` | Recreate an image/mockup/live site as responsive HTML/CSS (or match an existing implementation to a target) via a render→measure→look-at-the-diff→fix loop with keep-best and converge/budget/plateau stops. | "recreate this" / "pixel perfect" / "match this mockup" |
 
 ### Shipping & pull requests
 | Skill | What / when | Call |
@@ -89,7 +96,7 @@ command → `/changelog`.
 
 ---
 
-## Rules (25)
+## Rules (26)
 
 How a rule loads is set by its frontmatter. You don't usually call rules; they load
 automatically (or `@rule-name` for manual ones).
@@ -130,6 +137,7 @@ automatically (or `@rule-name` for manual ones).
 | `definition-of-done` | A change is done only when behavior + tests + docs + surface registration land in the SAME change, gate green, edits left for review. |
 | `no-regex-for-semantics` | Regex is structural, LLMs are semantic; don't keyword-match meaning — emit a structured field or call a model. |
 | `capability-removal` | Removing a capability means removing all of it — wiring, tests, docs, config, dead code — not just the entry point. |
+| `ui-evidence` | UI claims require UI evidence: render and look, never bypass the interface to make a check pass, re-verify after every mutation, check multiple widths, show the artifacts. |
 
 ---
 
@@ -144,16 +152,17 @@ Dispatch with "use the `<name>` subagent". They run in a fresh context and repor
 | `explorer` | Read-only codebase investigation; returns a tight findings report. |
 | `ci-watcher` | Monitor the PR's CI; concise pass/fail with links to failures. |
 
-## Commands (2)
+## Commands (3)
 
 | Command | What |
 |---|---|
 | `/start` | Shortcut entry point: tell it your goal, get a recommendation + a ready-to-run kickoff prompt (runs `getting-started`). |
+| `/quality-loop` | Run one cycle of the product quality loop (routes to `exercising-the-product` / `reviewing-ui` / `recreating-a-design`; optional focus area argument). |
 | `/changelog` | Draft release notes from merged work since the last tag. |
 
 ---
 
-## Workflows (5)
+## Workflows (6)
 
 Named recipes (`processes/workflows/`). Each lists the rules/skills/commands/agents it
 composes and optional `gate` / `stop_condition` / `state`.
@@ -165,6 +174,7 @@ composes and optional `gate` / `stop_condition` / `state`.
 | `cut-a-release` | `assessing-release-readiness` → `/changelog` → `multi-plane-deploy`; gate = readiness GO |
 | `onboard-to-codebase` | `explorer` + `planning-a-change` |
 | `run-autonomous-loop` | `running-a-dev-cycle` + `agentic-loop` + `planning-a-change` + `root-cause-fix` → `reviewer` → `reviewing-and-shipping`; stop = contract met + reviewer SAFE + gate green |
+| `run-quality-loop` | `exercising-the-product` / `reviewing-ui` + `agentic-loop` + `root-cause-fix` → `reviewer`; stop = clean pass with zero new high-severity findings + gate green |
 
 ---
 

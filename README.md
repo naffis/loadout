@@ -10,7 +10,7 @@ done — not sit as an unordered pile.
 
 > **Status: functional.** The CLI (`init`, `add`, `list`, `update`, `diff`, `doctor`) is
 > implemented with a lockfile and three-way merge. The library is general-purpose: 2
-> Claude Code plugins (35 skills, 2 commands, 4 subagents), 25 Cursor rules, 5 workflows, 4
+> Claude Code plugins (38 skills, 3 commands, 4 subagents), 26 Cursor rules, 6 workflows, 4
 > runbooks, and templates — harvested from real projects, generalized, and sanitized.
 > Domain/vertical-specific assets are intentionally left out. See
 > `docs/external-practices.md`, `docs/agentic-patterns.md`, and `docs/loop-engineering.md`

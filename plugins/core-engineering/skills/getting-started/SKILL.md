@@ -20,6 +20,9 @@ You have a goal but not a plan: "I want to build X", "what should I do?", "how d
    - Learn a codebase → **`onboard-to-codebase`**.
    - Full autonomous end-to-end build across phases (research→plan→build→verify→docs) →
      **`running-a-dev-cycle`** (it classifies the task and runs each phase as an `agentic-loop`).
+   - Improve product quality by using it ("dogfood it", "review the UI", "find and fix
+     issues end to end") → **`run-quality-loop`** (`exercising-the-product` for behavior,
+     `reviewing-ui` for UX; `recreating-a-design` when matching a specific visual target).
    - No single workflow fits → compose from skills (`planning-a-change` first), and say so.
 4. **Decide manual vs autonomous loop.** Run the `loop-preflight` 4-condition test (repeats? automated verification? budget? agent has tools?). If it passes, set up a loop with the `automation-loop` template + a `STATE.md`; otherwise recommend a single attended run. Respect the execution-order law: get a manual run reliable before scheduling anything.
 5. **Emit a kickoff prompt.** Output a concrete, paste-ready prompt that names the workflow, the objective, the **gate** (the project's test/lint command), the **done-condition**, and the key constraints/rules. This is the thing the user runs to actually start.
@@ -45,7 +48,7 @@ Kickoff prompt:
 
 ## Pairs with
 
-- workflows: `ship-a-feature`, `onboard-to-codebase`, `fix-ci-until-green`, `cut-a-release`
+- workflows: `ship-a-feature`, `onboard-to-codebase`, `fix-ci-until-green`, `cut-a-release`, `run-quality-loop`
 - skills: `planning-a-change`, `running-a-dev-cycle`, `agentic-loop`
 - runbooks: `loop-preflight`, `harness-setup`
 - templates: `automation-loop`, `state-file`
