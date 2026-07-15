@@ -27,4 +27,6 @@ so a schema is always compatible with the code reading it (expand/contract).
 ## Rollback
 
 Reverse order where it matters; never roll back a DB past a destructive contract step.
-Prefer rolling forward with a fix for schema once contracted.
+Prefer rolling forward with a fix for schema once contracted. For an active outage, use the
+`hotfix-and-rollback` runbook to choose rollback vs flag vs forward hotfix before following
+this order mechanically. Schema work itself is sequenced by the `ship-a-migration` workflow.

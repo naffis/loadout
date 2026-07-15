@@ -7,7 +7,9 @@ description: Review the current branch for correctness and intent fit, run tests
 
 ## Trigger
 
-Work is functionally complete and you're about to commit/PR.
+Work is functionally complete and you're about to commit/PR. Prefer running
+`review-build` (`/review-build`) first when the change came from a written plan or
+the stakes are high — then use this skill to wrap up.
 
 ## Workflow
 
@@ -33,7 +35,10 @@ git status
 
 ## Pairs with
 
-- rules: `commit-and-pr-conventions`, `regression-test`, `testing-conventions`
-- skills: `writing-commit-messages`, `opening-a-pr`, `deslopping`
+- rules: `commit-and-pr-conventions`, `regression-test`, `testing-conventions`, `no-shortcuts`
+- skills: `review-build`, `writing-commit-messages`, `opening-a-pr`, `deslopping`
 - agents: `reviewer`, `security-reviewer`
-- workflows: `ship-a-feature`
+- commands: `review-build-cmd` (`/review-build`)
+- workflows: `ship-a-feature`, `plan-then-build`, `cut-a-release`, `run-autonomous-loop`,
+  `debug-production`, `security-pass`, `clear-the-queue`, `safe-refactor`, `ship-a-migration`,
+  `dependency-bump`

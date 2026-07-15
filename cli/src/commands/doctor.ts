@@ -188,9 +188,19 @@ function workflowIds(root: string): Set<string> {
   return ids;
 }
 
-function checkWorkflows(root: string, f: Findings, assetIds: Set<string>): void {
+function checkWorkflows(root: string, f: Findings, assetIds: Set<string>, reg: Registry | null): void {
   const dir = join(root, "processes", "workflows");
   if (!existsSync(dir)) return;
+
+  // Map rules/<basename>.mdc → registry id so we can catch the equip trap where
+  // uses.rules lists a basename that also names a skill (e.g. create-plan vs create-plan-rule).
+  const ruleIdByBasename = new Map<string, string>();
+  for (const a of reg?.assets ?? []) {
+    if (a.type !== "cursor-rule" || !a.source) continue;
+    const m = /^rules\/(.+)\.mdc$/.exec(a.source);
+    if (m) ruleIdByBasename.set(m[1], a.id);
+  }
+
   for (const file of readdirSync(dir)) {
     if (!file.endsWith(".md")) continue;
     const rel = join("processes", "workflows", file);
@@ -217,6 +227,12 @@ function checkWorkflows(root: string, f: Findings, assetIds: Set<string>): void 
     for (const ref of uses.rules ?? []) {
       if (!assetIds.has(ref) && !ruleExists(root, ref)) {
         f.errors.push(`${rel}: references unknown rule '${ref}' in 'uses.rules'`);
+      }
+      const canonical = ruleIdByBasename.get(ref);
+      if (canonical && canonical !== ref) {
+        f.warnings.push(
+          `${rel}: uses.rules '${ref}' resolves via rules/${ref}.mdc but registry id is '${canonical}' — use '${canonical}' so \`loadout add\` installs the rule (not a same-named skill)`,
+        );
       }
     }
     // Optional loop primitives must be strings when present (docs/loop-engineering.md).
@@ -425,7 +441,7 @@ export function doctor(): number {
   }
 
   const workflows = workflowIds(root);
-  checkWorkflows(root, f, assetIds);
+  checkWorkflows(root, f, assetIds, reg);
   checkRegistry(root, f, workflows);
   checkOrphans(root, reg, f);
   checkComposition(root, reg, f);

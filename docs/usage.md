@@ -62,10 +62,22 @@ Example: "plan and ship the auth refactor" will pull in `planning-a-change` then
 
 ### Commands
 
-Type the slash command: `/start`, `/changelog`. Commands are explicit, repeatable actions.
-`loadout add <command>` vendors them to `.cursor/commands/<id>.md` (Cursor) and
-`.claude/commands/<id>.md` (Claude Code); Claude Code can alternatively get them via the
-plugin marketplace.
+Type the slash command: `/start`, `/plan`, `/review-plan`, `/review-build`, `/changelog`.
+Commands are explicit, repeatable actions. `loadout add <command>` vendors them to
+`.cursor/commands/<filename>.md` (Cursor) and `.claude/commands/<filename>.md` (Claude Code);
+Claude Code can alternatively get them via the plugin marketplace.
+
+**Planning + review loop (Cursor-friendly):**
+
+| Command | Runs | When |
+|---|---|---|
+| `/plan <task>` | `create-plan` | Multi-file or uncertain work. Prefer Plan Mode. Skip one-sentence diffs. |
+| `/review-plan` | `review-plan` | After a plan, before coding. Prefer a fresh chat. |
+| `/review-build` | `review-build` | After implementation, before calling it done. Prefer a fresh chat. |
+
+`no-shortcuts` is always on and backs all three: no stubs, no unverified "green", read
+before asserting. For hard problems, run `/plan` across two models in parallel (worktrees)
+and merge the best plan.
 
 ### Subagents
 
@@ -144,11 +156,18 @@ and subagents, with optional `gate` (objective check), `stop_condition`, and `st
 1. **Rules in the background** color everything: `no-shortcuts`, `size-limits`, `testing-conventions`, `commit-and-pr-conventions`, `regression-test`.
 2. **`planning-a-change`** (skill) — explore, write and stress-test a short plan.
 3. Implement, adding tests for new behavior.
-4. **`reviewer`** (subagent) checks the diff against the plan in a fresh context — maker ≠ checker.
-5. **`writing-commit-messages`** → **`opening-a-pr`** (skills); **`making-a-pr-reviewable`** if the diff is noisy.
-6. The `gate` (your test+lint command) must pass before "done."
+4. **`review-build`** (`/review-build`) — evidence-first check of the diff vs the plan (prefer a fresh chat when stakes are high).
+5. **`reviewer`** (subagent) checks the diff against the plan in a fresh context — maker ≠ checker.
+6. **`writing-commit-messages`** → **`opening-a-pr`** (skills); **`making-a-pr-reviewable`** if the diff is noisy.
+7. The `gate` (your test+lint command) must pass before "done."
 
-Other shipped workflows: `fix-ci-until-green`, `cut-a-release`, `onboard-to-codebase`.
+For high-stakes work, use **`plan-then-build`** instead: `/plan` → `/review-plan` →
+implement → `/review-build`.
+
+Other shipped workflows: `plan-then-build` (`/plan` → `/review-plan` → implement →
+`/review-build`), `fix-ci-until-green`, `debug-production`,
+`security-pass`, `clear-the-queue`, `safe-refactor`, `ship-a-migration`, `dependency-bump`,
+`cut-a-release`, `onboard-to-codebase`, `run-autonomous-loop`, `run-quality-loop`.
 
 **Routing within a workflow** follows the golden rule: the constraints are rules loaded
 automatically, the steps are skills, enforcement is a hook, and a separate subagent verifies.
@@ -179,10 +198,27 @@ workflow plus the skills and rules it sequences (its `uses:` block):
 ```bash
 npx github:naffis/loadout add \
   ship-a-feature \
-  planning-a-change writing-tests reviewing-and-shipping \
+  planning-a-change review-build writing-tests reviewing-and-shipping \
   writing-commit-messages opening-a-pr making-a-pr-reviewable updating-docs \
+  review-build-cmd review-build-rule \
   no-shortcuts size-limits testing-conventions test-coverage \
   commit-and-pr-conventions regression-test documentation-updates
+```
+
+**High-rigor alternative — `plan-then-build`** (when a shallow plan would leave decisions
+to coding time). Use registry rule ids (`*-rule`), not skill names, for the plan/build rules:
+
+```bash
+npx github:naffis/loadout add \
+  plan-then-build \
+  create-plan review-plan review-build agentic-loop \
+  writing-tests updating-docs reviewing-and-shipping \
+  writing-commit-messages opening-a-pr making-a-pr-reviewable \
+  plan review-plan-cmd review-build-cmd \
+  create-plan-rule review-plan-rule review-build-rule \
+  no-shortcuts size-limits testing-conventions test-coverage \
+  regression-test documentation-updates definition-of-done \
+  commit-and-pr-conventions
 ```
 
 If you use Cursor **Remote Rules**, all rules auto-sync — drop the rule ids and just add the
@@ -193,7 +229,8 @@ workflow makes the agent walk its steps. In Cursor (Agent) or Claude Code, paste
 
 > Follow the `ship-a-feature` workflow to build `<your feature>`.
 > Gate: `<your test + lint command>`.
-> Done when: tests + lint pass, a reviewer pass finds no correctness/intent gaps, PR opened.
+> Done when: tests + lint pass, `/review-build` PASS, a reviewer pass finds no
+> correctness/intent gaps, PR opened.
 
 Unsure which workflow fits, or starting cold? Run **`/start`** (or *"I want to build X —
 what should I do?"*) and `getting-started` routes you and hands back a kickoff prompt.
@@ -205,12 +242,14 @@ what should I do?"*) and `getting-started` routes you and hands back a kickoff p
 3. **Test** — `writing-tests`; bug fixes get a failing-then-passing test (`regression-test`).
 4. **Verify** — run the `gate` (your test + lint command) and show the evidence.
 5. **Docs** — `updating-docs` in the same change.
-6. **Review (maker ≠ checker)** — dispatch the `reviewer` on the diff vs the plan (*"use the reviewer subagent on this diff"*). In Cursor this is a separate review pass; in Claude Code it's the `reviewer` agent.
-7. **Commit & PR** — `writing-commit-messages` → `opening-a-pr` (`making-a-pr-reviewable` first if the diff is noisy).
+6. **Review the build** — `review-build` (`/review-build`): diff vs plan, shortcut sweep, pasted gate output (prefer a fresh chat when stakes are high).
+7. **Review (maker ≠ checker)** — dispatch the `reviewer` on the diff vs the plan (*"use the reviewer subagent on this diff"*). In Cursor this is a separate review pass; in Claude Code it's the `reviewer` agent.
+8. **Commit & PR** — `writing-commit-messages` → `opening-a-pr` (`making-a-pr-reviewable` first if the diff is noisy).
 
 Set the `gate` to your real command so step 4 is objective. The workflow records progress in
 its `state` file, so a resumed run continues cleanly. Other workflows follow the same
-pattern: `fix-ci-until-green`, `cut-a-release`, `onboard-to-codebase`.
+pattern: `fix-ci-until-green`, `plan-then-build`, `debug-production`, `cut-a-release`,
+`onboard-to-codebase`, and the rest in [`catalog.md`](./catalog.md).
 
 ---
 
@@ -221,7 +260,7 @@ loadout is meant to compound — every mistake becomes a permanent guard ("the r
 - **`hardening-the-harness`** (skill) — the ratchet itself: take a real failure and encode a guard in the *right* layer (an `AGENTS.md` line, a rule, a hook, a subagent check, or a skill).
 - **`rule-author`** / **`skill-author`** (skills) — scaffold a new rule/skill to loadout's conventions and apply the rule-vs-skill test. `skill-author` enforces the frontmatter contract (gerund name, third-person description, body <500 lines, references one level deep) that `doctor` checks.
 - **`learning-from-chats`** (skill) — mine recurring preferences from chats into rules/skills/`AGENTS.md`.
-- **Progression:** the [`harness-setup`](../processes/runbooks/harness-setup.md) runbook walks the default → self-improving rungs; [`loop-preflight`](../processes/runbooks/loop-preflight.md) gates before you automate anything.
+- **Progression:** brand-new repos start with [`bootstrap-project`](../processes/runbooks/bootstrap-project.md); then [`harness-setup`](../processes/runbooks/harness-setup.md) walks the default → self-improving rungs; [`loop-preflight`](../processes/runbooks/loop-preflight.md) gates before you automate anything. Active outages use [`hotfix-and-rollback`](../processes/runbooks/hotfix-and-rollback.md).
 
 After authoring, add a `registry.json` entry and run `loadout doctor` (it validates
 frontmatter, composition references, orphaned files, and lockfile integrity). CI runs

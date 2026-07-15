@@ -110,4 +110,5 @@ updating an existing doc over creating a near-duplicate.
 
 - skills: `running-a-dev-cycle`, `updating-docs`, `writing-an-adr`, `reviewing-dependencies`
 - rules: `documentation-updates`, `dependency-version-management`
+- workflows: `dependency-bump`
 - docs: `agentic-patterns`

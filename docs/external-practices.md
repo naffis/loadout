@@ -3,15 +3,14 @@
 > Research input for the asset harvest. This captures how leading teams —
 > primarily **Anthropic** and **Cursor**, plus the community ecosystem — author and
 > distribute skills and rules, distilled into conventions loadout should adopt and a
-> concrete candidate asset set to fold into the harvest review alongside the repo-derived
-> assets.
+> concrete candidate asset set to fold into the harvest review.
 >
 > Sources are cited inline. The two most authoritative primary sources are Anthropic's
 > [Claude Code best practices](https://code.claude.com/docs/en/best-practices) and
 > [Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices),
 > and Cursor's [Rules docs](https://cursor.com/docs/rules). The
-> [Cursor Team Kit](https://github.com/cursor/cursor-team-kit) (installed locally) is a
-> direct example of what Cursor itself ships.
+> [Cursor Team Kit](https://github.com/cursor/cursor-team-kit) is a direct example of what
+> Cursor itself ships.
 
 ---
 
@@ -155,9 +154,9 @@ for loadout skills.
 - Curated skill indexes: [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills),
   [hesreallyhim/awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code),
   [VoltAgent/awesome-agent-skills](https://github.com/VoltAgent/awesome-agent-skills) (cross-tool).
-- Vendor skill packs already installed locally (Vercel, Stripe, Cloudflare, Clerk, Resend,
-  Supabase, Webflow, Notion, Hugging Face) show the **plugin-of-skills** model in production
-  and are good structural references — not content to copy.
+- Public vendor skill packs (Vercel, Stripe, Cloudflare, Clerk, Resend, Supabase, Webflow,
+  Notion, Hugging Face) show the **plugin-of-skills** model in production and are good
+  structural references — not content to copy.
 - **Caveat (inbound trust):** community skills are an injection surface. Treat
   collections as inspiration for *what* to build, author our own, and run the `doctor`
   injection lint on anything pulled in.
@@ -232,7 +231,7 @@ These were **generalized, public-safe** candidates synthesized from the sources 
 | `typescript-exhaustive-switch` | auto (`**/*.ts`) | (from team kit) `never` default case |
 | `no-secrets-in-code` | always | never hardcode secrets/keys; use env/secret store |
 | `audit-external-skills` | agent-requested | review third-party skills before install (inbound trust) |
-| `<stack>-conventions` | auto by glob | rails / workers / react — **filled by the repo harvest** |
+| `<stack>-conventions` | auto by glob | rails / workers / react — **project-specific; not shipped here** |
 
 ### Agents (subagents)
 | id | Role |

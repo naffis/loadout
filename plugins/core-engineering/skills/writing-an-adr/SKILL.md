@@ -44,4 +44,5 @@ Each option and why it lost (briefly).
 ## Pairs with
 
 - rules: `documentation-updates`
-- skills: `updating-docs`, `planning-a-change`
+- skills: `updating-docs`, `planning-a-change`, `create-plan`
+- workflows: `plan-then-build`

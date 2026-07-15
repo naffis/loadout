@@ -29,3 +29,5 @@ A schema change, column change, or data backfill.
 
 - rules: `db-migration-safety`, `testing-conventions`
 - skills: `reviewing-and-shipping`
+- workflows: `ship-a-migration`
+- runbooks: `multi-plane-deploy`, `hotfix-and-rollback`

@@ -37,3 +37,4 @@ fix(reports): use UTC consistently in date grouping
 
 - rules: `commit-and-pr-conventions`
 - skills: `reviewing-and-shipping`, `opening-a-pr`
+- workflows: `ship-a-feature`, `plan-then-build`, `clear-the-queue`

@@ -91,6 +91,22 @@ test("planTargets vendors a command into each tool's commands dir", () => {
   );
 });
 
+test("planTargets vendors commands by source basename when id differs", () => {
+  const asset: RegistryAsset = {
+    id: "review-plan-cmd",
+    type: "command",
+    source: "plugins/core-engineering/commands/review-plan.md",
+    version: "0.1.0",
+    managed: false,
+    tools: ["cursor", "claude"],
+  };
+  assert.deepEqual(
+    copyTargets(planTargets(asset, { cursor: true, claude: true }, "/proj")),
+    [join(".cursor", "commands", "review-plan.md"), join(".claude", "commands", "review-plan.md")],
+    "slash command stays /review-plan even when registry id is review-plan-cmd",
+  );
+});
+
 test("planTargets vendors an agent into each tool's agents dir", () => {
   const asset: RegistryAsset = {
     id: "reviewer",

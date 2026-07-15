@@ -28,4 +28,5 @@ Adding or changing behavior that should be tested, filling a gap, or working tes
 
 - rules: `testing-conventions`, `test-coverage`, `regression-test`
 - skills: `improving-test-coverage`, `triaging-flaky-tests`, `debugging-an-issue`
-- workflows: `ship-a-feature`
+- workflows: `ship-a-feature`, `plan-then-build`, `debug-production`, `security-pass`,
+  `safe-refactor`, `ship-a-migration`, `dependency-bump`, `clear-the-queue`

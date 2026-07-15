@@ -56,3 +56,4 @@ See `references/symptom-decision-tree.md` for a per-symptom "first thing to try"
 - rules: `observability-first`, `regression-test`, `no-shortcuts`
 - skills: `root-cause-fix`, `triaging-flaky-tests`, `fixing-ci`, `debugging-with-observability`
 - agents: `explorer`
+- workflows: `fix-ci-until-green`, `debug-production`

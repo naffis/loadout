@@ -117,4 +117,5 @@ For anything not landed, state exactly where it stopped, why, and what you need 
 - skills: `agentic-loop`, `running-a-dev-cycle`, `rebasing-a-branch`, `reviewing-and-shipping`
 - agents: `reviewer`, `security-reviewer`
 - rules: `no-shortcuts`, `commit-and-pr-conventions`
+- workflows: `clear-the-queue`
 - docs: `agentic-patterns`

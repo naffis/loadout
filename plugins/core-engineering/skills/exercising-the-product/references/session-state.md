@@ -26,8 +26,8 @@ project already keeps loop state. One file per loop, appended across sessions.
 - known dev-only noise to ignore: <list>
 
 ## Scenario rotation
-1. <type A> — run 2026-07-01 (session 3)
-2. <type B> — run 2026-07-03 (session 4)
+1. <type A> — run YYYY-MM-DD (session 3)
+2. <type B> — run YYYY-MM-DD (session 4)
 3. <type C> — NEXT
 ...vary; never repeat the last run's type.
 
@@ -55,7 +55,7 @@ project already keeps loop state. One file per loop, appended across sessions.
 - <ID + one line + what decision it's waiting on>
 
 ## Closing summaries (one per session)
-- Session 4 (2026-07-03): ran <B>; found QL-B-1..3; fixed 2; left QL-B-3 (needs product decision).
+- Session 4 (YYYY-MM-DD): ran <B>; found QL-B-1..3; fixed 2; left QL-B-3 (needs product decision).
 ```
 
 ## Rules of use

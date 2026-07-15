@@ -35,3 +35,4 @@ A prioritized list: each finding with file:line, why it hurts maintainability, a
 - rules: `size-limits`, `refactor-discipline`, `no-shortcuts`
 - skills: `refactoring-code`, `deslopping`
 - agents: `reviewer`
+- workflows: `safe-refactor`

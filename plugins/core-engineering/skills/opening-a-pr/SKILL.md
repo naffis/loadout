@@ -41,4 +41,4 @@ EOF
 
 - rules: `commit-and-pr-conventions`
 - skills: `writing-commit-messages`, `making-a-pr-reviewable`
-- workflows: `ship-a-feature`
+- workflows: `ship-a-feature`, `plan-then-build`, `clear-the-queue`

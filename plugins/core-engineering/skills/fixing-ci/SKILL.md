@@ -35,4 +35,4 @@ gh run view <run-id> --log-failed
 - rules: `no-shortcuts`, `regression-test`
 - skills: `triaging-flaky-tests`, `debugging-an-issue`
 - agents: `ci-watcher`
-- workflows: `fix-ci-until-green`
+- workflows: `fix-ci-until-green`, `dependency-bump`

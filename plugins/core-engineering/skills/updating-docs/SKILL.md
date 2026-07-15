@@ -33,4 +33,4 @@ You changed behavior, a public API/signature, config/env/flags, a CLI, or an ope
 
 - rules: `documentation-updates`, `docstrings-current`, `copy-voice`
 - skills: `writing-an-adr`, `auditing-doc-freshness`, `reviewing-and-shipping`
-- workflows: `ship-a-feature`
+- workflows: `ship-a-feature`, `plan-then-build`, `ship-a-migration`, `safe-refactor`

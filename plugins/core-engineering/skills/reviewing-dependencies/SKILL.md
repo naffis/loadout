@@ -30,4 +30,5 @@ A scheduled dependency report, or a PR that bumps versions.
 ## Pairs with
 
 - rules: `lockfile-conflicts`, `dependency-version-management`
-- skills: `reviewing-and-shipping`
+- skills: `reviewing-and-shipping`, `researching-a-dependency`
+- workflows: `dependency-bump`

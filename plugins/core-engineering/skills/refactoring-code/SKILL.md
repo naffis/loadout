@@ -34,3 +34,4 @@ Improving the structure of existing code (split an oversized file, extract a fun
 
 - rules: `refactor-discipline`, `size-limits`, `testing-conventions`
 - skills: `reviewing-code-quality`, `writing-a-migration`
+- workflows: `safe-refactor`

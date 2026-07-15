@@ -116,5 +116,5 @@ Gate: <what's needed to proceed>
 - skills: `getting-started`, `agentic-loop`, `planning-a-change`, `researching-a-dependency`,
   `reviewing-and-shipping`, `root-cause-fix`, `writing-tests`, `updating-docs`
 - agents: `reviewer`
-- workflows: `ship-a-feature`, `run-autonomous-loop`
+- workflows: `ship-a-feature`, `run-autonomous-loop`, `clear-the-queue`, `plan-then-build`
 - docs: `agentic-patterns`

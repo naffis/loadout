@@ -96,3 +96,5 @@ Observability narrows the problem to a component/call/error. Now:
 - rules: `observability-first`, `no-secrets-in-code`, `regression-test`
 - skills: `debugging-an-issue`, `root-cause-fix`, `fixing-ci`
 - agents: `explorer`
+- workflows: `debug-production`
+- runbooks: `hotfix-and-rollback`

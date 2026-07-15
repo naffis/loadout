@@ -29,3 +29,4 @@ Diff against the base branch and remove slop introduced by the branch:
 
 - rules: `size-limits`, `no-any`, `copy-voice`
 - skills: `reviewing-and-shipping`
+- workflows: `safe-refactor`, `ship-a-feature`, `plan-then-build`

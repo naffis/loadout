@@ -11,6 +11,10 @@ state: ".loadout/state/fix-ci.md"
 
 # Fix CI until green
 
+For a staging/production failure that is not a PR check — especially with no local repro —
+use `debug-production` (and `hotfix-and-rollback` if service is down) instead of this
+workflow.
+
 1. **Watch** — `ci-watcher` agent reports failing checks with links and a category guess.
 2. **Classify & fix** — `fixing-ci`: env/infra → retry or escalate; flake → `triaging-flaky-tests`; real → reproduce locally and fix the root cause (`debugging-an-issue`).
 3. **Re-run** the exact failing command locally, then push.

@@ -10,7 +10,7 @@ command → `/changelog`.
 
 ---
 
-## Skills (38)
+## Skills (41)
 
 ### Getting started (start here)
 | Skill | What / when | Call |
@@ -35,7 +35,10 @@ command → `/changelog`.
 ### Shipping & pull requests
 | Skill | What / when | Call |
 |---|---|---|
-| `planning-a-change` | Explore → plan → implement a non-trivial change. Before multi-file/unfamiliar work; skip one-liners. | `/planning-a-change` or describe a multi-file task |
+| `create-plan` | Complete zero-shortcut plan before coding: in-repo + external (SOTA/best-practice) research, EARS/ACs, mini-ADRs, executable tasks. No TBD/stubs/deferrals. | "Create a plan for X" / `/plan` |
+| `review-plan` | Multi-pass plan stress-test: re-read, fresh research, PASS/FAIL checklist, pre-mortem, adversarial critique; fix shortcuts; update plan in place; final sweep. | "Review the plan" / `/review-plan` |
+| `review-build` | Evidence-first implementation review: git diff, plan/requirement trace, shortcut sweep, gate with pasted output, fix blockers/majors. Prefer a fresh chat. | "Review the build" / `/review-build` |
+| `planning-a-change` | Explore → plan → implement a non-trivial change. Before multi-file/unfamiliar work; skip one-liners. Plan-only → `create-plan`. | `/planning-a-change` or describe a multi-file task |
 | `reviewing-and-shipping` | Review the branch for correctness & intent, run tests, commit, open/update PR. | when wrapping up a change |
 | `writing-commit-messages` | Conventional-commit message from a diff. | when committing / "write a commit message" |
 | `opening-a-pr` | Branch → push → PR with a validation-first description. | when turning work into a PR |
@@ -96,7 +99,7 @@ command → `/changelog`.
 
 ---
 
-## Rules (26)
+## Rules (29)
 
 How a rule loads is set by its frontmatter. You don't usually call rules; they load
 automatically (or `@rule-name` for manual ones).
@@ -104,7 +107,7 @@ automatically (or `@rule-name` for manual ones).
 ### Always on (kept short — load every request)
 | Rule | Gist |
 |---|---|
-| `no-shortcuts` | No stubs/bandaids/silent fallbacks; fix root causes or state the scope cut. |
+| `no-shortcuts` | No stubs/bandaids/silent fallbacks; don't claim green without pasted output; read before asserting; ask on ambiguity. |
 | `size-limits` | Files ~<400 (hard ~1000), functions ~<50; extract before sprawl. |
 | `regression-test` | Every bug fix ships a test that fails before and passes after. |
 | `no-inline-imports` | Imports at module top; no inline/lazy imports. |
@@ -135,6 +138,9 @@ automatically (or `@rule-name` for manual ones).
 | `dependency-version-management` | Detect/respect the version manager; don't switch runtimes unasked. |
 | `agentic-loop-rule` | The verified-loop non-negotiables (stop contract, ground-truth verify, maker≠checker, durable memory, context budget, bounded autonomy); loads the `agentic-loop` skill. |
 | `definition-of-done` | A change is done only when behavior + tests + docs + surface registration land in the SAME change, gate green, edits left for review. |
+| `create-plan` | Zero-shortcut planning non-negotiables (in-repo + external research, no TBD/stubs); loads the `create-plan` skill for the full workflow/template. Registry id: `create-plan-rule`. |
+| `review-plan` | Multi-pass plan review non-negotiables (fresh research, pre-mortem, fix in place, final sweep); loads the `review-plan` skill. Registry id: `review-plan-rule`. |
+| `review-build` | Evidence-first build review non-negotiables (diff as ground truth, plan trace, shortcut sweep, pasted gate output); loads the `review-build` skill. Registry id: `review-build-rule`. |
 | `no-regex-for-semantics` | Regex is structural, LLMs are semantic; don't keyword-match meaning — emit a structured field or call a model. |
 | `capability-removal` | Removing a capability means removing all of it — wiring, tests, docs, config, dead code — not just the entry point. |
 | `ui-evidence` | UI claims require UI evidence: render and look, never bypass the interface to make a check pass, re-verify after every mutation, check multiple widths, show the artifacts. |
@@ -152,40 +158,52 @@ Dispatch with "use the `<name>` subagent". They run in a fresh context and repor
 | `explorer` | Read-only codebase investigation; returns a tight findings report. |
 | `ci-watcher` | Monitor the PR's CI; concise pass/fail with links to failures. |
 
-## Commands (3)
+## Commands (6)
 
 | Command | What |
 |---|---|
 | `/start` | Shortcut entry point: tell it your goal, get a recommendation + a ready-to-run kickoff prompt (runs `getting-started`). |
+| `/plan <task>` | Produce a complete zero-shortcut implementation plan (runs `create-plan`). Prefer Plan Mode. |
+| `/review-plan` | Stress-test a plan: PASS/FAIL checklist, fresh research, fix the plan in place (runs `review-plan`). Prefer a fresh chat. |
+| `/review-build` | Evidence-first review of implemented work vs plan/request (runs `review-build`). Prefer a fresh chat. |
 | `/quality-loop` | Run one cycle of the product quality loop (routes to `exercising-the-product` / `reviewing-ui` / `recreating-a-design`; optional focus area argument). |
 | `/changelog` | Draft release notes from merged work since the last tag. |
 
 ---
 
-## Workflows (6)
+## Workflows (13)
 
 Named recipes (`processes/workflows/`). Each lists the rules/skills/commands/agents it
 composes and optional `gate` / `stop_condition` / `state`.
 
 | Workflow | Composes |
 |---|---|
-| `ship-a-feature` | rules + `planning-a-change` → implement → `reviewer` → `writing-commit-messages` / `opening-a-pr` / `making-a-pr-reviewable`; gate = tests+lint |
+| `ship-a-feature` | rules + `planning-a-change` → implement → `review-build` → `reviewer` → `writing-commit-messages` / `opening-a-pr` / `making-a-pr-reviewable`; gate = tests+lint |
+| `plan-then-build` | `/plan` → `/review-plan` → implement → test → docs → `/review-build` → `reviewer` → PR; high-rigor alternative to `ship-a-feature` |
 | `fix-ci-until-green` | `ci-watcher` → `fixing-ci` / `triaging-flaky-tests` / `debugging-an-issue`; stop = checks green |
+| `debug-production` | `debugging-with-observability` → repro → `debugging-an-issue` / `root-cause-fix` → regression lock → `reviewer`; hand off to `hotfix-and-rollback` when needed |
+| `security-pass` | `security-reviewer` → root-cause fixes → re-check → `reviewer`; stop = no remaining exploitable P0/P1 |
+| `clear-the-queue` | `orchestrating-parallel-agents` + worktrees; waves ≤3; serial maker≠checker landing |
+| `safe-refactor` | `reviewing-code-quality` → test net → `refactoring-code` (green→green) → `reviewer` (behavior unchanged) |
+| `ship-a-migration` | expand/contract via `writing-a-migration` → up/down tests → readiness → `multi-plane-deploy` |
+| `dependency-bump` | `reviewing-dependencies` → changelog research → regenerate lockfile → `fixing-ci` → `reviewer` |
 | `cut-a-release` | `assessing-release-readiness` → `/changelog` → `multi-plane-deploy`; gate = readiness GO |
 | `onboard-to-codebase` | `explorer` + `planning-a-change` |
-| `run-autonomous-loop` | `running-a-dev-cycle` + `agentic-loop` + `planning-a-change` + `root-cause-fix` → `reviewer` → `reviewing-and-shipping`; stop = contract met + reviewer SAFE + gate green |
+| `run-autonomous-loop` | `running-a-dev-cycle` + `agentic-loop` + plan (`/plan`/`review-plan` when needed) + `review-build` + `root-cause-fix` → `reviewer` → `reviewing-and-shipping`; stop = contract met + review-build PASS + reviewer SAFE + gate green |
 | `run-quality-loop` | `exercising-the-product` / `reviewing-ui` + `agentic-loop` + `root-cause-fix` → `reviewer`; stop = clean pass with zero new high-severity findings + gate green |
 
 ---
 
-## Runbooks (4) — `processes/runbooks/`
+## Runbooks (6) — `processes/runbooks/`
 
 | Runbook | What |
 |---|---|
+| `bootstrap-project` | First-day equip: `loadout init` → baselines → starter rules/workflow → doctor → `/start`; what not to binge-install. |
 | `harness-setup` | Default → self-improving progression; the ratchet; work backwards from behaviour. |
 | `harness-hooks` | The enforcement layer: ready-to-paste `hooks.json` + scripts (format, checks, block-destructive, approval). |
 | `loop-preflight` | Gates before automating a loop (4-condition test, 30-second check, Ralph-Wiggum, security tax). |
 | `multi-plane-deploy` | Deploy order for an app split across DB / runner / edge / static planes. |
+| `hotfix-and-rollback` | Outage decision: rollback vs flag vs forward hotfix; blast radius; verify; class-fix follow-up; ratchet. |
 
 ## Templates (5) — `templates/`
 

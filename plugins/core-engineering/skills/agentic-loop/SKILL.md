@@ -47,7 +47,7 @@ verification, durable state, bounded autonomy, and a maker separate from the che
 | A quick everyday bug (red test, typecheck, wrong value) | `debugging-an-issue` |
 | Designing the *product's* agent-facing tools / MCP | `agent-tool-design` |
 | Running N independent work items at once | `orchestrating-parallel-agents` |
-| Large/ambiguous task needing a written plan first | `planning-a-change` (or Plan mode) |
+| Large/ambiguous task needing a written plan first | `create-plan` / `planning-a-change` (or Plan mode) |
 
 This skill is the *connective tissue* above those: it says how to structure the loop and hand
 off to them.
@@ -170,10 +170,11 @@ tried and what's blocking, rather than thrashing or shipping a bandaid.
 
 ## Pairs with
 
-- skills: `root-cause-fix`, `planning-a-change`, `reviewing-and-shipping`,
+- skills: `root-cause-fix`, `create-plan`, `planning-a-change`, `reviewing-and-shipping`,
   `orchestrating-parallel-agents`, `running-a-dev-cycle`
 - rules: `no-shortcuts`, `regression-test`, `definition-of-done`
 - agents: `reviewer`, `explorer`
 - docs: `agentic-patterns`, `loop-engineering`
 - runbooks: `loop-preflight`
-- workflows: `run-autonomous-loop`
+- workflows: `run-autonomous-loop`, `plan-then-build`, `run-quality-loop`, `clear-the-queue`,
+  `ship-a-feature`

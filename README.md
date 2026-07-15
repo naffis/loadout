@@ -10,8 +10,8 @@ done — not sit as an unordered pile.
 
 > **Status: functional.** The CLI (`init`, `add`, `list`, `update`, `diff`, `doctor`) is
 > implemented with a lockfile and three-way merge. The library is general-purpose: 2
-> Claude Code plugins (38 skills, 3 commands, 4 subagents), 26 Cursor rules, 6 workflows, 4
-> runbooks, and templates — harvested from real projects, generalized, and sanitized.
+> Claude Code plugins (41 skills, 6 commands, 4 subagents), 29 Cursor rules, 13 workflows, 6
+> runbooks, and templates — generalized from practice and sanitized for public use.
 > Domain/vertical-specific assets are intentionally left out. See
 > `docs/external-practices.md`, `docs/agentic-patterns.md`, and `docs/loop-engineering.md`
 > for the conventions and patterns behind them.
@@ -33,8 +33,10 @@ Then open the project in **Cursor** or **Claude Code** and use it:
 - **Skills** load on demand — ask in plain language ("plan a change", "fix CI"), or run
   **`/start`** to have loadout clarify the goal, pick the right workflow, and hand you a
   ready-to-run kickoff prompt.
-- **Workflows** (e.g. `ship-a-feature`) compose rules, skills, and subagents into one
-  named recipe.
+- **Commands** for the plan→review→build loop: **`/plan`**, **`/review-plan`**,
+  **`/review-build`** (prefer review commands in a fresh chat when stakes are high).
+- **Workflows** (e.g. `ship-a-feature`, `plan-then-build`) compose rules, skills, and
+  subagents into one named recipe.
 
 Pull upstream improvements anytime — local edits are preserved via a three-way merge:
 
@@ -130,7 +132,7 @@ injection vectors"). Before installing:
 
 - Read the `SKILL.md`/`.mdc` you are vendoring, not just its name.
 - Pin to a release tag and review the diff on `loadout update`.
-- Check `provenance` in `registry.json` to see where an asset came from.
+- Check `provenance` in `registry.json` when present (harvest date / origin notes).
 
 `loadout doctor` runs an injection-pattern lint over `SKILL.md`/`.mdc` (prompt-injection
 phrases, pipe-to-shell, hardcoded credentials, env-var exfiltration) and warns on matches.

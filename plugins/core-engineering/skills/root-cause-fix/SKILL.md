@@ -252,4 +252,5 @@ Alternatives ruled out: [A, B + the evidence that killed each].
   `debugging-with-observability`
 - rules: `regression-test`, `no-shortcuts`, `definition-of-done`
 - agents: `reviewer`, `security-reviewer`
-- workflows: `run-autonomous-loop`
+- workflows: `run-autonomous-loop`, `debug-production`, `security-pass`
+- runbooks: `hotfix-and-rollback`

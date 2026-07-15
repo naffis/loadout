@@ -59,7 +59,8 @@ be the sole checker.** The model that wrote the code rationalizes its own diff, 
 context (a review sub-agent) grades shippable work.
 
 - **Encoded by:** the `reviewer` / `security-reviewer` agents (the checker);
-  `root-cause-fix` and `agentic-loop`'s maker-checker step;
+  `review-plan` / `review-build` (and `/review-plan` / `/review-build` — prefer a fresh
+  chat); `root-cause-fix` and `agentic-loop`'s maker-checker step;
   `references/subagents-and-parallelism.md`.
 
 ### 1.4 Context engineering (attention is a finite, decaying budget)
@@ -94,8 +95,10 @@ the output to it. This is the same instinct as the stop-condition contract, scal
 feature: the spec is the shared artifact the maker builds to and the checker verifies
 against. It turns "looks done" into "meets the spec."
 
-- **Encoded by:** `planning-a-change` (the plan is the spec),
-  `agentic-loop`'s acceptance contract, `definition-of-done.mdc` (the outer contract).
+- **Encoded by:** `create-plan` / `review-plan` / `review-build` / `planning-a-change`
+  (the plan is the spec; the build review proves it), `agentic-loop`'s acceptance
+  contract, `definition-of-done.mdc` (the outer contract), `/plan` → `/review-plan` →
+  `/review-build`.
 
 ### 1.7 Plan-first (separate deciding from doing)
 
@@ -103,7 +106,8 @@ For ambiguous or large work, produce a read-only plan and get it right before an
 It surfaces trade-offs and unknowns while they're cheap, and gives the executor a spec to
 build to. Skip it for one-liners; it's a tax on trivial work.
 
-- **Encoded by:** `planning-a-change`, `running-a-dev-cycle` (PLAN phase), `getting-started`.
+- **Encoded by:** `create-plan`, `review-plan`, `planning-a-change`, `plan-then-build`,
+  `/plan`, `/review-plan`, `running-a-dev-cycle` (PLAN phase), `getting-started`.
 
 ### 1.8 Progressive disclosure (skills load lean, expand on demand)
 
@@ -234,19 +238,23 @@ serialize merges.
 |---|---|
 | Workflows vs agents | `processes/workflows/*`, `running-a-dev-cycle`, `agentic-loop` |
 | Outer loop + stop contract | `agentic-loop` (+ rule), `verification-and-stop-conditions` |
-| Evaluator-optimizer / maker≠checker | `reviewer`, `security-reviewer`, `root-cause-fix` |
+| Evaluator-optimizer / maker≠checker | `reviewer`, `security-reviewer`, `review-plan`, `review-build`, `/review-plan`, `/review-build`, `root-cause-fix`, `security-pass` |
 | Context engineering | `context-engineering` ref, `explorer`, `STATE.md` |
-| Orchestrator-workers / parallel / worktrees | `orchestrating-parallel-agents`, `subagents-and-parallelism` |
-| Spec/contract-driven | `planning-a-change`, `definition-of-done` |
-| Plan-first | `planning-a-change`, `running-a-dev-cycle`, `getting-started` |
+| Orchestrator-workers / parallel / worktrees | `orchestrating-parallel-agents`, `clear-the-queue`, `subagents-and-parallelism` |
+| Spec/contract-driven | `create-plan`, `review-plan`, `review-build`, `plan-then-build`, `planning-a-change`, `definition-of-done` |
+| Plan-first | `create-plan`, `review-plan`, `review-build`, `plan-then-build`, `/plan`, `/review-plan`, `/review-build`, `planning-a-change`, `running-a-dev-cycle`, `getting-started` |
 | Progressive disclosure | every `SKILL.md`, `skill-author`, `doctor` |
 | ACI / tool design | `agent-tool-design`, `no-regex-for-semantics` |
-| Root cause over symptom | `root-cause-fix`, `debugging-an-issue`, `regression-test` |
-| Observability-first | `debugging-with-observability`, `observability-first` |
-| Research-before-integrate | `researching-a-dependency`, `documentation-updates` |
+| Root cause over symptom | `root-cause-fix`, `debugging-an-issue`, `debug-production`, `regression-test` |
+| Observability-first | `debugging-with-observability`, `debug-production`, `observability-first` |
+| Research-before-integrate | `researching-a-dependency`, `dependency-bump`, `documentation-updates` |
 | Close the UI feedback loop | `ui-evidence`, `reviewing-ui`, `recreating-a-design` |
 | Dogfooding quality loop | `exercising-the-product`, `reviewing-ui`, `run-quality-loop` |
 | Self-declared-done guard | `loop-preflight`, `agentic-loop`, `reviewer` |
+| Incident stabilize then class-fix | `hotfix-and-rollback`, `debug-production` |
+| Safe structural change | `safe-refactor`, `refactor-discipline` |
+| Expand/contract schema | `ship-a-migration`, `writing-a-migration`, `db-migration-safety` |
+| Bootstrap the harness | `bootstrap-project`, `harness-setup` |
 
 ---
 

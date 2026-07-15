@@ -27,5 +27,5 @@ About to promote changes to production or cut a release.
 
 - rules: `db-migration-safety`, `documentation-updates`
 - skills: `reviewing-and-shipping`
-- runbooks: `multi-plane-deploy`
-- workflows: `cut-a-release`
+- runbooks: `multi-plane-deploy`, `hotfix-and-rollback`
+- workflows: `cut-a-release`, `ship-a-migration`

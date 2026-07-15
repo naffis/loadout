@@ -14,17 +14,33 @@ You have a goal but not a plan: "I want to build X", "what should I do?", "how d
 1. **Get the goal clear.** If the request is vague or large, interview briefly (one short round): what's the outcome, the constraints, the **done-condition**, and what's explicitly out of scope. Don't over-ask — one or two sharp questions, then proceed. (Anthropic's "let the agent interview you" pattern.)
 2. **Orient if new to the repo.** If you don't know the codebase yet, run the `onboard-to-codebase` workflow (it uses the `explorer` agent) to learn the stack, the change pattern, and the test/build commands before committing to an approach.
 3. **Classify the work and route to a workflow:**
-   - Build/change a feature → **`ship-a-feature`** (plan → implement → test → docs → review → PR).
+   - Build/change a feature (ordinary, well-understood) → **`ship-a-feature`**.
+   - High-stakes / unfamiliar / multi-file with real trade-offs → **`plan-then-build`**
+     (`/plan` → `/review-plan` → implement → `/review-build`).
    - Red CI / failing build → **`fix-ci-until-green`**.
+   - Staging/prod failure, no local repro yet → **`debug-production`** (evidence first).
+   - Immediate outage action (rollback / flag / surgical hotfix) → **`hotfix-and-rollback`**
+     runbook, then finish the class fix via `debug-production` / `root-cause-fix`.
+   - Security review of a diff/surface → **`security-pass`**.
+   - Several independent tickets at once → **`clear-the-queue`**.
+   - Behavior-preserving cleanup → **`safe-refactor`**.
+   - Schema/data migration → **`ship-a-migration`**.
+   - Dependency upgrade / bump PR → **`dependency-bump`**.
    - Promote / release → **`cut-a-release`**.
    - Learn a codebase → **`onboard-to-codebase`**.
-   - Full autonomous end-to-end build across phases (research→plan→build→verify→docs) →
-     **`running-a-dev-cycle`** (it classifies the task and runs each phase as an `agentic-loop`).
+   - Brand-new / unequipped repo → **`bootstrap-project`** runbook first.
+   - Attended end-to-end across phases (research→plan→build→verify→docs) →
+     **`running-a-dev-cycle`** (classifies the task; each phase is an `agentic-loop`).
+   - Unattended until-contract-met (passed `loop-preflight`) → **`run-autonomous-loop`**.
+   - Already implemented; need evidence-first verification → **`review-build`**
+     (`/review-build`), preferably in a fresh chat — or the full **`plan-then-build`**
+     path if plan review is still owed too.
    - Improve product quality by using it ("dogfood it", "review the UI", "find and fix
      issues end to end") → **`run-quality-loop`** (`exercising-the-product` for behavior,
      `reviewing-ui` for UX; `recreating-a-design` when matching a specific visual target).
-   - No single workflow fits → compose from skills (`planning-a-change` first), and say so.
-4. **Decide manual vs autonomous loop.** Run the `loop-preflight` 4-condition test (repeats? automated verification? budget? agent has tools?). If it passes, set up a loop with the `automation-loop` template + a `STATE.md`; otherwise recommend a single attended run. Respect the execution-order law: get a manual run reliable before scheduling anything.
+   - No single workflow fits → compose from skills (`planning-a-change` or `create-plan`
+     first), and say so.
+4. **Decide manual vs autonomous loop.** Run the `loop-preflight` 4-condition test (repeats? automated verification? budget? agent has tools?). If it passes **and** the user wants unattended execution, recommend **`run-autonomous-loop`** (or schedule via the `automation-loop` template + a `STATE.md`). Otherwise recommend a single attended run (`ship-a-feature` / `plan-then-build` / `running-a-dev-cycle`). Respect the execution-order law: get a manual run reliable before scheduling anything.
 5. **Emit a kickoff prompt.** Output a concrete, paste-ready prompt that names the workflow, the objective, the **gate** (the project's test/lint command), the **done-condition**, and the key constraints/rules. This is the thing the user runs to actually start.
 
 ## Output
@@ -48,8 +64,13 @@ Kickoff prompt:
 
 ## Pairs with
 
-- workflows: `ship-a-feature`, `onboard-to-codebase`, `fix-ci-until-green`, `cut-a-release`, `run-quality-loop`
-- skills: `planning-a-change`, `running-a-dev-cycle`, `agentic-loop`
-- runbooks: `loop-preflight`, `harness-setup`
+- workflows: `ship-a-feature`, `plan-then-build`, `onboard-to-codebase`, `fix-ci-until-green`,
+  `debug-production`, `security-pass`, `clear-the-queue`, `safe-refactor`, `ship-a-migration`,
+  `dependency-bump`, `cut-a-release`, `run-quality-loop`, `run-autonomous-loop`
+- skills: `planning-a-change`, `create-plan`, `review-plan`, `review-build`,
+  `running-a-dev-cycle`, `agentic-loop`
+- commands: `start` (`/start`), `plan` (`/plan`), `review-plan-cmd` (`/review-plan`),
+  `review-build-cmd` (`/review-build`)
+- runbooks: `loop-preflight`, `harness-setup`, `bootstrap-project`, `hotfix-and-rollback`
 - templates: `automation-loop`, `state-file`
 - docs: `catalog` (the menu of everything available)

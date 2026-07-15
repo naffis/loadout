@@ -56,11 +56,15 @@ export function planTargets(asset: RegistryAsset, tools: Tools, projectRoot: str
       if (tools.claude) actions.push({ kind: "projectRule", target: "CLAUDE.md" });
       break;
     }
-    case "command":
-      // Slash commands are plain markdown; vendor into each tool's command dir.
-      if (tools.cursor) actions.push({ kind: "copyFile", target: join(".cursor", "commands", `${asset.id}.md`) });
-      if (tools.claude) actions.push({ kind: "copyFile", target: join(".claude", "commands", `${asset.id}.md`) });
+    case "command": {
+      // Slash command name comes from the source basename (e.g. review-plan.md →
+      // /review-plan) so registry ids can stay unique when a skill shares the name
+      // (skill review-plan + command review-plan-cmd → still vendors as review-plan.md).
+      const cmdFile = basename(asset.source);
+      if (tools.cursor) actions.push({ kind: "copyFile", target: join(".cursor", "commands", cmdFile) });
+      if (tools.claude) actions.push({ kind: "copyFile", target: join(".claude", "commands", cmdFile) });
       break;
+    }
     case "agent":
       // Both tools load custom subagent personas from a per-tool agents dir.
       if (tools.cursor) actions.push({ kind: "copyFile", target: join(".cursor", "agents", `${asset.id}.md`) });

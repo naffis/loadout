@@ -37,3 +37,9 @@ these gates. From the Loop Engineering methodology (`docs/loop-engineering.md`).
 
 Manual run reliable → document it as a skill → wrap the skill in a loop → **only then** schedule it.
 Skipping straight to scheduling is the top reason loops fail.
+
+## Related
+
+- Unequipped / brand-new repo → `bootstrap-project` before automating anything.
+- Live outage (need stabilize now) → `hotfix-and-rollback`, not a scheduled loop.
+- Unattended until-contract-met recipe → `run-autonomous-loop` (only after this preflight passes).

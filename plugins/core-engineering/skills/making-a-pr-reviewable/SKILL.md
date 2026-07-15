@@ -26,4 +26,4 @@ A PR is functionally done but hard to review: noisy commit history, a thin descr
 
 - rules: `commit-and-pr-conventions`
 - skills: `opening-a-pr`, `reviewing-and-shipping`
-- workflows: `ship-a-feature`
+- workflows: `ship-a-feature`, `plan-then-build`

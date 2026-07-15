@@ -28,3 +28,4 @@ A feature branch has diverged from its base and needs to be updated before mergi
 
 - rules: `lockfile-conflicts`, `testing-conventions`
 - skills: `reviewing-and-shipping`
+- workflows: `clear-the-queue`

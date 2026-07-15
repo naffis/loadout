@@ -1,0 +1,212 @@
+---
+description: >
+  Extensively review and improve an existing implementation plan. Triggers on
+  "Review the plan", "Review this plan", "review plan", "stress-test the plan",
+  "go deeper on the plan", "improve the plan". Multi-pass: re-read everything,
+  fresh external research, pre-mortem, adversarial critique, fix shortcuts,
+  update the plan until it meets the create-plan completeness bar. Do not
+  implement code. Read the `review-plan` skill for the same workflow.
+alwaysApply: false
+---
+
+# Review a plan
+
+When asked to review a plan, you are **not** summarizing it and you are **not**
+rubber-stamping it. You are stress-testing it, doing fresh research, finding
+what was missed, and **rewriting the plan** until it is correct and complete.
+
+Pair with `create-plan`: the plan under review must end at that completeness
+bar (no TBD/stubs/deferrals; external research cited; executable tasks).
+
+## Completeness bar after review
+
+Review is done only when:
+
+1. The plan file is **updated in place** with every P0/P1 fix incorporated.
+2. A competent engineer new to the repo could implement from it with **zero
+   clarifying questions**.
+3. You have completed **at least three full review passes** (see workflow) and
+   a final "one more time" sweep that finds nothing material left.
+4. Verdict is explicit: **APPROVED** | **APPROVED WITH CONDITIONS** |
+   **BLOCKED** — and BLOCKED means you keep fixing (or ask the user one precise
+   batch of choices) until it is not blocked on in-scope decisions.
+
+## Absolute bans (same as create-plan, plus review-specific)
+
+Plan / review failures — rewrite until none remain:
+
+- Any `create-plan` ban still present (`TBD`, stubs, "figure out later",
+  unsourced "best practice", empty sections, deferred in-scope work)
+- Review that only lists issues without **editing the plan**
+- Single-pass skim ("looks good") or confidence theater
+- Reusing the plan's citations without doing **fresh** external research
+- Leaving shortcuts, vague ACs, missing rollback, or untestable criteria
+- Declaring APPROVED while open questions the implementation depends on remain
+
+## Mindset (mandatory)
+
+Before you finish, you must literally do this — not as flavor text:
+
+> Review everything one more time. Did we accomplish all that we needed? Look
+> through everything we've done in this session one more time and be very, very
+> thorough. Did we miss anything? Think through things again in detail. Review
+> everything in detail again. Make sure we didn't miss anything. Make 100% sure
+> we didn't take any shortcuts. Think deeply about the correct way to do all of
+> this and continue to update and fix.
+
+If that pass still finds gaps, fix them and run it again.
+
+## Workflow (mandatory multi-pass)
+
+Do **not** write implementation code. Read, research, critique, and **update
+the plan artifact**.
+
+### Pass 0 — Locate and re-read everything
+
+1. Find the plan (path the user named, `docs/plans/`, `.cursor/plans/`, or the
+   plan produced earlier this session).
+2. Re-read the **entire** plan. Do not skim.
+3. Re-read session decisions, todos, and files already touched that constrain
+   the plan.
+4. Re-read the relevant live code and owning docs the plan claims to rely on.
+   Verify paths, APIs, and assumptions still match reality.
+
+### Pass 1 — Spec-review gate (structured risk review)
+
+Audit every section against these dimensions (from spec-review practice). Any
+critical miss is a **blocker**, not a note:
+
+| Dimension | Pass criteria |
+| --- | --- |
+| **Scope** | One clear problem; non-goals strong enough to block creep |
+| **Acceptance** | Every AC binary-testable (Given/When/Then); no subjective language |
+| **Contracts** | API/DB/job/UI contracts complete; compat + migration notes |
+| **Dependencies** | Each dependency named with fallback; no "TBD integration" |
+| **Operations** | Rollout, monitoring/alerts, and **viable rollback** (esp. stateful) |
+| **Traceability** | Every requirement → design → task → verification; no orphans |
+| **Shortcuts** | No stubs, silent deferrals, or "decide during implementation" |
+
+For each item below, output **PASS or FAIL** with the evidence you checked
+(file path, plan section, or command output):
+
+- No TBDs, placeholders, "figure out later", or unresolved either/or options
+- No unstated assumptions; every assumption is written down and safe
+- Edge cases covered: empty/null input, concurrency, partial failure, retries, limits, permissions
+- Failure modes and rollback addressed
+- Security: authn/authz, input validation, secrets handling for anything new
+- Data migration and backward compatibility addressed if data is touched
+- Verification plan actually proves the requirements
+- No simpler design that satisfies everything (if there is one, that is a finding)
+- No conflict with existing code, conventions, or in-flight work you can see
+
+**Block coding** when: rollback for stateful changes is missing; dependencies
+unresolved; ACs untestable; scope ambiguous; security/privacy/tenancy open;
+create-plan bans still present. A clean PASS across the board is acceptable
+only when each item shows what you checked — "looks good" without evidence is
+a failed review.
+
+### Pass 2 — Fresh external research
+
+Do **new** research (do not only trust the plan's § External research):
+
+1. Write 3–6 search questions aimed at **holes** the plan might have missed
+   (failure modes, migration hazards, SOTA alternatives, vendor footguns).
+2. Read primary sources. Compare to the plan's approach.
+3. Update the plan's research section + decisions: adopt / adapt / reject with
+   citations.
+4. If SOTA conflicts with repo invariants, document and choose explicitly.
+
+### Pass 3 — Pre-mortem + adversarial critique
+
+1. **Pre-mortem:** Assume it is 3–6 months later and this failed badly. Write
+   3–5 concrete failure narratives (not vague fears). For each, add a
+   mitigation or design change to the plan.
+2. **Adversarial lenses** (distinct challenges — not the same complaint
+   rephrased). Use the most relevant:
+   - Correctness / edge cases
+   - Security & tenancy
+   - Reliability & idempotency
+   - Operability (deploy, observe, rollback)
+   - Simplicity (over-engineering)
+   - Implementability (could a new engineer execute this?)
+3. **Falsify key decisions:** For each major fork, state what evidence would
+   prove it wrong; confirm that evidence was considered.
+4. **Alternative blindness:** Name at least one serious alternative not chosen
+   and why it stays rejected — or switch if the review shows it is better.
+
+### Pass 4 — Apply fixes (the plan must change)
+
+Incorporate **all** P0 and P1 findings into the plan file now:
+
+- Fix requirements, ACs, tasks, tests, rollout/rollback, risks
+- Remove shortcuts; resolve or non-goal anything still open
+- Keep a short **Review changelog** at the top or bottom: what changed and why
+
+Severity:
+
+| Level | Meaning | Action |
+| --- | --- | --- |
+| **P0 / BLOCKER** | Unsafe or impossible to implement correctly | Must fix before APPROVED |
+| **P1** | Likely rework or production pain | Fix in this review |
+| **P2** | Quality / clarity | Fix if cheap; else Non-goals with rationale |
+
+There is no "proceed with undocumented conditions." Conditions, if any, are
+written, scoped, and must not leave in-scope decisions blank. Prefer fixing
+over conditioning.
+
+### Pass 5 — One more time (mandatory final sweep)
+
+Re-read the **updated** plan end-to-end and the session work again. Explicitly
+answer:
+
+- Did we accomplish everything this review needed?
+- What did we still miss?
+- Did we take any shortcuts?
+- Is the correct approach locked — not the convenient one?
+- Would create-plan's self-critique checklist all pass?
+
+If anything material remains, return to Pass 2–4. Repeat until the final sweep
+is clean.
+
+## Review output artifact
+
+Update the plan file, then report in the reply:
+
+```markdown
+# Plan review: <plan name>
+
+## Verdict
+APPROVED | APPROVED WITH CONDITIONS | BLOCKED
+
+## Passes completed
+- Pass 0 re-read: …
+- Pass 1 spec gate: … (blockers found / cleared)
+- Pass 2 fresh research: … (sources added)
+- Pass 3 pre-mortem + adversarial: …
+- Pass 4 fixes applied: …
+- Pass 5 final sweep: clean | findings → fixed again
+
+## Blockers found → resolved
+## P1 fixes applied
+## Fresh sources consulted
+| Source | URL | Takeaway |
+## Pre-mortem failure narratives → mitigations
+## Review changelog (plan edits)
+## Conditions (only if APPROVED WITH CONDITIONS)
+## Still blocked on (user choice required) — or "none"
+```
+
+## Delivery
+
+1. Edit the existing plan file in place (do not leave fixes only in chat).
+2. Do **not** start implementation unless the user explicitly asks after an
+   APPROVED (or clearly accepted conditional) verdict.
+3. Do **not** commit unless the user explicitly asks.
+
+## Alignment
+
+Enforces `create-plan`, `no-shortcuts`, `definition-of-done`, and project
+`AGENTS.md` invariants. External practice never silently overrides invariants.
+
+Slash shortcut: `/review-plan`. After an APPROVED plan is implemented, close
+the loop with `/review-build`.

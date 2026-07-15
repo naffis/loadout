@@ -14,6 +14,8 @@ pile" — every asset earns its context cost.)
 ## The progression
 
 Add rungs as you hit their failure modes; don't bulk-install everything on day one.
+For a brand-new repo, start with the `bootstrap-project` runbook (init + baselines +
+starter kit), then climb these rungs.
 
 1. **Memory** — an `AGENTS.md` (and `CLAUDE.md` for Claude Code) that loads every session.
    Start from `templates/AGENTS.md`. Keep it short — a pilot's checklist, not a style guide.
