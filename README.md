@@ -10,7 +10,7 @@ done — not sit as an unordered pile.
 
 > **Status: functional.** The CLI (`init`, `add`, `list`, `update`, `diff`, `doctor`) is
 > implemented with a lockfile and three-way merge. The library is general-purpose: 2
-> Claude Code plugins (41 skills, 6 commands, 4 subagents), 29 Cursor rules, 13 workflows, 6
+> Claude Code plugins (42 skills, 6 commands, 4 subagents), 29 Cursor rules, 13 workflows, 6
 > runbooks, and templates — generalized from practice and sanitized for public use.
 > Domain/vertical-specific assets are intentionally left out. See
 > `docs/external-practices.md`, `docs/agentic-patterns.md`, and `docs/loop-engineering.md`
@@ -18,13 +18,16 @@ done — not sit as an unordered pile.
 
 ## Quick start
 
+**Agents:** if the user pastes this repo and says *use this* or *update to latest*,
+follow **[`INSTALL.md`](./INSTALL.md)** (skill mirror: `equipping-loadout`).
+
 Install into any project, then pull in what you need:
 
 ```bash
 cd your-project
 npx github:naffis/loadout init                       # detect Cursor/Claude, scaffold dirs, lockfile, notify hook
 npx github:naffis/loadout list                       # browse available skills, rules, docs, and workflows
-npx github:naffis/loadout add start getting-started ship-a-feature no-any  # vendor assets by id (one or many)
+npx github:naffis/loadout add start getting-started ship-a-feature no-any  # or follow INSTALL.md for the full starter
 ```
 
 Then open the project in **Cursor** or **Claude Code** and use it:
@@ -49,6 +52,7 @@ vendoring? See [Consuming loadout](#consuming-loadout) below.
 
 ## Documentation
 
+- **[INSTALL.md](./INSTALL.md)** — agent contract for *use this* / *update to latest*.
 - **[docs/usage.md](./docs/usage.md)** — how to install loadout, how each asset type loads and how you invoke it, and how the pieces compose. Start here.
 - **[docs/catalog.md](./docs/catalog.md)** — one-line reference for every skill, rule, subagent, command, workflow, runbook, and template, with how to call each.
 - **[docs/external-practices.md](./docs/external-practices.md)** — the Anthropic/Cursor authoring conventions behind the assets.
@@ -73,6 +77,7 @@ plugin) and Cursor (via `.cursor/skills/`).
 ```bash
 /plugin marketplace add naffis/loadout
 /plugin install core-engineering@loadout
+/plugin install meta@loadout
 /plugin update core-engineering
 /plugin marketplace update
 ```
@@ -92,7 +97,7 @@ npx github:naffis/loadout update      # pull latest, three-way merge managed ass
 npx github:naffis/loadout doctor      # validate manifests, frontmatter, lockfile
 ```
 
-Pin consumers to release tags, not `main`.
+Pin consumers to release tags, not `main` — e.g. `npx github:naffis/loadout#v0.12.0 update`.
 
 ## CLI commands
 
@@ -152,6 +157,7 @@ The CLI source lives in [`cli/`](./cli) and compiles to `dist/`.
 ## Repository layout
 
 ```
+INSTALL.md                         # agent contract: use this / update to latest
 .claude-plugin/marketplace.json   # plugin catalog (hand-maintained)
 plugins/<plugin>/                  # Claude Code plugins; skills live here
 rules/<rule>.mdc                   # Cursor rules (flat, for Remote Rules)

@@ -80,6 +80,7 @@ cat <<EOF
 [loadout]   /plugin marketplace update
 [loadout]   /plugin update <plugin-name>
 [loadout] Or pull vendored assets:  npx github:naffis/loadout update --check
+[loadout] Or ask the agent: "update loadout to latest" (INSTALL.md Flow B / equipping-loadout)
 EOF
 
 exit 0

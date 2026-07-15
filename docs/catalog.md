@@ -10,7 +10,7 @@ command → `/changelog`.
 
 ---
 
-## Skills (41)
+## Skills (42)
 
 ### Getting started (start here)
 | Skill | What / when | Call |
@@ -93,6 +93,7 @@ command → `/changelog`.
 | Skill | What / when | Call |
 |---|---|---|
 | `hardening-the-harness` | "The ratchet": turn a real failure into a permanent guard in the right layer. | after a mistake you don't want again |
+| `equipping-loadout` | Follow `INSTALL.md` to install (starter = ship-a-feature kit) or update loadout in a project. | "use this" / "update loadout" / paste github.com/naffis/loadout |
 | `skill-author` | Scaffold a SKILL.md to conventions; apply the rule-vs-skill test. | creating/restructuring a skill |
 | `rule-author` | Scaffold a `.mdc` rule with the right type/frontmatter. | creating/restructuring a rule |
 | `learning-from-chats` | Mine recurring preferences from chats → rules/skills/AGENTS.md. | "learn how I work" / capture a correction |
@@ -217,6 +218,7 @@ composes and optional `gate` / `stop_condition` / `state`.
 
 ## Reference docs (`docs/`)
 
+`doc-install` / repo-root `INSTALL.md` (agent *use this* / *update to latest* contract),
 `usage` (this guide's companion), `catalog` (this file), `external-practices` (Anthropic/Cursor
 conventions), `agentic-patterns` (the 2026 agentic-coding pattern catalog behind these assets),
 `loop-engineering`, `agent-harness-engineering`.

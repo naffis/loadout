@@ -107,6 +107,10 @@ SessionStart update-notify hook, installed by `loadout init`.
 
 ## 3. Installing and consuming
 
+**Agent shortcut:** when the user points at this repo and says *use this* or *update to
+latest*, follow repo-root [`INSTALL.md`](../INSTALL.md) (or the `equipping-loadout` skill).
+Do not invent a different path.
+
 loadout ships across three layers; use whichever fits.
 
 ### A. Claude Code plugins (skills, commands, subagents)
@@ -134,6 +138,8 @@ npx github:naffis/loadout update --check # dry run; non-zero exit if updates exi
 npx github:naffis/loadout diff <id>     # upstream vs your local copy
 npx github:naffis/loadout doctor        # validate the loadout repo itself
 ```
+
+Pin with a tag when you care about reproducibility: `npx github:naffis/loadout#<tag> <command>`.
 
 What `add` does per type: skills → `.cursor/skills/<id>/`; rules → `.cursor/rules/<id>.mdc`
 **and** projected into `CLAUDE.md`; commands → `.cursor/commands/<id>.md` + `.claude/commands/<id>.md`;
@@ -192,18 +198,11 @@ for the patterns behind them.
 A worked, copy-paste path for landing a non-trivial change with the `ship-a-feature`
 workflow.
 
-**Equip the project once.** Adding a workflow doesn't pull in its parts, so vendor the
-workflow plus the skills and rules it sequences (its `uses:` block):
-
-```bash
-npx github:naffis/loadout add \
-  ship-a-feature \
-  planning-a-change review-build writing-tests reviewing-and-shipping \
-  writing-commit-messages opening-a-pr making-a-pr-reviewable updating-docs \
-  review-build-cmd review-build-rule \
-  no-shortcuts size-limits testing-conventions test-coverage \
-  commit-and-pr-conventions regression-test documentation-updates
-```
+**Equip the project once.** Adding a workflow doesn't pull in its parts. Prefer the
+agent contract starter in [`INSTALL.md`](../INSTALL.md) (Flow A step 4) — it vendors
+`ship-a-feature` plus its full `uses:` block, routing (`start` / `getting-started`),
+`equipping-loadout`, and core always-on rules. Or run that `add` list yourself from
+`INSTALL.md`.
 
 **High-rigor alternative — `plan-then-build`** (when a shallow plan would leave decisions
 to coding time). Use registry rule ids (`*-rule`), not skill names, for the plan/build rules:

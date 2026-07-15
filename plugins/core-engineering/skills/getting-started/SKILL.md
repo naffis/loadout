@@ -1,6 +1,6 @@
 ---
 name: getting-started
-description: Recommend how to proceed on a goal and produce a ready-to-run kickoff prompt. Use when you're new to a project or unsure where to begin — "I want to build X, what should I do?", "how do I start?", "which workflow applies?". Routes the goal to the right loadout workflow, skills, and rules, and decides manual vs autonomous loop.
+description: Recommend how to proceed on a goal and produce a ready-to-run kickoff prompt. Use when you're new to a project or unsure where to begin — "I want to build X, what should I do?", "how do I start?", "which workflow applies?". Routes the goal to the right loadout workflow, skills, and rules, and decides manual vs autonomous loop. Also routes "use/install/update loadout" to equipping-loadout / INSTALL.md.
 ---
 
 # Getting started
@@ -28,7 +28,10 @@ You have a goal but not a plan: "I want to build X", "what should I do?", "how d
    - Dependency upgrade / bump PR → **`dependency-bump`**.
    - Promote / release → **`cut-a-release`**.
    - Learn a codebase → **`onboard-to-codebase`**.
-   - Brand-new / unequipped repo → **`bootstrap-project`** runbook first.
+   - User pasted loadout / "use this" / "update loadout" → **`equipping-loadout`**
+     (follow repo-root `INSTALL.md` / `doc-install`); do not improvise install steps.
+   - Brand-new / unequipped repo (no loadout yet) → **`equipping-loadout`** / `INSTALL.md`
+     for the fast path, or **`bootstrap-project`** for the progressive human path.
    - Attended end-to-end across phases (research→plan→build→verify→docs) →
      **`running-a-dev-cycle`** (classifies the task; each phase is an `agentic-loop`).
    - Unattended until-contract-met (passed `loop-preflight`) → **`run-autonomous-loop`**.
@@ -68,9 +71,9 @@ Kickoff prompt:
   `debug-production`, `security-pass`, `clear-the-queue`, `safe-refactor`, `ship-a-migration`,
   `dependency-bump`, `cut-a-release`, `run-quality-loop`, `run-autonomous-loop`
 - skills: `planning-a-change`, `create-plan`, `review-plan`, `review-build`,
-  `running-a-dev-cycle`, `agentic-loop`
+  `running-a-dev-cycle`, `agentic-loop`, `equipping-loadout`
 - commands: `start` (`/start`), `plan` (`/plan`), `review-plan-cmd` (`/review-plan`),
   `review-build-cmd` (`/review-build`)
 - runbooks: `loop-preflight`, `harness-setup`, `bootstrap-project`, `hotfix-and-rollback`
 - templates: `automation-loop`, `state-file`
-- docs: `catalog` (the menu of everything available)
+- docs: `catalog` (the menu of everything available), `doc-install` (`INSTALL.md`)

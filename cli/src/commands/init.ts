@@ -54,6 +54,7 @@ export function init(args: string[]): number {
   }
 
   heading("Next steps");
+  info("  Follow INSTALL.md (use this / update to latest) or the equipping-loadout skill");
   info("  loadout list                 # see available assets");
   info("  loadout add <id...>          # vendor assets into this project");
   if (tools.claude) info("  /plugin marketplace add naffis/loadout   # Claude Code plugins");

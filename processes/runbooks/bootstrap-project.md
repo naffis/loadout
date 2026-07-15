@@ -5,6 +5,12 @@ one. Work backwards from behaviour (`harness-setup`): each piece must earn its c
 This runbook is the first-day path; `harness-setup` and `harness-hooks` are the progression
 after that.
 
+**Agents:** if the user pasted the loadout repo and said *use this* / *update to latest*,
+follow repo-root `INSTALL.md` (or `equipping-loadout`) instead of improvising from this
+runbook. That path vendors `ship-a-feature` + its full `uses:` block, plus
+`equipping-loadout`, `definition-of-done`, and `doc-install`. This runbook is the
+slower, progressive human path (baselines first, fewer assets on day one).
+
 ## Preconditions
 
 - You have a git repo (or are creating one) and permission to add files.
