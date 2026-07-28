@@ -66,16 +66,22 @@ never grades its own stop condition.
   cost.
 
 For a full workflow that runs many independent items in parallel (bounded concurrency,
-worktrees, serial landing), use the `orchestrating-parallel-agents` skill.
+serial landing), use the `orchestrating-parallel-agents` skill — and check whether
+`shared-working-tree` is installed first.
 
-## Worktree isolation (parallel agents without collisions)
+## Shared trunk vs worktree isolation
 
-Two agents editing the same files is the same hazard as two engineers committing to the same
-lines without talking. Give each parallel attempt its own git worktree + branch — separate
-working directory, shared history — so their edits cannot touch each other. **You are still
-the review ceiling:** ten parallel changes you can't review is worse than two you can. Match
-parallelism to your review bandwidth, and remember the merge/commit/push of any worktree
-branch waits for the user's explicit request (`commit-and-pr-conventions.mdc`).
+**If `shared-working-tree` is installed:** keep every agent on one local trunk checkout. Do
+**not** create per-agent branches or worktrees unless the user explicitly asks. Do **not**
+stash. On commit, land the whole eligible tree (`committing-on-shared-trunk`). Collision
+protocol: stop, leave the tree intact, ask.
+
+**Otherwise (worktree isolation):** give each parallel attempt its own git worktree + branch
+so edits cannot touch each other. Match parallelism to review bandwidth; merge/commit/push of
+any worktree branch waits for the user's explicit request (`commit-and-pr-conventions.mdc`).
+
+Best-of-N via `best-of-n-runner` (separate worktrees) remains opt-in for hard experiments; it
+is not the default when `shared-working-tree` is installed.
 
 ## When NOT to delegate
 
@@ -91,6 +97,6 @@ branch waits for the user's explicit request (`commit-and-pr-conventions.mdc`).
 - [ ] Reads/searches independent? -> issue them in ONE message (parallel).
 - [ ] Shippable? -> run an independent checker (`reviewer`/`security-reviewer`) before
       presenting.
-- [ ] High-value + uncertain change? -> consider best-of-N (worktrees).
+- [ ] High-value + uncertain change? -> consider best-of-N (worktrees) only if shared-tree kit is off / user asks.
 - [ ] About to spawn an agent for a one-line lookup? -> just do it inline.
-- [ ] Parallelism <= my review bandwidth, and no git action without explicit ask?
+- [ ] Parallelism <= my review bandwidth; honor shared-working-tree / no-stash if installed; no git action without explicit ask?

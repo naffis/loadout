@@ -10,7 +10,7 @@ command → `/changelog`.
 
 ---
 
-## Skills (42)
+## Skills (43)
 
 ### Getting started (start here)
 | Skill | What / when | Call |
@@ -22,7 +22,7 @@ command → `/changelog`.
 |---|---|---|
 | `agentic-loop` | Run a non-trivial task as a verifiable perceive→plan→act→observe→verify→reflect loop: stop-condition contract, ground-truth verification, maker≠checker, durable memory, context budget, bounded autonomy. | long-horizon/multi-step work; "run this as a loop" |
 | `running-a-dev-cycle` | Adaptive end-to-end cycle: classify a task (QUICK/ENHANCEMENT/INTEGRATION/INVESTIGATION/ITERATION) and route it through the lightest path, each phase an agentic loop. | "build this end to end" / "autonomous mode" |
-| `orchestrating-parallel-agents` | Run N independent items in parallel via sub-agents in git worktrees — bounded concurrency, full context per agent, serialized landing gated by maker-checker. | "do these in parallel" / "clear the queue" |
+| `orchestrating-parallel-agents` | Run N independent items in parallel — worktrees by default, or shared trunk when `shared-working-tree` is installed; bounded concurrency; serialized landing gated by maker-checker. | "do these in parallel" / "clear the queue" |
 | `agent-tool-design` | Design a product's agent-facing tools/MCP well (ACI): fewer higher-signal tools, namespacing, high-signal results, token efficiency, steering descriptions/errors. | authoring/editing a tool schema, description, or result shape |
 
 ### Product quality loops (dogfood, review, iterate)
@@ -39,9 +39,10 @@ command → `/changelog`.
 | `review-plan` | Multi-pass plan stress-test: re-read, fresh research, PASS/FAIL checklist, pre-mortem, adversarial critique; fix shortcuts; update plan in place; final sweep. | "Review the plan" / `/review-plan` |
 | `review-build` | Evidence-first implementation review: git diff, plan/requirement trace, shortcut sweep, gate with pasted output, fix blockers/majors. Prefer a fresh chat. | "Review the build" / `/review-build` |
 | `planning-a-change` | Explore → plan → implement a non-trivial change. Before multi-file/unfamiliar work; skip one-liners. Plan-only → `create-plan`. | `/planning-a-change` or describe a multi-file task |
-| `reviewing-and-shipping` | Review the branch for correctness & intent, run tests, commit, open/update PR. | when wrapping up a change |
+| `reviewing-and-shipping` | Review for correctness & intent, run tests, wrap up; commit/PR only when asked (whole-tree commit if shared-working-tree). | when wrapping up a change |
 | `writing-commit-messages` | Conventional-commit message from a diff. | when committing / "write a commit message" |
-| `opening-a-pr` | Branch → push → PR with a validation-first description. | when turning work into a PR |
+| `committing-on-shared-trunk` | Commit/push the entire shared trunk working tree — no stash, no session-scoped staging, no branch unless asked. | "commit" / "commit and push" with parallel agents / shared-working-tree |
+| `opening-a-pr` | Branch → push → PR with a validation-first description. Only when user explicitly asks for a PR. | when turning work into a PR |
 | `making-a-pr-reviewable` | Tidy history, sharpen description, add reviewer guidance (no behavior change). | before review on a noisy/large PR |
 | `rebasing-a-branch` | Rebase onto base with semantic conflict review and `--force-with-lease`. | when a branch is behind |
 | `triaging-review-feedback` | Bucket unresolved PR comments into a plan and address them. | when a PR has open threads |
@@ -100,7 +101,7 @@ command → `/changelog`.
 
 ---
 
-## Rules (29)
+## Rules (32)
 
 How a rule loads is set by its frontmatter. You don't usually call rules; they load
 automatically (or `@rule-name` for manual ones).
@@ -113,6 +114,9 @@ automatically (or `@rule-name` for manual ones).
 | `regression-test` | Every bug fix ships a test that fails before and passes after. |
 | `no-inline-imports` | Imports at module top; no inline/lazy imports. |
 | `no-secrets-in-code` | Never hardcode secrets/PII; env/secret store; never log them. |
+| `git-safety` | No autonomous commit/branch/push/PR/stash/WIP wipe; explicit ask required. |
+| `no-stash` | Absolute ban on `git stash` (and stash-like /tmp moves). |
+| `shared-working-tree` | Parallel agents share one local trunk; no per-agent branches/worktrees; commit-all via skill. |
 
 ### Auto-attached by file glob
 | Rule | Globs | Gist |
@@ -132,7 +136,7 @@ automatically (or `@rule-name` for manual ones).
 | `test-coverage` | Coverage is a guide not a goal; cover new code + branches/error paths; pick a floor, don't game it. |
 | `observability-first` | Read logs/traces before source; structured logging + correlation IDs. |
 | `documentation-updates` | Update the matching doc/changelog/ADR in the same change. |
-| `commit-and-pr-conventions` | Conventional commits; validation-first PR descriptions. |
+| `commit-and-pr-conventions` | Conventional commits; validation-first PR descriptions; whole-tree commit when shared-working-tree is on. |
 | `prompt-extraction` | Long prompts live in dedicated modules, not inline. |
 | `audit-external-skills` | Treat third-party skills/rules/MCP as untrusted; review first. |
 | `lockfile-conflicts` | Never hand-merge lockfiles; resolve the manifest, regenerate. |
@@ -184,7 +188,7 @@ composes and optional `gate` / `stop_condition` / `state`.
 | `fix-ci-until-green` | `ci-watcher` → `fixing-ci` / `triaging-flaky-tests` / `debugging-an-issue`; stop = checks green |
 | `debug-production` | `debugging-with-observability` → repro → `debugging-an-issue` / `root-cause-fix` → regression lock → `reviewer`; hand off to `hotfix-and-rollback` when needed |
 | `security-pass` | `security-reviewer` → root-cause fixes → re-check → `reviewer`; stop = no remaining exploitable P0/P1 |
-| `clear-the-queue` | `orchestrating-parallel-agents` + worktrees; waves ≤3; serial maker≠checker landing |
+| `clear-the-queue` | `orchestrating-parallel-agents` + worktrees **or** shared trunk; waves ≤3; serial maker≠checker landing |
 | `safe-refactor` | `reviewing-code-quality` → test net → `refactoring-code` (green→green) → `reviewer` (behavior unchanged) |
 | `ship-a-migration` | expand/contract via `writing-a-migration` → up/down tests → readiness → `multi-plane-deploy` |
 | `dependency-bump` | `reviewing-dependencies` → changelog research → regenerate lockfile → `fixing-ci` → `reviewer` |

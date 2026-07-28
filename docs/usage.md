@@ -186,10 +186,11 @@ workflow/phase: write a stop-condition contract, verify against ground truth, ke
 separate from the maker, manage the context budget, and stay git-safe. `running-a-dev-cycle`
 is the adaptive router that classifies a task and walks it through the right phases (each run
 as an agentic loop); `root-cause-fix` is the prove-cause-then-class-fix engine for defects; and
-`orchestrating-parallel-agents` fans independent work out across worktrees with a serialized,
-maker-checker-gated landing. The `run-autonomous-loop` workflow composes these for unattended,
-until-contract-met runs — gated by `loop-preflight`. See [`agentic-patterns.md`](./agentic-patterns.md)
-for the patterns behind them.
+`orchestrating-parallel-agents` fans independent work out across worktrees (default) or a
+shared trunk when `shared-working-tree` / `committing-on-shared-trunk` are installed, with a
+serialized, maker-checker-gated landing. The `run-autonomous-loop` workflow composes these for
+unattended, until-contract-met runs — gated by `loop-preflight`. See
+[`agentic-patterns.md`](./agentic-patterns.md) for the patterns behind them.
 
 ---
 

@@ -241,6 +241,7 @@ serialize merges.
 | Evaluator-optimizer / maker≠checker | `reviewer`, `security-reviewer`, `review-plan`, `review-build`, `/review-plan`, `/review-build`, `root-cause-fix`, `security-pass` |
 | Context engineering | `context-engineering` ref, `explorer`, `STATE.md` |
 | Orchestrator-workers / parallel / worktrees | `orchestrating-parallel-agents`, `clear-the-queue`, `subagents-and-parallelism` |
+| Shared trunk (parallel agents, one checkout) | `shared-working-tree`, `no-stash`, `git-safety`, `committing-on-shared-trunk` |
 | Spec/contract-driven | `create-plan`, `review-plan`, `review-build`, `plan-then-build`, `planning-a-change`, `definition-of-done` |
 | Plan-first | `create-plan`, `review-plan`, `review-build`, `plan-then-build`, `/plan`, `/review-plan`, `/review-build`, `planning-a-change`, `running-a-dev-cycle`, `getting-started` |
 | Progressive disclosure | every `SKILL.md`, `skill-author`, `doctor` |

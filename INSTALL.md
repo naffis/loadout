@@ -122,6 +122,18 @@ rule ids is safe even when Remote Rules are wired.
 Do **not** bulk-install the catalog. More assets: `npx github:naffis/loadout add <id…>` or
 `loadout list` after the user asks. For a slower progressive equip, follow `bootstrap-project`.
 
+**Optional — shared trunk kit** (parallel agents on one local checkout; no per-agent
+branches/worktrees/stashes; commit-all when asked). Add when that is the project's model:
+
+```bash
+npx github:naffis/loadout add \
+  git-safety no-stash shared-working-tree committing-on-shared-trunk
+```
+
+Name the integration trunk in `AGENTS.md`. This kit overrides worktree defaults in
+`orchestrating-parallel-agents` / `clear-the-queue` unless the user explicitly asks for
+worktree isolation.
+
 **Security:** skills/rules are trusted instructions. Prefer a release tag when supply chain
 matters; skim unfamiliar `SKILL.md` / `.mdc` first (`audit-external-skills`).
 

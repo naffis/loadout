@@ -16,6 +16,14 @@ the same files collide like two engineers committing to the same lines without t
 skill is the discipline for parallel work: isolate each item, cap concurrency to what you can
 actually review, and serialize the risky step (landing).
 
+## Shared-tree fork (check first)
+
+If `shared-working-tree` (and usually `no-stash` / `git-safety`) is installed: **do not** create
+per-item worktrees or branches. Keep every agent on the single local trunk checkout, never
+stash, and when the user asks to commit use `committing-on-shared-trunk`. Collision protocol:
+stop, leave the tree intact, ask. Use the worktree steps below only when that kit is **not**
+installed, or when the user explicitly asks for worktree isolation.
+
 ## When to use
 
 - A set of **independent** work items (tasks/tickets/fixes) that don't touch the same files.
@@ -114,8 +122,9 @@ For anything not landed, state exactly where it stopped, why, and what you need 
 
 ## Pairs with
 
-- skills: `agentic-loop`, `running-a-dev-cycle`, `rebasing-a-branch`, `reviewing-and-shipping`
+- skills: `agentic-loop`, `running-a-dev-cycle`, `rebasing-a-branch`, `reviewing-and-shipping`,
+  `committing-on-shared-trunk`
 - agents: `reviewer`, `security-reviewer`
-- rules: `no-shortcuts`, `commit-and-pr-conventions`
+- rules: `no-shortcuts`, `commit-and-pr-conventions`, `shared-working-tree`, `no-stash`, `git-safety`
 - workflows: `clear-the-queue`
 - docs: `agentic-patterns`

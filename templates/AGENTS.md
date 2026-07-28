@@ -25,11 +25,15 @@ Litmus test per line: "would removing this cause an agent to make a mistake?" If
 ## Workflow
 
 - Smallest safe change; follow existing patterns; verify with the test/build before claiming done.
-- Branch/PR etiquette: <branch naming> · PRs target `<integration branch>` · conventional commits.
+- Integration trunk: `<dev|main|…>`. Optional shared-tree kit: parallel agents share one local
+  trunk checkout — no per-agent branches/worktrees/stashes; when asked to commit, land all
+  eligible dirty files (`committing-on-shared-trunk`).
+- Branch/PR etiquette: <branch naming> · PRs only when explicitly asked · target `<integration branch>` · conventional commits.
 
 ## Do not
 
 - Commit secrets or PII; read them from env / secret store.
+- `git stash`, create a feature branch, or selectively stage "only my files" when the shared-tree kit is installed.
 - <project-specific footgun>
 
 > Nested `AGENTS.md` files in subdirectories override these for that area.

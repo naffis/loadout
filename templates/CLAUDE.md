@@ -6,9 +6,12 @@ causes Claude to ignore instructions. Put situational knowledge in skills instea
 ## Git safety (highest priority)
 
 Read-only git is always allowed (`status`, `diff`, `log`, `show`, `branch --list`).
-Do NOT stage, commit, branch, push, or open/merge PRs unless the user explicitly asks in
-their message. A request to MAKE a change is not permission to commit it. Leave edits as
-unstaged changes; when git work would follow, state the exact commands and let the user run them.
+Do NOT stage, commit, branch, push, stash, discard WIP, or open/merge PRs unless the user
+explicitly asks in their message. A request to MAKE a change is not permission to commit it.
+Leave edits as unstaged changes; when git work would follow, state the exact commands and let
+the user run them. If `shared-working-tree` / `no-stash` are installed: stay on one trunk
+checkout; never stash; when asked to commit, land the whole eligible tree
+(`committing-on-shared-trunk`).
 
 ## Project conventions
 

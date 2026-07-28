@@ -41,6 +41,13 @@ slower, progressive human path (baselines first, fewer assets on day one).
    ```
    Add language-specific auto-attached rules only when the stack matches (e.g. `no-any`,
    `no-floating-promises`, `typescript-exhaustive-switch` for TypeScript).
+   Optional **shared trunk kit** when multiple agents share one local checkout (no per-agent
+   branches/worktrees/stashes; commit-all on ask):
+   ```bash
+   npx github:naffis/loadout add \
+     git-safety no-stash shared-working-tree committing-on-shared-trunk
+   ```
+   Name the integration trunk in `AGENTS.md`.
 4. **Starter workflow kit** — enough to ship the first real change:
    ```bash
    npx github:naffis/loadout add \

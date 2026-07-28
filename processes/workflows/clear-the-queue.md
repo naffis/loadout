@@ -11,11 +11,16 @@ state: ".loadout/state/clear-the-queue.md"
 
 # Clear the queue
 
-Fan out independent work items across isolated git worktrees, cap concurrency to review
-bandwidth, and serialize landing. This is the named recipe around
-`orchestrating-parallel-agents` — use it when the user says "do these in parallel", "knock
-out the next N", or "clear the queue." Do **not** use it for one coupled feature (`ship-a-feature`
-/ `plan-then-build`) or one long loop (`run-autonomous-loop`).
+Fan out independent work items, cap concurrency to review bandwidth, and serialize landing.
+This is the named recipe around `orchestrating-parallel-agents` — use it when the user says
+"do these in parallel", "knock out the next N", or "clear the queue." Do **not** use it for
+one coupled feature (`ship-a-feature` / `plan-then-build`) or one long loop
+(`run-autonomous-loop`).
+
+**Shared-tree fork:** if `shared-working-tree` / `no-stash` / `git-safety` are installed, do
+**not** create per-item worktrees. Keep every agent on the single local trunk checkout and
+land with `committing-on-shared-trunk` when the user asks to commit. Equip those ids (plus
+the skill) when that is the project's parallel-agent model.
 
 **Equip note:** each parallel item still needs a per-item procedure. This `uses:` block
 includes `running-a-dev-cycle` + planning/tests/shipping primitives. If items are ordinary
@@ -31,14 +36,14 @@ parallelizing it.
    no orchestration. 2–3 → parallel. More than 3 → waves of at most 3. Never exceed the cap;
    ten unreviewed diffs are worse than two reviewed ones (`docs/agentic-patterns.md`
    over-parallelization).
-3. **Isolate** — one git worktree + branch per parallel item. Sub-agents work only in their
-   worktree path, never the main checkout. Follow `orchestrating-parallel-agents` for the
-   exact commands and prompt shape.
-4. **Launch self-contained sub-agents** — each prompt must include: absolute worktree path,
-   full task + acceptance criteria, procedure pointer (`running-a-dev-cycle` or
-   `ship-a-feature`), hard rules (`no-shortcuts`, gate must stay green, stop before landing),
-   and "edits unstaged / no merge unless the user already authorized landing." Shared
-   bookkeeping (issue tracker, PR comments) stays with the orchestrator.
+3. **Isolate** — default: one git worktree + branch per parallel item (sub-agents work only
+   in their worktree). **If `shared-working-tree` is installed:** skip worktrees; all agents
+   share the trunk checkout (see `orchestrating-parallel-agents` shared-tree fork).
+4. **Launch self-contained sub-agents** — each prompt must include: work location (worktree
+   path **or** "shared trunk checkout"), full task + acceptance criteria, procedure pointer
+   (`running-a-dev-cycle` or `ship-a-feature`), hard rules (`no-shortcuts`, gate must stay
+   green, stop before landing, never stash), and "edits unstaged / no merge unless the user
+   already authorized landing." Shared bookkeeping stays with the orchestrator.
 5. **Land serially, gated by maker≠checker** — as each item reports green:
    1. Dispatch `reviewer` (and `security-reviewer` when the item touches auth, input, data
       access, secrets, or external calls) against that item's acceptance contract.

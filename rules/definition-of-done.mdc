@@ -23,8 +23,10 @@ to a "follow-up":
   `docstrings-current`).
 - **Surfaces are registered** — if the change adds something that must be wired to be reachable
   (a route, a tool, a migration, a flag, an export), that wiring is done, not assumed.
-- **Edits are left for review** — unstaged; no commit/branch/push/PR unless the user explicitly
-  asks (`commit-and-pr-conventions`).
+- **Edits are left for review** — unstaged; no commit/branch/push/PR/stash unless the user
+  explicitly asks (`commit-and-pr-conventions`, `git-safety`, `no-stash`). When they ask to
+  commit and `shared-working-tree` is installed, land the whole eligible tree
+  (`committing-on-shared-trunk`).
 
 If you must reduce scope to stay safe, say so plainly: what you did, what you deliberately left,
 and why. "It typechecks" is not done; "the happy path works" is not done.
