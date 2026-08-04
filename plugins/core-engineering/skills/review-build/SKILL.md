@@ -7,7 +7,8 @@ description: >
   or asks to verify a finished change against a plan or original request.
   Evidence over assertion: git diff, plan/requirement trace, shortcut sweep,
   gate commands with pasted output, fix blockers/majors, final report.
-  Anti-triggers: review a plan before coding → review-plan; wrap up and ship →
+  Anti-triggers: review a plan before coding → review-plan; open plan phases
+  still Partial/Missing/Punted → complete-the-build first; wrap up and ship →
   reviewing-and-shipping; ordinary code-quality audit → reviewing-code-quality.
 ---
 
@@ -52,6 +53,11 @@ line). List every deviation from the plan; fix it or justify it in the report.
 If there is no written plan, trace against the original user request and any
 acceptance criteria stated in-session.
 
+If the trace shows material **Partial / Missing / Punted** plan rows still open,
+**stop reviewing** and hand off to `complete-the-build` (`/complete-the-build`)
+— reviewing an unfinished build is the wrong job. Resume this skill after the
+gap matrix is empty.
+
 ### 3. Shortcut sweep
 
 Search the changed files for:
@@ -85,11 +91,11 @@ On each changed file, check:
 
 List findings numbered with severity:
 
-| Severity | Meaning | Action |
-| --- | --- | --- |
-| **blocker** | Wrong, unsafe, or unverified | Fix now; re-run step 4 |
-| **major** | Likely bug or plan miss | Fix now; re-run step 4 |
-| **minor** | Quality / clarity | Fix if cheap; else leave with reason |
+| Severity    | Meaning                      | Action                               |
+| ----------- | ---------------------------- | ------------------------------------ |
+| **blocker** | Wrong, unsafe, or unverified | Fix now; re-run step 4               |
+| **major**   | Likely bug or plan miss      | Fix now; re-run step 4               |
+| **minor**   | Quality / clarity            | Fix if cheap; else leave with reason |
 
 Do not invent findings to appear thorough, and do not skip checks to appear
 done. Both are failures.
@@ -100,18 +106,25 @@ done. Both are failures.
 # Build review: <change name>
 
 ## Verdict
+
 PASS | PASS WITH NOTES | FAIL
 
 ## Requirement / plan trace
+
 | Requirement or plan step | Implemented at | Status |
-| --- | --- | --- |
+| ------------------------ | -------------- | ------ |
 
 ## Deviations from plan
+
 ## Shortcut sweep hits → fixed or justified
+
 ## Commands run
+
 | Command | Outcome |
-| --- | --- |
+| ------- | ------- |
+
 ## Findings found → fixed
+
 ## Left open (with reason) — or "none"
 ```
 
@@ -133,11 +146,12 @@ PASS | PASS WITH NOTES | FAIL
 
 ## Pairs with
 
-- skills: `review-plan`, `create-plan`, `reviewing-and-shipping`, `deslopping`,
-  `writing-tests`, `reviewing-code-quality`
+- skills: `review-plan`, `create-plan`, `complete-the-build`, `reviewing-and-shipping`,
+  `deslopping`, `simplifying-code`, `writing-tests`, `reviewing-code-quality`
 - rules: `review-build-rule`, `no-shortcuts`, `definition-of-done`,
   `regression-test`, `testing-conventions`
 - agents: `reviewer`, `security-reviewer`
 - commands: `plan` (`/plan`), `review-plan-cmd` (`/review-plan`),
+  `complete-the-build-cmd` (`/complete-the-build`),
   `review-build-cmd` (`/review-build`)
 - workflows: `plan-then-build`, `ship-a-feature`, `run-autonomous-loop`

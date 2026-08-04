@@ -10,7 +10,7 @@ done — not sit as an unordered pile.
 
 > **Status: functional.** The CLI (`init`, `add`, `list`, `update`, `diff`, `doctor`) is
 > implemented with a lockfile and three-way merge. The library is general-purpose: 2
-> Claude Code plugins (43 skills, 6 commands, 4 subagents), 32 Cursor rules, 13 workflows, 6
+> Claude Code plugins (48 skills, 11 commands, 4 subagents), 34 Cursor rules, 13 workflows, 6
 > runbooks, and templates — generalized from practice and sanitized for public use.
 > Domain/vertical-specific assets are intentionally left out. See
 > `docs/external-practices.md`, `docs/agentic-patterns.md`, and `docs/loop-engineering.md`
@@ -18,7 +18,7 @@ done — not sit as an unordered pile.
 
 ## Quick start
 
-**Agents:** if the user pastes this repo and says *use this* or *update to latest*,
+**Agents:** if the user pastes this repo and says _use this_ or _update to latest_,
 follow **[`INSTALL.md`](./INSTALL.md)** (skill mirror: `equipping-loadout`).
 
 Install into any project, then pull in what you need:
@@ -36,8 +36,10 @@ Then open the project in **Cursor** or **Claude Code** and use it:
 - **Skills** load on demand — ask in plain language ("plan a change", "fix CI"), or run
   **`/start`** to have loadout clarify the goal, pick the right workflow, and hand you a
   ready-to-run kickoff prompt.
-- **Commands** for the plan→review→build loop: **`/plan`**, **`/review-plan`**,
-  **`/review-build`** (prefer review commands in a fresh chat when stakes are high).
+- **Commands** for the plan→build→review loop: **`/plan`**, **`/review-plan`**,
+  **`/complete-the-build`**, **`/review-build`**, plus **`/do-it-right`**,
+  **`/tdd`**, **`/simplify`**, **`/session-handoff`** (prefer review commands in
+  a fresh chat when stakes are high).
 - **Workflows** (e.g. `ship-a-feature`, `plan-then-build`) compose rules, skills, and
   subagents into one named recipe.
 
@@ -52,7 +54,7 @@ vendoring? See [Consuming loadout](#consuming-loadout) below.
 
 ## Documentation
 
-- **[INSTALL.md](./INSTALL.md)** — agent contract for *use this* / *update to latest*.
+- **[INSTALL.md](./INSTALL.md)** — agent contract for _use this_ / _update to latest_.
 - **[docs/usage.md](./docs/usage.md)** — how to install loadout, how each asset type loads and how you invoke it, and how the pieces compose. Start here.
 - **[docs/catalog.md](./docs/catalog.md)** — one-line reference for every skill, rule, subagent, command, workflow, runbook, and template, with how to call each.
 - **[docs/external-practices.md](./docs/external-practices.md)** — the Anthropic/Cursor authoring conventions behind the assets.
@@ -61,11 +63,11 @@ vendoring? See [Consuming loadout](#consuming-loadout) below.
 
 ## Three distribution layers
 
-| Layer | Covers | Mechanism |
-|---|---|---|
-| **A. Claude Code plugins** | skills, commands, subagents, hooks, MCP configs | native plugin marketplace (`.claude-plugin/marketplace.json`) |
-| **B. Cursor rules + skills** | `.mdc` rules, `SKILL.md` skills | Cursor Remote Rules + shared `SKILL.md` |
-| **C. Vendored assets** | docs, processes, workflows, scaffolds, `AGENTS.md`, MCP merges | the `loadout` CLI + per-project lockfile |
+| Layer                        | Covers                                                         | Mechanism                                                     |
+| ---------------------------- | -------------------------------------------------------------- | ------------------------------------------------------------- |
+| **A. Claude Code plugins**   | skills, commands, subagents, hooks, MCP configs                | native plugin marketplace (`.claude-plugin/marketplace.json`) |
+| **B. Cursor rules + skills** | `.mdc` rules, `SKILL.md` skills                                | Cursor Remote Rules + shared `SKILL.md`                       |
+| **C. Vendored assets**       | docs, processes, workflows, scaffolds, `AGENTS.md`, MCP merges | the `loadout` CLI + per-project lockfile                      |
 
 `SKILL.md` is the portable unit — the same skill folder serves both Claude Code (via a
 plugin) and Cursor (via `.cursor/skills/`).
@@ -97,18 +99,18 @@ npx github:naffis/loadout update      # pull latest, three-way merge managed ass
 npx github:naffis/loadout doctor      # validate manifests, frontmatter, lockfile
 ```
 
-Pin consumers to release tags, not `main` — e.g. `npx github:naffis/loadout#v0.12.0 update`.
+Pin consumers to release tags, not `main` — e.g. `npx github:naffis/loadout#v0.13.0 update`.
 
 ## CLI commands
 
-| Command | Purpose |
-|---|---|
-| `loadout init` | Bootstrap a project: detect Cursor/Claude, scaffold dirs, install the SessionStart notify hook, write `loadout.lock.json` |
-| `loadout add <id...>` | Vendor assets into a project (rules → `.cursor/rules` + projected into `CLAUDE.md`; skills → `.cursor/skills`; MCP merged into `.mcp.json`/`.cursor/mcp.json`) |
-| `loadout list [--installed]` | Show available assets, or what is installed locally (with drift flags) |
-| `loadout update [--check]` | Pull latest and three-way merge managed assets; `--check` is a dry run that exits non-zero if updates exist |
-| `loadout diff <id>` | Show upstream vs local for one asset |
-| `loadout doctor` | Validate manifests, frontmatter, composition refs, orphaned files, and lockfile integrity |
+| Command                      | Purpose                                                                                                                                                        |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `loadout init`               | Bootstrap a project: detect Cursor/Claude, scaffold dirs, install the SessionStart notify hook, write `loadout.lock.json`                                      |
+| `loadout add <id...>`        | Vendor assets into a project (rules → `.cursor/rules` + projected into `CLAUDE.md`; skills → `.cursor/skills`; MCP merged into `.mcp.json`/`.cursor/mcp.json`) |
+| `loadout list [--installed]` | Show available assets, or what is installed locally (with drift flags)                                                                                         |
+| `loadout update [--check]`   | Pull latest and three-way merge managed assets; `--check` is a dry run that exits non-zero if updates exist                                                    |
+| `loadout diff <id>`          | Show upstream vs local for one asset                                                                                                                           |
+| `loadout doctor`             | Validate manifests, frontmatter, composition refs, orphaned files, and lockfile integrity                                                                      |
 
 There is no `build` command. Nothing is generated; the manifests are hand-maintained
 and `doctor` catches mistakes.

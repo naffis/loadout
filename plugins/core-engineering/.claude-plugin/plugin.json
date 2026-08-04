@@ -1,6 +1,6 @@
 {
   "name": "core-engineering",
-  "version": "0.12.0",
+  "version": "0.13.0",
   "author": { "name": "David Naffis" },
   "description": "Day-to-day engineering skills: plan, ship, review, debug, fix CI, release."
 }

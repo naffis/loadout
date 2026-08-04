@@ -1,10 +1,39 @@
 ---
 name: plan-then-build
 uses:
-  rules: [no-shortcuts, size-limits, testing-conventions, test-coverage, regression-test, documentation-updates, definition-of-done, commit-and-pr-conventions, create-plan-rule, review-plan-rule, review-build-rule]
-  skills: [create-plan, review-plan, review-build, agentic-loop, writing-tests, updating-docs, reviewing-and-shipping, writing-commit-messages, opening-a-pr, making-a-pr-reviewable]
+  rules:
+    [
+      no-shortcuts,
+      size-limits,
+      testing-conventions,
+      test-coverage,
+      regression-test,
+      documentation-updates,
+      definition-of-done,
+      commit-and-pr-conventions,
+      create-plan-rule,
+      review-plan-rule,
+      review-build-rule,
+      complete-the-build-rule,
+    ]
+  skills:
+    [
+      create-plan,
+      review-plan,
+      complete-the-build,
+      review-build,
+      agentic-loop,
+      writing-tests,
+      updating-docs,
+      reviewing-and-shipping,
+      writing-commit-messages,
+      opening-a-pr,
+      making-a-pr-reviewable,
+      simplifying-code,
+      test-driven,
+    ]
   agents: [reviewer]
-  commands: [plan, review-plan-cmd, review-build-cmd]
+  commands: [plan, review-plan-cmd, complete-the-build-cmd, review-build-cmd]
 gate: "<project typecheck + test + lint command>"
 stop_condition: "reviewed plan approved, implementation matches the plan, review-build PASS, gate green, docs updated, reviewer verdict SAFE, PR opened (if asked)"
 state: ".loadout/state/plan-then-build.md"
@@ -21,13 +50,14 @@ well-understood changes where `planning-a-change`'s short plan is enough. Prefer
 execution against a contract.
 
 Slash shortcuts: `/plan` → create the plan; `/review-plan` → stress-test it;
+`/complete-the-build` → exhaust open Partial/Missing/Punted rows;
 `/review-build` → verify the implementation. Prefer `/review-plan` and
 `/review-build` in a **fresh chat** when the stakes are high (maker ≠ checker).
 
 **Equip note:** `uses.rules` lists registry rule ids (`create-plan-rule`,
-`review-plan-rule`, `review-build-rule`) — those are what `loadout add` installs.
-The skill ids (`create-plan`, `review-plan`, `review-build`) are separate and also
-required.
+`review-plan-rule`, `complete-the-build-rule`, `review-build-rule`) — those are
+what `loadout add` installs. The skill ids (`create-plan`, `review-plan`,
+`complete-the-build`, `review-build`) are separate and also required.
 
 1. **Frame** — write the outcome, constraints, non-goals, and verifiable done-condition into
    the state file. If the repo is unfamiliar, run `onboard-to-codebase` first. Do not write
@@ -44,21 +74,27 @@ required.
    verdict is APPROVED or APPROVED WITH CONDITIONS (conditions listed and accepted).
 4. **Implement against the plan** — smallest safe change first; follow existing patterns;
    update the plan if reality diverges (the plan stays the source of truth). No side quests.
-5. **Test** — `writing-tests`: new behavior, edges, error paths (`test-coverage`); any bug
-   found mid-build gets a fail-before/pass-after test (`regression-test`).
-6. **Verify** — run the `gate`; show the evidence.
-7. **Docs in the same change** — `updating-docs` for every surface the change altered
+5. **Exhaust open rows** — if any plan phase/AC is still Partial / Missing / Punted,
+   run `complete-the-build` (`/complete-the-build`): gap matrix before coding, build to
+   empty, two clean passes (`complete-the-build-rule`). Do not jump to review-build with
+   open rows.
+6. **Test** — `writing-tests` (or `test-driven` / `/tdd` when the user wants the hard
+   loop): new behavior, edges, error paths (`test-coverage`); any bug found mid-build
+   gets a fail-before/pass-after test (`regression-test`).
+7. **Verify** — run the `gate`; show the evidence. Optional clarity pass:
+   `simplifying-code` (`/simplify`) on the diff before review.
+8. **Docs in the same change** — `updating-docs` for every surface the change altered
    (`documentation-updates`, `definition-of-done`).
-8. **Review the build** — `review-build` (`/review-build`): ground-truth diff, plan/requirement
+9. **Review the build** — `review-build` (`/review-build`): ground-truth diff, plan/requirement
    trace, shortcut sweep, gate with pasted output, fix blockers/majors. Prefer a fresh chat.
    Do not proceed on FAIL (`review-build-rule`).
-9. **Maker ≠ checker** — dispatch the `reviewer` agent on the diff **vs the approved plan**.
-   Fix correctness/intent gaps; ignore over-engineering suggestions that reopen decided ADRs
-   without new evidence.
-10. **Commit & PR** — `writing-commit-messages`, then `opening-a-pr` with a validation-first
+10. **Maker ≠ checker** — dispatch the `reviewer` agent on the diff **vs the approved plan**.
+    Fix correctness/intent gaps; ignore over-engineering suggestions that reopen decided ADRs
+    without new evidence.
+11. **Commit & PR** — `writing-commit-messages`, then `opening-a-pr` with a validation-first
     description. For a noisy/large diff, `making-a-pr-reviewable` first. Only if the user
     asked (`commit-and-pr-conventions`).
 
-Run steps 4–9 as verified loops (`agentic-loop`): stop contract, ground-truth verify, edits
+Run steps 4–10 as verified loops (`agentic-loop`): stop contract, ground-truth verify, edits
 left unstaged. Never start step 4 with an incomplete plan, never skip `review-plan` on work
 that justified `create-plan`, and never skip `review-build` before calling the change done.

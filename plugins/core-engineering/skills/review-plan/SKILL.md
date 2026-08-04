@@ -41,15 +41,15 @@ the plan artifact**.
 
 ### Pass 1 — Spec-review gate (structured risk review)
 
-| Dimension | Pass criteria |
-| --- | --- |
-| **Scope** | One clear problem; non-goals strong enough to block creep |
-| **Acceptance** | Every AC binary-testable (Given/When/Then); no subjective language |
-| **Contracts** | API/DB/job/UI contracts complete; compat + migration notes |
-| **Dependencies** | Each dependency named with fallback; no "TBD integration" |
-| **Operations** | Rollout, monitoring/alerts, and **viable rollback** (esp. stateful) |
-| **Traceability** | Every requirement → design → task → verification; no orphans |
-| **Shortcuts** | No stubs, silent deferrals, or "decide during implementation" |
+| Dimension        | Pass criteria                                                       |
+| ---------------- | ------------------------------------------------------------------- |
+| **Scope**        | One clear problem; non-goals strong enough to block creep           |
+| **Acceptance**   | Every AC binary-testable (Given/When/Then); no subjective language  |
+| **Contracts**    | API/DB/job/UI contracts complete; compat + migration notes          |
+| **Dependencies** | Each dependency named with fallback; no "TBD integration"           |
+| **Operations**   | Rollout, monitoring/alerts, and **viable rollback** (esp. stateful) |
+| **Traceability** | Every requirement → design → task → verification; no orphans        |
+| **Shortcuts**    | No stubs, silent deferrals, or "decide during implementation"       |
 
 For each item below, output **PASS or FAIL** with the evidence you checked
 (file path, plan section, or command output):
@@ -95,11 +95,11 @@ Do **new** research (do not only trust the plan's citations):
 
 Incorporate **all** P0 and P1 into the plan file. Add a **Review changelog**.
 
-| Level | Meaning | Action |
-| --- | --- | --- |
-| **P0 / BLOCKER** | Unsafe or impossible to implement correctly | Must fix before APPROVED |
-| **P1** | Likely rework or production pain | Fix in this review |
-| **P2** | Quality / clarity | Fix if cheap; else Non-goals with rationale |
+| Level            | Meaning                                     | Action                                      |
+| ---------------- | ------------------------------------------- | ------------------------------------------- |
+| **P0 / BLOCKER** | Unsafe or impossible to implement correctly | Must fix before APPROVED                    |
+| **P1**           | Likely rework or production pain            | Fix in this review                          |
+| **P2**           | Quality / clarity                           | Fix if cheap; else Non-goals with rationale |
 
 No undocumented conditions. Prefer fixing over conditioning.
 
@@ -120,9 +120,11 @@ If anything material remains, return to Pass 2–4 until the sweep is clean.
 # Plan review: <plan name>
 
 ## Verdict
+
 APPROVED | APPROVED WITH CONDITIONS | BLOCKED
 
 ## Passes completed
+
 - Pass 0 re-read: …
 - Pass 1 spec gate: … (blockers found / cleared)
 - Pass 2 fresh research: … (sources added)
@@ -131,12 +133,19 @@ APPROVED | APPROVED WITH CONDITIONS | BLOCKED
 - Pass 5 final sweep: clean | findings → fixed again
 
 ## Blockers found → resolved
+
 ## P1 fixes applied
+
 ## Fresh sources consulted
+
 | Source | URL | Takeaway |
+
 ## Pre-mortem failure narratives → mitigations
+
 ## Review changelog (plan edits)
+
 ## Conditions (only if APPROVED WITH CONDITIONS)
+
 ## Still blocked on (user choice required) — or "none"
 ```
 
@@ -158,9 +167,10 @@ APPROVED | APPROVED WITH CONDITIONS | BLOCKED
 
 ## Pairs with
 
-- skills: `create-plan`, `review-build`, `planning-a-change`, `writing-an-adr`,
-  `researching-a-dependency`
+- skills: `create-plan`, `complete-the-build`, `review-build`, `planning-a-change`,
+  `writing-an-adr`, `researching-a-dependency`
 - rules: `review-plan-rule`, `create-plan-rule`, `no-shortcuts`, `definition-of-done`
 - commands: `plan` (`/plan`), `review-plan-cmd` (`/review-plan`),
+  `complete-the-build-cmd` (`/complete-the-build`),
   `review-build-cmd` (`/review-build`)
 - workflows: `ship-a-feature`, `plan-then-build`, `run-autonomous-loop`

@@ -16,7 +16,8 @@ You have a goal but not a plan: "I want to build X", "what should I do?", "how d
 3. **Classify the work and route to a workflow:**
    - Build/change a feature (ordinary, well-understood) → **`ship-a-feature`**.
    - High-stakes / unfamiliar / multi-file with real trade-offs → **`plan-then-build`**
-     (`/plan` → `/review-plan` → implement → `/review-build`).
+     (`/plan` → `/review-plan` → implement → `/complete-the-build` when open →
+     `/review-build`).
    - Red CI / failing build → **`fix-ci-until-green`**.
    - Staging/prod failure, no local repro yet → **`debug-production`** (evidence first).
    - Immediate outage action (rollback / flag / surgical hotfix) → **`hotfix-and-rollback`**
@@ -38,6 +39,14 @@ You have a goal but not a plan: "I want to build X", "what should I do?", "how d
    - Already implemented; need evidence-first verification → **`review-build`**
      (`/review-build`), preferably in a fresh chat — or the full **`plan-then-build`**
      path if plan review is still owed too.
+   - Open plan phases still Partial/Missing/Punted → **`complete-the-build`**
+     (`/complete-the-build`) before review-build.
+   - Context dying / switching chats mid-task → **`session-handoff`**
+     (`/session-handoff`).
+   - Approved a shallow fix / "do it correctly" → **`do-it-right`** (`/do-it-right`).
+   - Want strict test-first → **`test-driven`** (`/tdd`).
+   - Large agent diff feels overbuilt → **`simplifying-code`** (`/simplify`) then
+     review-build.
    - Improve product quality by using it ("dogfood it", "review the UI", "find and fix
      issues end to end") → **`run-quality-loop`** (`exercising-the-product` for behavior,
      `reviewing-ui` for UX; `recreating-a-design` when matching a specific visual target).
@@ -70,10 +79,13 @@ Kickoff prompt:
 - workflows: `ship-a-feature`, `plan-then-build`, `onboard-to-codebase`, `fix-ci-until-green`,
   `debug-production`, `security-pass`, `clear-the-queue`, `safe-refactor`, `ship-a-migration`,
   `dependency-bump`, `cut-a-release`, `run-quality-loop`, `run-autonomous-loop`
-- skills: `planning-a-change`, `create-plan`, `review-plan`, `review-build`,
+- skills: `planning-a-change`, `create-plan`, `review-plan`, `complete-the-build`,
+  `review-build`, `session-handoff`, `do-it-right`, `test-driven`, `simplifying-code`,
   `running-a-dev-cycle`, `agentic-loop`, `equipping-loadout`
 - commands: `start` (`/start`), `plan` (`/plan`), `review-plan-cmd` (`/review-plan`),
-  `review-build-cmd` (`/review-build`)
+  `complete-the-build-cmd` (`/complete-the-build`), `review-build-cmd` (`/review-build`),
+  `session-handoff-cmd` (`/session-handoff`), `do-it-right-cmd` (`/do-it-right`),
+  `tdd-cmd` (`/tdd`), `simplify-cmd` (`/simplify`)
 - runbooks: `loop-preflight`, `harness-setup`, `bootstrap-project`, `hotfix-and-rollback`
 - templates: `automation-loop`, `state-file`
 - docs: `catalog` (the menu of everything available), `doc-install` (`INSTALL.md`)

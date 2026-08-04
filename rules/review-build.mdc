@@ -71,5 +71,6 @@ These are review failures — rewrite / re-run until none remain:
 ## Alignment
 
 Enforces `no-shortcuts`, `definition-of-done`, `regression-test`, and project
-`AGENTS.md` invariants. Pairs with `review-plan` (before coding) and
-`reviewing-and-shipping` (after a clean build review, when wrapping up).
+`AGENTS.md` invariants. Pairs with `review-plan` (before coding),
+`complete-the-build` (when open plan rows remain), and `reviewing-and-shipping`
+(after a clean build review, when wrapping up).

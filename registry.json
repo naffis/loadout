@@ -2,130 +2,2344 @@
   "version": "1.0.0",
   "source": "github:naffis/loadout",
   "assets": [
-    { "id": "getting-started", "type": "skill", "source": "plugins/core-engineering/skills/getting-started", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["planning-a-change", "create-plan", "review-plan", "review-build", "onboard-to-codebase", "loop-preflight", "running-a-dev-cycle", "agentic-loop", "bootstrap-project", "equipping-loadout", "doc-install", "hotfix-and-rollback", "plan", "review-plan-cmd", "review-build-cmd", "start"], "workflows": ["ship-a-feature", "plan-then-build", "fix-ci-until-green", "debug-production", "security-pass", "clear-the-queue", "safe-refactor", "ship-a-migration", "dependency-bump", "cut-a-release", "onboard-to-codebase", "run-autonomous-loop", "run-quality-loop"] },
-    { "id": "planning-a-change", "type": "skill", "source": "plugins/core-engineering/skills/planning-a-change", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["create-plan", "create-plan-rule", "review-plan", "review-build", "no-shortcuts", "size-limits", "reviewing-and-shipping", "plan", "review-plan-cmd", "review-build-cmd"], "workflows": ["ship-a-feature", "onboard-to-codebase", "run-autonomous-loop", "plan-then-build", "clear-the-queue"] },
-    { "id": "create-plan", "type": "skill", "source": "plugins/core-engineering/skills/create-plan", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["planning-a-change", "review-plan", "review-build", "no-shortcuts", "definition-of-done", "regression-test", "testing-conventions", "writing-an-adr", "researching-a-dependency", "running-a-dev-cycle", "writing-tests", "plan", "review-plan-cmd", "review-build-cmd"], "workflows": ["ship-a-feature", "onboard-to-codebase", "run-autonomous-loop", "plan-then-build"] },
-    { "id": "review-plan", "type": "skill", "source": "plugins/core-engineering/skills/review-plan", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["create-plan", "review-build", "planning-a-change", "review-plan-rule", "create-plan-rule", "no-shortcuts", "definition-of-done", "writing-an-adr", "researching-a-dependency", "plan", "review-plan-cmd", "review-build-cmd"], "workflows": ["ship-a-feature", "run-autonomous-loop", "plan-then-build"] },
-    { "id": "review-build", "type": "skill", "source": "plugins/core-engineering/skills/review-build", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["create-plan", "review-plan", "reviewing-and-shipping", "deslopping", "writing-tests", "reviewing-code-quality", "review-build-rule", "no-shortcuts", "definition-of-done", "regression-test", "reviewer", "plan", "review-plan-cmd", "review-build-cmd"], "workflows": ["plan-then-build", "ship-a-feature", "run-autonomous-loop"] },
-    { "id": "reviewing-and-shipping", "type": "skill", "source": "plugins/core-engineering/skills/reviewing-and-shipping", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["commit-and-pr-conventions", "regression-test", "reviewer", "deslopping", "review-build", "review-build-cmd", "committing-on-shared-trunk", "shared-working-tree", "no-stash", "git-safety"], "workflows": ["ship-a-feature", "cut-a-release", "run-autonomous-loop", "debug-production", "security-pass", "plan-then-build", "clear-the-queue", "safe-refactor", "ship-a-migration", "dependency-bump"] },
-    { "id": "writing-commit-messages", "type": "skill", "source": "plugins/core-engineering/skills/writing-commit-messages", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["commit-and-pr-conventions", "committing-on-shared-trunk"], "workflows": ["ship-a-feature", "plan-then-build", "clear-the-queue"] },
-    { "id": "committing-on-shared-trunk", "type": "skill", "source": "plugins/core-engineering/skills/committing-on-shared-trunk", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["git-safety", "no-stash", "shared-working-tree", "commit-and-pr-conventions", "writing-commit-messages", "reviewing-and-shipping"], "workflows": ["ship-a-feature", "plan-then-build", "clear-the-queue"] },
-    { "id": "opening-a-pr", "type": "skill", "source": "plugins/core-engineering/skills/opening-a-pr", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["commit-and-pr-conventions", "writing-commit-messages", "committing-on-shared-trunk", "shared-working-tree"], "workflows": ["ship-a-feature", "plan-then-build", "clear-the-queue"] },
-    { "id": "debugging-an-issue", "type": "skill", "source": "plugins/core-engineering/skills/debugging-an-issue", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["observability-first", "regression-test", "no-shortcuts", "root-cause-fix", "triaging-flaky-tests", "fixing-ci", "debugging-with-observability", "explorer"], "workflows": ["fix-ci-until-green", "debug-production"] },
-    { "id": "fixing-ci", "type": "skill", "source": "plugins/core-engineering/skills/fixing-ci", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["no-shortcuts", "triaging-flaky-tests", "ci-watcher"], "workflows": ["fix-ci-until-green", "dependency-bump"] },
-    { "id": "triaging-flaky-tests", "type": "skill", "source": "plugins/core-engineering/skills/triaging-flaky-tests", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["testing-conventions", "fixing-ci"], "workflows": ["fix-ci-until-green"] },
-    { "id": "rebasing-a-branch", "type": "skill", "source": "plugins/core-engineering/skills/rebasing-a-branch", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["lockfile-conflicts", "reviewing-and-shipping"], "workflows": ["clear-the-queue"] },
-    { "id": "reviewing-dependencies", "type": "skill", "source": "plugins/core-engineering/skills/reviewing-dependencies", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["lockfile-conflicts", "dependency-version-management"], "workflows": ["dependency-bump"] },
-    { "id": "deslopping", "type": "skill", "source": "plugins/core-engineering/skills/deslopping", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["size-limits", "no-any", "copy-voice"], "workflows": ["safe-refactor", "ship-a-feature", "plan-then-build"] },
-    { "id": "writing-a-migration", "type": "skill", "source": "plugins/core-engineering/skills/writing-a-migration", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["db-migration-safety", "testing-conventions"], "workflows": ["ship-a-migration"] },
-    { "id": "reviewing-code-quality", "type": "skill", "source": "plugins/core-engineering/skills/reviewing-code-quality", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["size-limits", "refactor-discipline", "refactoring-code", "deslopping"], "workflows": ["safe-refactor"] },
-    { "id": "refactoring-code", "type": "skill", "source": "plugins/core-engineering/skills/refactoring-code", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["refactor-discipline", "size-limits", "testing-conventions", "reviewing-code-quality"], "workflows": ["safe-refactor"] },
-    { "id": "updating-docs", "type": "skill", "source": "plugins/core-engineering/skills/updating-docs", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["documentation-updates", "docstrings-current", "writing-an-adr", "auditing-doc-freshness"], "workflows": ["ship-a-feature", "plan-then-build", "ship-a-migration", "safe-refactor"] },
-    { "id": "writing-an-adr", "type": "skill", "source": "plugins/core-engineering/skills/writing-an-adr", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["documentation-updates", "updating-docs", "planning-a-change", "create-plan"], "workflows": ["plan-then-build"] },
-    { "id": "auditing-doc-freshness", "type": "skill", "source": "plugins/core-engineering/skills/auditing-doc-freshness", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["documentation-updates", "docstrings-current", "updating-docs"] },
-    { "id": "writing-tests", "type": "skill", "source": "plugins/core-engineering/skills/writing-tests", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["testing-conventions", "test-coverage", "regression-test", "improving-test-coverage"], "workflows": ["ship-a-feature", "plan-then-build", "debug-production", "security-pass", "safe-refactor", "ship-a-migration", "dependency-bump", "clear-the-queue"] },
-    { "id": "improving-test-coverage", "type": "skill", "source": "plugins/core-engineering/skills/improving-test-coverage", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["test-coverage", "testing-conventions", "writing-tests", "triaging-flaky-tests"] },
-    { "id": "triaging-review-feedback", "type": "skill", "source": "plugins/core-engineering/skills/triaging-review-feedback", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["commit-and-pr-conventions", "reviewer"] },
-    { "id": "assessing-release-readiness", "type": "skill", "source": "plugins/core-engineering/skills/assessing-release-readiness", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["db-migration-safety", "documentation-updates", "hotfix-and-rollback"], "workflows": ["cut-a-release", "ship-a-migration"] },
-    { "id": "making-a-pr-reviewable", "type": "skill", "source": "plugins/core-engineering/skills/making-a-pr-reviewable", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["commit-and-pr-conventions", "opening-a-pr"], "workflows": ["ship-a-feature", "plan-then-build"] },
-    { "id": "summarizing-my-work", "type": "skill", "source": "plugins/core-engineering/skills/summarizing-my-work", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["weekly-review", "copy-voice"] },
-    { "id": "weekly-review", "type": "skill", "source": "plugins/core-engineering/skills/weekly-review", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["summarizing-my-work", "copy-voice"] },
-
-    { "id": "agentic-loop", "type": "skill", "source": "plugins/core-engineering/skills/agentic-loop", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["root-cause-fix", "create-plan", "planning-a-change", "reviewing-and-shipping", "orchestrating-parallel-agents", "running-a-dev-cycle", "reviewer", "explorer", "no-shortcuts", "regression-test", "definition-of-done"], "workflows": ["run-autonomous-loop", "plan-then-build", "run-quality-loop", "clear-the-queue", "ship-a-feature"] },
-    { "id": "root-cause-fix", "type": "skill", "source": "plugins/core-engineering/skills/root-cause-fix", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["debugging-an-issue", "agentic-loop", "reviewing-and-shipping", "debugging-with-observability", "regression-test", "no-shortcuts", "definition-of-done", "reviewer", "security-reviewer", "hotfix-and-rollback"], "workflows": ["run-autonomous-loop", "debug-production", "security-pass"] },
-    { "id": "agent-tool-design", "type": "skill", "source": "plugins/core-engineering/skills/agent-tool-design", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["agentic-loop", "no-regex-for-semantics", "capability-removal", "prompt-extraction"] },
-    { "id": "running-a-dev-cycle", "type": "skill", "source": "plugins/core-engineering/skills/running-a-dev-cycle", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["getting-started", "agentic-loop", "planning-a-change", "researching-a-dependency", "reviewing-and-shipping", "root-cause-fix", "writing-tests", "updating-docs", "reviewer"], "workflows": ["run-autonomous-loop", "clear-the-queue", "ship-a-feature", "plan-then-build"] },
-    { "id": "orchestrating-parallel-agents", "type": "skill", "source": "plugins/core-engineering/skills/orchestrating-parallel-agents", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["agentic-loop", "running-a-dev-cycle", "rebasing-a-branch", "reviewing-and-shipping", "reviewer", "security-reviewer", "no-shortcuts", "commit-and-pr-conventions", "shared-working-tree", "no-stash", "committing-on-shared-trunk"], "workflows": ["clear-the-queue"] },
-    { "id": "debugging-with-observability", "type": "skill", "source": "plugins/core-engineering/skills/debugging-with-observability", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["observability-first", "no-secrets-in-code", "regression-test", "debugging-an-issue", "root-cause-fix", "fixing-ci", "explorer", "hotfix-and-rollback"], "workflows": ["debug-production"] },
-    { "id": "researching-a-dependency", "type": "skill", "source": "plugins/core-engineering/skills/researching-a-dependency", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["running-a-dev-cycle", "updating-docs", "writing-an-adr", "reviewing-dependencies", "documentation-updates", "dependency-version-management"], "workflows": ["dependency-bump"] },
-    { "id": "reviewing-ui", "type": "skill", "source": "plugins/core-engineering/skills/reviewing-ui", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "provenance": { "source_repo": "generalized from internal practice", "harvested": "2026-07-04" }, "pairs_with": ["agentic-loop", "root-cause-fix", "exercising-the-product", "recreating-a-design", "ui-evidence", "no-shortcuts", "definition-of-done", "reviewer", "explorer"], "workflows": ["run-quality-loop"] },
-    { "id": "exercising-the-product", "type": "skill", "source": "plugins/core-engineering/skills/exercising-the-product", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "provenance": { "source_repo": "generalized from internal practice", "harvested": "2026-07-04" }, "pairs_with": ["agentic-loop", "root-cause-fix", "reviewing-ui", "writing-tests", "regression-test", "no-shortcuts", "definition-of-done", "ui-evidence", "reviewer", "explorer"], "workflows": ["run-quality-loop"] },
-    { "id": "recreating-a-design", "type": "skill", "source": "plugins/core-engineering/skills/recreating-a-design", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "provenance": { "source_repo": "generalized from internal practice", "harvested": "2026-07-04" }, "pairs_with": ["agentic-loop", "reviewing-ui", "root-cause-fix", "ui-evidence", "no-shortcuts"], "workflows": ["run-quality-loop"] },
-
-    { "id": "skill-author", "type": "skill", "source": "plugins/meta/skills/skill-author", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["rule-author", "learning-from-chats"] },
-    { "id": "rule-author", "type": "skill", "source": "plugins/meta/skills/rule-author", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["skill-author", "learning-from-chats"] },
-    { "id": "learning-from-chats", "type": "skill", "source": "plugins/meta/skills/learning-from-chats", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["skill-author", "rule-author", "no-secrets-in-code"] },
-    { "id": "hardening-the-harness", "type": "skill", "source": "plugins/meta/skills/hardening-the-harness", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["rule-author", "skill-author", "learning-from-chats"] },
-    { "id": "equipping-loadout", "type": "skill", "source": "plugins/meta/skills/equipping-loadout", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "skill", "pairs_with": ["getting-started", "hardening-the-harness", "skill-author", "rule-author", "audit-external-skills", "definition-of-done", "start", "doc-usage", "doc-catalog", "harness-setup", "bootstrap-project", "doc-install"] },
-
-    { "id": "changelog", "type": "command", "source": "plugins/core-engineering/commands/changelog.md", "version": "0.1.0", "managed": false, "tools": ["claude"], "layer": "command", "workflows": ["cut-a-release"] },
-    { "id": "start", "type": "command", "source": "plugins/core-engineering/commands/start.md", "version": "0.1.0", "managed": false, "tools": ["claude", "cursor"], "layer": "command", "pairs_with": ["getting-started"] },
-    { "id": "quality-loop", "type": "command", "source": "plugins/core-engineering/commands/quality-loop.md", "version": "0.1.0", "managed": false, "tools": ["claude", "cursor"], "layer": "command", "pairs_with": ["exercising-the-product", "reviewing-ui", "recreating-a-design"], "workflows": ["run-quality-loop"] },
-    { "id": "plan", "type": "command", "source": "plugins/core-engineering/commands/plan.md", "version": "0.1.0", "managed": false, "tools": ["claude", "cursor"], "layer": "command", "pairs_with": ["create-plan", "create-plan-rule", "review-plan", "no-shortcuts"], "workflows": ["plan-then-build"] },
-    { "id": "review-plan-cmd", "type": "command", "source": "plugins/core-engineering/commands/review-plan.md", "version": "0.1.0", "managed": false, "tools": ["claude", "cursor"], "layer": "command", "pairs_with": ["review-plan", "review-plan-rule", "create-plan", "no-shortcuts"], "workflows": ["plan-then-build"] },
-    { "id": "review-build-cmd", "type": "command", "source": "plugins/core-engineering/commands/review-build.md", "version": "0.1.0", "managed": false, "tools": ["claude", "cursor"], "layer": "command", "pairs_with": ["review-build", "review-build-rule", "review-plan", "no-shortcuts", "definition-of-done"], "workflows": ["plan-then-build", "ship-a-feature"] },
-
-    { "id": "reviewer", "type": "agent", "source": "plugins/core-engineering/agents/reviewer.md", "version": "0.1.0", "managed": false, "tools": ["claude", "cursor"], "layer": "agent", "pairs_with": ["reviewing-and-shipping"], "workflows": ["ship-a-feature", "run-autonomous-loop", "debug-production", "security-pass", "plan-then-build", "clear-the-queue", "safe-refactor", "ship-a-migration", "dependency-bump"] },
-    { "id": "security-reviewer", "type": "agent", "source": "plugins/core-engineering/agents/security-reviewer.md", "version": "0.1.0", "managed": false, "tools": ["claude", "cursor"], "layer": "agent", "pairs_with": ["no-secrets-in-code"], "workflows": ["security-pass", "clear-the-queue"] },
-    { "id": "explorer", "type": "agent", "source": "plugins/core-engineering/agents/explorer.md", "version": "0.1.0", "managed": false, "tools": ["claude", "cursor"], "layer": "agent", "workflows": ["onboard-to-codebase", "debug-production"] },
-    { "id": "ci-watcher", "type": "agent", "source": "plugins/core-engineering/agents/ci-watcher.md", "version": "0.1.0", "managed": false, "tools": ["claude", "cursor"], "layer": "agent", "pairs_with": ["fixing-ci"], "workflows": ["fix-ci-until-green", "dependency-bump"] },
-
-    { "id": "git-safety", "type": "cursor-rule", "source": "rules/git-safety.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule", "pairs_with": ["no-stash", "shared-working-tree", "committing-on-shared-trunk", "commit-and-pr-conventions"] },
-    { "id": "no-stash", "type": "cursor-rule", "source": "rules/no-stash.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule", "pairs_with": ["git-safety", "shared-working-tree", "committing-on-shared-trunk"] },
-    { "id": "shared-working-tree", "type": "cursor-rule", "source": "rules/shared-working-tree.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule", "pairs_with": ["git-safety", "no-stash", "committing-on-shared-trunk", "orchestrating-parallel-agents"] },
-    { "id": "no-any", "type": "cursor-rule", "source": "rules/no-any.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "no-floating-promises", "type": "cursor-rule", "source": "rules/no-floating-promises.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "no-shortcuts", "type": "cursor-rule", "source": "rules/no-shortcuts.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "size-limits", "type": "cursor-rule", "source": "rules/size-limits.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "prompt-extraction", "type": "cursor-rule", "source": "rules/prompt-extraction.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "regression-test", "type": "cursor-rule", "source": "rules/regression-test.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "refactor-discipline", "type": "cursor-rule", "source": "rules/refactor-discipline.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "testing-conventions", "type": "cursor-rule", "source": "rules/testing-conventions.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "test-coverage", "type": "cursor-rule", "source": "rules/test-coverage.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "observability-first", "type": "cursor-rule", "source": "rules/observability-first.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "documentation-updates", "type": "cursor-rule", "source": "rules/documentation-updates.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "docstrings-current", "type": "cursor-rule", "source": "rules/docstrings-current.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "commit-and-pr-conventions", "type": "cursor-rule", "source": "rules/commit-and-pr-conventions.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "copy-voice", "type": "cursor-rule", "source": "rules/copy-voice.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "no-inline-imports", "type": "cursor-rule", "source": "rules/no-inline-imports.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "typescript-exhaustive-switch", "type": "cursor-rule", "source": "rules/typescript-exhaustive-switch.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "no-secrets-in-code", "type": "cursor-rule", "source": "rules/no-secrets-in-code.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "audit-external-skills", "type": "cursor-rule", "source": "rules/audit-external-skills.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "lockfile-conflicts", "type": "cursor-rule", "source": "rules/lockfile-conflicts.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "dependency-version-management", "type": "cursor-rule", "source": "rules/dependency-version-management.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "db-migration-safety", "type": "cursor-rule", "source": "rules/db-migration-safety.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "agentic-loop-rule", "type": "cursor-rule", "source": "rules/agentic-loop.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "no-regex-for-semantics", "type": "cursor-rule", "source": "rules/no-regex-for-semantics.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "definition-of-done", "type": "cursor-rule", "source": "rules/definition-of-done.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "create-plan-rule", "type": "cursor-rule", "source": "rules/create-plan.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule", "pairs_with": ["create-plan", "review-plan", "review-build", "planning-a-change", "no-shortcuts", "definition-of-done", "plan"], "workflows": ["plan-then-build"] },
-    { "id": "review-plan-rule", "type": "cursor-rule", "source": "rules/review-plan.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule", "pairs_with": ["review-plan", "create-plan", "review-build", "no-shortcuts", "definition-of-done", "review-plan-cmd"], "workflows": ["plan-then-build"] },
-    { "id": "review-build-rule", "type": "cursor-rule", "source": "rules/review-build.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule", "pairs_with": ["review-build", "review-plan", "create-plan", "no-shortcuts", "definition-of-done", "review-build-cmd"], "workflows": ["plan-then-build", "ship-a-feature"] },
-    { "id": "capability-removal", "type": "cursor-rule", "source": "rules/capability-removal.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-    { "id": "ui-evidence", "type": "cursor-rule", "source": "rules/ui-evidence.mdc", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "rule" },
-
-    { "id": "ship-a-feature", "type": "workflow", "source": "processes/workflows/ship-a-feature.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "workflow" },
-    { "id": "fix-ci-until-green", "type": "workflow", "source": "processes/workflows/fix-ci-until-green.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "workflow" },
-    { "id": "cut-a-release", "type": "workflow", "source": "processes/workflows/cut-a-release.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "workflow" },
-    { "id": "onboard-to-codebase", "type": "workflow", "source": "processes/workflows/onboard-to-codebase.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "workflow" },
-    { "id": "run-autonomous-loop", "type": "workflow", "source": "processes/workflows/run-autonomous-loop.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "workflow" },
-    { "id": "run-quality-loop", "type": "workflow", "source": "processes/workflows/run-quality-loop.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "workflow" },
-    { "id": "debug-production", "type": "workflow", "source": "processes/workflows/debug-production.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "workflow" },
-    { "id": "security-pass", "type": "workflow", "source": "processes/workflows/security-pass.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "workflow" },
-    { "id": "plan-then-build", "type": "workflow", "source": "processes/workflows/plan-then-build.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "workflow" },
-    { "id": "clear-the-queue", "type": "workflow", "source": "processes/workflows/clear-the-queue.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "workflow" },
-    { "id": "safe-refactor", "type": "workflow", "source": "processes/workflows/safe-refactor.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "workflow" },
-    { "id": "ship-a-migration", "type": "workflow", "source": "processes/workflows/ship-a-migration.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "workflow" },
-    { "id": "dependency-bump", "type": "workflow", "source": "processes/workflows/dependency-bump.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "workflow" },
-
-    { "id": "loop-preflight", "type": "doc", "source": "processes/runbooks/loop-preflight.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "doc" },
-    { "id": "multi-plane-deploy", "type": "doc", "source": "processes/runbooks/multi-plane-deploy.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "doc" },
-    { "id": "harness-setup", "type": "doc", "source": "processes/runbooks/harness-setup.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "doc" },
-    { "id": "harness-hooks", "type": "doc", "source": "processes/runbooks/harness-hooks.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "doc" },
-    { "id": "hotfix-and-rollback", "type": "doc", "source": "processes/runbooks/hotfix-and-rollback.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "doc" },
-    { "id": "bootstrap-project", "type": "doc", "source": "processes/runbooks/bootstrap-project.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "doc" },
-
-    { "id": "template-agents-md", "type": "template", "source": "templates/AGENTS.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude", "generic"], "layer": "baseline" },
-    { "id": "template-claude-md", "type": "template", "source": "templates/CLAUDE.md", "version": "0.1.0", "managed": true, "tools": ["claude"], "layer": "baseline" },
-    { "id": "template-state-file", "type": "template", "source": "templates/STATE.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude", "generic"], "layer": "doc" },
-    { "id": "template-automation-loop", "type": "template", "source": "templates/automation-loop.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude", "generic"], "layer": "doc" },
-    { "id": "template-mcp", "type": "mcp", "source": "templates/mcp.json", "version": "0.1.0", "managed": false, "tools": ["cursor", "claude"], "layer": "mcp" },
-
-    { "id": "doc-external-practices", "type": "doc", "source": "docs/external-practices.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "doc" },
-    { "id": "doc-loop-engineering", "type": "doc", "source": "docs/loop-engineering.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "doc" },
-    { "id": "doc-agentic-patterns", "type": "doc", "source": "docs/agentic-patterns.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "doc" },
-    { "id": "doc-agent-harness-engineering", "type": "doc", "source": "docs/agent-harness-engineering.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "doc" },
-    { "id": "doc-install", "type": "doc", "source": "INSTALL.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "doc" },
-    { "id": "doc-usage", "type": "doc", "source": "docs/usage.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "doc" },
-    { "id": "doc-catalog", "type": "doc", "source": "docs/catalog.md", "version": "0.1.0", "managed": true, "tools": ["cursor", "claude"], "layer": "doc" }
+    {
+      "id": "getting-started",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/getting-started",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "planning-a-change",
+        "create-plan",
+        "review-plan",
+        "review-build",
+        "onboard-to-codebase",
+        "loop-preflight",
+        "running-a-dev-cycle",
+        "agentic-loop",
+        "bootstrap-project",
+        "equipping-loadout",
+        "doc-install",
+        "hotfix-and-rollback",
+        "plan",
+        "review-plan-cmd",
+        "review-build-cmd",
+        "start",
+        "complete-the-build",
+        "session-handoff",
+        "simplifying-code",
+        "test-driven",
+        "do-it-right"
+      ],
+      "workflows": [
+        "ship-a-feature",
+        "plan-then-build",
+        "fix-ci-until-green",
+        "debug-production",
+        "security-pass",
+        "clear-the-queue",
+        "safe-refactor",
+        "ship-a-migration",
+        "dependency-bump",
+        "cut-a-release",
+        "onboard-to-codebase",
+        "run-autonomous-loop",
+        "run-quality-loop"
+      ]
+    },
+    {
+      "id": "planning-a-change",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/planning-a-change",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "create-plan",
+        "create-plan-rule",
+        "review-plan",
+        "review-build",
+        "no-shortcuts",
+        "size-limits",
+        "reviewing-and-shipping",
+        "plan",
+        "review-plan-cmd",
+        "review-build-cmd"
+      ],
+      "workflows": [
+        "ship-a-feature",
+        "onboard-to-codebase",
+        "run-autonomous-loop",
+        "plan-then-build",
+        "clear-the-queue"
+      ]
+    },
+    {
+      "id": "create-plan",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/create-plan",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "planning-a-change",
+        "review-plan",
+        "review-build",
+        "no-shortcuts",
+        "definition-of-done",
+        "regression-test",
+        "testing-conventions",
+        "writing-an-adr",
+        "researching-a-dependency",
+        "running-a-dev-cycle",
+        "writing-tests",
+        "plan",
+        "review-plan-cmd",
+        "review-build-cmd",
+        "complete-the-build"
+      ],
+      "workflows": [
+        "ship-a-feature",
+        "onboard-to-codebase",
+        "run-autonomous-loop",
+        "plan-then-build"
+      ]
+    },
+    {
+      "id": "review-plan",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/review-plan",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "create-plan",
+        "review-build",
+        "planning-a-change",
+        "review-plan-rule",
+        "create-plan-rule",
+        "no-shortcuts",
+        "definition-of-done",
+        "writing-an-adr",
+        "researching-a-dependency",
+        "plan",
+        "review-plan-cmd",
+        "review-build-cmd",
+        "complete-the-build"
+      ],
+      "workflows": [
+        "ship-a-feature",
+        "run-autonomous-loop",
+        "plan-then-build"
+      ]
+    },
+    {
+      "id": "review-build",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/review-build",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "create-plan",
+        "review-plan",
+        "reviewing-and-shipping",
+        "deslopping",
+        "writing-tests",
+        "reviewing-code-quality",
+        "review-build-rule",
+        "no-shortcuts",
+        "definition-of-done",
+        "regression-test",
+        "reviewer",
+        "plan",
+        "review-plan-cmd",
+        "review-build-cmd",
+        "complete-the-build",
+        "simplifying-code"
+      ],
+      "workflows": [
+        "plan-then-build",
+        "ship-a-feature",
+        "run-autonomous-loop"
+      ]
+    },
+    {
+      "id": "do-it-right",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/do-it-right",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "provenance": {
+        "source_repo": "generalized from wavemaker practice",
+        "harvested": "2026-08-03"
+      },
+      "pairs_with": [
+        "do-it-right-rule",
+        "root-cause-fix",
+        "debugging-an-issue",
+        "agentic-loop",
+        "reviewing-and-shipping",
+        "no-shortcuts",
+        "regression-test",
+        "definition-of-done",
+        "do-it-right-cmd"
+      ],
+      "workflows": [
+        "debug-production",
+        "run-autonomous-loop",
+        "ship-a-feature"
+      ]
+    },
+    {
+      "id": "test-driven",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/test-driven",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "provenance": {
+        "source_repo": "generalized from wavemaker practice",
+        "harvested": "2026-08-03"
+      },
+      "pairs_with": [
+        "writing-tests",
+        "improving-test-coverage",
+        "simplifying-code",
+        "debugging-an-issue",
+        "triaging-flaky-tests",
+        "regression-test",
+        "testing-conventions",
+        "test-coverage",
+        "no-shortcuts",
+        "tdd-cmd"
+      ],
+      "workflows": [
+        "ship-a-feature",
+        "plan-then-build",
+        "safe-refactor"
+      ]
+    },
+    {
+      "id": "simplifying-code",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/simplifying-code",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "provenance": {
+        "source_repo": "generalized from wavemaker practice",
+        "harvested": "2026-08-03"
+      },
+      "pairs_with": [
+        "deslopping",
+        "refactoring-code",
+        "review-build",
+        "reviewing-code-quality",
+        "writing-tests",
+        "no-shortcuts",
+        "refactor-discipline",
+        "size-limits",
+        "simplify-cmd"
+      ],
+      "workflows": [
+        "plan-then-build",
+        "ship-a-feature",
+        "safe-refactor"
+      ]
+    },
+    {
+      "id": "session-handoff",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/session-handoff",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "provenance": {
+        "source_repo": "generalized from wavemaker practice",
+        "harvested": "2026-08-03"
+      },
+      "pairs_with": [
+        "complete-the-build",
+        "agentic-loop",
+        "create-plan",
+        "summarizing-my-work",
+        "git-safety",
+        "no-shortcuts",
+        "shared-working-tree",
+        "session-handoff-cmd"
+      ],
+      "workflows": [
+        "plan-then-build",
+        "run-autonomous-loop"
+      ]
+    },
+    {
+      "id": "complete-the-build",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/complete-the-build",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "provenance": {
+        "source_repo": "generalized from wavemaker practice",
+        "harvested": "2026-08-03"
+      },
+      "pairs_with": [
+        "create-plan",
+        "review-plan",
+        "review-build",
+        "complete-the-build-rule",
+        "agentic-loop",
+        "writing-tests",
+        "updating-docs",
+        "no-shortcuts",
+        "definition-of-done",
+        "complete-the-build-cmd",
+        "plan",
+        "review-build-cmd"
+      ],
+      "workflows": [
+        "plan-then-build",
+        "ship-a-feature",
+        "run-autonomous-loop"
+      ]
+    },
+    {
+      "id": "reviewing-and-shipping",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/reviewing-and-shipping",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "commit-and-pr-conventions",
+        "regression-test",
+        "reviewer",
+        "deslopping",
+        "review-build",
+        "review-build-cmd",
+        "committing-on-shared-trunk",
+        "shared-working-tree",
+        "no-stash",
+        "git-safety"
+      ],
+      "workflows": [
+        "ship-a-feature",
+        "cut-a-release",
+        "run-autonomous-loop",
+        "debug-production",
+        "security-pass",
+        "plan-then-build",
+        "clear-the-queue",
+        "safe-refactor",
+        "ship-a-migration",
+        "dependency-bump"
+      ]
+    },
+    {
+      "id": "writing-commit-messages",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/writing-commit-messages",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "commit-and-pr-conventions",
+        "committing-on-shared-trunk"
+      ],
+      "workflows": [
+        "ship-a-feature",
+        "plan-then-build",
+        "clear-the-queue"
+      ]
+    },
+    {
+      "id": "committing-on-shared-trunk",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/committing-on-shared-trunk",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "git-safety",
+        "no-stash",
+        "shared-working-tree",
+        "commit-and-pr-conventions",
+        "writing-commit-messages",
+        "reviewing-and-shipping"
+      ],
+      "workflows": [
+        "ship-a-feature",
+        "plan-then-build",
+        "clear-the-queue"
+      ]
+    },
+    {
+      "id": "opening-a-pr",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/opening-a-pr",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "commit-and-pr-conventions",
+        "writing-commit-messages",
+        "committing-on-shared-trunk",
+        "shared-working-tree"
+      ],
+      "workflows": [
+        "ship-a-feature",
+        "plan-then-build",
+        "clear-the-queue"
+      ]
+    },
+    {
+      "id": "debugging-an-issue",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/debugging-an-issue",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "observability-first",
+        "regression-test",
+        "no-shortcuts",
+        "root-cause-fix",
+        "triaging-flaky-tests",
+        "fixing-ci",
+        "debugging-with-observability",
+        "explorer",
+        "do-it-right"
+      ],
+      "workflows": [
+        "fix-ci-until-green",
+        "debug-production"
+      ]
+    },
+    {
+      "id": "fixing-ci",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/fixing-ci",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "no-shortcuts",
+        "triaging-flaky-tests",
+        "ci-watcher"
+      ],
+      "workflows": [
+        "fix-ci-until-green",
+        "dependency-bump"
+      ]
+    },
+    {
+      "id": "triaging-flaky-tests",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/triaging-flaky-tests",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "testing-conventions",
+        "fixing-ci"
+      ],
+      "workflows": [
+        "fix-ci-until-green"
+      ]
+    },
+    {
+      "id": "rebasing-a-branch",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/rebasing-a-branch",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "lockfile-conflicts",
+        "reviewing-and-shipping"
+      ],
+      "workflows": [
+        "clear-the-queue"
+      ]
+    },
+    {
+      "id": "reviewing-dependencies",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/reviewing-dependencies",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "lockfile-conflicts",
+        "dependency-version-management"
+      ],
+      "workflows": [
+        "dependency-bump"
+      ]
+    },
+    {
+      "id": "deslopping",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/deslopping",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "size-limits",
+        "no-any",
+        "copy-voice",
+        "simplifying-code"
+      ],
+      "workflows": [
+        "safe-refactor",
+        "ship-a-feature",
+        "plan-then-build"
+      ]
+    },
+    {
+      "id": "writing-a-migration",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/writing-a-migration",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "db-migration-safety",
+        "testing-conventions"
+      ],
+      "workflows": [
+        "ship-a-migration"
+      ]
+    },
+    {
+      "id": "reviewing-code-quality",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/reviewing-code-quality",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "size-limits",
+        "refactor-discipline",
+        "refactoring-code",
+        "deslopping"
+      ],
+      "workflows": [
+        "safe-refactor"
+      ]
+    },
+    {
+      "id": "refactoring-code",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/refactoring-code",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "refactor-discipline",
+        "size-limits",
+        "testing-conventions",
+        "reviewing-code-quality"
+      ],
+      "workflows": [
+        "safe-refactor"
+      ]
+    },
+    {
+      "id": "updating-docs",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/updating-docs",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "documentation-updates",
+        "docstrings-current",
+        "writing-an-adr",
+        "auditing-doc-freshness"
+      ],
+      "workflows": [
+        "ship-a-feature",
+        "plan-then-build",
+        "ship-a-migration",
+        "safe-refactor"
+      ]
+    },
+    {
+      "id": "writing-an-adr",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/writing-an-adr",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "documentation-updates",
+        "updating-docs",
+        "planning-a-change",
+        "create-plan"
+      ],
+      "workflows": [
+        "plan-then-build"
+      ]
+    },
+    {
+      "id": "auditing-doc-freshness",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/auditing-doc-freshness",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "documentation-updates",
+        "docstrings-current",
+        "updating-docs"
+      ]
+    },
+    {
+      "id": "writing-tests",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/writing-tests",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "testing-conventions",
+        "test-coverage",
+        "regression-test",
+        "improving-test-coverage",
+        "test-driven"
+      ],
+      "workflows": [
+        "ship-a-feature",
+        "plan-then-build",
+        "debug-production",
+        "security-pass",
+        "safe-refactor",
+        "ship-a-migration",
+        "dependency-bump",
+        "clear-the-queue"
+      ]
+    },
+    {
+      "id": "improving-test-coverage",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/improving-test-coverage",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "test-coverage",
+        "testing-conventions",
+        "writing-tests",
+        "triaging-flaky-tests"
+      ]
+    },
+    {
+      "id": "triaging-review-feedback",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/triaging-review-feedback",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "commit-and-pr-conventions",
+        "reviewer"
+      ]
+    },
+    {
+      "id": "assessing-release-readiness",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/assessing-release-readiness",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "db-migration-safety",
+        "documentation-updates",
+        "hotfix-and-rollback"
+      ],
+      "workflows": [
+        "cut-a-release",
+        "ship-a-migration"
+      ]
+    },
+    {
+      "id": "making-a-pr-reviewable",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/making-a-pr-reviewable",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "commit-and-pr-conventions",
+        "opening-a-pr"
+      ],
+      "workflows": [
+        "ship-a-feature",
+        "plan-then-build"
+      ]
+    },
+    {
+      "id": "summarizing-my-work",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/summarizing-my-work",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "weekly-review",
+        "copy-voice"
+      ]
+    },
+    {
+      "id": "weekly-review",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/weekly-review",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "summarizing-my-work",
+        "copy-voice"
+      ]
+    },
+    {
+      "id": "agentic-loop",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/agentic-loop",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "root-cause-fix",
+        "create-plan",
+        "planning-a-change",
+        "reviewing-and-shipping",
+        "orchestrating-parallel-agents",
+        "running-a-dev-cycle",
+        "reviewer",
+        "explorer",
+        "no-shortcuts",
+        "regression-test",
+        "definition-of-done"
+      ],
+      "workflows": [
+        "run-autonomous-loop",
+        "plan-then-build",
+        "run-quality-loop",
+        "clear-the-queue",
+        "ship-a-feature"
+      ]
+    },
+    {
+      "id": "root-cause-fix",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/root-cause-fix",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "debugging-an-issue",
+        "agentic-loop",
+        "reviewing-and-shipping",
+        "debugging-with-observability",
+        "regression-test",
+        "no-shortcuts",
+        "definition-of-done",
+        "reviewer",
+        "security-reviewer",
+        "hotfix-and-rollback",
+        "do-it-right"
+      ],
+      "workflows": [
+        "run-autonomous-loop",
+        "debug-production",
+        "security-pass"
+      ]
+    },
+    {
+      "id": "agent-tool-design",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/agent-tool-design",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "agentic-loop",
+        "no-regex-for-semantics",
+        "capability-removal",
+        "prompt-extraction"
+      ]
+    },
+    {
+      "id": "running-a-dev-cycle",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/running-a-dev-cycle",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "getting-started",
+        "agentic-loop",
+        "planning-a-change",
+        "researching-a-dependency",
+        "reviewing-and-shipping",
+        "root-cause-fix",
+        "writing-tests",
+        "updating-docs",
+        "reviewer"
+      ],
+      "workflows": [
+        "run-autonomous-loop",
+        "clear-the-queue",
+        "ship-a-feature",
+        "plan-then-build"
+      ]
+    },
+    {
+      "id": "orchestrating-parallel-agents",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/orchestrating-parallel-agents",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "agentic-loop",
+        "running-a-dev-cycle",
+        "rebasing-a-branch",
+        "reviewing-and-shipping",
+        "reviewer",
+        "security-reviewer",
+        "no-shortcuts",
+        "commit-and-pr-conventions",
+        "shared-working-tree",
+        "no-stash",
+        "committing-on-shared-trunk"
+      ],
+      "workflows": [
+        "clear-the-queue"
+      ]
+    },
+    {
+      "id": "debugging-with-observability",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/debugging-with-observability",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "observability-first",
+        "no-secrets-in-code",
+        "regression-test",
+        "debugging-an-issue",
+        "root-cause-fix",
+        "fixing-ci",
+        "explorer",
+        "hotfix-and-rollback"
+      ],
+      "workflows": [
+        "debug-production"
+      ]
+    },
+    {
+      "id": "researching-a-dependency",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/researching-a-dependency",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "running-a-dev-cycle",
+        "updating-docs",
+        "writing-an-adr",
+        "reviewing-dependencies",
+        "documentation-updates",
+        "dependency-version-management"
+      ],
+      "workflows": [
+        "dependency-bump"
+      ]
+    },
+    {
+      "id": "reviewing-ui",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/reviewing-ui",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "provenance": {
+        "source_repo": "generalized from internal practice",
+        "harvested": "2026-07-04"
+      },
+      "pairs_with": [
+        "agentic-loop",
+        "root-cause-fix",
+        "exercising-the-product",
+        "recreating-a-design",
+        "ui-evidence",
+        "no-shortcuts",
+        "definition-of-done",
+        "reviewer",
+        "explorer"
+      ],
+      "workflows": [
+        "run-quality-loop"
+      ]
+    },
+    {
+      "id": "exercising-the-product",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/exercising-the-product",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "provenance": {
+        "source_repo": "generalized from internal practice",
+        "harvested": "2026-07-04"
+      },
+      "pairs_with": [
+        "agentic-loop",
+        "root-cause-fix",
+        "reviewing-ui",
+        "writing-tests",
+        "regression-test",
+        "no-shortcuts",
+        "definition-of-done",
+        "ui-evidence",
+        "reviewer",
+        "explorer"
+      ],
+      "workflows": [
+        "run-quality-loop"
+      ]
+    },
+    {
+      "id": "recreating-a-design",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/recreating-a-design",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "provenance": {
+        "source_repo": "generalized from internal practice",
+        "harvested": "2026-07-04"
+      },
+      "pairs_with": [
+        "agentic-loop",
+        "reviewing-ui",
+        "root-cause-fix",
+        "ui-evidence",
+        "no-shortcuts"
+      ],
+      "workflows": [
+        "run-quality-loop"
+      ]
+    },
+    {
+      "id": "skill-author",
+      "type": "skill",
+      "source": "plugins/meta/skills/skill-author",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "rule-author",
+        "learning-from-chats"
+      ]
+    },
+    {
+      "id": "rule-author",
+      "type": "skill",
+      "source": "plugins/meta/skills/rule-author",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "skill-author",
+        "learning-from-chats"
+      ]
+    },
+    {
+      "id": "learning-from-chats",
+      "type": "skill",
+      "source": "plugins/meta/skills/learning-from-chats",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "skill-author",
+        "rule-author",
+        "no-secrets-in-code"
+      ]
+    },
+    {
+      "id": "hardening-the-harness",
+      "type": "skill",
+      "source": "plugins/meta/skills/hardening-the-harness",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "rule-author",
+        "skill-author",
+        "learning-from-chats"
+      ]
+    },
+    {
+      "id": "equipping-loadout",
+      "type": "skill",
+      "source": "plugins/meta/skills/equipping-loadout",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "getting-started",
+        "hardening-the-harness",
+        "skill-author",
+        "rule-author",
+        "audit-external-skills",
+        "definition-of-done",
+        "start",
+        "doc-usage",
+        "doc-catalog",
+        "harness-setup",
+        "bootstrap-project",
+        "doc-install"
+      ]
+    },
+    {
+      "id": "changelog",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/changelog.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": [
+        "claude"
+      ],
+      "layer": "command",
+      "workflows": [
+        "cut-a-release"
+      ]
+    },
+    {
+      "id": "start",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/start.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": [
+        "claude",
+        "cursor"
+      ],
+      "layer": "command",
+      "pairs_with": [
+        "getting-started"
+      ]
+    },
+    {
+      "id": "quality-loop",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/quality-loop.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": [
+        "claude",
+        "cursor"
+      ],
+      "layer": "command",
+      "pairs_with": [
+        "exercising-the-product",
+        "reviewing-ui",
+        "recreating-a-design"
+      ],
+      "workflows": [
+        "run-quality-loop"
+      ]
+    },
+    {
+      "id": "plan",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/plan.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": [
+        "claude",
+        "cursor"
+      ],
+      "layer": "command",
+      "pairs_with": [
+        "create-plan",
+        "create-plan-rule",
+        "review-plan",
+        "no-shortcuts"
+      ],
+      "workflows": [
+        "plan-then-build"
+      ]
+    },
+    {
+      "id": "review-plan-cmd",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/review-plan.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": [
+        "claude",
+        "cursor"
+      ],
+      "layer": "command",
+      "pairs_with": [
+        "review-plan",
+        "review-plan-rule",
+        "create-plan",
+        "no-shortcuts"
+      ],
+      "workflows": [
+        "plan-then-build"
+      ]
+    },
+    {
+      "id": "review-build-cmd",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/review-build.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": [
+        "claude",
+        "cursor"
+      ],
+      "layer": "command",
+      "pairs_with": [
+        "review-build",
+        "review-build-rule",
+        "review-plan",
+        "no-shortcuts",
+        "definition-of-done"
+      ],
+      "workflows": [
+        "plan-then-build",
+        "ship-a-feature"
+      ]
+    },
+    {
+      "id": "do-it-right-cmd",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/do-it-right.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": [
+        "claude",
+        "cursor"
+      ],
+      "layer": "command",
+      "pairs_with": [
+        "do-it-right",
+        "do-it-right-rule",
+        "root-cause-fix",
+        "debugging-an-issue"
+      ]
+    },
+    {
+      "id": "tdd-cmd",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/tdd.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": [
+        "claude",
+        "cursor"
+      ],
+      "layer": "command",
+      "pairs_with": [
+        "test-driven",
+        "writing-tests",
+        "regression-test"
+      ]
+    },
+    {
+      "id": "simplify-cmd",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/simplify.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": [
+        "claude",
+        "cursor"
+      ],
+      "layer": "command",
+      "pairs_with": [
+        "simplifying-code",
+        "deslopping",
+        "review-build"
+      ]
+    },
+    {
+      "id": "session-handoff-cmd",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/session-handoff.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": [
+        "claude",
+        "cursor"
+      ],
+      "layer": "command",
+      "pairs_with": [
+        "session-handoff"
+      ]
+    },
+    {
+      "id": "complete-the-build-cmd",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/complete-the-build.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": [
+        "claude",
+        "cursor"
+      ],
+      "layer": "command",
+      "pairs_with": [
+        "complete-the-build",
+        "complete-the-build-rule",
+        "review-build"
+      ],
+      "workflows": [
+        "plan-then-build"
+      ]
+    },
+    {
+      "id": "reviewer",
+      "type": "agent",
+      "source": "plugins/core-engineering/agents/reviewer.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": [
+        "claude",
+        "cursor"
+      ],
+      "layer": "agent",
+      "pairs_with": [
+        "reviewing-and-shipping"
+      ],
+      "workflows": [
+        "ship-a-feature",
+        "run-autonomous-loop",
+        "debug-production",
+        "security-pass",
+        "plan-then-build",
+        "clear-the-queue",
+        "safe-refactor",
+        "ship-a-migration",
+        "dependency-bump"
+      ]
+    },
+    {
+      "id": "security-reviewer",
+      "type": "agent",
+      "source": "plugins/core-engineering/agents/security-reviewer.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": [
+        "claude",
+        "cursor"
+      ],
+      "layer": "agent",
+      "pairs_with": [
+        "no-secrets-in-code"
+      ],
+      "workflows": [
+        "security-pass",
+        "clear-the-queue"
+      ]
+    },
+    {
+      "id": "explorer",
+      "type": "agent",
+      "source": "plugins/core-engineering/agents/explorer.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": [
+        "claude",
+        "cursor"
+      ],
+      "layer": "agent",
+      "workflows": [
+        "onboard-to-codebase",
+        "debug-production"
+      ]
+    },
+    {
+      "id": "ci-watcher",
+      "type": "agent",
+      "source": "plugins/core-engineering/agents/ci-watcher.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": [
+        "claude",
+        "cursor"
+      ],
+      "layer": "agent",
+      "pairs_with": [
+        "fixing-ci"
+      ],
+      "workflows": [
+        "fix-ci-until-green",
+        "dependency-bump"
+      ]
+    },
+    {
+      "id": "git-safety",
+      "type": "cursor-rule",
+      "source": "rules/git-safety.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule",
+      "pairs_with": [
+        "no-stash",
+        "shared-working-tree",
+        "committing-on-shared-trunk",
+        "commit-and-pr-conventions"
+      ]
+    },
+    {
+      "id": "no-stash",
+      "type": "cursor-rule",
+      "source": "rules/no-stash.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule",
+      "pairs_with": [
+        "git-safety",
+        "shared-working-tree",
+        "committing-on-shared-trunk"
+      ]
+    },
+    {
+      "id": "shared-working-tree",
+      "type": "cursor-rule",
+      "source": "rules/shared-working-tree.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule",
+      "pairs_with": [
+        "git-safety",
+        "no-stash",
+        "committing-on-shared-trunk",
+        "orchestrating-parallel-agents"
+      ]
+    },
+    {
+      "id": "no-any",
+      "type": "cursor-rule",
+      "source": "rules/no-any.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "no-floating-promises",
+      "type": "cursor-rule",
+      "source": "rules/no-floating-promises.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "no-shortcuts",
+      "type": "cursor-rule",
+      "source": "rules/no-shortcuts.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "size-limits",
+      "type": "cursor-rule",
+      "source": "rules/size-limits.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "prompt-extraction",
+      "type": "cursor-rule",
+      "source": "rules/prompt-extraction.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "regression-test",
+      "type": "cursor-rule",
+      "source": "rules/regression-test.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "refactor-discipline",
+      "type": "cursor-rule",
+      "source": "rules/refactor-discipline.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "testing-conventions",
+      "type": "cursor-rule",
+      "source": "rules/testing-conventions.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "test-coverage",
+      "type": "cursor-rule",
+      "source": "rules/test-coverage.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "observability-first",
+      "type": "cursor-rule",
+      "source": "rules/observability-first.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "documentation-updates",
+      "type": "cursor-rule",
+      "source": "rules/documentation-updates.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "docstrings-current",
+      "type": "cursor-rule",
+      "source": "rules/docstrings-current.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "commit-and-pr-conventions",
+      "type": "cursor-rule",
+      "source": "rules/commit-and-pr-conventions.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "copy-voice",
+      "type": "cursor-rule",
+      "source": "rules/copy-voice.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "no-inline-imports",
+      "type": "cursor-rule",
+      "source": "rules/no-inline-imports.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "typescript-exhaustive-switch",
+      "type": "cursor-rule",
+      "source": "rules/typescript-exhaustive-switch.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "no-secrets-in-code",
+      "type": "cursor-rule",
+      "source": "rules/no-secrets-in-code.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "audit-external-skills",
+      "type": "cursor-rule",
+      "source": "rules/audit-external-skills.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "lockfile-conflicts",
+      "type": "cursor-rule",
+      "source": "rules/lockfile-conflicts.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "dependency-version-management",
+      "type": "cursor-rule",
+      "source": "rules/dependency-version-management.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "db-migration-safety",
+      "type": "cursor-rule",
+      "source": "rules/db-migration-safety.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "agentic-loop-rule",
+      "type": "cursor-rule",
+      "source": "rules/agentic-loop.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "no-regex-for-semantics",
+      "type": "cursor-rule",
+      "source": "rules/no-regex-for-semantics.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "definition-of-done",
+      "type": "cursor-rule",
+      "source": "rules/definition-of-done.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "create-plan-rule",
+      "type": "cursor-rule",
+      "source": "rules/create-plan.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule",
+      "pairs_with": [
+        "create-plan",
+        "review-plan",
+        "review-build",
+        "planning-a-change",
+        "no-shortcuts",
+        "definition-of-done",
+        "plan"
+      ],
+      "workflows": [
+        "plan-then-build"
+      ]
+    },
+    {
+      "id": "review-plan-rule",
+      "type": "cursor-rule",
+      "source": "rules/review-plan.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule",
+      "pairs_with": [
+        "review-plan",
+        "create-plan",
+        "review-build",
+        "no-shortcuts",
+        "definition-of-done",
+        "review-plan-cmd"
+      ],
+      "workflows": [
+        "plan-then-build"
+      ]
+    },
+    {
+      "id": "review-build-rule",
+      "type": "cursor-rule",
+      "source": "rules/review-build.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule",
+      "pairs_with": [
+        "review-build",
+        "review-plan",
+        "create-plan",
+        "no-shortcuts",
+        "definition-of-done",
+        "review-build-cmd"
+      ],
+      "workflows": [
+        "plan-then-build",
+        "ship-a-feature"
+      ]
+    },
+    {
+      "id": "do-it-right-rule",
+      "type": "cursor-rule",
+      "source": "rules/do-it-right.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule",
+      "pairs_with": [
+        "do-it-right",
+        "root-cause-fix",
+        "debugging-an-issue",
+        "no-shortcuts",
+        "regression-test",
+        "do-it-right-cmd"
+      ],
+      "workflows": [
+        "debug-production",
+        "ship-a-feature"
+      ]
+    },
+    {
+      "id": "complete-the-build-rule",
+      "type": "cursor-rule",
+      "source": "rules/complete-the-build.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule",
+      "pairs_with": [
+        "complete-the-build",
+        "review-build",
+        "create-plan",
+        "no-shortcuts",
+        "definition-of-done",
+        "complete-the-build-cmd"
+      ],
+      "workflows": [
+        "plan-then-build"
+      ]
+    },
+    {
+      "id": "capability-removal",
+      "type": "cursor-rule",
+      "source": "rules/capability-removal.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "ui-evidence",
+      "type": "cursor-rule",
+      "source": "rules/ui-evidence.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule"
+    },
+    {
+      "id": "ship-a-feature",
+      "type": "workflow",
+      "source": "processes/workflows/ship-a-feature.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "workflow"
+    },
+    {
+      "id": "fix-ci-until-green",
+      "type": "workflow",
+      "source": "processes/workflows/fix-ci-until-green.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "workflow"
+    },
+    {
+      "id": "cut-a-release",
+      "type": "workflow",
+      "source": "processes/workflows/cut-a-release.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "workflow"
+    },
+    {
+      "id": "onboard-to-codebase",
+      "type": "workflow",
+      "source": "processes/workflows/onboard-to-codebase.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "workflow"
+    },
+    {
+      "id": "run-autonomous-loop",
+      "type": "workflow",
+      "source": "processes/workflows/run-autonomous-loop.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "workflow"
+    },
+    {
+      "id": "run-quality-loop",
+      "type": "workflow",
+      "source": "processes/workflows/run-quality-loop.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "workflow"
+    },
+    {
+      "id": "debug-production",
+      "type": "workflow",
+      "source": "processes/workflows/debug-production.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "workflow"
+    },
+    {
+      "id": "security-pass",
+      "type": "workflow",
+      "source": "processes/workflows/security-pass.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "workflow"
+    },
+    {
+      "id": "plan-then-build",
+      "type": "workflow",
+      "source": "processes/workflows/plan-then-build.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "workflow"
+    },
+    {
+      "id": "clear-the-queue",
+      "type": "workflow",
+      "source": "processes/workflows/clear-the-queue.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "workflow"
+    },
+    {
+      "id": "safe-refactor",
+      "type": "workflow",
+      "source": "processes/workflows/safe-refactor.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "workflow"
+    },
+    {
+      "id": "ship-a-migration",
+      "type": "workflow",
+      "source": "processes/workflows/ship-a-migration.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "workflow"
+    },
+    {
+      "id": "dependency-bump",
+      "type": "workflow",
+      "source": "processes/workflows/dependency-bump.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "workflow"
+    },
+    {
+      "id": "loop-preflight",
+      "type": "doc",
+      "source": "processes/runbooks/loop-preflight.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "doc"
+    },
+    {
+      "id": "multi-plane-deploy",
+      "type": "doc",
+      "source": "processes/runbooks/multi-plane-deploy.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "doc"
+    },
+    {
+      "id": "harness-setup",
+      "type": "doc",
+      "source": "processes/runbooks/harness-setup.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "doc"
+    },
+    {
+      "id": "harness-hooks",
+      "type": "doc",
+      "source": "processes/runbooks/harness-hooks.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "doc"
+    },
+    {
+      "id": "hotfix-and-rollback",
+      "type": "doc",
+      "source": "processes/runbooks/hotfix-and-rollback.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "doc"
+    },
+    {
+      "id": "bootstrap-project",
+      "type": "doc",
+      "source": "processes/runbooks/bootstrap-project.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "doc"
+    },
+    {
+      "id": "template-agents-md",
+      "type": "template",
+      "source": "templates/AGENTS.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude",
+        "generic"
+      ],
+      "layer": "baseline"
+    },
+    {
+      "id": "template-claude-md",
+      "type": "template",
+      "source": "templates/CLAUDE.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "claude"
+      ],
+      "layer": "baseline"
+    },
+    {
+      "id": "template-state-file",
+      "type": "template",
+      "source": "templates/STATE.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude",
+        "generic"
+      ],
+      "layer": "doc"
+    },
+    {
+      "id": "template-automation-loop",
+      "type": "template",
+      "source": "templates/automation-loop.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude",
+        "generic"
+      ],
+      "layer": "doc"
+    },
+    {
+      "id": "template-mcp",
+      "type": "mcp",
+      "source": "templates/mcp.json",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "mcp"
+    },
+    {
+      "id": "doc-external-practices",
+      "type": "doc",
+      "source": "docs/external-practices.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "doc"
+    },
+    {
+      "id": "doc-loop-engineering",
+      "type": "doc",
+      "source": "docs/loop-engineering.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "doc"
+    },
+    {
+      "id": "doc-agentic-patterns",
+      "type": "doc",
+      "source": "docs/agentic-patterns.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "doc"
+    },
+    {
+      "id": "doc-agent-harness-engineering",
+      "type": "doc",
+      "source": "docs/agent-harness-engineering.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "doc"
+    },
+    {
+      "id": "doc-install",
+      "type": "doc",
+      "source": "INSTALL.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "doc"
+    },
+    {
+      "id": "doc-usage",
+      "type": "doc",
+      "source": "docs/usage.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "doc"
+    },
+    {
+      "id": "doc-catalog",
+      "type": "doc",
+      "source": "docs/catalog.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "doc"
+    }
   ]
 }

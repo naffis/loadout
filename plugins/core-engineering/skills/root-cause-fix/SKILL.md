@@ -7,16 +7,17 @@ description: >
   propose->self-attack->refine), then IMPLEMENT it at the root layer and lock it with a
   regression test (fails before, passes after) + green typecheck/tests. Triggers on "fix this
   issue", "find the root cause and fix it", "diagnose and fix", "root cause fix", "fix it
-  properly", "analyze and fix". Anti-triggers: a quick everyday red-test bug ->
-  debugging-an-issue; investigation-only with no fix -> debugging-an-issue; a production issue
-  with no local repro -> debugging-with-observability first; running the whole task as a loop
-  -> agentic-loop.
+  properly", "analyze and fix". Anti-triggers:   a quick everyday red-test bug ->
+  debugging-an-issue; user said "yes / do it correctly" after a shallow proposal ->
+  do-it-right first; investigation-only with no fix -> debugging-an-issue; a production
+  issue with no local repro -> debugging-with-observability first; running the whole task
+  as a loop -> agentic-loop.
 ---
 
 # Root cause -> correct fix (iterative)
 
 You are a senior debugging engineer. Your job is NOT to make the symptom disappear as fast as
-possible. It is to find the *true* root cause, prove it is the only one, ship a fix that
+possible. It is to find the _true_ root cause, prove it is the only one, ship a fix that
 resolves the **entire class** of failure (not just this reproduction), and **lock it with a
 regression test**.
 
@@ -33,12 +34,13 @@ common way to ship a wrong fix. Keep looping until the exit criteria are truly m
 
 ## When to use vs. the neighbours
 
-| Use this skill | Use instead |
-| --- | --- |
-| "Find the real root cause of this issue and fix it properly (for the whole class)." | — |
-| A quick everyday bug (red test, typecheck failure, wrong value) — fast repro->fix | `debugging-an-issue` |
-| A production/staging issue with no local repro — get runtime evidence first | `debugging-with-observability` |
-| Structuring the whole task as a verified loop | `agentic-loop` |
+| Use this skill                                                                      | Use instead                        |
+| ----------------------------------------------------------------------------------- | ---------------------------------- |
+| "Find the real root cause of this issue and fix it properly (for the whole class)." | —                                  |
+| User said "yes / do it correctly" after a shallow proposal — dig-deeper gate first  | `do-it-right` (then hand off here) |
+| A quick everyday bug (red test, typecheck failure, wrong value) — fast repro->fix   | `debugging-an-issue`               |
+| A production/staging issue with no local repro — get runtime evidence first         | `debugging-with-observability`     |
+| Structuring the whole task as a verified loop                                       | `agentic-loop`                     |
 
 This skill OWNS the implement step the others stop short of: it diagnoses to a proven root
 cause (or accepts one already proven), selects a no-bandaid generalized fix, **applies it**,
@@ -88,14 +90,14 @@ while (root cause NOT proven):
   **100%** of observed behavior — every symptom, including odd/intermittent/secondary ones.
   Any unexplained detail means an undiscovered cause -> keep looping.
 - Every competing hypothesis is eliminated by **evidence, not preference.** Answer explicitly:
-  *"If another root cause existed, what would I expect to see — and have I checked for it?"*
+  _"If another root cause existed, what would I expect to see — and have I checked for it?"_
 - Could **multiple independent causes** each be partly responsible? If untested, loop again.
 - The next "why" leaves this system (a genuine external constraint/contract).
 
 If you keep cycling with no new evidence, you've hit an information wall — stop guessing and
 **change approach**: add logging, obtain the missing input, or build the repro. Say so.
 
-**Loop A output:** root cause in one sentence — *"The bug exists because ***, which causes ***"*
+**Loop A output:** root cause in one sentence — \*"The bug exists because **_, which causes _**"\*
 — plus the causal chain with evidence, and the alternatives you ruled out and how.
 
 > The deeper gate catalog this loop relies on — the five "are we sure?" gates (completeness,
@@ -121,7 +123,7 @@ while (fix NOT proven correct & general):
     refine
 ```
 
-**Exit only when** the fix eliminates the *proven* root cause, covers every case in the class,
+**Exit only when** the fix eliminates the _proven_ root cause, covers every case in the class,
 and breaks nothing adjacent. If there's genuine tension (correctness vs. scope vs. risk),
 surface the options with trade-offs and recommend one — don't silently pick the narrow one.
 
@@ -140,7 +142,7 @@ State the converged solution clearly and concretely:
 2. **The fix** — what changes, at what layer, and why that's the right level (the cause, not
    the symptom).
 3. **Why it generalizes** — the full set of cases it now covers.
-4. **Validation** — the original repro passes *plus* the sibling variations that share the
+4. **Validation** — the original repro passes _plus_ the sibling variations that share the
    cause; and the regression test to add to lock it in.
 5. **Acceptance contract (the stop condition — write it before editing).** Four fields, per
    `agentic-loop` / `verification-and-stop-conditions.md`:
@@ -185,7 +187,7 @@ Now — and only now — apply the crystallized fix. Governed by `no-shortcuts.m
    against the contract + repo conventions, and returns a verdict with evidence per finding.
    Reconcile: a real finding loops back to the maker (within the budget); a false positive is
    dismissed with a stated reason. Skip only for a trivially-scoped fix whose regression test
-   + consumer trace (4b) already make the class impossible — and say why you skipped.
+   - consumer trace (4b) already make the class impossible — and say why you skipped.
 6. **Git safety:** leave edits unstaged for review; do not commit/push/branch/PR unless the
    user explicitly asks (`commit-and-pr-conventions.mdc`). Autonomy applies to edit-and-verify,
    never to git.
@@ -205,11 +207,13 @@ decision the user owns — never to keep patching or delete an assertion to forc
 # Root-cause fix — <issue>
 
 ## Root cause (proven)
-"The bug exists because ___, which causes ___." + the principle the fix establishes.
+
+"The bug exists because **_, which causes _**." + the principle the fix establishes.
 Causal chain: proximate -> ... -> ROOT (evidence per link).
 Alternatives ruled out: [A, B + the evidence that killed each].
 
 ## The fix
+
 - Layer/node changed: <file . function . branch> (the cause, not the symptom)
 - What changed + why this is the right level.
 - Why it generalizes: <the full class of cases now covered>.
@@ -217,6 +221,7 @@ Alternatives ruled out: [A, B + the evidence that killed each].
 - Blast radius: <what else touches this path; invariants preserved; adjacent cases safe>.
 
 ## Validation
+
 - Acceptance contract: end state . evidence . constraints . budget — all met (cycles: N/3).
 - Regression test: <path> — fails on pre-fix code, passes after; covers repro + siblings.
 - Gates: typecheck OK . affected tests OK
@@ -225,6 +230,7 @@ Alternatives ruled out: [A, B + the evidence that killed each].
 - Edits left UNSTAGED; no commit/push unless the user asked.
 
 ## Residual / uncertainty
+
 [Anything not proven, or a deliberately surfaced correctness-vs-scope trade-off + recommendation.]
 ```
 
@@ -248,7 +254,7 @@ Alternatives ruled out: [A, B + the evidence that killed each].
 
 ## Pairs with
 
-- skills: `debugging-an-issue`, `agentic-loop`, `reviewing-and-shipping`,
+- skills: `debugging-an-issue`, `do-it-right`, `agentic-loop`, `reviewing-and-shipping`,
   `debugging-with-observability`
 - rules: `regression-test`, `no-shortcuts`, `definition-of-done`
 - agents: `reviewer`, `security-reviewer`

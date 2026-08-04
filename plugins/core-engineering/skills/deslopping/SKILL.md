@@ -28,5 +28,5 @@ Diff against the base branch and remove slop introduced by the branch:
 ## Pairs with
 
 - rules: `size-limits`, `no-any`, `copy-voice`
-- skills: `reviewing-and-shipping`
+- skills: `reviewing-and-shipping`, `simplifying-code` (clarity/YAGNI; distinct job)
 - workflows: `safe-refactor`, `ship-a-feature`, `plan-then-build`

@@ -1,11 +1,12 @@
 ---
 description: >
-  Create a complete, zero-shortcut implementation plan. Triggers on "Create a
-  plan for X", "plan for", "write a plan", "plan out", "implementation plan",
-  "technical plan", or "design plan". Requires extensive in-repo and external
-  research (best practices, common practice, state of the art). Fully decides
-  design, requirements, tasks, tests, and rollout — no TBD, stubs, or deferred
-  work. Read the `create-plan` skill when executing the full workflow.
+  Create a complete, zero-shortcut implementation plan. Triggers on
+  "create-plan", "run create-plan", "/plan", "Create a plan for X", "plan for",
+  "write a plan", "plan out", "implementation plan", "technical plan", or
+  "design plan" (including buried in a longer prompt). In Cursor: CreatePlan
+  (Build UI) + research .md required — never Write-only. Extensive in-repo and
+  external research; no TBD/stubs/deferred work. Read the `create-plan` skill
+  for the full workflow.
 alwaysApply: false
 ---
 
@@ -66,9 +67,19 @@ research, or one precise user question) before calling the plan complete.
    partial-failure cases.
 5. **Decompose to executable tasks** — files, deps, acceptance, verification;
    tests/docs/wiring in *this* plan (`definition-of-done`), not follow-ups.
-6. **Do not implement** unless the user explicitly asks after the plan.
-   Edits stay unstaged; no commit/push/PR unless asked
+6. **Do not implement** unless the user clicks **Build** or explicitly asks
+   after the plan. Edits stay unstaged; no commit/push/PR unless asked
    (`commit-and-pr-conventions`).
+
+## Delivery (Cursor)
+
+1. **Primary:** call **`CreatePlan`** (`name`, `overview`, `plan`, non-empty
+   `todos`). This shows the **Build** button. See
+   `create-plan/references/cursor-native-plan.md`.
+2. **Research:** also write/update `docs/plans/YYYY-MM-DD-<slug>.md` (full
+   skill template); link it from the CreatePlan body.
+3. If not in Plan mode, switch to Plan before CreatePlan.
+4. Never claim done from Write-only markdown.
 
 ## Alignment
 
@@ -77,5 +88,6 @@ Extends — and must not weaken — `no-shortcuts`, `definition-of-done`,
 `AGENTS.md` invariants. External "best practice" never overrides a documented
 invariant without an explicit, justified decision in the plan.
 
-Slash shortcut: `/plan`. After drafting, prefer `/review-plan` before coding;
-after implementing, close with `/review-build`.
+Slash shortcut: `/plan`. After drafting, prefer `/review-plan` before **Build**;
+after implementing, exhaust open rows with `/complete-the-build` when needed,
+then close with `/review-build`.
