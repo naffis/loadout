@@ -38,7 +38,7 @@ git diff
 
 - rules: `git-safety`, `shared-working-tree`, `no-stash`, `commit-and-pr-conventions`,
   `regression-test`, `testing-conventions`, `no-shortcuts`
-- skills: `review-build`, `writing-commit-messages`, `committing-on-shared-trunk`, `opening-a-pr`,
+- skills: `review-build`, `post-flight`, `writing-commit-messages`, `committing-on-shared-trunk`, `opening-a-pr`,
   `deslopping`
 - agents: `reviewer`, `security-reviewer`
 - commands: `review-build-cmd` (`/review-build`)

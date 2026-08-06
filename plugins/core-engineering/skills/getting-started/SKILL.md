@@ -39,6 +39,8 @@ You have a goal but not a plan: "I want to build X", "what should I do?", "how d
    - Already implemented; need evidence-first verification → **`review-build`**
      (`/review-build`), preferably in a fresh chat — or the full **`plan-then-build`**
      path if plan review is still owed too.
+   - End of a session; fix what the proof turns up (sibling sweep + checker) →
+     **`post-flight`** (`/post-flight`). Prefer over a chat-only wrap-up summary.
    - Open plan phases still Partial/Missing/Punted → **`complete-the-build`**
      (`/complete-the-build`) before review-build.
    - Context dying / switching chats mid-task → **`session-handoff`**
@@ -80,10 +82,10 @@ Kickoff prompt:
   `debug-production`, `security-pass`, `clear-the-queue`, `safe-refactor`, `ship-a-migration`,
   `dependency-bump`, `cut-a-release`, `run-quality-loop`, `run-autonomous-loop`
 - skills: `planning-a-change`, `create-plan`, `review-plan`, `complete-the-build`,
-  `review-build`, `session-handoff`, `do-it-right`, `test-driven`, `simplifying-code`,
+  `review-build`, `post-flight`, `session-handoff`, `do-it-right`, `test-driven`, `simplifying-code`,
   `running-a-dev-cycle`, `agentic-loop`, `equipping-loadout`
 - commands: `start` (`/start`), `plan` (`/plan`), `review-plan-cmd` (`/review-plan`),
-  `complete-the-build-cmd` (`/complete-the-build`), `review-build-cmd` (`/review-build`),
+  `complete-the-build-cmd` (`/complete-the-build`), `review-build-cmd` (`/review-build`), `post-flight-cmd` (`/post-flight`),
   `session-handoff-cmd` (`/session-handoff`), `do-it-right-cmd` (`/do-it-right`),
   `tdd-cmd` (`/tdd`), `simplify-cmd` (`/simplify`)
 - runbooks: `loop-preflight`, `harness-setup`, `bootstrap-project`, `hotfix-and-rollback`

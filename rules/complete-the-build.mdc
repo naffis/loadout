@@ -58,4 +58,5 @@ These are skill failures — rewrite / re-run until none remain:
 ## Alignment
 
 Enforces `no-shortcuts`, `definition-of-done`. Claimed-done verify → `review-build`. Session wrap →
-`reviewing-and-shipping`. Release go/no-go → `assessing-release-readiness`.
+`post-flight` (fix-mode) or `reviewing-and-shipping` (wrap-up). Release go/no-go →
+`assessing-release-readiness`.

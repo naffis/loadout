@@ -3,13 +3,13 @@
   "owner": {
     "name": "David Naffis"
   },
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "Naffis agent loadout: general-purpose engineering skills, commands, agents, and rules.",
   "plugins": [
     {
       "name": "core-engineering",
       "source": "./plugins/core-engineering",
-      "version": "0.13.0",
+      "version": "0.14.0",
       "keywords": [
         "engineering",
         "git",
@@ -23,7 +23,8 @@
         "quality",
         "plan",
         "tdd",
-        "handoff"
+        "handoff",
+        "post-flight"
       ]
     },
     {

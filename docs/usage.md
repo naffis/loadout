@@ -62,7 +62,8 @@ Example: "plan and ship the auth refactor" will pull in `planning-a-change` then
 
 ### Commands
 
-Type the slash command: `/start`, `/plan`, `/review-plan`, `/review-build`, `/changelog`.
+Type the slash command: `/start`, `/plan`, `/review-plan`, `/review-build`,
+`/post-flight`, `/changelog`.
 Commands are explicit, repeatable actions. `loadout add <command>` vendors them to
 `.cursor/commands/<filename>.md` (Cursor) and `.claude/commands/<filename>.md` (Claude Code);
 Claude Code can alternatively get them via the plugin marketplace.
@@ -74,6 +75,7 @@ Claude Code can alternatively get them via the plugin marketplace.
 | `/plan <task>` | `create-plan` | Multi-file or uncertain work. Prefer Plan Mode. Skip one-sentence diffs. |
 | `/review-plan` | `review-plan` | After a plan, before coding. Prefer a fresh chat. |
 | `/review-build` | `review-build` | After implementation, before calling it done. Prefer a fresh chat. |
+| `/post-flight` | `post-flight` | End-of-session review-and-FIX (ask vs ship, sibling sweep, independent checker). |
 
 `no-shortcuts` is always on and backs all three: no stubs, no unverified "green", read
 before asserting. For hard problems, run `/plan` across two models in parallel (worktrees)

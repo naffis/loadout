@@ -10,7 +10,7 @@ command → `/changelog`.
 
 ---
 
-## Skills (48)
+## Skills (49)
 
 ### Getting started (start here)
 
@@ -44,6 +44,7 @@ command → `/changelog`.
 | `complete-the-build`          | Exhaust Partial/Missing/Punted plan phases: gap matrix before coding, build to empty, two clean passes, hand off to `review-build`.                            | "Complete the build" / `/complete-the-build`                            |
 | `session-handoff`             | Write or resume a durable handoff so a fresh chat continues without cold-start archaeology.                                                                    | "write a handoff" / `/session-handoff`                                  |
 | `review-build`                | Evidence-first implementation review: git diff, plan/requirement trace, shortcut sweep, gate with pasted output, fix blockers/majors. Prefer a fresh chat.     | "Review the build" / `/review-build`                                    |
+| `post-flight`                 | End-of-session review-and-FIX: ask vs ship, class-kill audit, sibling sweep, DoD, gates, independent checker. Completes deferred work by default. | "post-flight" / "run post-flight" / `/post-flight` |
 | `planning-a-change`           | Explore → plan → implement a non-trivial change. Before multi-file/unfamiliar work; skip one-liners. Plan-only → `create-plan`.                                | `/planning-a-change` or describe a multi-file task                      |
 | `reviewing-and-shipping`      | Review for correctness & intent, run tests, wrap up; commit/PR only when asked (whole-tree commit if shared-working-tree).                                     | when wrapping up a change                                               |
 | `writing-commit-messages`     | Conventional-commit message from a diff.                                                                                                                       | when committing / "write a commit message"                              |
@@ -184,7 +185,7 @@ Dispatch with "use the `<name>` subagent". They run in a fresh context and repor
 | `explorer`          | Read-only codebase investigation; returns a tight findings report.              |
 | `ci-watcher`        | Monitor the PR's CI; concise pass/fail with links to failures.                  |
 
-## Commands (11)
+## Commands (12)
 
 | Command               | What                                                                                                                                                   |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -194,6 +195,7 @@ Dispatch with "use the `<name>` subagent". They run in a fresh context and repor
 | `/complete-the-build` | Exhaust remaining plan phases: gap matrix → build Partial/Missing/Punted to empty → hand off to `review-build`.                                        |
 | `/do-it-right`        | Dig deeper before fixing: re-diagnose, multi-issue hunt, ≥2 solutions, class-kill (runs `do-it-right`).                                                |
 | `/review-build`       | Evidence-first review of implemented work vs plan/request (runs `review-build`). Prefer a fresh chat.                                                  |
+| `/post-flight`        | End-of-session review-and-FIX: ask vs ship, class-kill, sibling sweep, independent checker (runs `post-flight`).                                        |
 | `/session-handoff`    | Write or resume a durable session handoff for a fresh chat (runs `session-handoff`).                                                                   |
 | `/tdd`                | Strict red→green→refactor; no production code before pasted RED (runs `test-driven`).                                                                  |
 | `/simplify`           | Behavior-preserving clarity/YAGNI pass on the current diff (runs `simplifying-code`).                                                                  |
@@ -209,8 +211,8 @@ composes and optional `gate` / `stop_condition` / `state`.
 
 | Workflow              | Composes                                                                                                                                                                                                                            |
 | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `ship-a-feature`      | rules + `planning-a-change` → implement → `review-build` → `reviewer` → `writing-commit-messages` / `opening-a-pr` / `making-a-pr-reviewable`; gate = tests+lint                                                                    |
-| `plan-then-build`     | `/plan` → `/review-plan` → implement → `/complete-the-build` (when open rows) → test → docs → `/review-build` → `reviewer` → PR; high-rigor alternative to `ship-a-feature`                                                         |
+| `ship-a-feature`      | rules + `planning-a-change` → implement → `review-build` → optional `post-flight` → `reviewer` → `writing-commit-messages` / `opening-a-pr` / `making-a-pr-reviewable`; gate = tests+lint                                           |
+| `plan-then-build`     | `/plan` → `/review-plan` → implement → `/complete-the-build` (when open rows) → test → docs → `/review-build` → optional `/post-flight` → `reviewer` → PR; high-rigor alternative to `ship-a-feature`                              |
 | `fix-ci-until-green`  | `ci-watcher` → `fixing-ci` / `triaging-flaky-tests` / `debugging-an-issue`; stop = checks green                                                                                                                                     |
 | `debug-production`    | `debugging-with-observability` → repro → `do-it-right` (when shallow yes-fix) / `debugging-an-issue` / `root-cause-fix` → regression lock → `reviewer`; hand off to `hotfix-and-rollback` when needed                               |
 | `security-pass`       | `security-reviewer` → root-cause fixes → re-check → `reviewer`; stop = no remaining exploitable P0/P1                                                                                                                               |

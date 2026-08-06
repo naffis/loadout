@@ -177,7 +177,7 @@ Edits stay unstaged unless the user asked to commit.
 
 ## Pairs with
 
-- skills: `review-build`, `create-plan`, `review-plan`,
+- skills: `review-build`, `post-flight`, `create-plan`, `review-plan`,
   `agentic-loop`, `writing-tests`, `updating-docs`
 - rules: `complete-the-build-rule`, `no-shortcuts`,
   `definition-of-done`, `regression-test`

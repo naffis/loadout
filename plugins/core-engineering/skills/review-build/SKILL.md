@@ -9,7 +9,7 @@ description: >
   gate commands with pasted output, fix blockers/majors, final report.
   Anti-triggers: review a plan before coding → review-plan; open plan phases
   still Partial/Missing/Punted → complete-the-build first; wrap up and ship →
-  reviewing-and-shipping; ordinary code-quality audit → reviewing-code-quality.
+  reviewing-and-shipping; ordinary code-quality audit → reviewing-code-quality; end-of-session maker fix-mode (sibling sweep + deferred work) → post-flight.
 ---
 
 # Review a build
@@ -146,12 +146,12 @@ PASS | PASS WITH NOTES | FAIL
 
 ## Pairs with
 
-- skills: `review-plan`, `create-plan`, `complete-the-build`, `reviewing-and-shipping`,
+- skills: `review-plan`, `create-plan`, `complete-the-build`, `post-flight`, `reviewing-and-shipping`,
   `deslopping`, `simplifying-code`, `writing-tests`, `reviewing-code-quality`
 - rules: `review-build-rule`, `no-shortcuts`, `definition-of-done`,
   `regression-test`, `testing-conventions`
 - agents: `reviewer`, `security-reviewer`
 - commands: `plan` (`/plan`), `review-plan-cmd` (`/review-plan`),
   `complete-the-build-cmd` (`/complete-the-build`),
-  `review-build-cmd` (`/review-build`)
+  `review-build-cmd` (`/review-build`), `post-flight-cmd` (`/post-flight`)
 - workflows: `plan-then-build`, `ship-a-feature`, `run-autonomous-loop`

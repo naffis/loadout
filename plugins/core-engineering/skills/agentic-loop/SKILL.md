@@ -171,7 +171,7 @@ tried and what's blocking, rather than thrashing or shipping a bandaid.
 ## Pairs with
 
 - skills: `root-cause-fix`, `create-plan`, `planning-a-change`, `reviewing-and-shipping`,
-  `orchestrating-parallel-agents`, `running-a-dev-cycle`
+  `post-flight`, `orchestrating-parallel-agents`, `running-a-dev-cycle`
 - rules: `no-shortcuts`, `regression-test`, `definition-of-done`
 - agents: `reviewer`, `explorer`
 - docs: `agentic-patterns`, `loop-engineering`

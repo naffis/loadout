@@ -22,6 +22,7 @@ uses:
       review-plan,
       complete-the-build,
       review-build,
+      post-flight,
       agentic-loop,
       writing-tests,
       updating-docs,
@@ -33,7 +34,7 @@ uses:
       test-driven,
     ]
   agents: [reviewer]
-  commands: [plan, review-plan-cmd, complete-the-build-cmd, review-build-cmd]
+  commands: [plan, review-plan-cmd, complete-the-build-cmd, review-build-cmd, post-flight-cmd]
 gate: "<project typecheck + test + lint command>"
 stop_condition: "reviewed plan approved, implementation matches the plan, review-build PASS, gate green, docs updated, reviewer verdict SAFE, PR opened (if asked)"
 state: ".loadout/state/plan-then-build.md"
@@ -51,8 +52,10 @@ execution against a contract.
 
 Slash shortcuts: `/plan` → create the plan; `/review-plan` → stress-test it;
 `/complete-the-build` → exhaust open Partial/Missing/Punted rows;
-`/review-build` → verify the implementation. Prefer `/review-plan` and
-`/review-build` in a **fresh chat** when the stakes are high (maker ≠ checker).
+`/review-build` → verify the implementation; `/post-flight` → same-session
+fix-mode wrap (sibling sweep + deferred work) when the user asks. Prefer
+`/review-plan` and `/review-build` in a **fresh chat** when the stakes are high
+(maker ≠ checker).
 
 **Equip note:** `uses.rules` lists registry rule ids (`create-plan-rule`,
 `review-plan-rule`, `complete-the-build-rule`, `review-build-rule`) — those are

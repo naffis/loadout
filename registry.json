@@ -34,7 +34,9 @@
         "session-handoff",
         "simplifying-code",
         "test-driven",
-        "do-it-right"
+        "do-it-right",
+        "post-flight",
+        "post-flight-cmd"
       ],
       "workflows": [
         "ship-a-feature",
@@ -177,12 +179,57 @@
         "review-plan-cmd",
         "review-build-cmd",
         "complete-the-build",
-        "simplifying-code"
+        "simplifying-code",
+        "post-flight",
+        "post-flight-cmd"
       ],
       "workflows": [
         "plan-then-build",
         "ship-a-feature",
         "run-autonomous-loop"
+      ]
+    },
+    {
+      "id": "post-flight",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/post-flight",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "provenance": {
+        "source_repo": "generalized from wavemaker practice",
+        "harvested": "2026-08-04"
+      },
+      "pairs_with": [
+        "do-it-right",
+        "root-cause-fix",
+        "agentic-loop",
+        "review-build",
+        "complete-the-build",
+        "reviewing-and-shipping",
+        "reviewing-code-quality",
+        "deslopping",
+        "simplifying-code",
+        "writing-tests",
+        "no-shortcuts",
+        "definition-of-done",
+        "regression-test",
+        "refactor-discipline",
+        "git-safety",
+        "reviewer",
+        "post-flight-cmd",
+        "review-build-cmd",
+        "do-it-right-cmd"
+      ],
+      "workflows": [
+        "ship-a-feature",
+        "plan-then-build",
+        "run-autonomous-loop",
+        "debug-production"
       ]
     },
     {
@@ -209,7 +256,8 @@
         "no-shortcuts",
         "regression-test",
         "definition-of-done",
-        "do-it-right-cmd"
+        "do-it-right-cmd",
+        "post-flight"
       ],
       "workflows": [
         "debug-production",
@@ -339,7 +387,8 @@
         "definition-of-done",
         "complete-the-build-cmd",
         "plan",
-        "review-build-cmd"
+        "review-build-cmd",
+        "post-flight"
       ],
       "workflows": [
         "plan-then-build",
@@ -368,7 +417,8 @@
         "committing-on-shared-trunk",
         "shared-working-tree",
         "no-stash",
-        "git-safety"
+        "git-safety",
+        "post-flight"
       ],
       "workflows": [
         "ship-a-feature",
@@ -861,7 +911,8 @@
         "explorer",
         "no-shortcuts",
         "regression-test",
-        "definition-of-done"
+        "definition-of-done",
+        "post-flight"
       ],
       "workflows": [
         "run-autonomous-loop",
@@ -893,7 +944,8 @@
         "reviewer",
         "security-reviewer",
         "hotfix-and-rollback",
-        "do-it-right"
+        "do-it-right",
+        "post-flight"
       ],
       "workflows": [
         "run-autonomous-loop",
@@ -1315,6 +1367,25 @@
       "workflows": [
         "plan-then-build",
         "ship-a-feature"
+      ]
+    },
+    {
+      "id": "post-flight-cmd",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/post-flight.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": [
+        "claude",
+        "cursor"
+      ],
+      "layer": "command",
+      "pairs_with": [
+        "post-flight",
+        "review-build",
+        "do-it-right",
+        "root-cause-fix",
+        "reviewer"
       ]
     },
     {
@@ -1977,7 +2048,10 @@
         "cursor",
         "claude"
       ],
-      "layer": "workflow"
+      "layer": "workflow",
+      "pairs_with": [
+        "post-flight"
+      ]
     },
     {
       "id": "fix-ci-until-green",
@@ -2025,7 +2099,10 @@
         "cursor",
         "claude"
       ],
-      "layer": "workflow"
+      "layer": "workflow",
+      "pairs_with": [
+        "post-flight"
+      ]
     },
     {
       "id": "run-quality-loop",
@@ -2049,7 +2126,10 @@
         "cursor",
         "claude"
       ],
-      "layer": "workflow"
+      "layer": "workflow",
+      "pairs_with": [
+        "post-flight"
+      ]
     },
     {
       "id": "security-pass",
@@ -2073,7 +2153,10 @@
         "cursor",
         "claude"
       ],
-      "layer": "workflow"
+      "layer": "workflow",
+      "pairs_with": [
+        "post-flight"
+      ]
     },
     {
       "id": "clear-the-queue",

@@ -255,7 +255,7 @@ Alternatives ruled out: [A, B + the evidence that killed each].
 ## Pairs with
 
 - skills: `debugging-an-issue`, `do-it-right`, `agentic-loop`, `reviewing-and-shipping`,
-  `debugging-with-observability`
+  `post-flight`, `debugging-with-observability`
 - rules: `regression-test`, `no-shortcuts`, `definition-of-done`
 - agents: `reviewer`, `security-reviewer`
 - workflows: `run-autonomous-loop`, `debug-production`, `security-pass`

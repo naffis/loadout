@@ -154,7 +154,7 @@ heuristic."
 - rules: `do-it-right-rule`, `no-shortcuts`, `regression-test`,
   `definition-of-done`
 - skills: `root-cause-fix`, `debugging-an-issue`, `agentic-loop`,
-  `reviewing-and-shipping`
+  `reviewing-and-shipping`, `post-flight`
 - commands: `do-it-right-cmd` (`/do-it-right`)
 - refs: `references/diagnosis-gate.md`, `references/solution-gate.md`,
   `references/worked-examples.md`

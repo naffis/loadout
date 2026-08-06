@@ -2,9 +2,9 @@
 name: ship-a-feature
 uses:
   rules: [no-shortcuts, size-limits, testing-conventions, test-coverage, commit-and-pr-conventions, regression-test, documentation-updates, review-build-rule]
-  skills: [planning-a-change, review-build, reviewing-and-shipping, writing-tests, writing-commit-messages, opening-a-pr, making-a-pr-reviewable, updating-docs]
+  skills: [planning-a-change, review-build, post-flight, reviewing-and-shipping, writing-tests, writing-commit-messages, opening-a-pr, making-a-pr-reviewable, updating-docs]
   agents: [reviewer]
-  commands: [review-build-cmd]
+  commands: [review-build-cmd, post-flight-cmd]
 gate: "<project test + lint command>"
 stop_condition: "tests and lint pass, review-build PASS (or justified skip for trivial diffs), reviewer reports no correctness/intent gaps, PR opened"
 state: ".loadout/state/ship-a-feature.md"
@@ -25,6 +25,7 @@ unfamiliar, or decision-heavy work, use `plan-then-build` instead (`/plan` →
    trace, shortcut sweep, gate with pasted output. Prefer a fresh chat when stakes are
    above a one-file tweak. Skip only for truly trivial diffs, and say so.
 7. **Review (maker ≠ checker)** — dispatch the `reviewer` agent on the diff vs the plan. Fix correctness/intent gaps; ignore over-engineering suggestions.
+7b. **Post-flight (optional, same session)** — when the user asks for a final pass, or the session accumulated deferred work / multi-surface fixes, run `post-flight` (`/post-flight`) before wrapping up.
 8. **Commit & PR** — `writing-commit-messages`, then `opening-a-pr` with a validation-first description. For a noisy or large diff, `making-a-pr-reviewable` first (tidy history, reviewer guidance).
 
 Run each step as a verified loop (`agentic-loop`): write the stop contract, verify against ground truth, keep edits unstaged. Hand-off: planning-a-change produces the plan the reviewer checks against. The state file records what's done so a resumed run continues cleanly.
