@@ -16,7 +16,7 @@ the **Build** button — writing only `docs/plans/*.md` is not enough.
 - No TBDs, no "decide later", no placeholder sections.
 - If ambiguity would change the design, ask numbered clarifying questions and **stop until answered**. For minor ambiguity, proceed and log the assumption. Open questions must be empty when the plan is delivered — resolve or non-goal everything else.
 - Prefer the simplest design that fully satisfies the requirements. Robust means handles failure well, not maximal scope.
-- Follow `create-plan` + `no-shortcuts`: in-repo evidence first (list files read, trace data flow, check the package manifest), mandatory external research, EARS/ACs, mini-ADRs, executable tasks.
+- Follow `create-plan` + `no-shortcuts`: in-repo evidence first (list files read, trace data flow, check the package manifest), mandatory external research, EARS/ACs, mini-ADRs, executable tasks, and for nontrivial work a `task-topology` declaration (§8b + `.loadout/tasks/<slug>/TASK.md`).
 - **Delivery (Cursor):** `CreatePlan` (name, overview, plan, non-empty todos)
   **and** research `docs/plans/YYYY-MM-DD-<slug>.md`. See
   `create-plan/references/cursor-native-plan.md`.

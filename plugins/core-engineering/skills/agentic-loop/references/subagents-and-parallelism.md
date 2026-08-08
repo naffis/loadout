@@ -17,7 +17,7 @@ an isolated deep-dive is worth paying for — not for trivial lookups you can do
 
 ## Loadout agents + Cursor sub-agent types
 
-loadout ships four cross-tool agents you dispatch with "use the `<name>` subagent":
+loadout ships five cross-tool agents you dispatch with "use the `<name>` subagent":
 
 | Agent | Use it for |
 | --- | --- |
@@ -25,6 +25,7 @@ loadout ships four cross-tool agents you dispatch with "use the `<name>` subagen
 | `reviewer` | The maker-checker checker: independent diff review vs. stated intent, with a verdict. |
 | `security-reviewer` | Injection / authz / secrets / unsafe data handling (strong model, high effort). |
 | `ci-watcher` | Monitor a PR's CI; concise pass/fail with links to failures. |
+| `implement-node` | One unit from a `task-topology` / `decompose` TASK.md — hard allowlist, unit verifier, PASSED/FAILED only. |
 
 In Cursor you additionally have native `Task` sub-agent types — `explore`, `generalPurpose`,
 `shell`, `best-of-n-runner`, and the read-only `bugbot` / `security-review` reviewers. Map
@@ -68,6 +69,9 @@ never grades its own stop condition.
 For a full workflow that runs many independent items in parallel (bounded concurrency,
 serial landing), use the `orchestrating-parallel-agents` skill — and check whether
 `shared-working-tree` is installed first.
+
+For splitting **one** task into file-bounded units with shared contracts, use
+`task-topology` / `build-as-graph` (not the queue orchestrator).
 
 ## Shared trunk vs worktree isolation
 

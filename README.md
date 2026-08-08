@@ -10,7 +10,7 @@ done — not sit as an unordered pile.
 
 > **Status: functional.** The CLI (`init`, `add`, `list`, `update`, `diff`, `doctor`) is
 > implemented with a lockfile and three-way merge. The library is general-purpose: 2
-> Claude Code plugins (49 skills, 12 commands, 4 subagents), 34 Cursor rules, 13 workflows, 6
+> Claude Code plugins (52 skills, 13 commands, 5 subagents), 35 Cursor rules, 14 workflows, 6
 > runbooks, and templates — generalized from practice and sanitized for public use.
 > Domain/vertical-specific assets are intentionally left out. See
 > `docs/external-practices.md`, `docs/agentic-patterns.md`, and `docs/loop-engineering.md`
@@ -38,8 +38,8 @@ Then open the project in **Cursor** or **Claude Code** and use it:
   ready-to-run kickoff prompt.
 - **Commands** for the plan→build→review loop: **`/plan`**, **`/review-plan`**,
   **`/complete-the-build`**, **`/review-build`**, **`/post-flight`**, plus
-  **`/do-it-right`**, **`/tdd`**, **`/simplify`**, **`/session-handoff`**
-  (prefer review commands in a fresh chat when stakes are high).
+  **`/build-as-graph`**, **`/do-it-right`**, **`/tdd`**, **`/simplify`**,
+  **`/session-handoff`** (prefer review commands in a fresh chat when stakes are high).
 - **Workflows** (e.g. `ship-a-feature`, `plan-then-build`) compose rules, skills, and
   subagents into one named recipe.
 

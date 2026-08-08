@@ -131,8 +131,21 @@ npx github:naffis/loadout add \
 ```
 
 Name the integration trunk in `AGENTS.md`. This kit overrides worktree defaults in
-`orchestrating-parallel-agents` / `clear-the-queue` unless the user explicitly asks for
-worktree isolation.
+`orchestrating-parallel-agents` / `clear-the-queue` / `build-as-graph` unless the user
+explicitly asks for worktree isolation.
+
+**Optional — task graph kit** (one nontrivial task as single-loop / pipeline / graph with
+file allowlists + shared contracts). Add when you want structured fan-out inside a feature:
+
+```bash
+npx github:naffis/loadout add \
+  build-as-graph task-topology decompose integrate \
+  implement-node implement-node-rule agentic-loop \
+  create-plan review-plan review-build writing-tests
+```
+
+Distinct from `clear-the-queue` (N tickets). Prefer with the shared trunk kit above when
+that is the project's parallel-agent model.
 
 **Security:** skills/rules are trusted instructions. Prefer a release tag when supply chain
 matters; skim unfamiliar `SKILL.md` / `.mdc` first (`audit-external-skills`).

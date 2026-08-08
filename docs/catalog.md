@@ -10,7 +10,7 @@ command → `/changelog`.
 
 ---
 
-## Skills (49)
+## Skills (52)
 
 ### Getting started (start here)
 
@@ -25,6 +25,9 @@ command → `/changelog`.
 | `agentic-loop`                  | Run a non-trivial task as a verifiable perceive→plan→act→observe→verify→reflect loop: stop-condition contract, ground-truth verification, maker≠checker, durable memory, context budget, bounded autonomy. | long-horizon/multi-step work; "run this as a loop"            |
 | `running-a-dev-cycle`           | Adaptive end-to-end cycle: classify a task (QUICK/ENHANCEMENT/INTEGRATION/INVESTIGATION/ITERATION) and route it through the lightest path, each phase an agentic loop.                                     | "build this end to end" / "autonomous mode"                   |
 | `orchestrating-parallel-agents` | Run N independent items in parallel — worktrees by default, or shared trunk when `shared-working-tree` is installed; bounded concurrency; serialized landing gated by maker-checker.                       | "do these in parallel" / "clear the queue"                    |
+| `task-topology`                 | Triage a nontrivial task into single-loop / pipeline / graph; write the TASK.md contract (units, allowlists, verifiers, merge order). Default single-loop; graph only when both escalation tests pass.     | start of nontrivial work / "single loop vs graph"             |
+| `decompose`                     | Size pipeline/graph units (one session each), write the shared contract file, per-unit verifiers and done-conditions. Interfaces before implementation.                                                      | after task-topology chooses pipeline/graph                    |
+| `integrate`                     | Fan-in units in merge order; full-suite verifier after each merge; re-dispatch contract violators; spec review for divergent interface interpretations.                                                     | units report done / "merge the graph"                         |
 | `agent-tool-design`             | Design a product's agent-facing tools/MCP well (ACI): fewer higher-signal tools, namespacing, high-signal results, token efficiency, steering descriptions/errors.                                         | authoring/editing a tool schema, description, or result shape |
 
 ### Product quality loops (dogfood, review, iterate)
@@ -39,11 +42,11 @@ command → `/changelog`.
 
 | Skill                         | What / when                                                                                                                                                    | Call                                                                    |
 | ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| `create-plan`                 | Zero-shortcut plan: Cursor **CreatePlan** (Build UI) + research `.md`; in-repo + external research, EARS/ACs, mini-ADRs, tasks. Never Write-only in Cursor.    | "create-plan" / `/plan`                                                 |
-| `review-plan`                 | Multi-pass plan stress-test: re-read, fresh research, PASS/FAIL checklist, pre-mortem, adversarial critique; fix shortcuts; update plan in place; final sweep. | "Review the plan" / `/review-plan`                                      |
+| `create-plan`                 | Zero-shortcut plan: Cursor **CreatePlan** (Build UI) + research `.md`; in-repo + external research, EARS/ACs, mini-ADRs, tasks, topology §8b. Never Write-only in Cursor. | "create-plan" / `/plan`                                          |
+| `review-plan`                 | Multi-pass plan stress-test: re-read, fresh research, PASS/FAIL checklist (incl. topology), pre-mortem, adversarial critique; fix in place; final sweep.       | "Review the plan" / `/review-plan`                                      |
 | `complete-the-build`          | Exhaust Partial/Missing/Punted plan phases: gap matrix before coding, build to empty, two clean passes, hand off to `review-build`.                            | "Complete the build" / `/complete-the-build`                            |
 | `session-handoff`             | Write or resume a durable handoff so a fresh chat continues without cold-start archaeology.                                                                    | "write a handoff" / `/session-handoff`                                  |
-| `review-build`                | Evidence-first implementation review: git diff, plan/requirement trace, shortcut sweep, gate with pasted output, fix blockers/majors. Prefer a fresh chat.     | "Review the build" / `/review-build`                                    |
+| `review-build`                | Evidence-first implementation review: git diff, plan/requirement trace, unit allowlists when TASK.md exists, shortcut sweep, pasted gate output. Prefer fresh chat. | "Review the build" / `/review-build`                              |
 | `post-flight`                 | End-of-session review-and-FIX: ask vs ship, class-kill audit, sibling sweep, DoD, gates, independent checker. Completes deferred work by default. | "post-flight" / "run post-flight" / `/post-flight` |
 | `planning-a-change`           | Explore → plan → implement a non-trivial change. Before multi-file/unfamiliar work; skip one-liners. Plan-only → `create-plan`.                                | `/planning-a-change` or describe a multi-file task                      |
 | `reviewing-and-shipping`      | Review for correctness & intent, run tests, wrap up; commit/PR only when asked (whole-tree commit if shared-working-tree).                                     | when wrapping up a change                                               |
@@ -118,7 +121,7 @@ command → `/changelog`.
 
 ---
 
-## Rules (34)
+## Rules (35)
 
 How a rule loads is set by its frontmatter. You don't usually call rules; they load
 automatically (or `@rule-name` for manual ones).
@@ -171,10 +174,11 @@ automatically (or `@rule-name` for manual ones).
 | `no-regex-for-semantics`        | Regex is structural, LLMs are semantic; don't keyword-match meaning — emit a structured field or call a model.                                                                        |
 | `capability-removal`            | Removing a capability means removing all of it — wiring, tests, docs, config, dead code — not just the entry point.                                                                   |
 | `ui-evidence`                   | UI claims require UI evidence: render and look, never bypass the interface to make a check pass, re-verify after every mutation, check multiple widths, show the artifacts.           |
+| `implement-node`                | Per-unit executor for task graphs: allowlist-only edits, contract read-only, own verifier, PASSED/FAILED only (no caveats). Registry id: `implement-node-rule`.                      |
 
 ---
 
-## Subagents (4)
+## Subagents (5)
 
 Dispatch with "use the `<name>` subagent". They run in a fresh context and report back.
 
@@ -184,12 +188,14 @@ Dispatch with "use the `<name>` subagent". They run in a fresh context and repor
 | `security-reviewer` | Injection / authz / secrets / unsafe data handling (strong model, high effort). |
 | `explorer`          | Read-only codebase investigation; returns a tight findings report.              |
 | `ci-watcher`        | Monitor the PR's CI; concise pass/fail with links to failures.                  |
+| `implement-node`    | Execute one TASK.md unit under hard allowlist + unit verifier; report PASSED/FAILED. |
 
-## Commands (12)
+## Commands (13)
 
 | Command               | What                                                                                                                                                   |
 | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `/start`              | Shortcut entry point: tell it your goal, get a recommendation + a ready-to-run kickoff prompt (runs `getting-started`).                                |
+| `/build-as-graph`     | Triage one task into single-loop / pipeline / graph and run the verified unit workflow (registry id: `build-as-graph-cmd`).                            |
 | `/plan <task>`        | Produce a complete zero-shortcut Cursor Buildable plan + research .md (runs `create-plan`). Prefer Plan Mode.                                          |
 | `/review-plan`        | Stress-test a plan: PASS/FAIL checklist, fresh research, fix the plan in place (runs `review-plan`). Prefer a fresh chat.                              |
 | `/complete-the-build` | Exhaust remaining plan phases: gap matrix → build Partial/Missing/Punted to empty → hand off to `review-build`.                                        |
@@ -204,7 +210,7 @@ Dispatch with "use the `<name>` subagent". They run in a fresh context and repor
 
 ---
 
-## Workflows (13)
+## Workflows (14)
 
 Named recipes (`processes/workflows/`). Each lists the rules/skills/commands/agents it
 composes and optional `gate` / `stop_condition` / `state`.
@@ -212,6 +218,7 @@ composes and optional `gate` / `stop_condition` / `state`.
 | Workflow              | Composes                                                                                                                                                                                                                            |
 | --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `ship-a-feature`      | rules + `planning-a-change` → implement → `review-build` → optional `post-flight` → `reviewer` → `writing-commit-messages` / `opening-a-pr` / `making-a-pr-reviewable`; gate = tests+lint                                           |
+| `build-as-graph`      | `task-topology` → (`decompose` → `implement-node` ×N → `integrate`) or single-loop handoff; full-suite after each merge; `/review-build` allowlist check; honors `shared-working-tree`                                              |
 | `plan-then-build`     | `/plan` → `/review-plan` → implement → `/complete-the-build` (when open rows) → test → docs → `/review-build` → optional `/post-flight` → `reviewer` → PR; high-rigor alternative to `ship-a-feature`                              |
 | `fix-ci-until-green`  | `ci-watcher` → `fixing-ci` / `triaging-flaky-tests` / `debugging-an-issue`; stop = checks green                                                                                                                                     |
 | `debug-production`    | `debugging-with-observability` → repro → `do-it-right` (when shallow yes-fix) / `debugging-an-issue` / `root-cause-fix` → regression lock → `reviewer`; hand off to `hotfix-and-rollback` when needed                               |

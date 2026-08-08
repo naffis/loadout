@@ -67,7 +67,12 @@ research, or one precise user question) before calling the plan complete.
    partial-failure cases.
 5. **Decompose to executable tasks** — files, deps, acceptance, verification;
    tests/docs/wiring in *this* plan (`definition-of-done`), not follow-ups.
-6. **Do not implement** unless the user clicks **Build** or explicitly asks
+6. **Topology for nontrivial plans** — include a `task-topology` declaration
+   (single-loop | pipeline | graph) with escalation evidence; graph only when
+   file sets are disjoint and each unit has an independent verifier. Write
+   `.loadout/tasks/<slug>/TASK.md` (minimal OK for single-loop) and link it.
+   See the `create-plan` skill §8b / `task-topology`.
+7. **Do not implement** unless the user clicks **Build** or explicitly asks
    after the plan. Edits stay unstaged; no commit/push/PR unless asked
    (`commit-and-pr-conventions`).
 

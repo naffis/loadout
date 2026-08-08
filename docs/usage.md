@@ -190,7 +190,11 @@ is the adaptive router that classifies a task and walks it through the right pha
 as an agentic loop); `root-cause-fix` is the prove-cause-then-class-fix engine for defects; and
 `orchestrating-parallel-agents` fans independent work out across worktrees (default) or a
 shared trunk when `shared-working-tree` / `committing-on-shared-trunk` are installed, with a
-serialized, maker-checker-gated landing. The `run-autonomous-loop` workflow composes these for
+serialized, maker-checker-gated landing. For **one** nontrivial task that might split into
+verified units, `task-topology` chooses single-loop (default), pipeline, or graph; `decompose`
+writes shared contracts; `implement-node` workers stay inside file allowlists; `integrate`
+fans in with a full-suite gate — composed as `build-as-graph`. That path is not the same as
+clearing a ticket queue. The `run-autonomous-loop` workflow composes the loop primitives for
 unattended, until-contract-met runs — gated by `loop-preflight`. See
 [`agentic-patterns.md`](./agentic-patterns.md) for the patterns behind them.
 

@@ -124,6 +124,17 @@ Each task: logical unit of work; files/modules; dependencies; acceptance;
 verification; wiring (routes, exports, migrations, env, flags). Tests and docs
 required by `definition-of-done` are tasks in **this** plan — not follow-ups.
 
+### 6b. Topology declaration (nontrivial tasks)
+
+For nontrivial work (multi-file, multi-concern, or any plan that might fan out),
+run `task-topology` and include its declaration in the plan (section below).
+Choose **single-loop** (default), **pipeline**, or **graph** using that skill's
+escalation tests — do not invent a parallel graph when file sets overlap or
+verifiers are missing. **Always** write `.loadout/tasks/<slug>/TASK.md` (minimal
+for single-loop) and link it from the plan. Do not duplicate
+`orchestrating-parallel-agents` (that skill is for independent tickets, not units
+of one plan). See `task-topology/references/worked-example.md` for triage examples.
+
 ### 7. Self-critique
 
 Before delivery, fix every miss. Checklist:
@@ -138,6 +149,8 @@ Before delivery, fix every miss. Checklist:
       (orphan requirement = gap; orphan task = scope creep — cut or justify)
 - [ ] Verification plan proves the requirements, not just that tests pass
 - [ ] Nothing vague enough that two engineers would implement it differently
+- [ ] Nontrivial plans include a topology declaration (single-loop | pipeline | graph)
+      with escalation evidence; graph only when both tests pass; every unit has a verifier
 
 Fix what you find, then present the plan. End with a short note on what the
 self-critique changed. If it changed nothing, list the checks you ran.
@@ -247,6 +260,17 @@ If not in Plan mode in Cursor, switch (`SwitchMode` → `plan`) before CreatePla
 
 - Depends on / Touch / Do / Acceptance / Verify:
 
+## 8b. Task topology
+
+- Choice: single-loop | pipeline | graph
+- Escalation test 1 (disjoint files / no data dep): PASS | FAIL — evidence
+- Escalation test 2 (independent verifiers): PASS | FAIL — evidence
+- Task file: `.loadout/tasks/<slug>/TASK.md` (required; minimal OK for single-loop)
+- Units summary (id, allowlist, verifier) — or "single-loop: no units"
+- Merge order — or N/A
+- Isolation: shared-trunk | worktrees (honor `shared-working-tree` if installed)
+- Concurrency: 1 (single-loop/pipeline) | ≤3 waves (graph)
+
 ## 9. Test plan
 
 - Tests to add or extend:
@@ -304,11 +328,13 @@ so Build matches the approved plan. After implementation, exhaust open rows with
 
 - skills: `review-plan`, `review-build`, `complete-the-build`, `planning-a-change`,
   `writing-an-adr`, `researching-a-dependency`, `running-a-dev-cycle`,
-  `writing-tests`
+  `writing-tests`, `task-topology`, `decompose`, `integrate`
 - rules: `no-shortcuts`, `definition-of-done`, `regression-test`,
-  `testing-conventions`, `db-migration-safety`, `commit-and-pr-conventions`
+  `testing-conventions`, `db-migration-safety`, `commit-and-pr-conventions`,
+  `implement-node-rule`, `shared-working-tree`
 - refs: `references/cursor-native-plan.md`
 - commands: `plan` (`/plan`), `review-plan-cmd` (`/review-plan`),
   `complete-the-build-cmd` (`/complete-the-build`),
   `review-build-cmd` (`/review-build`)
-- workflows: `ship-a-feature`, `plan-then-build`, `onboard-to-codebase`, `run-autonomous-loop`
+- workflows: `ship-a-feature`, `plan-then-build`, `onboard-to-codebase`,
+  `run-autonomous-loop`, `build-as-graph`

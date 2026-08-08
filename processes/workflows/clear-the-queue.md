@@ -14,8 +14,9 @@ state: ".loadout/state/clear-the-queue.md"
 Fan out independent work items, cap concurrency to review bandwidth, and serialize landing.
 This is the named recipe around `orchestrating-parallel-agents` — use it when the user says
 "do these in parallel", "knock out the next N", or "clear the queue." Do **not** use it for
-one coupled feature (`ship-a-feature` / `plan-then-build`) or one long loop
-(`run-autonomous-loop`).
+one coupled feature (`ship-a-feature` / `plan-then-build`), one long loop
+(`run-autonomous-loop`), or splitting **one** task into file-bounded units
+(`build-as-graph` / `task-topology`).
 
 **Shared-tree fork:** if `shared-working-tree` / `no-stash` / `git-safety` are installed, do
 **not** create per-item worktrees. Keep every agent on the single local trunk checkout and

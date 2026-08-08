@@ -24,6 +24,9 @@ You have a goal but not a plan: "I want to build X", "what should I do?", "how d
      runbook, then finish the class fix via `debug-production` / `root-cause-fix`.
    - Security review of a diff/surface → **`security-pass`**.
    - Several independent tickets at once → **`clear-the-queue`**.
+   - One nontrivial task that may split into file-bounded verified units (or you need to
+     decide single-loop vs pipeline vs graph) → **`build-as-graph`** / `task-topology`
+     (default stays single-loop; not a ticket queue).
    - Behavior-preserving cleanup → **`safe-refactor`**.
    - Schema/data migration → **`ship-a-migration`**.
    - Dependency upgrade / bump PR → **`dependency-bump`**.
@@ -79,12 +82,13 @@ Kickoff prompt:
 ## Pairs with
 
 - workflows: `ship-a-feature`, `plan-then-build`, `onboard-to-codebase`, `fix-ci-until-green`,
-  `debug-production`, `security-pass`, `clear-the-queue`, `safe-refactor`, `ship-a-migration`,
-  `dependency-bump`, `cut-a-release`, `run-quality-loop`, `run-autonomous-loop`
+  `debug-production`, `security-pass`, `clear-the-queue`, `build-as-graph`, `safe-refactor`,
+  `ship-a-migration`, `dependency-bump`, `cut-a-release`, `run-quality-loop`, `run-autonomous-loop`
 - skills: `planning-a-change`, `create-plan`, `review-plan`, `complete-the-build`,
   `review-build`, `post-flight`, `session-handoff`, `do-it-right`, `test-driven`, `simplifying-code`,
-  `running-a-dev-cycle`, `agentic-loop`, `equipping-loadout`
-- commands: `start` (`/start`), `plan` (`/plan`), `review-plan-cmd` (`/review-plan`),
+  `running-a-dev-cycle`, `agentic-loop`, `task-topology`, `equipping-loadout`
+- commands: `start` (`/start`), `plan` (`/plan`), `build-as-graph-cmd` (`/build-as-graph`),
+  `review-plan-cmd` (`/review-plan`),
   `complete-the-build-cmd` (`/complete-the-build`), `review-build-cmd` (`/review-build`), `post-flight-cmd` (`/post-flight`),
   `session-handoff-cmd` (`/session-handoff`), `do-it-right-cmd` (`/do-it-right`),
   `tdd-cmd` (`/tdd`), `simplify-cmd` (`/simplify`)

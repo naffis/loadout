@@ -85,6 +85,7 @@ critical miss is a **blocker**, not a note:
 | **Operations** | Rollout, monitoring/alerts, and **viable rollback** (esp. stateful) |
 | **Traceability** | Every requirement → design → task → verification; no orphans |
 | **Shortcuts** | No stubs, silent deferrals, or "decide during implementation" |
+| **Topology** | Nontrivial plans declare single-loop \| pipeline \| graph (`task-topology`); graph only with disjoint allowlists + independent verifiers |
 
 For each item below, output **PASS or FAIL** with the evidence you checked
 (file path, plan section, or command output):
@@ -98,6 +99,7 @@ For each item below, output **PASS or FAIL** with the evidence you checked
 - Verification plan actually proves the requirements
 - No simpler design that satisfies everything (if there is one, that is a finding)
 - No conflict with existing code, conventions, or in-flight work you can see
+- Topology declaration present for nontrivial work; escalation evidence matches the choice; no graph with overlapping files or missing verifiers
 
 **Block coding** when: rollback for stateful changes is missing; dependencies
 unresolved; ACs untestable; scope ambiguous; security/privacy/tenancy open;

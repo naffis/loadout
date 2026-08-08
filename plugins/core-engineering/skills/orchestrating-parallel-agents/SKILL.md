@@ -6,7 +6,8 @@ description: >
   when asked to "do these in parallel", "knock out the next N tasks", "work the queue", or when
   several independent changes could run concurrently. Anti-triggers: one task as a loop ->
   agentic-loop; a single feature end to end -> running-a-dev-cycle / ship-a-feature; deciding
-  whether to spawn ONE sub-agent -> the agentic-loop subagents reference.
+  whether to spawn ONE sub-agent -> the agentic-loop subagents reference; splitting ONE
+  feature into verified file-bounded units -> task-topology / build-as-graph.
 ---
 
 # Orchestrating parallel agents
@@ -123,8 +124,8 @@ For anything not landed, state exactly where it stopped, why, and what you need 
 ## Pairs with
 
 - skills: `agentic-loop`, `running-a-dev-cycle`, `rebasing-a-branch`, `reviewing-and-shipping`,
-  `committing-on-shared-trunk`
+  `committing-on-shared-trunk`, `task-topology`, `integrate`
 - agents: `reviewer`, `security-reviewer`
 - rules: `no-shortcuts`, `commit-and-pr-conventions`, `shared-working-tree`, `no-stash`, `git-safety`
-- workflows: `clear-the-queue`
+- workflows: `clear-the-queue`, `build-as-graph` (different scope: units of one task, not a ticket queue)
 - docs: `agentic-patterns`

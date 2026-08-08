@@ -47,6 +47,7 @@ verification, durable state, bounded autonomy, and a maker separate from the che
 | A quick everyday bug (red test, typecheck, wrong value) | `debugging-an-issue` |
 | Designing the *product's* agent-facing tools / MCP | `agent-tool-design` |
 | Running N independent work items at once | `orchestrating-parallel-agents` |
+| Splitting one task into pipeline/graph units | `task-topology` → `build-as-graph` (default remains this single loop) |
 | Large/ambiguous task needing a written plan first | `create-plan` / `planning-a-change` (or Plan mode) |
 
 This skill is the *connective tissue* above those: it says how to structure the loop and hand
@@ -171,10 +172,11 @@ tried and what's blocking, rather than thrashing or shipping a bandaid.
 ## Pairs with
 
 - skills: `root-cause-fix`, `create-plan`, `planning-a-change`, `reviewing-and-shipping`,
-  `post-flight`, `orchestrating-parallel-agents`, `running-a-dev-cycle`
+  `post-flight`, `orchestrating-parallel-agents`, `running-a-dev-cycle`, `task-topology`,
+  `decompose`, `integrate`
 - rules: `no-shortcuts`, `regression-test`, `definition-of-done`
-- agents: `reviewer`, `explorer`
+- agents: `reviewer`, `explorer`, `implement-node`
 - docs: `agentic-patterns`, `loop-engineering`
 - runbooks: `loop-preflight`
 - workflows: `run-autonomous-loop`, `plan-then-build`, `run-quality-loop`, `clear-the-queue`,
-  `ship-a-feature`
+  `ship-a-feature`, `build-as-graph`

@@ -50,6 +50,7 @@ the plan artifact**.
 | **Operations**   | Rollout, monitoring/alerts, and **viable rollback** (esp. stateful) |
 | **Traceability** | Every requirement → design → task → verification; no orphans        |
 | **Shortcuts**    | No stubs, silent deferrals, or "decide during implementation"       |
+| **Topology**     | Nontrivial plans declare single-loop \| pipeline \| graph with evidence (`task-topology`); graph only if disjoint allowlists + independent verifiers; every unit has a runnable verifier |
 
 For each item below, output **PASS or FAIL** with the evidence you checked
 (file path, plan section, or command output):
@@ -63,6 +64,7 @@ For each item below, output **PASS or FAIL** with the evidence you checked
 - Verification plan actually proves the requirements
 - No simpler design that satisfies everything (if there is one, that is a finding)
 - No conflict with existing code, conventions, or in-flight work you can see
+- Topology declaration present for nontrivial work; escalation tests match the choice; no "graph" with overlapping files or missing verifiers; isolation mode honors `shared-working-tree` when installed
 
 **Block coding** when: rollback for stateful changes is missing; dependencies
 unresolved; ACs untestable; scope ambiguous; security/privacy/tenancy open;
@@ -168,9 +170,10 @@ APPROVED | APPROVED WITH CONDITIONS | BLOCKED
 ## Pairs with
 
 - skills: `create-plan`, `complete-the-build`, `review-build`, `planning-a-change`,
-  `writing-an-adr`, `researching-a-dependency`
-- rules: `review-plan-rule`, `create-plan-rule`, `no-shortcuts`, `definition-of-done`
+  `writing-an-adr`, `researching-a-dependency`, `task-topology`, `decompose`
+- rules: `review-plan-rule`, `create-plan-rule`, `no-shortcuts`, `definition-of-done`,
+  `implement-node-rule`, `shared-working-tree`
 - commands: `plan` (`/plan`), `review-plan-cmd` (`/review-plan`),
   `complete-the-build-cmd` (`/complete-the-build`),
   `review-build-cmd` (`/review-build`)
-- workflows: `ship-a-feature`, `plan-then-build`, `run-autonomous-loop`
+- workflows: `ship-a-feature`, `plan-then-build`, `run-autonomous-loop`, `build-as-graph`

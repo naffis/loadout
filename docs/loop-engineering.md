@@ -139,7 +139,9 @@ authored during the harvest.
   in-task loop discipline shipped as the `agentic-loop` skill (+ `agentic-loop.mdc` rule) with
   references for context engineering, verification/stop-conditions, and subagents/parallelism;
   the adaptive router as `running-a-dev-cycle`; parallel execution as
-  `orchestrating-parallel-agents`. The broader pattern catalog is `docs/agentic-patterns.md`.
+  `orchestrating-parallel-agents`. For splitting **one** task into verified units (not a
+  ticket queue), see `task-topology` / `build-as-graph`. The broader pattern catalog is
+  `docs/agentic-patterns.md`.
   No dedicated loop-engineering plugin — all folded into `core-engineering`.
 - **[done] templates/** — `STATE.md` and the `automation-loop` starter template shipped.
 

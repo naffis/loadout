@@ -8,7 +8,8 @@ description: >
   end to end", "run the full workflow", "take this from idea to shipped", "autonomous mode", or
   starting a substantial feature. Anti-triggers: just recommend where to start / emit a kickoff
   prompt -> getting-started; run one task as a loop -> agentic-loop; ship one bounded feature ->
-  the ship-a-feature workflow; run many items in parallel -> orchestrating-parallel-agents.
+  the ship-a-feature workflow; run many items in parallel -> orchestrating-parallel-agents;
+  split one task into verified units -> task-topology / build-as-graph.
 ---
 
 # Running a dev cycle
@@ -114,7 +115,8 @@ Gate: <what's needed to proceed>
 ## Pairs with
 
 - skills: `getting-started`, `agentic-loop`, `planning-a-change`, `researching-a-dependency`,
-  `reviewing-and-shipping`, `root-cause-fix`, `writing-tests`, `updating-docs`
+  `reviewing-and-shipping`, `root-cause-fix`, `writing-tests`, `updating-docs`, `task-topology`
 - agents: `reviewer`
-- workflows: `ship-a-feature`, `run-autonomous-loop`, `clear-the-queue`, `plan-then-build`
+- workflows: `ship-a-feature`, `run-autonomous-loop`, `clear-the-queue`, `plan-then-build`,
+  `build-as-graph`
 - docs: `agentic-patterns`

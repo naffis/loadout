@@ -58,6 +58,24 @@ If the trace shows material **Partial / Missing / Punted** plan rows still open,
 — reviewing an unfinished build is the wrong job. Resume this skill after the
 gap matrix is empty.
 
+### 2b. Unit boundary check (when a task graph exists)
+
+If `.loadout/tasks/<slug>/TASK.md` (or the plan's topology section) declares
+pipeline/graph units with file allowlists:
+
+1. For each unit, compute `git diff` paths attributable to that unit (or the
+   integrated diff sliced by allowlist).
+2. **PASS** only if every edited path is ⊆ that unit's allowlist (contract file
+   read-only; edits to the contract outside a decompose pass are a failure).
+3. Report breaches as **blocker**s: boundary violations mean the graph contract
+   was not followed — fix by reverting the out-of-allowlist edit or recording an
+   explicit topology amendment (re-decompose), not by ignoring it.
+4. Also check the classic parallel failure: units each "pass" but disagree on the
+   shared contract's meaning (`integrate` § spec review).
+
+Skip this step only when topology is single-loop or no task file/plan topology
+exists.
+
 ### 3. Shortcut sweep
 
 Search the changed files for:
@@ -114,6 +132,11 @@ PASS | PASS WITH NOTES | FAIL
 | Requirement or plan step | Implemented at | Status |
 | ------------------------ | -------------- | ------ |
 
+## Unit boundaries (if task graph)
+
+| Unit | Allowlist | Diff paths outside allowlist | Status |
+| ---- | --------- | ---------------------------- | ------ |
+
 ## Deviations from plan
 
 ## Shortcut sweep hits → fixed or justified
@@ -147,11 +170,12 @@ PASS | PASS WITH NOTES | FAIL
 ## Pairs with
 
 - skills: `review-plan`, `create-plan`, `complete-the-build`, `post-flight`, `reviewing-and-shipping`,
-  `deslopping`, `simplifying-code`, `writing-tests`, `reviewing-code-quality`
+  `deslopping`, `simplifying-code`, `writing-tests`, `reviewing-code-quality`,
+  `task-topology`, `integrate`
 - rules: `review-build-rule`, `no-shortcuts`, `definition-of-done`,
-  `regression-test`, `testing-conventions`
-- agents: `reviewer`, `security-reviewer`
+  `regression-test`, `testing-conventions`, `implement-node-rule`
+- agents: `reviewer`, `security-reviewer`, `implement-node`
 - commands: `plan` (`/plan`), `review-plan-cmd` (`/review-plan`),
   `complete-the-build-cmd` (`/complete-the-build`),
   `review-build-cmd` (`/review-build`), `post-flight-cmd` (`/post-flight`)
-- workflows: `plan-then-build`, `ship-a-feature`, `run-autonomous-loop`
+- workflows: `plan-then-build`, `ship-a-feature`, `run-autonomous-loop`, `build-as-graph`

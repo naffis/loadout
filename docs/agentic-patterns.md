@@ -88,6 +88,22 @@ hard, and serialize the risky step (landing/merge).
 - **Encoded by:** `orchestrating-parallel-agents` skill;
   `references/subagents-and-parallelism.md`.
 
+### 1.5b Task topology graphs (units of one task)
+
+Not every task is one loop, and not every parallel run is a queue of tickets. A
+**nontrivial task** is triaged into **single-loop** (default), **pipeline** (sequential
+stages with verify gates), or **graph** (parallel units + gates + integrate). Graph
+requires proof: disjoint file allowlists and an independently runnable verifier per unit.
+Interfaces are written to a shared contract *before* implementers run; workers
+(`implement-node`) may not edit it or reach outside their allowlist; the integrator
+re-dispatches violators instead of hand-fixing across boundaries. A graph of unverified
+agents is worse than one loop — refuse to escalate without verifiers.
+
+- **Encoded by:** `task-topology`, `decompose`, `integrate` skills; `implement-node` rule
+  + agent; workflow `build-as-graph`; plan/review amendments on `create-plan` /
+  `review-plan` / `review-build`. Distinct from `orchestrating-parallel-agents` (N
+  tickets) and constrained by `shared-working-tree` when that kit is installed.
+
 ### 1.6 Spec / contract-driven development
 
 Write the intended behavior as a checkable spec/contract *before* generating, then hold
@@ -228,7 +244,8 @@ in a description. Treat inbound assets as untrusted: read them, pin to tags, rev
 Concurrency beyond your review bandwidth converts speed into unreviewed risk. Cap it;
 serialize merges.
 
-- **Guarded by:** `orchestrating-parallel-agents`' hard concurrency cap + serial landing.
+- **Guarded by:** `orchestrating-parallel-agents`' hard concurrency cap + serial landing;
+  `task-topology` / `build-as-graph` wave cap (≤3) + serial `integrate`.
 
 ---
 
@@ -241,8 +258,9 @@ serialize merges.
 | Evaluator-optimizer / maker≠checker | `reviewer`, `security-reviewer`, `review-plan`, `review-build`, `/review-plan`, `/review-build`, `root-cause-fix`, `security-pass` |
 | Context engineering | `context-engineering` ref, `explorer`, `STATE.md` |
 | Orchestrator-workers / parallel / worktrees | `orchestrating-parallel-agents`, `clear-the-queue`, `subagents-and-parallelism` |
+| Task topology graphs (one task → units) | `task-topology`, `decompose`, `integrate`, `implement-node`, `build-as-graph` |
 | Shared trunk (parallel agents, one checkout) | `shared-working-tree`, `no-stash`, `git-safety`, `committing-on-shared-trunk` |
-| Spec/contract-driven | `create-plan`, `review-plan`, `review-build`, `plan-then-build`, `planning-a-change`, `definition-of-done` |
+| Spec/contract-driven | `create-plan`, `review-plan`, `review-build`, `plan-then-build`, `planning-a-change`, `definition-of-done`, `decompose` (shared contract) |
 | Plan-first | `create-plan`, `review-plan`, `review-build`, `plan-then-build`, `/plan`, `/review-plan`, `/review-build`, `planning-a-change`, `running-a-dev-cycle`, `getting-started` |
 | Progressive disclosure | every `SKILL.md`, `skill-author`, `doctor` |
 | ACI / tool design | `agent-tool-design`, `no-regex-for-semantics` |

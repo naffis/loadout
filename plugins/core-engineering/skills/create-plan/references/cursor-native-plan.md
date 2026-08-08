@@ -43,4 +43,6 @@ requires this delivery.
 ```
 
 Rules: `todos` non-empty (one per `T-0N`); do not implement until Build or an
-explicit implement ask.
+explicit implement ask. For nontrivial plans, include the **Task topology** block
+(create-plan §8b) in the CreatePlan `plan` body and link
+`.loadout/tasks/<slug>/TASK.md`.

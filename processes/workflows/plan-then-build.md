@@ -67,16 +67,20 @@ what `loadout add` installs. The skill ids (`create-plan`, `review-plan`,
    implementation code in this step.
 2. **Create the plan** — `create-plan` (`/plan`) in full: in-repo evidence first, mandatory
    external research (SOTA / common practice / pitfalls / primary sources), EARS-style
-   acceptance criteria, mini-ADRs for real trade-offs, executable tasks. Ban TBD, stubs,
+   acceptance criteria, mini-ADRs for real trade-offs, executable tasks, and for nontrivial
+   work a **topology declaration** (`task-topology` / plan §8b). Ban TBD, stubs,
    placeholders, and "figure out during implementation" for anything in scope
-   (`create-plan-rule` + `no-shortcuts`).
+   (`create-plan-rule` + `no-shortcuts`). If topology is pipeline/graph, prefer the
+   `build-as-graph` workflow for implementation rather than an unstructured fan-out.
 3. **Stress-test the plan** — `review-plan` (`/review-plan`) in full: re-read plan + live
-   code, fresh external research, PASS/FAIL checklist with evidence, pre-mortem, adversarial
-   critique, fix shortcuts **in the plan file**, final sweep. Chat-only critique without
-   editing the plan is a failure (`review-plan-rule`). Do not implement until the plan
-   verdict is APPROVED or APPROVED WITH CONDITIONS (conditions listed and accepted).
+   code, fresh external research, PASS/FAIL checklist with evidence (including topology
+   escalation tests), pre-mortem, adversarial critique, fix shortcuts **in the plan file**,
+   final sweep. Chat-only critique without editing the plan is a failure (`review-plan-rule`).
+   Do not implement until the plan verdict is APPROVED or APPROVED WITH CONDITIONS
+   (conditions listed and accepted).
 4. **Implement against the plan** — smallest safe change first; follow existing patterns;
    update the plan if reality diverges (the plan stays the source of truth). No side quests.
+   Pipeline/graph → `decompose` → `implement-node` → `integrate` (`build-as-graph`).
 5. **Exhaust open rows** — if any plan phase/AC is still Partial / Missing / Punted,
    run `complete-the-build` (`/complete-the-build`): gap matrix before coding, build to
    empty, two clean passes (`complete-the-build-rule`). Do not jump to review-build with

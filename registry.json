@@ -36,7 +36,10 @@
         "test-driven",
         "do-it-right",
         "post-flight",
-        "post-flight-cmd"
+        "post-flight-cmd",
+        "task-topology",
+        "build-as-graph",
+        "build-as-graph-cmd"
       ],
       "workflows": [
         "ship-a-feature",
@@ -51,7 +54,8 @@
         "cut-a-release",
         "onboard-to-codebase",
         "run-autonomous-loop",
-        "run-quality-loop"
+        "run-quality-loop",
+        "build-as-graph"
       ]
     },
     {
@@ -111,13 +115,19 @@
         "plan",
         "review-plan-cmd",
         "review-build-cmd",
-        "complete-the-build"
+        "complete-the-build",
+        "task-topology",
+        "decompose",
+        "integrate",
+        "implement-node-rule",
+        "build-as-graph"
       ],
       "workflows": [
         "ship-a-feature",
         "onboard-to-codebase",
         "run-autonomous-loop",
-        "plan-then-build"
+        "plan-then-build",
+        "build-as-graph"
       ]
     },
     {
@@ -144,12 +154,17 @@
         "plan",
         "review-plan-cmd",
         "review-build-cmd",
-        "complete-the-build"
+        "complete-the-build",
+        "task-topology",
+        "decompose",
+        "implement-node-rule",
+        "build-as-graph"
       ],
       "workflows": [
         "ship-a-feature",
         "run-autonomous-loop",
-        "plan-then-build"
+        "plan-then-build",
+        "build-as-graph"
       ]
     },
     {
@@ -181,12 +196,18 @@
         "complete-the-build",
         "simplifying-code",
         "post-flight",
-        "post-flight-cmd"
+        "post-flight-cmd",
+        "task-topology",
+        "integrate",
+        "implement-node",
+        "implement-node-rule",
+        "build-as-graph"
       ],
       "workflows": [
         "plan-then-build",
         "ship-a-feature",
-        "run-autonomous-loop"
+        "run-autonomous-loop",
+        "build-as-graph"
       ]
     },
     {
@@ -912,14 +933,20 @@
         "no-shortcuts",
         "regression-test",
         "definition-of-done",
-        "post-flight"
+        "post-flight",
+        "task-topology",
+        "decompose",
+        "integrate",
+        "implement-node",
+        "build-as-graph"
       ],
       "workflows": [
         "run-autonomous-loop",
         "plan-then-build",
         "run-quality-loop",
         "clear-the-queue",
-        "ship-a-feature"
+        "ship-a-feature",
+        "build-as-graph"
       ]
     },
     {
@@ -991,7 +1018,9 @@
         "root-cause-fix",
         "writing-tests",
         "updating-docs",
-        "reviewer"
+        "reviewer",
+        "task-topology",
+        "build-as-graph"
       ],
       "workflows": [
         "run-autonomous-loop",
@@ -1022,10 +1051,111 @@
         "commit-and-pr-conventions",
         "shared-working-tree",
         "no-stash",
-        "committing-on-shared-trunk"
+        "committing-on-shared-trunk",
+        "task-topology",
+        "build-as-graph"
       ],
       "workflows": [
         "clear-the-queue"
+      ]
+    },
+    {
+      "id": "task-topology",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/task-topology",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "decompose",
+        "integrate",
+        "agentic-loop",
+        "running-a-dev-cycle",
+        "orchestrating-parallel-agents",
+        "create-plan",
+        "review-plan",
+        "review-build",
+        "implement-node",
+        "implement-node-rule",
+        "shared-working-tree",
+        "no-stash",
+        "git-safety",
+        "definition-of-done",
+        "no-shortcuts",
+        "build-as-graph",
+        "build-as-graph-cmd"
+      ],
+      "workflows": [
+        "build-as-graph",
+        "plan-then-build",
+        "run-autonomous-loop"
+      ]
+    },
+    {
+      "id": "decompose",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/decompose",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "task-topology",
+        "integrate",
+        "create-plan",
+        "agentic-loop",
+        "writing-tests",
+        "implement-node",
+        "implement-node-rule",
+        "definition-of-done",
+        "no-shortcuts",
+        "shared-working-tree",
+        "build-as-graph"
+      ],
+      "workflows": [
+        "build-as-graph"
+      ]
+    },
+    {
+      "id": "integrate",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/integrate",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "task-topology",
+        "decompose",
+        "review-build",
+        "agentic-loop",
+        "orchestrating-parallel-agents",
+        "rebasing-a-branch",
+        "committing-on-shared-trunk",
+        "implement-node",
+        "implement-node-rule",
+        "shared-working-tree",
+        "no-stash",
+        "git-safety",
+        "definition-of-done",
+        "no-shortcuts",
+        "commit-and-pr-conventions",
+        "reviewer",
+        "security-reviewer",
+        "build-as-graph"
+      ],
+      "workflows": [
+        "build-as-graph"
       ]
     },
     {
@@ -1326,6 +1456,30 @@
       ]
     },
     {
+      "id": "build-as-graph-cmd",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/build-as-graph.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": [
+        "claude",
+        "cursor"
+      ],
+      "layer": "command",
+      "pairs_with": [
+        "build-as-graph",
+        "task-topology",
+        "decompose",
+        "integrate",
+        "implement-node",
+        "implement-node-rule",
+        "agentic-loop"
+      ],
+      "workflows": [
+        "build-as-graph"
+      ]
+    },
+    {
       "id": "review-plan-cmd",
       "type": "command",
       "source": "plugins/core-engineering/commands/review-plan.md",
@@ -1502,6 +1656,30 @@
       ]
     },
     {
+      "id": "implement-node",
+      "type": "agent",
+      "source": "plugins/core-engineering/agents/implement-node.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": [
+        "claude",
+        "cursor"
+      ],
+      "layer": "agent",
+      "pairs_with": [
+        "implement-node-rule",
+        "task-topology",
+        "decompose",
+        "integrate",
+        "agentic-loop",
+        "no-shortcuts",
+        "definition-of-done"
+      ],
+      "workflows": [
+        "build-as-graph"
+      ]
+    },
+    {
       "id": "security-reviewer",
       "type": "agent",
       "source": "plugins/core-engineering/agents/security-reviewer.md",
@@ -1605,7 +1783,11 @@
         "git-safety",
         "no-stash",
         "committing-on-shared-trunk",
-        "orchestrating-parallel-agents"
+        "orchestrating-parallel-agents",
+        "task-topology",
+        "integrate",
+        "implement-node-rule",
+        "build-as-graph"
       ]
     },
     {
@@ -1914,7 +2096,9 @@
         "planning-a-change",
         "no-shortcuts",
         "definition-of-done",
-        "plan"
+        "plan",
+        "task-topology",
+        "build-as-graph"
       ],
       "workflows": [
         "plan-then-build"
@@ -1937,7 +2121,9 @@
         "review-build",
         "no-shortcuts",
         "definition-of-done",
-        "review-plan-cmd"
+        "review-plan-cmd",
+        "task-topology",
+        "build-as-graph"
       ],
       "workflows": [
         "plan-then-build"
@@ -1960,11 +2146,42 @@
         "create-plan",
         "no-shortcuts",
         "definition-of-done",
-        "review-build-cmd"
+        "review-build-cmd",
+        "task-topology",
+        "integrate",
+        "implement-node-rule",
+        "build-as-graph"
       ],
       "workflows": [
         "plan-then-build",
         "ship-a-feature"
+      ]
+    },
+    {
+      "id": "implement-node-rule",
+      "type": "cursor-rule",
+      "source": "rules/implement-node.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule",
+      "pairs_with": [
+        "implement-node",
+        "task-topology",
+        "decompose",
+        "integrate",
+        "shared-working-tree",
+        "no-stash",
+        "git-safety",
+        "no-shortcuts",
+        "definition-of-done",
+        "build-as-graph"
+      ],
+      "workflows": [
+        "build-as-graph"
       ]
     },
     {
@@ -2169,6 +2386,32 @@
         "claude"
       ],
       "layer": "workflow"
+    },
+    {
+      "id": "build-as-graph",
+      "type": "workflow",
+      "source": "processes/workflows/build-as-graph.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "workflow",
+      "pairs_with": [
+        "task-topology",
+        "decompose",
+        "integrate",
+        "implement-node",
+        "implement-node-rule",
+        "create-plan",
+        "review-plan",
+        "review-build",
+        "agentic-loop",
+        "orchestrating-parallel-agents",
+        "clear-the-queue",
+        "build-as-graph-cmd"
+      ]
     },
     {
       "id": "safe-refactor",
