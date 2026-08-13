@@ -99,25 +99,24 @@ If they skip Remote Rules, the CLI still vendors rules into `.cursor/rules/`.
 
 ### 4. Vendor the starter set
 
-This set is **`ship-a-feature` + its full `uses:` block**, plus routing (`start` /
-`getting-started`), the install contract, this skill, and two always-on guards
-(`no-secrets-in-code`, `definition-of-done`).
+Seed ids live in `registry.json` → `kits.starter`: routing (`start` / `getting-started`),
+the install contract, `ship-a-feature`, `plan-then-build`, and always-on guards
+(`no-secrets-in-code`, `definition-of-done`). Add the seeds, then run `update` so it
+installs each workflow's full `uses:` block (skills, commands, rules, agents).
 
 ```bash
 npx github:naffis/loadout add \
   doc-install equipping-loadout \
   start getting-started \
-  ship-a-feature \
-  planning-a-change review-build reviewing-and-shipping \
-  writing-tests writing-commit-messages opening-a-pr making-a-pr-reviewable updating-docs \
-  reviewer review-build-cmd \
-  no-shortcuts size-limits testing-conventions test-coverage \
-  commit-and-pr-conventions regression-test documentation-updates review-build-rule \
+  ship-a-feature plan-then-build \
   no-secrets-in-code definition-of-done
+
+npx github:naffis/loadout update
 ```
 
-Already-present ids warn and are skipped (use Flow B / `update` to refresh). Including
-rule ids is safe even when Remote Rules are wired.
+`update` closes `uses:` and backfills any starter seed still missing. Already-present
+ids are skipped on `add` (use Flow B / `update` to refresh). Including rule ids via
+`uses:` is safe even when Remote Rules are wired.
 
 Do **not** bulk-install the catalog. More assets: `npx github:naffis/loadout add <id…>` or
 `loadout list` after the user asks. For a slower progressive equip, follow `bootstrap-project`.
@@ -164,7 +163,9 @@ Summarize:
 
 ## Flow B — "Update to latest" / sync / refresh
 
-Goal: pull upstream changes that are not yet local. Never clobber without a merge trail.
+Goal: pull upstream changes that are not yet local, **and** install anything the
+current starter kit / installed workflows require that is still missing. Never
+clobber without a merge trail.
 
 ### 1. Vendored assets (lockfile)
 
@@ -172,9 +173,12 @@ If `loadout.lock.json` exists:
 
 ```bash
 # Dry run when they only asked "any updates?" / "what's new?"
+# Reports both content updates and missing starter / uses: deps.
 npx github:naffis/loadout update --check
 
-# Apply (three-way merge; conflicts get markers, never silent overwrite)
+# Apply: three-way merge managed assets + install missing kits.starter seeds
+# and each installed workflow's uses: closure. Conflicts get markers, never
+# silent overwrite. Use --refresh-only to skip installing missing assets.
 npx github:naffis/loadout update
 ```
 
@@ -194,7 +198,7 @@ No CLI step — they auto-sync when configured. Say so if relevant.
 
 ### 4. Report back
 
-- Updated / already current / conflicts (paths; markers need a human resolve)
+- Updated / newly installed (missing) / already current / conflicts (paths; markers need a human resolve)
 - Plugin update status (done vs user must run slash commands)
 - Optional: `npx github:naffis/loadout list --installed`
 

@@ -48,30 +48,17 @@ slower, progressive human path (baselines first, fewer assets on day one).
      git-safety no-stash shared-working-tree committing-on-shared-trunk
    ```
    Name the integration trunk in `AGENTS.md`.
-4. **Starter workflow kit** — enough to ship the first real change:
+4. **Starter workflow kit** — seeds from `kits.starter`, then let `update` close `uses:`:
    ```bash
    npx github:naffis/loadout add \
-     getting-started ship-a-feature \
-     planning-a-change review-build writing-tests reviewing-and-shipping \
-     writing-commit-messages opening-a-pr updating-docs \
-     review-build-cmd review-build-rule \
-     testing-conventions test-coverage commit-and-pr-conventions documentation-updates
+     doc-install equipping-loadout \
+     start getting-started \
+     ship-a-feature plan-then-build \
+     no-secrets-in-code definition-of-done
+   npx github:naffis/loadout update
    ```
-   If the first change is high-stakes/unfamiliar, equip the full `plan-then-build` kit
-   (note: plan/build **rules** use registry ids `*-rule`, separate from the skill ids):
-   ```bash
-   npx github:naffis/loadout add \
-     plan-then-build \
-     create-plan review-plan review-build agentic-loop \
-     writing-tests updating-docs reviewing-and-shipping \
-     writing-commit-messages opening-a-pr making-a-pr-reviewable \
-     plan review-plan-cmd review-build-cmd \
-     create-plan-rule review-plan-rule review-build-rule \
-     no-shortcuts size-limits testing-conventions test-coverage \
-     regression-test documentation-updates definition-of-done \
-     commit-and-pr-conventions
-   ```
-   Then use `/plan` → `/review-plan` → implement → `/review-build`.
+   That pulls `ship-a-feature` and `plan-then-build` plus each workflow's skills, commands,
+   rules, and agents (including `/plan` → `/review-plan` → `/review-build`).
 5. **Orient** — run the `onboard-to-codebase` workflow (or add it and ask the agent to follow
    it) so the first session learns architecture, change patterns, and gate commands.
 6. **Doctor**
@@ -95,8 +82,9 @@ slower, progressive human path (baselines first, fewer assets on day one).
 
 - Full hook suites — add from `harness-hooks` when a must-happen-every-time failure appears.
 - Autonomous loops — pass `loop-preflight` and get a **manual** run reliable first.
-- Every skill in the catalog — add when a workflow you actually run needs it (`loadout add`
-  does not auto-pull a workflow's `uses:` block; equip deliberately).
+- Every skill in the catalog — add when a workflow you actually run needs it. After adding a
+  workflow, run `loadout update` so it installs that workflow's `uses:` block; do not binge
+  the rest of the catalog.
 - Domain/vertical plugins that aren't generalized — loadout intentionally omits them.
 
 ## Verify bootstrap

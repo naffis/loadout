@@ -15,7 +15,8 @@ ${c.bold("Commands:")}
   init                 Bootstrap a project (Phase 2)
   add <id...>          Vendor assets into the project (Phase 2)
   list [--installed]   Show available assets, or what is installed locally
-  update [--check]     Pull latest and three-way merge managed assets (Phase 3)
+  update [--check] [--refresh-only]
+                       Pull latest, three-way merge, and install missing starter/uses deps
   diff <id>            Show upstream vs local for one asset (Phase 3)
   doctor               Validate manifests, frontmatter, and composition refs
   help                 Show this message

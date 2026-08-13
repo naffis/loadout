@@ -1,6 +1,8 @@
 import { existsSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync, mkdirSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { c, err, heading, info, ok, warn } from "../lib/log.js";
+import { missingFromInstalled, resolveDesiredIds } from "../lib/desired.js";
+import { vendorAsset } from "../lib/install.js";
 import {
   baseCachePath,
   hashPath,
@@ -14,6 +16,7 @@ import type { LockfileEntry } from "../lib/types.js";
 
 export function update(args: string[]): number {
   const check = args.includes("--check");
+  const refreshOnly = args.includes("--refresh-only");
   const projectRoot = process.cwd();
   const sourceRoot = findSourceRoot();
   const registry = loadRegistry(sourceRoot);
@@ -29,6 +32,7 @@ export function update(args: string[]): number {
   const conflicts: string[] = [];
   const localDivergence: string[] = [];
   const orphaned: string[] = [];
+  const newlyInstalled: string[] = [];
 
   for (const [id, entry] of Object.entries(lock.installed)) {
     const asset = getAsset(registry, id);
@@ -38,7 +42,6 @@ export function update(args: string[]): number {
     }
     const srcAbs = join(sourceRoot, asset.source);
     if (!existsSync(srcAbs)) {
-      // Registry still lists it but the source is gone; treat like an orphan, don't crash.
       orphaned.push(id);
       continue;
     }
@@ -82,29 +85,53 @@ export function update(args: string[]): number {
     if (res.conflict) conflicts.push(id);
     else merged.push(id);
 
-    // Re-project a rule into CLAUDE.md so the projected copy doesn't go stale.
     if (asset.type === "cursor-rule" && tools.claude) {
       projectRuleIntoClaudeMd(join(projectRoot, "CLAUDE.md"), id, readFileSync(targetAbs, "utf8"));
     }
 
-    advanceBase(baseAbs, srcAbs); // advance the merge base to the new upstream (prune stale files)
+    advanceBase(baseAbs, srcAbs);
     entry.baseHash = theirsHash;
     entry.localHash = hashPath(targetAbs);
     entry.version = asset.version;
     lock.installed[id] = entry as LockfileEntry;
   }
 
+  // Keep kits.starter + installed workflow uses: complete (unless --refresh-only).
+  let missing: string[] = [];
+  if (!refreshOnly) {
+    const desired = resolveDesiredIds(registry, sourceRoot, Object.keys(lock.installed));
+    missing = missingFromInstalled(desired, Object.keys(lock.installed));
+    if (check) {
+      for (const id of missing) updatesAvailable.push(id);
+    } else {
+      for (const id of missing) {
+        const result = vendorAsset(id, {
+          sourceRoot,
+          projectRoot,
+          registry,
+          tools,
+          lock,
+          missingLabel: true,
+        });
+        if (result === "installed") newlyInstalled.push(id);
+      }
+    }
+  }
+
   if (check) {
     heading("Update check");
     for (const id of orphaned) warn(`${id}: no longer in registry`);
+    const contentUpdates = updatesAvailable.filter((id) => !missing.includes(id));
+    const missingUpdates = updatesAvailable.filter((id) => missing.includes(id));
     if (updatesAvailable.length === 0) {
       ok("Up to date.");
       return 0;
     }
-    for (const id of updatesAvailable) info(`  ${c.bold(id)}: update available`);
+    for (const id of contentUpdates) info(`  ${c.bold(id)}: update available`);
+    for (const id of missingUpdates) info(`  ${c.bold(id)}: missing (will install)`);
     info("");
     info(`${updatesAvailable.length} update(s) available. Run 'loadout update'.`);
-    return 1; // non-zero so CI/cron can detect drift
+    return 1;
   }
 
   writeLockfile(projectRoot, lock);
@@ -114,7 +141,9 @@ export function update(args: string[]): number {
   for (const id of conflicts) err(`${id}: CONFLICT — markers written, resolve manually`);
   for (const id of orphaned) warn(`${id}: no longer in registry; left in place`);
   info("");
-  info(`${merged.length} updated, ${conflicts.length} conflict(s).`);
+  info(
+    `${merged.length} updated, ${newlyInstalled.length} installed missing, ${conflicts.length} conflict(s).`,
+  );
   return conflicts.length > 0 ? 1 : 0;
 }
 
@@ -135,7 +164,6 @@ function mergeAsset(targetAbs: string, baseAbs: string, srcAbs: string): MergeOu
     return { conflict };
   }
 
-  // Directory: merge each file present upstream/base/local.
   const rels = new Set<string>();
   for (const root of [srcAbs, baseAbs, targetAbs]) collectRel(root, root, rels);
   let conflict = false;
@@ -143,8 +171,8 @@ function mergeAsset(targetAbs: string, baseAbs: string, srcAbs: string): MergeOu
     const ours = readIf(join(targetAbs, rel));
     const base = readIf(join(baseAbs, rel));
     const theirs = readIf(join(srcAbs, rel));
-    if (theirs === null && ours === null) continue; // stale base only; nothing to write
-    if (theirs === null && ours !== null) continue; // removed upstream, kept locally
+    if (theirs === null && ours === null) continue;
+    if (theirs === null && ours !== null) continue;
     const r = threeWayMerge(ours ?? "", base ?? "", theirs ?? "");
     if (r.conflict) conflict = true;
     const dest = join(targetAbs, rel);
@@ -167,7 +195,6 @@ function readIf(p: string): string | null {
   return existsSync(p) ? readFileSync(p, "utf8") : null;
 }
 
-/** Advance the merge base to upstream. For directories, prune first so removed files don't linger. */
 function advanceBase(baseAbs: string, srcAbs: string): void {
   if (statSync(srcAbs).isDirectory() && existsSync(baseAbs)) {
     rmSync(baseAbs, { recursive: true, force: true });

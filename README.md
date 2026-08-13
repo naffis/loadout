@@ -10,7 +10,7 @@ done — not sit as an unordered pile.
 
 > **Status: functional.** The CLI (`init`, `add`, `list`, `update`, `diff`, `doctor`) is
 > implemented with a lockfile and three-way merge. The library is general-purpose: 2
-> Claude Code plugins (52 skills, 13 commands, 5 subagents), 35 Cursor rules, 14 workflows, 6
+> Claude Code plugins (53 skills, 13 commands, 5 subagents), 36 Cursor rules, 14 workflows, 6
 > runbooks, and templates — generalized from practice and sanitized for public use.
 > Domain/vertical-specific assets are intentionally left out. See
 > `docs/external-practices.md`, `docs/agentic-patterns.md`, and `docs/loop-engineering.md`
@@ -43,10 +43,11 @@ Then open the project in **Cursor** or **Claude Code** and use it:
 - **Workflows** (e.g. `ship-a-feature`, `plan-then-build`) compose rules, skills, and
   subagents into one named recipe.
 
-Pull upstream improvements anytime — local edits are preserved via a three-way merge:
+Pull upstream improvements anytime — local edits are preserved via a three-way merge,
+and missing starter / workflow `uses:` deps are installed automatically:
 
 ```bash
-npx github:naffis/loadout update                     # merges updates; conflicts shown as markers, never silent
+npx github:naffis/loadout update                     # merge + install missing; conflicts as markers, never silent
 ```
 
 Prefer native distribution (Claude Code plugins / Cursor Remote Rules) instead of
@@ -95,7 +96,7 @@ plugin) and Cursor (via `.cursor/skills/`).
 npx github:naffis/loadout init        # bootstrap a project (detect tools, hook, lockfile)
 npx github:naffis/loadout add <id>    # vendor an asset into this project
 npx github:naffis/loadout list        # show available assets
-npx github:naffis/loadout update      # pull latest, three-way merge managed assets
+npx github:naffis/loadout update      # merge + install missing starter/uses deps
 npx github:naffis/loadout doctor      # validate manifests, frontmatter, lockfile
 ```
 
@@ -108,7 +109,7 @@ Pin consumers to release tags, not `main` — e.g. `npx github:naffis/loadout#v0
 | `loadout init`               | Bootstrap a project: detect Cursor/Claude, scaffold dirs, install the SessionStart notify hook, write `loadout.lock.json`                                      |
 | `loadout add <id...>`        | Vendor assets into a project (rules → `.cursor/rules` + projected into `CLAUDE.md`; skills → `.cursor/skills`; MCP merged into `.mcp.json`/`.cursor/mcp.json`) |
 | `loadout list [--installed]` | Show available assets, or what is installed locally (with drift flags)                                                                                         |
-| `loadout update [--check]`   | Pull latest and three-way merge managed assets; `--check` is a dry run that exits non-zero if updates exist                                                    |
+| `loadout update [--check] [--refresh-only]` | Pull latest, three-way merge, and install missing `kits.starter` + workflow `uses:` deps; `--check` dry-runs (non-zero on drift); `--refresh-only` skips installs |
 | `loadout diff <id>`          | Show upstream vs local for one asset                                                                                                                           |
 | `loadout doctor`             | Validate manifests, frontmatter, composition refs, orphaned files, and lockfile integrity                                                                      |
 

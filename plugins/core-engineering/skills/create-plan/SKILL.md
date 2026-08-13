@@ -9,7 +9,7 @@ description: >
   Write-only. Requires extensive in-repo AND external research. No TBD/stubs/
   deferred decisions. Anti-triggers: user already asked to implement/build now;
   one-sentence diffs (use planning-a-change or just implement); pure Q&A with
-  no plan requested.
+  no plan requested; seed thought / "deep dive:" / "dig in:" → deep-dive.
 ---
 
 # Create a plan

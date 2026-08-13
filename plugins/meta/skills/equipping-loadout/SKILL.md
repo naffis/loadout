@@ -28,12 +28,13 @@ it into their project, or **update** an existing install to match upstream.
    equipped short-circuit, starter ids, plugin/Remote Rules steps, and report-back shape.
    Do not invent an alternate install path (no wholesale clone into the consumer).
 4. **Hand off.** After Flow A, point at `/start` / `getting-started` — do not re-explain the
-   catalog. After Flow B, summarize updated / current / conflicts.
+   catalog. After Flow B, summarize updated / newly installed missing / current / conflicts.
 
 ## Guardrails
 
 - Prefer native delivery (Claude plugins, Cursor Remote Rules) plus CLI for the rest.
-- Starter set only on first equip; add more ids only when the user asks.
+- Starter seeds on first equip (`kits.starter`); `update` backfills their `uses:` closure and
+  any starter seed still missing. Add more catalog ids only when the user asks.
 - Never overwrite local edits silently — `update` uses three-way merge; surface conflicts.
 - Treat skills/rules as trusted prompt text; pin with `npx github:naffis/loadout#<tag>` when
   supply chain matters (`audit-external-skills`).

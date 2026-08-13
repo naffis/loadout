@@ -26,7 +26,7 @@
     "prepare": "tsc -p tsconfig.json",
     "dev": "node --import tsx cli/src/index.ts",
     "doctor": "node dist/index.js doctor",
-    "test": "node --import tsx --test cli/src/lib/merge.test.ts cli/src/lib/project.test.ts"
+    "test": "node --import tsx --test cli/src/lib/merge.test.ts cli/src/lib/project.test.ts cli/src/lib/desired.test.ts"
   },
   "dependencies": {
     "gray-matter": "^4.0.3"

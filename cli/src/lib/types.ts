@@ -37,6 +37,14 @@ export interface RegistryAsset {
 export interface Registry {
   version: string;
   source: string;
+  /**
+   * Named asset-id lists. `starter` is the seed set `update` keeps complete
+   * (plus the `uses:` closure of every installed workflow).
+   */
+  kits?: {
+    starter?: string[];
+    [name: string]: string[] | undefined;
+  };
   assets: RegistryAsset[];
 }
 

@@ -316,6 +316,25 @@ function checkRegistry(root: string, f: Findings, workflows: Set<string>): void 
       }
     }
   }
+
+  if (!reg.kits || typeof reg.kits !== "object" || Array.isArray(reg.kits)) {
+    f.errors.push("registry.json: missing kits object (kits.starter drives update backfill)");
+  } else {
+    for (const [kitName, kitIds] of Object.entries(reg.kits)) {
+      if (!Array.isArray(kitIds)) {
+        f.errors.push(`registry.json: kits.${kitName} must be an array of asset ids`);
+        continue;
+      }
+      for (const kitId of kitIds) {
+        if (!ids.has(kitId)) {
+          f.errors.push(`registry.json: kits.${kitName} references unknown asset '${kitId}'`);
+        }
+      }
+    }
+    if (!Array.isArray(reg.kits.starter) || reg.kits.starter.length === 0) {
+      f.errors.push("registry.json: kits.starter must be a non-empty array of asset ids");
+    }
+  }
 }
 
 function validateAsset(root: string, a: RegistryAsset, f: Findings): void {

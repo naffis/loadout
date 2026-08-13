@@ -122,8 +122,9 @@ For ambiguous or large work, produce a read-only plan and get it right before an
 It surfaces trade-offs and unknowns while they're cheap, and gives the executor a spec to
 build to. Skip it for one-liners; it's a tax on trivial work.
 
-- **Encoded by:** `create-plan`, `review-plan`, `planning-a-change`, `plan-then-build`,
-  `/plan`, `/review-plan`, `running-a-dev-cycle` (PLAN phase), `getting-started`.
+- **Encoded by:** `deep-dive` (seed → recommendation before a plan), `create-plan`,
+  `review-plan`, `planning-a-change`, `plan-then-build`, `/plan`, `/review-plan`,
+  `running-a-dev-cycle` (PLAN phase), `getting-started`.
 
 ### 1.8 Progressive disclosure (skills load lean, expand on demand)
 
@@ -261,7 +262,7 @@ serialize merges.
 | Task topology graphs (one task → units) | `task-topology`, `decompose`, `integrate`, `implement-node`, `build-as-graph` |
 | Shared trunk (parallel agents, one checkout) | `shared-working-tree`, `no-stash`, `git-safety`, `committing-on-shared-trunk` |
 | Spec/contract-driven | `create-plan`, `review-plan`, `review-build`, `plan-then-build`, `planning-a-change`, `definition-of-done`, `decompose` (shared contract) |
-| Plan-first | `create-plan`, `review-plan`, `review-build`, `plan-then-build`, `/plan`, `/review-plan`, `/review-build`, `planning-a-change`, `running-a-dev-cycle`, `getting-started` |
+| Plan-first | `deep-dive`, `create-plan`, `review-plan`, `review-build`, `plan-then-build`, `/plan`, `/review-plan`, `/review-build`, `planning-a-change`, `running-a-dev-cycle`, `getting-started` |
 | Progressive disclosure | every `SKILL.md`, `skill-author`, `doctor` |
 | ACI / tool design | `agent-tool-design`, `no-regex-for-semantics` |
 | Root cause over symptom | `root-cause-fix`, `debugging-an-issue`, `debug-production`, `regression-test` |

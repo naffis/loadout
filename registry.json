@@ -1,6 +1,18 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "source": "github:naffis/loadout",
+  "kits": {
+    "starter": [
+      "doc-install",
+      "equipping-loadout",
+      "start",
+      "getting-started",
+      "ship-a-feature",
+      "plan-then-build",
+      "no-secrets-in-code",
+      "definition-of-done"
+    ]
+  },
   "assets": [
     {
       "id": "getting-started",
@@ -35,6 +47,7 @@
         "simplifying-code",
         "test-driven",
         "do-it-right",
+        "deep-dive",
         "post-flight",
         "post-flight-cmd",
         "task-topology",
@@ -56,6 +69,40 @@
         "run-autonomous-loop",
         "run-quality-loop",
         "build-as-graph"
+      ]
+    },
+    {
+      "id": "deep-dive",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/deep-dive",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "deep-dive-rule",
+        "getting-started",
+        "create-plan",
+        "planning-a-change",
+        "review-plan",
+        "do-it-right",
+        "root-cause-fix",
+        "debugging-an-issue",
+        "researching-a-dependency",
+        "writing-an-adr",
+        "running-a-dev-cycle",
+        "no-shortcuts",
+        "definition-of-done",
+        "regression-test",
+        "explorer"
+      ],
+      "workflows": [
+        "plan-then-build",
+        "ship-a-feature",
+        "debug-production"
       ]
     },
     {
@@ -2102,6 +2149,32 @@
       ],
       "workflows": [
         "plan-then-build"
+      ]
+    },
+    {
+      "id": "deep-dive-rule",
+      "type": "cursor-rule",
+      "source": "rules/deep-dive.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "rule",
+      "pairs_with": [
+        "deep-dive",
+        "create-plan",
+        "do-it-right",
+        "root-cause-fix",
+        "no-shortcuts",
+        "regression-test",
+        "definition-of-done"
+      ],
+      "workflows": [
+        "plan-then-build",
+        "ship-a-feature",
+        "debug-production"
       ]
     },
     {

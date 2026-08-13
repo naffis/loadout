@@ -9,7 +9,8 @@ description: >
   root-cause-fix or debugging-an-issue. Use so the user never has to re-prompt
   for thoroughness. Anti-triggers: everyday red test already framed →
   debugging-an-issue; plan exhaustion → complete-the-build; investigate-only →
-  debugging-with-observability.
+  debugging-with-observability; seed thought / "deep dive:" / "dig in:" →
+  deep-dive (not this skill; "dig deeper" stays here).
 ---
 
 # Do it right
@@ -54,6 +55,7 @@ Invoke when any of these are true:
 | Proven class root; implement class-kill + regression                   | `root-cause-fix`               |
 | Everyday red test / typecheck / local repro already framed             | `debugging-an-issue`           |
 | Investigate only, no fix commitment                                    | `debugging-with-observability` |
+| Seed thought / "deep dive:" / "dig in:" (recommend, don't implement)   | `deep-dive`                    |
 | Session wrap / shipping checklist                                      | `reviewing-and-shipping`       |
 
 ## Workflow

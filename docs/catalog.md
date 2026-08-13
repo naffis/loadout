@@ -10,13 +10,14 @@ command → `/changelog`.
 
 ---
 
-## Skills (52)
+## Skills (53)
 
 ### Getting started (start here)
 
 | Skill             | What / when                                                                                                                  | Call                                                   |
 | ----------------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
 | `getting-started` | Route a goal to the right workflow + supporting skills/rules, decide manual vs loop, and emit a ready-to-run kickoff prompt. | "I want to build X, what should I do?" / new to a repo |
+| `deep-dive`       | Take a brief seed (idea / feature / bug / problem), investigate repo then world, force real alternatives, one self-critique, land on the best solution. Does not implement. | `deep dive:` / `dig in:` followed by the seed |
 
 ### Agentic loops & orchestration
 
@@ -121,7 +122,7 @@ command → `/changelog`.
 
 ---
 
-## Rules (35)
+## Rules (36)
 
 How a rule loads is set by its frontmatter. You don't usually call rules; they load
 automatically (or `@rule-name` for manual ones).
@@ -167,6 +168,7 @@ automatically (or `@rule-name` for manual ones).
 | `agentic-loop-rule`             | The verified-loop non-negotiables (stop contract, ground-truth verify, maker≠checker, durable memory, context budget, bounded autonomy); loads the `agentic-loop` skill.              |
 | `definition-of-done`            | A change is done only when behavior + tests + docs + surface registration land in the SAME change, gate green, edits left for review.                                                 |
 | `create-plan`                   | Zero-shortcut planning non-negotiables (CreatePlan + research .md in Cursor; no TBD/stubs); loads the `create-plan` skill. Registry id: `create-plan-rule`.                           |
+| `deep-dive`                     | Seed-to-recommendation non-negotiables (classify, repo-first, forcing functions, one self-critique pass); loads the `deep-dive` skill. Registry id: `deep-dive-rule`.                 |
 | `review-plan`                   | Multi-pass plan review non-negotiables (fresh research, pre-mortem, fix in place, final sweep); loads the `review-plan` skill. Registry id: `review-plan-rule`.                       |
 | `complete-the-build`            | Gap-exhaustion non-negotiables (matrix before coding, no silent deferrals, two clean passes); loads the `complete-the-build` skill. Registry id: `complete-the-build-rule`.           |
 | `do-it-right`                   | Dig-deeper non-negotiables after "yes/do it correctly"; loads the `do-it-right` skill. Registry id: `do-it-right-rule`.                                                               |

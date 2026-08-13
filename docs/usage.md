@@ -58,7 +58,9 @@ agent invokes it. You can also call one explicitly:
 - Skills use **progressive disclosure**: only the lean `SKILL.md` body loads on trigger; reference files load on demand. So having many installed is cheap until used.
 
 Example: "plan and ship the auth refactor" will pull in `planning-a-change` then
-`reviewing-and-shipping`; or run `/planning-a-change` to force it.
+`reviewing-and-shipping`; or run `/planning-a-change` to force it. A half-formed
+thought (`deep dive: should we …` / `dig in: checkout double-charges`) runs
+`deep-dive`: classify, investigate, recommend. It does not implement.
 
 ### Commands
 
@@ -135,8 +137,8 @@ Cursor → **Settings → Rules and Commands → Remote Rule (GitHub)** → past
 npx github:naffis/loadout init          # detect tools, scaffold, install notify hook, lockfile
 npx github:naffis/loadout list          # see everything available (or --installed)
 npx github:naffis/loadout add ship-a-feature planning-a-change no-any
-npx github:naffis/loadout update        # pull latest, three-way merge (keeps your edits)
-npx github:naffis/loadout update --check # dry run; non-zero exit if updates exist (for CI)
+npx github:naffis/loadout update        # merge + install missing starter/uses deps (keeps edits)
+npx github:naffis/loadout update --check # dry run; non-zero if content drift or missing deps
 npx github:naffis/loadout diff <id>     # upstream vs your local copy
 npx github:naffis/loadout doctor        # validate the loadout repo itself
 ```
@@ -148,7 +150,9 @@ What `add` does per type: skills → `.cursor/skills/<id>/`; rules → `.cursor/
 agents → `.cursor/agents/<id>.md` + `.claude/agents/<id>.md`; MCP → merged into
 `.mcp.json`/`.cursor/mcp.json`; docs/workflows → copied preserving their path. Everything
 vendored is tracked in `loadout.lock.json`, so `update` can three-way merge without clobbering
-local edits (a true conflict gets markers, never silent data loss).
+local edits (a true conflict gets markers, never silent data loss). `update` also installs
+anything still missing from `kits.starter` and from each installed workflow's `uses:` block
+(`--refresh-only` skips that backfill; `--check` reports missing deps as drift).
 
 ---
 
