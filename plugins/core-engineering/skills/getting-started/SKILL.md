@@ -43,8 +43,14 @@ You have a goal but not a plan: "I want to build X", "what should I do?", "how d
    - Already implemented; need evidence-first verification → **`review-build`**
      (`/review-build`), preferably in a fresh chat — or the full **`plan-then-build`**
      path if plan review is still owed too.
+   - Mid-session after substantial edits; course-correct before claiming done →
+     **`deep-flight`** (`/deep-flight`). Not `deep-dive`.
+   - End of a session; prove live surfaces work, then root-cause-fix →
+     **`verifying-session-surfaces`** (`/verify-surfaces`). Prefer when the
+     ask is "test all the surfaces / ensure it works."
    - End of a session; fix what the proof turns up (sibling sweep + checker) →
      **`post-flight`** (`/post-flight`). Prefer over a chat-only wrap-up summary.
+     Run `/verify-surfaces` first when the session added user-visible surfaces.
    - Open plan phases still Partial/Missing/Punted → **`complete-the-build`**
      (`/complete-the-build`) before review-build.
    - Context dying / switching chats mid-task → **`session-handoff`**
@@ -86,11 +92,12 @@ Kickoff prompt:
   `debug-production`, `security-pass`, `clear-the-queue`, `build-as-graph`, `safe-refactor`,
   `ship-a-migration`, `dependency-bump`, `cut-a-release`, `run-quality-loop`, `run-autonomous-loop`
 - skills: `planning-a-change`, `create-plan`, `review-plan`, `complete-the-build`,
-  `review-build`, `post-flight`, `session-handoff`, `do-it-right`, `deep-dive`, `test-driven`, `simplifying-code`,
+  `review-build`, `deep-flight`, `post-flight`, `verifying-session-surfaces`, `session-handoff`, `do-it-right`, `deep-dive`, `test-driven`, `simplifying-code`,
   `running-a-dev-cycle`, `agentic-loop`, `task-topology`, `equipping-loadout`
 - commands: `start` (`/start`), `plan` (`/plan`), `build-as-graph-cmd` (`/build-as-graph`),
   `review-plan-cmd` (`/review-plan`),
-  `complete-the-build-cmd` (`/complete-the-build`), `review-build-cmd` (`/review-build`), `post-flight-cmd` (`/post-flight`),
+  `complete-the-build-cmd` (`/complete-the-build`), `deep-flight-cmd` (`/deep-flight`), `review-build-cmd` (`/review-build`), `post-flight-cmd` (`/post-flight`),
+  `verifying-session-surfaces-cmd` (`/verify-surfaces`),
   `session-handoff-cmd` (`/session-handoff`), `do-it-right-cmd` (`/do-it-right`),
   `tdd-cmd` (`/tdd`), `simplify-cmd` (`/simplify`)
 - runbooks: `loop-preflight`, `harness-setup`, `bootstrap-project`, `hotfix-and-rollback`

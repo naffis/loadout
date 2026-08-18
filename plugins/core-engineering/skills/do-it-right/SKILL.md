@@ -49,14 +49,15 @@ Invoke when any of these are true:
 
 ## When to use vs neighbours
 
-| Situation                                                              | Skill                          |
-| ---------------------------------------------------------------------- | ------------------------------ |
-| "Yes / fix it / do it correctly" after a shallow diagnosis or proposal | **This skill** (then handoff)  |
-| Proven class root; implement class-kill + regression                   | `root-cause-fix`               |
-| Everyday red test / typecheck / local repro already framed             | `debugging-an-issue`           |
-| Investigate only, no fix commitment                                    | `debugging-with-observability` |
-| Seed thought / "deep dive:" / "dig in:" (recommend, don't implement)   | `deep-dive`                    |
-| Session wrap / shipping checklist                                      | `reviewing-and-shipping`       |
+| Situation                                                              | Skill                                    |
+| ---------------------------------------------------------------------- | ---------------------------------------- |
+| "Yes / fix it / do it correctly" after a shallow diagnosis or proposal | **This skill** (then handoff)            |
+| Proven class root; implement class-kill + regression                   | `root-cause-fix`                         |
+| Everyday red test / typecheck / local repro already framed             | `debugging-an-issue`                     |
+| Investigate only, no fix commitment                                    | `debugging-with-observability`           |
+| Seed thought / "deep dive:" / "dig in:" (recommend, don't implement)   | `deep-dive`                              |
+| Mid-build after Chosen Fix — still on the class path?                  | `deep-flight`                            |
+| Session wrap / shipping checklist                                      | `reviewing-and-shipping` / `post-flight` |
 
 ## Workflow
 
@@ -111,6 +112,10 @@ Implement **all** confirmed issues from Phase 1 in this pass when they share a
 root or are cheap siblings. Do not ship the first issue and leave the rest as
 "follow-up."
 
+After a non-trivial implement, run `deep-flight` before claiming done.
+Routing: `_shared/flight-family.md`. Quote a shortcut-sweep RECEIPT and
+launch `flight-checker` (readonly).
+
 ### Phase 4 — Prove
 
 1. Regression test that fails if the fix is reverted (`regression-test.mdc`).
@@ -118,6 +123,11 @@ root or are cheap siblings. Do not ship the first issue and leave the rest as
    (true positive still protected; false positive class impossible).
 3. Consumer-path trace: name the call sites / surfaces covered.
 4. Applicable `definition-of-done.mdc` rows in the same change.
+5. Shortcut RECEIPT — run the project's `shortcut-sweep.sh` (loadout ships
+   `plugins/core-engineering/skills/_shared/scripts/shortcut-sweep.sh`; equipped
+   repos: `.cursor/skills/_shared/scripts/shortcut-sweep.sh`) and quote it.
+6. Isolated `flight-checker` on behavioral fixes (readonly, no `resume`).
+   Same-session self-grade cannot close Phase 4.
 
 ### Phase 5 — Report
 
@@ -155,8 +165,9 @@ heuristic."
 
 - rules: `do-it-right-rule`, `no-shortcuts`, `regression-test`,
   `definition-of-done`
-- skills: `root-cause-fix`, `debugging-an-issue`, `agentic-loop`,
+- skills: `root-cause-fix`, `debugging-an-issue`, `deep-flight`, `agentic-loop`,
   `reviewing-and-shipping`, `post-flight`
+- agents: `flight-checker`, `reviewer`
 - commands: `do-it-right-cmd` (`/do-it-right`)
 - refs: `references/diagnosis-gate.md`, `references/solution-gate.md`,
   `references/worked-examples.md`

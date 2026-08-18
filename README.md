@@ -10,7 +10,7 @@ done — not sit as an unordered pile.
 
 > **Status: functional.** The CLI (`init`, `add`, `list`, `update`, `diff`, `doctor`) is
 > implemented with a lockfile and three-way merge. The library is general-purpose: 2
-> Claude Code plugins (53 skills, 13 commands, 5 subagents), 36 Cursor rules, 14 workflows, 6
+> Claude Code plugins (55 skills, 15 commands, 7 subagents), 36 Cursor rules, 14 workflows, 6
 > runbooks, and templates — generalized from practice and sanitized for public use.
 > Domain/vertical-specific assets are intentionally left out. See
 > `docs/external-practices.md`, `docs/agentic-patterns.md`, and `docs/loop-engineering.md`
@@ -37,7 +37,7 @@ Then open the project in **Cursor** or **Claude Code** and use it:
   **`/start`** to have loadout clarify the goal, pick the right workflow, and hand you a
   ready-to-run kickoff prompt.
 - **Commands** for the plan→build→review loop: **`/plan`**, **`/review-plan`**,
-  **`/complete-the-build`**, **`/review-build`**, **`/post-flight`**, plus
+  **`/complete-the-build`**, **`/review-build`**, **`/verify-surfaces`**, **`/post-flight`**, plus
   **`/build-as-graph`**, **`/do-it-right`**, **`/tdd`**, **`/simplify`**,
   **`/session-handoff`** (prefer review commands in a fresh chat when stakes are high).
 - **Workflows** (e.g. `ship-a-feature`, `plan-then-build`) compose rules, skills, and
@@ -104,14 +104,14 @@ Pin consumers to release tags, not `main` — e.g. `npx github:naffis/loadout#v0
 
 ## CLI commands
 
-| Command                      | Purpose                                                                                                                                                        |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `loadout init`               | Bootstrap a project: detect Cursor/Claude, scaffold dirs, install the SessionStart notify hook, write `loadout.lock.json`                                      |
-| `loadout add <id...>`        | Vendor assets into a project (rules → `.cursor/rules` + projected into `CLAUDE.md`; skills → `.cursor/skills`; MCP merged into `.mcp.json`/`.cursor/mcp.json`) |
-| `loadout list [--installed]` | Show available assets, or what is installed locally (with drift flags)                                                                                         |
+| Command                                     | Purpose                                                                                                                                                           |
+| ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `loadout init`                              | Bootstrap a project: detect Cursor/Claude, scaffold dirs, install the SessionStart notify hook, write `loadout.lock.json`                                         |
+| `loadout add <id...>`                       | Vendor assets into a project (rules → `.cursor/rules` + projected into `CLAUDE.md`; skills → `.cursor/skills`; MCP merged into `.mcp.json`/`.cursor/mcp.json`)    |
+| `loadout list [--installed]`                | Show available assets, or what is installed locally (with drift flags)                                                                                            |
 | `loadout update [--check] [--refresh-only]` | Pull latest, three-way merge, and install missing `kits.starter` + workflow `uses:` deps; `--check` dry-runs (non-zero on drift); `--refresh-only` skips installs |
-| `loadout diff <id>`          | Show upstream vs local for one asset                                                                                                                           |
-| `loadout doctor`             | Validate manifests, frontmatter, composition refs, orphaned files, and lockfile integrity                                                                      |
+| `loadout diff <id>`                         | Show upstream vs local for one asset                                                                                                                              |
+| `loadout doctor`                            | Validate manifests, frontmatter, composition refs, orphaned files, and lockfile integrity                                                                         |
 
 There is no `build` command. Nothing is generated; the manifests are hand-maintained
 and `doctor` catches mistakes.

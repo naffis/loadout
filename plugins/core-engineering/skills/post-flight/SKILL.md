@@ -10,7 +10,9 @@ description: >
   "final pass and fix". Anti-triggers: merge/PR critique → reviewing-code-quality;
   open plan phases → complete-the-build; plan-only stress-test → review-plan;
   single bug at session start → root-cause-fix; mid-fix "do it correctly" →
-  do-it-right; adversarial check of a finished build vs plan → review-build.
+  do-it-right; mid-session course-correct → deep-flight; adversarial check of
+  a finished build vs plan → review-build; live surfaces / "does it work" →
+  verifying-session-surfaces.
 ---
 
 # Post-Flight — Session Review, Fix, and Improve
@@ -33,8 +35,10 @@ Six iron rules:
 5. **Hunt outside the diff.** For every behavioral class this session touched,
    deep-dive related code for the same shape — and fix confirmed siblings before
    CLEAN (`references/sibling-surface-sweep.md`).
-6. **Maker ≠ sole checker.** Behavioral sessions need a fresh-context read-only
-   checker before CLEAN (`references/independent-checker.md`).
+6. **Maker ≠ sole checker.** Behavioral sessions need the isolated
+   **`flight-checker`** (readonly) before CLEAN — not a `generalPurpose` Task
+   fed the maker's rationale (`references/independent-checker.md`).
+   Routing: `_shared/flight-family.md`.
 
 ## Trigger
 
@@ -86,14 +90,11 @@ For each session-owned changed file:
 
 ### Step 3 — Shortcut sweep (mechanical)
 
-Grep **changed** files for the `no-shortcuts` catalog:
+```bash
+.cursor/skills/_shared/scripts/shortcut-sweep.sh
+```
 
-- `TODO` / `FIXME` / "for now" / "implement this" introduced this session
-- `any` / `@ts-ignore` / `# type: ignore` without required justification
-- Swallowing `catch` / log-and-continue where errors should propagate
-- Hardcoded fallbacks / placeholder returns masking real errors
-- `.only` / `.skip` / commented-out tests
-- Tests weakened to pass instead of code fixed
+Quote the `RECEIPT`. A sweep with no RECEIPT was skipped.
 
 ### Step 4 — Fix-correctness / root-depth audit
 
@@ -152,9 +153,10 @@ After fixing, re-run Steps 2–7 on the fixes (including fresh Step 4 + 5).
 
 ### Step 9 — Independent checker (fresh context)
 
-**Read `references/independent-checker.md`.** Launch a fresh `Task` (no `resume`)
-with the checker brief. Read-only. FAIL → fix once + one recheck max. Still
-failing → **BLOCKED**. Docs-only → N/A with one line.
+**Read `references/independent-checker.md`.** Launch **`flight-checker`**
+(`readonly: true`, no `resume`). A `generalPurpose` Task fed the maker's story
+is not a checker. FAIL → fix once + one recheck max. Still failing →
+**BLOCKED**. Docs-only → N/A with one line.
 
 ### Effort contract — skipped work must be visible
 
@@ -179,15 +181,25 @@ Step 9 PASS (or docs-only N/A). Then report:
 **Verdict:** CLEAN / FIXED (N issues) / BLOCKED (needs user input)
 
 ### Requirements matrix
+
 ### Fix-correctness matrix
+
 ### Sibling / similar-issue sweep
+
 ### Independent checker
+
 ### Coverage accounting
+
 ### Per-file audit
+
 ### Found and fixed
+
 ### Deferred work completed
+
 ### Logged, not fixed
+
 ### Verification
+
 ### Tickets (if project syncs issues)
 ```
 
@@ -211,12 +223,12 @@ ticket IDs or touch unrelated teams.
 
 ## Pairs with
 
-- skills: `do-it-right`, `root-cause-fix`, `agentic-loop`, `review-build`,
+- skills: `do-it-right`, `deep-flight`, `root-cause-fix`, `agentic-loop`, `review-build`,
   `complete-the-build`, `reviewing-and-shipping`, `reviewing-code-quality`,
-  `deslopping`, `simplifying-code`, `writing-tests`
+  `deslopping`, `simplifying-code`, `writing-tests`, `verifying-session-surfaces`
 - rules: `no-shortcuts`, `definition-of-done`, `regression-test`,
   `refactor-discipline`, `git-safety`, `shared-working-tree`
-- agents: `reviewer`
+- agents: `flight-checker`, `reviewer`
 - commands: `post-flight-cmd` (`/post-flight`), `review-build-cmd` (`/review-build`),
   `do-it-right-cmd` (`/do-it-right`)
 - workflows: `ship-a-feature`, `plan-then-build`, `run-autonomous-loop`,

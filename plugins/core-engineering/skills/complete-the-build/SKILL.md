@@ -10,7 +10,9 @@ description: >
   finished before review. Anti-triggers: ordinary forward implement without a
   gap inventory → keep implementing then `review-build`; claimed-done verify →
   review-build; session wrap → reviewing-and-shipping; release go/no-go →
-  assessing-release-readiness; no plan yet → create-plan / review-plan.
+  assessing-release-readiness; no plan yet → create-plan / review-plan;
+  mid-session course-correct → deep-flight; session wrap + sibling hunt →
+  post-flight.
 ---
 
 # Complete the build
@@ -97,9 +99,12 @@ After the queue drains:
 
 1. Re-walk the plan top-to-bottom and rebuild the matrix from evidence (not
    from the previous matrix copy).
-2. Shortcut sweep on all touched files (TODO/FIXME/HACK/XXX, stubs,
-   placeholders, swallowed catches, `any` / `@ts-ignore`, disabled tests/lint,
-   debug leftovers).
+2. Shortcut sweep — quote RECEIPT:
+
+```bash
+.cursor/skills/_shared/scripts/shortcut-sweep.sh
+```
+
 3. Walk applicable `definition-of-done.mdc` rows.
 4. Run project gates (typecheck, affected package tests, lint, and any
    plan-named checks). **Paste output.** Fix until clean.

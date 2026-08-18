@@ -9,7 +9,9 @@ description: >
   gate commands with pasted output, fix blockers/majors, final report.
   Anti-triggers: review a plan before coding → review-plan; open plan phases
   still Partial/Missing/Punted → complete-the-build first; wrap up and ship →
-  reviewing-and-shipping; ordinary code-quality audit → reviewing-code-quality; end-of-session maker fix-mode (sibling sweep + deferred work) → post-flight.
+  reviewing-and-shipping; ordinary code-quality audit → reviewing-code-quality;
+  end-of-session maker fix-mode (sibling sweep + deferred work) → post-flight;
+  mid-session course-correct → deep-flight.
 ---
 
 # Review a build
@@ -76,18 +78,17 @@ pipeline/graph units with file allowlists:
 Skip this step only when topology is single-loop or no task file/plan topology
 exists.
 
-### 3. Shortcut sweep
+### 3. Shortcut sweep (script, not vibes)
 
-Search the changed files for:
+```bash
+.cursor/skills/_shared/scripts/shortcut-sweep.sh
+```
 
-- `TODO`, `FIXME`, `HACK`, `XXX`, placeholder / stub / "handle later" text
-- Stubbed or mocked logic outside tests
-- Hardcoded values that belong in config
-- Commented-out code; empty or swallowed catch blocks
-- Type suppressions (`any`, `as unknown as`, `@ts-ignore`, `# type: ignore`)
-- Disabled tests or lint rules; leftover debug logging
+Quote the `RECEIPT`. Triage hits; fix or justify. A sweep with no RECEIPT was skipped.
 
-Report every hit with file and line; fix it or justify it (`no-shortcuts`).
+### 3b. Isolated checker
+
+Launch **`flight-checker`** (`readonly`, no `resume`). Native `/review` may run in addition. Same-session self-grade cannot yield PASS.
 
 ### 4. Run the verification gate
 
@@ -154,7 +155,7 @@ PASS | PASS WITH NOTES | FAIL
 ## What "done" means
 
 - Diff reviewed from ground truth; plan/request fully traced
-- Shortcut sweep complete; blockers and majors fixed
+- Shortcut RECEIPT quoted; `flight-checker` PASS; blockers and majors fixed
 - Gate commands run with pasted evidence
 - Verdict explicit; report in the reply
 - Edits left unstaged unless the user asked to commit
@@ -174,7 +175,9 @@ PASS | PASS WITH NOTES | FAIL
   `task-topology`, `integrate`
 - rules: `review-build-rule`, `no-shortcuts`, `definition-of-done`,
   `regression-test`, `testing-conventions`, `implement-node-rule`
-- agents: `reviewer`, `security-reviewer`, `implement-node`
+- agents: `flight-checker` (required), `reviewer`, `security-reviewer`,
+  `implement-node`
+- refs: `_shared/plan-build-family.md`, `_shared/scripts/shortcut-sweep.sh`
 - commands: `plan` (`/plan`), `review-plan-cmd` (`/review-plan`),
   `complete-the-build-cmd` (`/complete-the-build`),
   `review-build-cmd` (`/review-build`), `post-flight-cmd` (`/post-flight`)

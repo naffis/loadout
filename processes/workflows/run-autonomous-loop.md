@@ -2,9 +2,21 @@
 name: run-autonomous-loop
 uses:
   rules: [no-shortcuts, regression-test, size-limits, definition-of-done]
-  skills: [running-a-dev-cycle, agentic-loop, planning-a-change, create-plan, review-plan, review-build, root-cause-fix, reviewing-and-shipping]
+  skills:
+    [
+      running-a-dev-cycle,
+      agentic-loop,
+      planning-a-change,
+      create-plan,
+      review-plan,
+      review-build,
+      root-cause-fix,
+      verifying-session-surfaces,
+      reviewing-and-shipping,
+    ]
   agents: [reviewer]
-  commands: [plan, review-plan-cmd, review-build-cmd]
+  commands:
+    [plan, review-plan-cmd, review-build-cmd, verifying-session-surfaces-cmd]
 gate: "<project typecheck + test + lint command>"
 stop_condition: "acceptance contract met, review-build PASS, reviewer verdict SAFE, gate green — or budget ceiling hit and escalated"
 state: ".loadout/state/run-autonomous-loop.md"
@@ -26,6 +38,9 @@ resumes. Only run this when the work passes the `loop-preflight` 4-condition tes
    gate) → verify against the contract → record in the state file → next unit. Respect the budget.
 4. **Fix defects at the root** — `root-cause-fix` for any real defect: prove the cause, fix the
    class, lock it with a regression test that fails-before/passes-after.
+   4b. **Session surfaces** — if the loop shipped a user-visible surface, run
+   `verifying-session-surfaces` (`/verify-surfaces`) before review-build. Live
+   evidence, then step 4 on anything BROKEN.
 5. **Review the build** — `review-build` (`/review-build`) before declaring the contract met:
    ground-truth diff, requirement/plan trace, shortcut sweep, pasted gate output.
 6. **Maker ≠ checker** — before calling the stop condition met, dispatch the `reviewer` agent on

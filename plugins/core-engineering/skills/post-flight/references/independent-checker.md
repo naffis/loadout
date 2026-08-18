@@ -24,11 +24,11 @@ matrices — not the maker's private rationale.
 
 ## When required
 
-| Session content                                                                  | Checker                                      |
-| -------------------------------------------------------------------------------- | -------------------------------------------- |
-| Any behavioral intent (bug fix, feature, skill/rule that changes agent behavior) | **Required** before CLEAN                    |
-| Pure docs / changelog / comment-only                                             | Skip with "docs-only — checker N/A"          |
-| Mechanical refactor with characterization tests already green                    | Required if behavior could have snuck in     |
+| Session content                                                                  | Checker                                  |
+| -------------------------------------------------------------------------------- | ---------------------------------------- |
+| Any behavioral intent (bug fix, feature, skill/rule that changes agent behavior) | **Required** before CLEAN                |
+| Pure docs / changelog / comment-only                                             | Skip with "docs-only — checker N/A"      |
+| Mechanical refactor with characterization tests already green                    | Required if behavior could have snuck in |
 
 Skipping the checker on behavioral work → post-flight cannot be CLEAN.
 
@@ -37,14 +37,10 @@ Skipping the checker on behavioral work → post-flight cannot be CLEAN.
 ## How to launch
 
 1. Finish maker Steps 0–8 so matrices are current.
-2. Launch a **fresh** `Task` with `subagent_type: "generalPurpose"` (or
-   `explore` if the diff is tiny). **Do not** pass `resume`. **Do not** pass
-   the maker's internal reasoning — only the brief below.
-3. Checker is **read-only**: no edits, no commits. Findings only.
-4. Omit `model` so the checker inherits the session model.
-
-Prefer the loadout `reviewer` agent when the host supports named agents;
-otherwise a fresh `Task` with the brief below is enough.
+2. Launch **`flight-checker`** (`readonly: true`). **Do not** pass `resume`.
+   **Do not** pass the maker's internal reasoning — only the brief below.
+3. A `generalPurpose` Task fed the maker's story is **not** a checker.
+4. Native `/review` or `reviewer` may run **in addition**.
 
 ---
 
@@ -98,11 +94,11 @@ FAIL (checker theater).
 
 ## Maker reconciliation
 
-| Checker result                     | Maker action                                                                                                                                                         |
-| ---------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| PASS                               | Proceed to report CLEAN/FIXED                                                                                                                                        |
-| FAIL with real P0/P1               | Fix now; re-run Steps 4–7 on fixes; **one** more checker round max                                                                                                   |
-| FAIL, maker disputes               | Note dispute + evidence both sides; escalate to user (BLOCKED)                                                                                                       |
+| Checker result                     | Maker action                                                                                                                                                            |
+| ---------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| PASS                               | Proceed to report CLEAN/FIXED                                                                                                                                           |
+| FAIL with real P0/P1               | Fix now; re-run Steps 4–7 on fixes; **one** more checker round max                                                                                                      |
+| FAIL, maker disputes               | Note dispute + evidence both sides; escalate to user (BLOCKED)                                                                                                          |
 | Checker unreachable / tool failure | Same-session adversarial re-read; mark `checker: degraded-same-session`. **Cannot yield CLEAN** on behavioral work — BLOCKED until a real checker PASS or user accepts. |
 
 ---
@@ -116,9 +112,9 @@ Still failing → **BLOCKED**. Do not polish forever.
 
 ## Pointers
 
-| Doc                                                          | Role                    |
-| ------------------------------------------------------------ | ----------------------- |
-| `../../agentic-loop/references/subagents-and-parallelism.md` | Maker-checker mechanics |
-| `../../agentic-loop/references/verification-and-stop-conditions.md` | Stop = evidence  |
-| `fix-correctness-audit.md`                                   | What Step 4 grades      |
-| `sibling-surface-sweep.md`                                   | What Step 5 grades      |
+| Doc                                                                 | Role                    |
+| ------------------------------------------------------------------- | ----------------------- |
+| `../../agentic-loop/references/subagents-and-parallelism.md`        | Maker-checker mechanics |
+| `../../agentic-loop/references/verification-and-stop-conditions.md` | Stop = evidence         |
+| `fix-correctness-audit.md`                                          | What Step 4 grades      |
+| `sibling-surface-sweep.md`                                          | What Step 5 grades      |

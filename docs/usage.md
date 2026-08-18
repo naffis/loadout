@@ -5,7 +5,7 @@ pieces work together. For a one-line description of every asset, see
 [`catalog.md`](./catalog.md).
 
 > **New to a project and not sure where to begin?** Run **`/start`** (or ask
-> *"I want to build X — what should I do?"*). The `getting-started` skill clarifies the
+> _"I want to build X — what should I do?"_). The `getting-started` skill clarifies the
 > goal, picks the right workflow, decides manual vs autonomous loop, and hands you a
 > ready-to-run kickoff prompt.
 
@@ -16,15 +16,15 @@ pieces work together. For a one-line description of every asset, see
 `coding agent = model + harness`. loadout is a library of **harness components** plus a CLI
 to install them. Each component lives where it loads:
 
-| Asset | What it is | Loads / triggers |
-|---|---|---|
-| **Rule** (`.mdc`) | A persistent *constraint* — no steps to run | Always, on matching files, when the agent judges it relevant, or on `@mention` |
-| **Skill** (`SKILL.md`) | An invokable *procedure* with a beginning and end | When your request matches its description, or you call it by name |
-| **Command** (`.md`) | A repeatable action | When you type `/name` |
-| **Subagent** (`.md`) | A delegated task in its own context | When the main agent dispatches it (or you ask for it) |
-| **MCP server** | External tool/data access | At session start, from `.mcp.json` / `.cursor/mcp.json` |
-| **Hook** (`hooks.json`) | Deterministic, must-happen-every-time enforcement | At lifecycle points (after edit, before commit, session start) |
-| **Template / doc / runbook** | Starter files and reference material | You read/use them; the CLI vendors them into the project |
+| Asset                        | What it is                                        | Loads / triggers                                                               |
+| ---------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------ |
+| **Rule** (`.mdc`)            | A persistent _constraint_ — no steps to run       | Always, on matching files, when the agent judges it relevant, or on `@mention` |
+| **Skill** (`SKILL.md`)       | An invokable _procedure_ with a beginning and end | When your request matches its description, or you call it by name              |
+| **Command** (`.md`)          | A repeatable action                               | When you type `/name`                                                          |
+| **Subagent** (`.md`)         | A delegated task in its own context               | When the main agent dispatches it (or you ask for it)                          |
+| **MCP server**               | External tool/data access                         | At session start, from `.mcp.json` / `.cursor/mcp.json`                        |
+| **Hook** (`hooks.json`)      | Deterministic, must-happen-every-time enforcement | At lifecycle points (after edit, before commit, session start)                 |
+| **Template / doc / runbook** | Starter files and reference material              | You read/use them; the CLI vendors them into the project                       |
 
 The golden rule: **a constraint is a rule, a procedure is a skill, must-happen enforcement
 is a hook, standing knowledge is `AGENTS.md`.**
@@ -35,17 +35,17 @@ is a hook, standing knowledge is `AGENTS.md`.**
 
 ### Rules (`.mdc`)
 
-A rule's frontmatter decides *when it loads*. Four modes:
+A rule's frontmatter decides _when it loads_. Four modes:
 
-| Mode | Frontmatter | How it triggers | Use for |
-|---|---|---|---|
-| **Always** | `alwaysApply: true` | Loaded on every request | A few short, universal constraints (kept tiny — every token loads every time) |
-| **Auto (glob)** | `globs: [...]`, `alwaysApply: false` | Attaches when a matching file is in context | Language/area constraints (e.g. `**/*.ts`) |
-| **Agent-requested** | `description:` set, no globs | The agent pulls it in when it judges the rule relevant | Situational conventions |
-| **Manual** | no description, no globs | Only when you `@rule-name` it in chat | Rarely-needed references |
+| Mode                | Frontmatter                          | How it triggers                                        | Use for                                                                       |
+| ------------------- | ------------------------------------ | ------------------------------------------------------ | ----------------------------------------------------------------------------- |
+| **Always**          | `alwaysApply: true`                  | Loaded on every request                                | A few short, universal constraints (kept tiny — every token loads every time) |
+| **Auto (glob)**     | `globs: [...]`, `alwaysApply: false` | Attaches when a matching file is in context            | Language/area constraints (e.g. `**/*.ts`)                                    |
+| **Agent-requested** | `description:` set, no globs         | The agent pulls it in when it judges the rule relevant | Situational conventions                                                       |
+| **Manual**          | no description, no globs             | Only when you `@rule-name` it in chat                  | Rarely-needed references                                                      |
 
 - **In Cursor:** rules live in `.cursor/rules/*.mdc` and load per the table above. `@rule-name` forces one in.
-- **In Claude Code:** there's no native `.mdc`. `loadout add` *projects* a rule's body into a managed block in `CLAUDE.md` so the same constraint applies. Genuinely cross-tool baseline conventions belong in `AGENTS.md`.
+- **In Claude Code:** there's no native `.mdc`. `loadout add` _projects_ a rule's body into a managed block in `CLAUDE.md` so the same constraint applies. Genuinely cross-tool baseline conventions belong in `AGENTS.md`.
 - You generally don't "call" a rule — you rely on it loading. To check which are active in Cursor: Settings → Rules.
 
 ### Skills (`SKILL.md`)
@@ -65,19 +65,20 @@ thought (`deep dive: should we …` / `dig in: checkout double-charges`) runs
 ### Commands
 
 Type the slash command: `/start`, `/plan`, `/review-plan`, `/review-build`,
-`/post-flight`, `/changelog`.
+`/verify-surfaces`, `/post-flight`, `/changelog`.
 Commands are explicit, repeatable actions. `loadout add <command>` vendors them to
 `.cursor/commands/<filename>.md` (Cursor) and `.claude/commands/<filename>.md` (Claude Code);
 Claude Code can alternatively get them via the plugin marketplace.
 
 **Planning + review loop (Cursor-friendly):**
 
-| Command | Runs | When |
-|---|---|---|
-| `/plan <task>` | `create-plan` | Multi-file or uncertain work. Prefer Plan Mode. Skip one-sentence diffs. |
-| `/review-plan` | `review-plan` | After a plan, before coding. Prefer a fresh chat. |
-| `/review-build` | `review-build` | After implementation, before calling it done. Prefer a fresh chat. |
-| `/post-flight` | `post-flight` | End-of-session review-and-FIX (ask vs ship, sibling sweep, independent checker). |
+| Command            | Runs                         | When                                                                             |
+| ------------------ | ---------------------------- | -------------------------------------------------------------------------------- |
+| `/plan <task>`     | `create-plan`                | Multi-file or uncertain work. Prefer Plan Mode. Skip one-sentence diffs.         |
+| `/review-plan`     | `review-plan`                | After a plan, before coding. Prefer a fresh chat.                                |
+| `/review-build`    | `review-build`               | After implementation, before calling it done. Prefer a fresh chat.               |
+| `/post-flight`     | `post-flight`                | End-of-session review-and-FIX (ask vs ship, sibling sweep, independent checker). |
+| `/verify-surfaces` | `verifying-session-surfaces` | Exercise this session's live surfaces; root-cause-fix what breaks.               |
 
 `no-shortcuts` is always on and backs all three: no stubs, no unverified "green", read
 before asserting. For hard problems, run `/plan` across two models in parallel (worktrees)
@@ -88,7 +89,7 @@ and merge the best plan.
 A subagent runs in its own context window and reports back, which keeps your main context
 clean and lets the maker differ from the checker.
 
-- Dispatch by asking: *"use the **reviewer** subagent on this diff"* or *"use **explorer** to find where sessions are handled."*
+- Dispatch by asking: _"use the **reviewer** subagent on this diff"_ or _"use **explorer** to find where sessions are handled."_
 - Both tools load custom subagents from a per-tool dir: Claude Code from `.claude/agents/`, Cursor from `.cursor/agents/`. `loadout add <agent>` vendors the persona into both; Claude Code can also get them via the plugin.
 
 ### MCP servers
@@ -111,8 +112,8 @@ SessionStart update-notify hook, installed by `loadout init`.
 
 ## 3. Installing and consuming
 
-**Agent shortcut:** when the user points at this repo and says *use this* or *update to
-latest*, follow repo-root [`INSTALL.md`](../INSTALL.md) (or the `equipping-loadout` skill).
+**Agent shortcut:** when the user points at this repo and says _use this_ or _update to
+latest_, follow repo-root [`INSTALL.md`](../INSTALL.md) (or the `equipping-loadout` skill).
 Do not invent a different path.
 
 loadout ships across three layers; use whichever fits.
@@ -187,7 +188,7 @@ The quality loop is a good mini-example: `reviewing-code-quality` (find issues) 
 `refactoring-code` (fix them safely) under the `size-limits` + `refactor-discipline` rules.
 
 **Running work as a verified loop.** For non-trivial or long-horizon work, the `agentic-loop`
-skill (and its `agentic-loop.mdc` rule) is the execution discipline *inside* any
+skill (and its `agentic-loop.mdc` rule) is the execution discipline _inside_ any
 workflow/phase: write a stop-condition contract, verify against ground truth, keep a checker
 separate from the maker, manage the context budget, and stay git-safe. `running-a-dev-cycle`
 is the adaptive router that classifies a task and walks it through the right phases (each run
@@ -242,8 +243,8 @@ workflow makes the agent walk its steps. In Cursor (Agent) or Claude Code, paste
 > Done when: tests + lint pass, `/review-build` PASS, a reviewer pass finds no
 > correctness/intent gaps, PR opened.
 
-Unsure which workflow fits, or starting cold? Run **`/start`** (or *"I want to build X —
-what should I do?"*) and `getting-started` routes you and hands back a kickoff prompt.
+Unsure which workflow fits, or starting cold? Run **`/start`** (or _"I want to build X —
+what should I do?"_) and `getting-started` routes you and hands back a kickoff prompt.
 
 **What runs, in order:**
 
@@ -253,7 +254,7 @@ what should I do?"*) and `getting-started` routes you and hands back a kickoff p
 4. **Verify** — run the `gate` (your test + lint command) and show the evidence.
 5. **Docs** — `updating-docs` in the same change.
 6. **Review the build** — `review-build` (`/review-build`): diff vs plan, shortcut sweep, pasted gate output (prefer a fresh chat when stakes are high).
-7. **Review (maker ≠ checker)** — dispatch the `reviewer` on the diff vs the plan (*"use the reviewer subagent on this diff"*). In Cursor this is a separate review pass; in Claude Code it's the `reviewer` agent.
+7. **Review (maker ≠ checker)** — dispatch the `reviewer` on the diff vs the plan (_"use the reviewer subagent on this diff"_). In Cursor this is a separate review pass; in Claude Code it's the `reviewer` agent.
 8. **Commit & PR** — `writing-commit-messages` → `opening-a-pr` (`making-a-pr-reviewable` first if the diff is noisy).
 
 Set the `gate` to your real command so step 4 is objective. The workflow records progress in
@@ -267,7 +268,7 @@ pattern: `fix-ci-until-green`, `plan-then-build`, `debug-production`, `cut-a-rel
 
 loadout is meant to compound — every mistake becomes a permanent guard ("the ratchet").
 
-- **`hardening-the-harness`** (skill) — the ratchet itself: take a real failure and encode a guard in the *right* layer (an `AGENTS.md` line, a rule, a hook, a subagent check, or a skill).
+- **`hardening-the-harness`** (skill) — the ratchet itself: take a real failure and encode a guard in the _right_ layer (an `AGENTS.md` line, a rule, a hook, a subagent check, or a skill).
 - **`rule-author`** / **`skill-author`** (skills) — scaffold a new rule/skill to loadout's conventions and apply the rule-vs-skill test. `skill-author` enforces the frontmatter contract (gerund name, third-person description, body <500 lines, references one level deep) that `doctor` checks.
 - **`learning-from-chats`** (skill) — mine recurring preferences from chats into rules/skills/`AGENTS.md`.
 - **Progression:** brand-new repos start with [`bootstrap-project`](../processes/runbooks/bootstrap-project.md); then [`harness-setup`](../processes/runbooks/harness-setup.md) walks the default → self-improving rungs; [`loop-preflight`](../processes/runbooks/loop-preflight.md) gates before you automate anything. Active outages use [`hotfix-and-rollback`](../processes/runbooks/hotfix-and-rollback.md).

@@ -1,9 +1,25 @@
 ---
 name: debug-production
 uses:
-  rules: [observability-first, no-secrets-in-code, regression-test, no-shortcuts, definition-of-done]
-  skills: [debugging-with-observability, debugging-an-issue, root-cause-fix, writing-tests, reviewing-and-shipping]
-  agents: [explorer, reviewer]
+  rules:
+    [
+      observability-first,
+      no-secrets-in-code,
+      regression-test,
+      no-shortcuts,
+      definition-of-done,
+    ]
+  skills:
+    [
+      debugging-with-observability,
+      do-it-right,
+      deep-flight,
+      debugging-an-issue,
+      root-cause-fix,
+      writing-tests,
+      reviewing-and-shipping,
+    ]
+  agents: [explorer, reviewer, flight-checker]
 gate: "regression test fails-before/passes-after; project typecheck + test + lint green"
 stop_condition: "root cause proven from runtime evidence, class fix landed, regression locked, reviewer verdict SAFE — or escalated with a written handoff"
 state: ".loadout/state/debug-production.md"
@@ -34,9 +50,12 @@ symptom patch.
    locally, stay on the observability path: raise scoped debug briefly, catch the next
    occurrence, turn it back down — then continue.
 5. **Everyday loop or class fix** — once you have a repro: `debugging-an-issue` for the
-   falsify-hypotheses loop. Escalate to `root-cause-fix` when the first two fixes fail, the
-   defect is a class (sibling inputs would hit it), or the change will ship — prove the one
-   true cause, fix the class, lock with a fail-on-revert regression test.
+   falsify-hypotheses loop. If the user approved a shallow proposal ("yes, fix it" /
+   "do it correctly"), run `do-it-right` **before** implementing. Escalate to
+   `root-cause-fix` when the first two fixes fail, the defect is a class (sibling
+   inputs would hit it), or the change will ship — prove the one true cause, fix
+   the class, lock with a fail-on-revert regression test. After a non-trivial
+   implement, run `deep-flight` before claiming done.
 6. **Verify against ground truth** — run the `gate`. Confirm the regression test fails when
    the fix is reverted. If the original failure was live, re-check the same correlation-id
    path / metrics after deploy (or note that deploy verification is still pending).

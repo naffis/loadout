@@ -9,8 +9,9 @@ description: >
   investigates the repo before the web, forces lateral approaches, then one
   self-critique pass. Does not implement. Anti-triggers: "create a plan" /
   "/plan" → create-plan; "dig deeper" / "do it correctly" after a shallow fix
-  → do-it-right; research one library → researching-a-dependency; already-framed
-  local bug → debugging-an-issue.
+  → do-it-right; mid-build "are we still doing this right" → deep-flight
+  (not this skill); research one library → researching-a-dependency;
+  already-framed local bug → debugging-an-issue.
 ---
 
 # Deep dive
@@ -34,14 +35,15 @@ dig in: users can submit the form twice and get two charges
 
 Not this skill:
 
-| Situation | Use instead |
-| --- | --- |
-| "Create a plan for X" / `/plan` | `create-plan` |
-| "dig deeper" / "do it correctly" after a shallow fix | `do-it-right` |
-| Everyday red test already framed | `debugging-an-issue` |
-| Proven class root, implement the fix | `root-cause-fix` |
-| Unfamiliar API/library to adopt | `researching-a-dependency` |
-| "What workflow should I run?" | `getting-started` |
+| Situation                                            | Use instead                |
+| ---------------------------------------------------- | -------------------------- |
+| "Create a plan for X" / `/plan`                      | `create-plan`              |
+| "dig deeper" / "do it correctly" after a shallow fix | `do-it-right`              |
+| Mid-build "are we still doing this right?"           | `deep-flight`              |
+| Everyday red test already framed                     | `debugging-an-issue`       |
+| Proven class root, implement the fix                 | `root-cause-fix`           |
+| Unfamiliar API/library to adopt                      | `researching-a-dependency` |
+| "What workflow should I run?"                        | `getting-started`          |
 
 `dig in:` is this skill. `dig deeper` is `do-it-right`.
 
@@ -51,20 +53,20 @@ Not this skill:
 
 **Class** (pick one):
 
-| Class | Signals | Entry path |
-| --- | --- | --- |
-| **idea** | half-formed thought, "what if", no requested shape | Interrogate the job-to-be-done, then research |
-| **feature** | "add/build/support X" | Codebase archaeology, then external, then options |
-| **bug** | broken/wrong/failing behavior | Reproduce/trace and root-cause **before** any solution space |
-| **problem** | pain without a proposed fix ("this is messy") | Interrogate, then treat as feature or bug once the underlying issue is named |
+| Class       | Signals                                            | Entry path                                                                   |
+| ----------- | -------------------------------------------------- | ---------------------------------------------------------------------------- |
+| **idea**    | half-formed thought, "what if", no requested shape | Interrogate the job-to-be-done, then research                                |
+| **feature** | "add/build/support X"                              | Codebase archaeology, then external, then options                            |
+| **bug**     | broken/wrong/failing behavior                      | Reproduce/trace and root-cause **before** any solution space                 |
+| **problem** | pain without a proposed fix ("this is messy")      | Interrogate, then treat as feature or bug once the underlying issue is named |
 
 **Mode** (pick the lightest that fits; state it and why):
 
-| Mode | When | How far |
-| --- | --- | --- |
-| **LIGHT** | typo, rename, one-line, no design fork | Short answer. Skip steps 3–6. Bugs still name the cause in one line. |
-| **STANDARD** | typical feature or bug, bounded | Full process, 2 approaches, all three forcing functions, short self-review |
-| **FULL** | new capability, architecture, or ambiguous problem | 2–4 approaches, all three forcing functions, full self-review |
+| Mode         | When                                               | How far                                                                    |
+| ------------ | -------------------------------------------------- | -------------------------------------------------------------------------- |
+| **LIGHT**    | typo, rename, one-line, no design fork             | Short answer. Skip steps 3–6. Bugs still name the cause in one line.       |
+| **STANDARD** | typical feature or bug, bounded                    | Full process, 2 approaches, all three forcing functions, short self-review |
+| **FULL**     | new capability, architecture, or ambiguous problem | 2–4 approaches, all three forcing functions, full self-review              |
 
 Effort ceiling means skip the process, not dilute it. Once you are in STANDARD or FULL, run the creativity bar in full. Do not expand a LIGHT seed into a rewrite.
 

@@ -22,7 +22,9 @@ uses:
       review-plan,
       complete-the-build,
       review-build,
+      deep-flight,
       post-flight,
+      verifying-session-surfaces,
       agentic-loop,
       writing-tests,
       updating-docs,
@@ -33,8 +35,17 @@ uses:
       simplifying-code,
       test-driven,
     ]
-  agents: [reviewer]
-  commands: [plan, review-plan-cmd, complete-the-build-cmd, review-build-cmd, post-flight-cmd]
+  agents: [reviewer, flight-checker]
+  commands:
+    [
+      plan,
+      review-plan-cmd,
+      complete-the-build-cmd,
+      deep-flight-cmd,
+      review-build-cmd,
+      post-flight-cmd,
+      verifying-session-surfaces-cmd,
+    ]
 gate: "<project typecheck + test + lint command>"
 stop_condition: "reviewed plan approved, implementation matches the plan, review-build PASS, gate green, docs updated, reviewer verdict SAFE, PR opened (if asked)"
 state: ".loadout/state/plan-then-build.md"
@@ -52,8 +63,10 @@ execution against a contract.
 
 Slash shortcuts: `/plan` → create the plan; `/review-plan` → stress-test it;
 `/complete-the-build` → exhaust open Partial/Missing/Punted rows;
-`/review-build` → verify the implementation; `/post-flight` → same-session
-fix-mode wrap (sibling sweep + deferred work) when the user asks. Prefer
+`/deep-flight` → mid-build course-correct; `/verify-surfaces` → live-surface
+exercise + root-cause-fix; `/review-build` → verify the
+implementation; `/post-flight` → same-session fix-mode wrap (sibling sweep +
+deferred work) when the user asks. Prefer
 `/review-plan` and `/review-build` in a **fresh chat** when the stakes are high
 (maker ≠ checker).
 
@@ -90,8 +103,13 @@ what `loadout add` installs. The skill ids (`create-plan`, `review-plan`,
    gets a fail-before/pass-after test (`regression-test`).
 7. **Verify** — run the `gate`; show the evidence. Optional clarity pass:
    `simplifying-code` (`/simplify`) on the diff before review.
+   7b. **Session surfaces** — `verifying-session-surfaces` (`/verify-surfaces`)
+   for every user-visible surface the plan shipped. Live evidence; `root-cause-fix`
+   any BROKEN. Skip only for library-only diffs with no reachable consumer.
 8. **Docs in the same change** — `updating-docs` for every surface the change altered
    (`documentation-updates`, `definition-of-done`).
+   8b. **In-flight check** — after substantial implement, `deep-flight` (`/deep-flight`)
+   before claiming done: chosen layer, RECEIPT, quoted gates, `flight-checker`.
 9. **Review the build** — `review-build` (`/review-build`): ground-truth diff, plan/requirement
    trace, shortcut sweep, gate with pasted output, fix blockers/majors. Prefer a fresh chat.
    Do not proceed on FAIL (`review-build-rule`).

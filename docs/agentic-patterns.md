@@ -6,7 +6,7 @@
 >
 > **Scope / no overlap:** [`external-practices.md`](./external-practices.md) covers
 > authoring conventions (SKILL/rule frontmatter, progressive disclosure).
-> [`loop-engineering.md`](./loop-engineering.md) covers the *economics* of operating a loop
+> [`loop-engineering.md`](./loop-engineering.md) covers the _economics_ of operating a loop
 > (should you loop at all) and this project's harvest decision log.
 > [`agent-harness-engineering.md`](./agent-harness-engineering.md) covers the harness
 > layers. **This doc** is the coding-pattern catalog. Cross-link; don't restate.
@@ -15,8 +15,8 @@
 
 ## 0. The shift
 
-The leverage in agentic coding moved from *writing one good prompt* to *designing the
-loop that prompts, acts, and verifies itself across many turns*. A coding agent is
+The leverage in agentic coding moved from _writing one good prompt_ to _designing the
+loop that prompts, acts, and verifies itself across many turns_. A coding agent is
 `model + harness`; these patterns are the harness-level moves that make a long-horizon
 task reliable instead of a hopeful one-shot. They come from a small set of primary
 sources plus field practice, mapped here onto concrete loadout assets.
@@ -41,10 +41,10 @@ parallelization, orchestrator-workers, evaluator-optimizer — are the vocabular
 ### 1.2 The outer loop + a stop condition written as a contract
 
 Every non-trivial task is an outer loop: find the work → do one unit → verify against a
-contract → record → decide the next unit → repeat until a *verifiable* done. The single
+contract → record → decide the next unit → repeat until a _verifiable_ done. The single
 most important artifact is the **acceptance contract** written before editing: end state,
 evidence (the objective command/artifact that proves it), constraints, and a budget
-(a hard ceiling of edit→verify cycles). Without it, the loop stops when it *feels* done —
+(a hard ceiling of edit→verify cycles). Without it, the loop stops when it _feels_ done —
 exactly when it's most likely wrong.
 
 - **Encoded by:** `agentic-loop` skill + `agentic-loop.mdc` rule;
@@ -65,7 +65,7 @@ context (a review sub-agent) grades shippable work.
 
 ### 1.4 Context engineering (attention is a finite, decaying budget)
 
-Context is finite with diminishing returns — models develop *context rot* as the window
+Context is finite with diminishing returns — models develop _context rot_ as the window
 fills. The goal is the **smallest set of high-signal tokens** that gets the job done, via:
 **just-in-time retrieval** (keep light identifiers, pull content on demand) over
 front-loading; **compaction** (summarize decisions/open-bugs/next-step, continue from the
@@ -94,19 +94,19 @@ Not every task is one loop, and not every parallel run is a queue of tickets. A
 **nontrivial task** is triaged into **single-loop** (default), **pipeline** (sequential
 stages with verify gates), or **graph** (parallel units + gates + integrate). Graph
 requires proof: disjoint file allowlists and an independently runnable verifier per unit.
-Interfaces are written to a shared contract *before* implementers run; workers
+Interfaces are written to a shared contract _before_ implementers run; workers
 (`implement-node`) may not edit it or reach outside their allowlist; the integrator
 re-dispatches violators instead of hand-fixing across boundaries. A graph of unverified
 agents is worse than one loop — refuse to escalate without verifiers.
 
 - **Encoded by:** `task-topology`, `decompose`, `integrate` skills; `implement-node` rule
-  + agent; workflow `build-as-graph`; plan/review amendments on `create-plan` /
-  `review-plan` / `review-build`. Distinct from `orchestrating-parallel-agents` (N
-  tickets) and constrained by `shared-working-tree` when that kit is installed.
+  - agent; workflow `build-as-graph`; plan/review amendments on `create-plan` /
+    `review-plan` / `review-build`. Distinct from `orchestrating-parallel-agents` (N
+    tickets) and constrained by `shared-working-tree` when that kit is installed.
 
 ### 1.6 Spec / contract-driven development
 
-Write the intended behavior as a checkable spec/contract *before* generating, then hold
+Write the intended behavior as a checkable spec/contract _before_ generating, then hold
 the output to it. This is the same instinct as the stop-condition contract, scaled to a
 feature: the spec is the shared artifact the maker builds to and the checker verifies
 against. It turns "looks done" into "meets the spec."
@@ -149,13 +149,13 @@ steer toward a fix. Small description refinements yield outsized gains.
 ### 1.10 Root cause over symptom (prove the cause, fix the class)
 
 The line that throws is rarely the root. Descend the causal chain until you reach a
-controllable node whose correct fix kills the whole *class* of failure, prove it explains
+controllable node whose correct fix kills the whole _class_ of failure, prove it explains
 100% of the behavior, then fix at that layer and lock it with a regression test that fails
 before and passes after. Reject bandaids (special-casing, threshold nudges, swallowed
 errors, fixing the gate not the code).
 
 - **Encoded by:** `root-cause-fix` skill + `references/{root-cause-descent,
-  solution-selection}.md`; `debugging-an-issue`; `regression-test.mdc`, `no-shortcuts.mdc`.
+solution-selection}.md`; `debugging-an-issue`; `regression-test.mdc`, `no-shortcuts.mdc`.
 
 ### 1.11 Observability-first (runtime evidence before source)
 
@@ -191,7 +191,22 @@ next cycle runs automatically — the ratchet applied to product quality).
 - **Encoded by:** `exercising-the-product` (+ `references/{session-state,quality-rubric}.md`);
   `reviewing-ui`'s `UI-REVIEW.md` decision log; the `run-quality-loop` workflow.
 
-### 1.14 Research-before-integrate
+### 1.14 Session-scoped live-surface verification
+
+Unit tests and a clean diff do not prove a session's new UI/API/CLI/MCP
+surfaces work. Inventory the session from git (not memory), write a
+falsifiable claim per surface, exercise at the _real_ layer with pasted
+evidence, then class-kill failures. Same-session tests the maker wrote are
+circular — the live surface is the oracle. Distinct from full-product
+dogfood and from code-wrap review.
+
+- **Encoded by:** `verifying-session-surfaces` (`/verify-surfaces`);
+  `session-inventory.sh` RECEIPT; `ui-evidence` for UI rows; `root-cause-fix`
+  for BROKEN; `flight-checker` as maker≠checker. Cursor Team Kit
+  `verify-this` is the one-claim cousin; Anthropic's 2026 verification-loop
+  essay is the loop shape.
+
+### 1.15 Research-before-integrate
 
 Before adopting an unfamiliar API/library, research it from primary sources
 (official docs → examples → changelog → vetted community), distill it into an
@@ -207,7 +222,7 @@ date. A future session (or teammate) then builds without re-researching.
 ### 2.1 The "Ralph"/self-declared-done loop
 
 An agentic loop executes a tool, evaluates the result, and decides the next move — but if
-the completion signal is the *agent's own judgment*, it emits "done" before the work is
+the completion signal is the _agent's own judgment_, it emits "done" before the work is
 done. You're running one if you lack a real (external) verifier, your done-metric is the
 model's opinion, or you have no hard caps. Fixes: an objective external gate, a separate
 model/agent deciding completion, and hard budget/iteration caps.
@@ -252,29 +267,29 @@ serialize merges.
 
 ## 3. Pattern → asset map
 
-| Pattern | Primary loadout asset(s) |
-|---|---|
-| Workflows vs agents | `processes/workflows/*`, `running-a-dev-cycle`, `agentic-loop` |
-| Outer loop + stop contract | `agentic-loop` (+ rule), `verification-and-stop-conditions` |
-| Evaluator-optimizer / maker≠checker | `reviewer`, `security-reviewer`, `review-plan`, `review-build`, `/review-plan`, `/review-build`, `root-cause-fix`, `security-pass` |
-| Context engineering | `context-engineering` ref, `explorer`, `STATE.md` |
-| Orchestrator-workers / parallel / worktrees | `orchestrating-parallel-agents`, `clear-the-queue`, `subagents-and-parallelism` |
-| Task topology graphs (one task → units) | `task-topology`, `decompose`, `integrate`, `implement-node`, `build-as-graph` |
-| Shared trunk (parallel agents, one checkout) | `shared-working-tree`, `no-stash`, `git-safety`, `committing-on-shared-trunk` |
-| Spec/contract-driven | `create-plan`, `review-plan`, `review-build`, `plan-then-build`, `planning-a-change`, `definition-of-done`, `decompose` (shared contract) |
-| Plan-first | `deep-dive`, `create-plan`, `review-plan`, `review-build`, `plan-then-build`, `/plan`, `/review-plan`, `/review-build`, `planning-a-change`, `running-a-dev-cycle`, `getting-started` |
-| Progressive disclosure | every `SKILL.md`, `skill-author`, `doctor` |
-| ACI / tool design | `agent-tool-design`, `no-regex-for-semantics` |
-| Root cause over symptom | `root-cause-fix`, `debugging-an-issue`, `debug-production`, `regression-test` |
-| Observability-first | `debugging-with-observability`, `debug-production`, `observability-first` |
-| Research-before-integrate | `researching-a-dependency`, `dependency-bump`, `documentation-updates` |
-| Close the UI feedback loop | `ui-evidence`, `reviewing-ui`, `recreating-a-design` |
-| Dogfooding quality loop | `exercising-the-product`, `reviewing-ui`, `run-quality-loop` |
-| Self-declared-done guard | `loop-preflight`, `agentic-loop`, `reviewer` |
-| Incident stabilize then class-fix | `hotfix-and-rollback`, `debug-production` |
-| Safe structural change | `safe-refactor`, `refactor-discipline` |
-| Expand/contract schema | `ship-a-migration`, `writing-a-migration`, `db-migration-safety` |
-| Bootstrap the harness | `bootstrap-project`, `harness-setup` |
+| Pattern                                      | Primary loadout asset(s)                                                                                                                                                              |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Workflows vs agents                          | `processes/workflows/*`, `running-a-dev-cycle`, `agentic-loop`                                                                                                                        |
+| Outer loop + stop contract                   | `agentic-loop` (+ rule), `verification-and-stop-conditions`                                                                                                                           |
+| Evaluator-optimizer / maker≠checker          | `reviewer`, `security-reviewer`, `review-plan`, `review-build`, `/review-plan`, `/review-build`, `root-cause-fix`, `security-pass`                                                    |
+| Context engineering                          | `context-engineering` ref, `explorer`, `STATE.md`                                                                                                                                     |
+| Orchestrator-workers / parallel / worktrees  | `orchestrating-parallel-agents`, `clear-the-queue`, `subagents-and-parallelism`                                                                                                       |
+| Task topology graphs (one task → units)      | `task-topology`, `decompose`, `integrate`, `implement-node`, `build-as-graph`                                                                                                         |
+| Shared trunk (parallel agents, one checkout) | `shared-working-tree`, `no-stash`, `git-safety`, `committing-on-shared-trunk`                                                                                                         |
+| Spec/contract-driven                         | `create-plan`, `review-plan`, `review-build`, `plan-then-build`, `planning-a-change`, `definition-of-done`, `decompose` (shared contract)                                             |
+| Plan-first                                   | `deep-dive`, `create-plan`, `review-plan`, `review-build`, `plan-then-build`, `/plan`, `/review-plan`, `/review-build`, `planning-a-change`, `running-a-dev-cycle`, `getting-started` |
+| Progressive disclosure                       | every `SKILL.md`, `skill-author`, `doctor`                                                                                                                                            |
+| ACI / tool design                            | `agent-tool-design`, `no-regex-for-semantics`                                                                                                                                         |
+| Root cause over symptom                      | `root-cause-fix`, `debugging-an-issue`, `debug-production`, `regression-test`                                                                                                         |
+| Observability-first                          | `debugging-with-observability`, `debug-production`, `observability-first`                                                                                                             |
+| Research-before-integrate                    | `researching-a-dependency`, `dependency-bump`, `documentation-updates`                                                                                                                |
+| Close the UI feedback loop                   | `ui-evidence`, `reviewing-ui`, `recreating-a-design`                                                                                                                                  |
+| Dogfooding quality loop                      | `exercising-the-product`, `reviewing-ui`, `run-quality-loop`                                                                                                                          |
+| Self-declared-done guard                     | `loop-preflight`, `agentic-loop`, `reviewer`                                                                                                                                          |
+| Incident stabilize then class-fix            | `hotfix-and-rollback`, `debug-production`                                                                                                                                             |
+| Safe structural change                       | `safe-refactor`, `refactor-discipline`                                                                                                                                                |
+| Expand/contract schema                       | `ship-a-migration`, `writing-a-migration`, `db-migration-safety`                                                                                                                      |
+| Bootstrap the harness                        | `bootstrap-project`, `harness-setup`                                                                                                                                                  |
 
 ---
 

@@ -20,10 +20,12 @@ A **skill** is a procedure you invoke to accomplish something, with a beginning 
 
 ## Body conventions
 
-- Keep `SKILL.md` under 500 lines. Push detail into reference files (`references/*.md`), kept **one level deep**, with a table of contents if >100 lines.
-- Progressive disclosure: the body is an overview that points to references/scripts loaded on demand. Prefer pre-made scripts over generated code for fragile steps.
-- House structure: `## Trigger`, `## Workflow` (numbered), optional `## Guardrails` / `## Never do`, and a closing `## Pairs with` listing related rules/skills/agents and the workflows it serves.
-- Be concise — assume the model is smart; only add what it doesn't already know.
+- Target **150–250 lines**. Hard cap 500. Newer models skim long bodies.
+- Progressive disclosure: metadata always loaded → body on trigger → `references/` and `scripts/` on demand. References **one hop** from `SKILL.md`.
+- **Scripts for fragile mechanical steps** (Cursor 2026 + Anthropic): a grep/receipt the agent can fake in prose must be a script the report quotes.
+- Optional Cursor fields: `paths` (file globs), `disable-model-invocation` (slash-only).
+- House structure: `## Trigger`, `## Workflow` (numbered), `## Suggested Checks`, optional `## Guardrails` / `## Never do`, `## Pairs with`.
+- Isolated verification: if the skill claims done, name a **readonly checker** (`flight-checker`, `reviewer`, `/review`) — never a same-context self-grade. See `docs/external-practices.md` § 2026 Cursor.
 
 ## Workflow
 
@@ -31,5 +33,5 @@ A **skill** is a procedure you invoke to accomplish something, with a beginning 
 
 ## Pairs with
 
-- skills: `rule-author`, `learning-from-chats`
+- skills: `rule-author`, `learning-from-chats`, `deep-flight`, `post-flight`, `do-it-right`
 - docs: `external-practices`, `loop-engineering`
