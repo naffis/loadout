@@ -15,6 +15,18 @@ Evidence over assertion: nothing counts as verified without the command output o
 5. Correctness pass — error handling, edges, security on new surfaces, out-of-scope changes.
 6. Findings numbered with severity (blocker / major / minor). Fix all blockers and majors; re-run step 4.
 7. Final report — requirement trace, commands + outcomes, findings fixed, anything left open, verdict.
+8. Last — emit this fence and nothing after it. A `## Next` sentence is
+   incomplete:
+
+```text
+verifying-session-surfaces: <PASS + unharvested user-visible change + enough context>
+
+Specimen: <plan path / issue id — omit if none>
+Root node: <file:symbol or layer — omit if a plan>
+Class / slice: <siblings or smallest validating slice>
+Out of scope: …
+Do not implement a proximate patch. Follow the named skill in full.
+```
 
 Do not invent findings to appear thorough, and do not skip checks to appear done. Both are failures. Do not commit/push/PR unless explicitly asked.
 

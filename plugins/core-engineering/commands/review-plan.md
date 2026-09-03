@@ -20,4 +20,17 @@ You did not write this plan and you are accountable if it ships broken. Find rea
 
 A clean PASS across the board is acceptable only when each item shows what you checked. "Looks good" without evidence is a failed review. Fix every blocker and major **in the plan file**, then report the verdict.
 
+Last — emit this fence and nothing after it. A `## Next` sentence is
+incomplete:
+
+```text
+complete-the-build: <approved plan path + enough context to act>
+
+Specimen: <plan path — omit if none>
+Root node: <file:symbol or layer — omit if a plan>
+Class / slice: <siblings or smallest validating slice>
+Out of scope: …
+Do not implement a proximate patch. Follow the named skill in full.
+```
+
 Plan / focus: $ARGUMENTS

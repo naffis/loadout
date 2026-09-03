@@ -10,15 +10,16 @@ command → `/changelog`.
 
 ---
 
-## Skills (58)
+## Skills (59)
 
 ### Getting started (start here)
 
-| Skill             | What / when                                                                                                                                                                 | Call                                                             |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| `getting-started` | Route a goal to the right workflow + supporting skills/rules, decide manual vs loop, and emit a ready-to-run kickoff prompt.                                                | "I want to build X, what should I do?" / new to a repo           |
-| `deep-dive`       | Take a brief seed (idea / feature / bug / problem), investigate repo then world, force real alternatives, one self-critique, land on the best solution. Does not implement. | `deep dive:` / `dig in:` followed by the seed                    |
-| `deep-flight`     | Mid-session in-flight quality gate: chosen layer, shortcut RECEIPT, quoted gates, readonly `flight-checker`. Fixes drift now. Not `deep-dive`.                              | `deep-flight` / `/deep-flight` / "are we still doing this right" |
+| Skill                     | What / when                                                                                                                                                                 | Call                                                             |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| `getting-started`         | Route a goal to the right workflow + supporting skills/rules, decide manual vs loop, and emit a ready-to-run kickoff prompt.                                                | "I want to build X, what should I do?" / new to a repo           |
+| `recommending-next-steps` | Recap this chat from git + asks, deep-dive the leftover, emit one paste-ready next prompt. Does not implement.                                                              | "what's next" / `/next-steps` / `/recommending-next-steps`       |
+| `deep-dive`               | Take a brief seed (idea / feature / bug / problem), investigate repo then world, force real alternatives, one self-critique, land on the best solution. Does not implement. | `deep dive:` / `dig in:` / `/deep-dive`                          |
+| `deep-flight`             | Mid-session in-flight quality gate: chosen layer, shortcut RECEIPT, quoted gates, readonly `flight-checker`. Fixes drift now. Not `deep-dive`.                              | `deep-flight` / `/deep-flight` / "are we still doing this right" |
 
 ### Agentic loops & orchestration
 
@@ -127,7 +128,7 @@ command → `/changelog`.
 
 ---
 
-## Rules (37)
+## Rules (38)
 
 How a rule loads is set by its frontmatter. You don't usually call rules; they load
 automatically (or `@rule-name` for manual ones).
@@ -174,6 +175,7 @@ automatically (or `@rule-name` for manual ones).
 | `definition-of-done`            | A change is done only when behavior + tests + docs + surface registration land in the SAME change, gate green, edits left for review.                                                 |
 | `create-plan`                   | Zero-shortcut planning non-negotiables (CreatePlan + research .md in Cursor; no TBD/stubs); loads the `create-plan` skill. Registry id: `create-plan-rule`.                           |
 | `deep-dive`                     | Seed-to-recommendation non-negotiables (classify, repo-first, forcing functions, one self-critique pass); loads the `deep-dive` skill. Registry id: `deep-dive-rule`.                 |
+| `recommending-next-steps`       | Mid-session recap + leftover dive → one next-prompt fence. Registry id: `recommending-next-steps-rule`.                                                                               |
 | `deep-flight`                   | Mid-session in-flight non-negotiables (chosen layer, RECEIPT, gates, `flight-checker`); loads the `deep-flight` skill. Registry id: `deep-flight-rule`.                               |
 | `review-plan`                   | Multi-pass plan review non-negotiables (fresh research, pre-mortem, fix in place, final sweep); loads the `review-plan` skill. Registry id: `review-plan-rule`.                       |
 | `complete-the-build`            | Gap-exhaustion non-negotiables (matrix before coding, no silent deferrals, two clean passes); loads the `complete-the-build` skill. Registry id: `complete-the-build-rule`.           |
@@ -200,28 +202,31 @@ Dispatch with "use the `<name>` subagent". They run in a fresh context and repor
 | `ci-watcher`        | Monitor the PR's CI; concise pass/fail with links to failures.                                                    |
 | `implement-node`    | Execute one TASK.md unit under hard allowlist + unit verifier; report PASSED/FAILED.                              |
 
-## Commands (18)
+## Commands (21)
 
-| Command               | What                                                                                                                                                                 |
-| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `/start`              | Shortcut entry point: tell it your goal, get a recommendation + a ready-to-run kickoff prompt (runs `getting-started`).                                              |
-| `/build-as-graph`     | Triage one task into single-loop / pipeline / graph and run the verified unit workflow (registry id: `build-as-graph-cmd`).                                          |
-| `/plan <task>`        | Produce a complete zero-shortcut Cursor Buildable plan + research .md (runs `create-plan`). Prefer Plan Mode.                                                        |
-| `/review-plan`        | Stress-test a plan: PASS/FAIL checklist, fresh research, fix the plan in place (runs `review-plan`). Prefer a fresh chat.                                            |
-| `/complete-the-build` | Exhaust remaining plan phases: gap matrix → build Partial/Missing/Punted to empty → hand off to `review-build`.                                                      |
-| `/do-it-right`        | Dig deeper before fixing: re-diagnose, multi-issue hunt, ≥2 solutions, class-kill (runs `do-it-right`).                                                              |
-| `/deep-flight`        | Mid-session in-flight gate: chosen layer, RECEIPT, gates, `flight-checker` (runs `deep-flight`).                                                                     |
-| `/review-build`       | Evidence-first review of implemented work vs plan/request (runs `review-build`). Prefer a fresh chat.                                                                |
-| `/post-flight`        | End-of-session review-and-FIX: ask vs ship, class-kill, sibling sweep, independent checker (runs `post-flight`).                                                     |
-| `/verify-surfaces`    | Exercise this session's new/changed live surfaces and root-cause-fix what breaks (runs `verifying-session-surfaces`; registry id: `verifying-session-surfaces-cmd`). |
-| `/session-handoff`    | Write or resume a durable session handoff for a fresh chat (runs `session-handoff`).                                                                                 |
-| `/tdd`                | Strict red→green→refactor; no production code before pasted RED (runs `test-driven`).                                                                                |
-| `/simplify`           | Behavior-preserving clarity/YAGNI pass on the current diff (runs `simplifying-code`).                                                                                |
-| `/quality-loop`       | Run one cycle of the product quality loop (routes to `exercising-the-product` / `reviewing-ui` / `recreating-a-design`; optional focus area argument).               |
-| `/changelog`          | Draft release notes from merged work since the last tag.                                                                                                             |
-| `/hunt-defects`       | Exhaustive census of a large named surface with no single known bug (runs `hunting-defects`). Registry id: `hunt-defects-cmd`.                                       |
-| `/audit-lifecycle`    | Acquire vs release on every path; explain every imbalance delta>0 (runs `auditing-resource-lifecycle`). Registry id: `audit-lifecycle-cmd`.                          |
-| `/walk-failure-paths` | Exhaustive empty / error / cancel / retry / park walk (runs `walking-failure-paths`). Registry id: `walk-failure-paths-cmd`.                                         |
+| Command                    | What                                                                                                                                                                 |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/start`                   | Shortcut entry point: tell it your goal, get a recommendation + a ready-to-run kickoff prompt (runs `getting-started`).                                              |
+| `/build-as-graph`          | Triage one task into single-loop / pipeline / graph and run the verified unit workflow (registry id: `build-as-graph-cmd`).                                          |
+| `/plan <task>`             | Produce a complete zero-shortcut Cursor Buildable plan + research .md (runs `create-plan`). Prefer Plan Mode.                                                        |
+| `/review-plan`             | Stress-test a plan: PASS/FAIL checklist, fresh research, fix the plan in place (runs `review-plan`). Prefer a fresh chat.                                            |
+| `/complete-the-build`      | Exhaust remaining plan phases: gap matrix → build Partial/Missing/Punted to empty → hand off to `review-build`.                                                      |
+| `/do-it-right`             | Dig deeper before fixing: re-diagnose, multi-issue hunt, ≥2 solutions, class-kill (runs `do-it-right`).                                                              |
+| `/deep-flight`             | Mid-session in-flight gate: chosen layer, RECEIPT, gates, `flight-checker` (runs `deep-flight`).                                                                     |
+| `/review-build`            | Evidence-first review of implemented work vs plan/request (runs `review-build`). Prefer a fresh chat.                                                                |
+| `/post-flight`             | End-of-session review-and-FIX: ask vs ship, class-kill, sibling sweep, independent checker (runs `post-flight`).                                                     |
+| `/verify-surfaces`         | Exercise this session's new/changed live surfaces and root-cause-fix what breaks (runs `verifying-session-surfaces`; registry id: `verifying-session-surfaces-cmd`). |
+| `/session-handoff`         | Write or resume a durable session handoff for a fresh chat (runs `session-handoff`).                                                                                 |
+| `/next-steps`              | Recap this session from evidence, deep-dive the leftover, emit one paste-ready next prompt (runs `recommending-next-steps`).                                         |
+| `/recommending-next-steps` | Same as `/next-steps` (alias).                                                                                                                                       |
+| `/deep-dive`               | Investigate a seed until one committed recommendation; last output is a paste-ready next prompt (runs `deep-dive`).                                                  |
+| `/tdd`                     | Strict red→green→refactor; no production code before pasted RED (runs `test-driven`).                                                                                |
+| `/simplify`                | Behavior-preserving clarity/YAGNI pass on the current diff (runs `simplifying-code`).                                                                                |
+| `/quality-loop`            | Run one cycle of the product quality loop (routes to `exercising-the-product` / `reviewing-ui` / `recreating-a-design`; optional focus area argument).               |
+| `/changelog`               | Draft release notes from merged work since the last tag.                                                                                                             |
+| `/hunt-defects`            | Exhaustive census of a large named surface with no single known bug (runs `hunting-defects`). Registry id: `hunt-defects-cmd`.                                       |
+| `/audit-lifecycle`         | Acquire vs release on every path; explain every imbalance delta>0 (runs `auditing-resource-lifecycle`). Registry id: `audit-lifecycle-cmd`.                          |
+| `/walk-failure-paths`      | Exhaustive empty / error / cancel / retry / park walk (runs `walking-failure-paths`). Registry id: `walk-failure-paths-cmd`.                                         |
 
 ---
 
@@ -274,9 +279,9 @@ composes and optional `gate` / `stop_condition` / `state`.
 
 ## Hooks (1) — `hooks/cursor-safety/`
 
-| Asset                 | What                                                                                                                                                                                         |
-| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `cursor-safety-hooks` | Cursor project hooks: deny stash / hard-reset / clean / whole-tree restore, redact live env reads, conversation-scoped stop reminder. Merge `hooks.fragment.json` into `.cursor/hooks.json`. |
+| Asset                 | What                                                                                                                                                                                                                                      |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cursor-safety-hooks` | Cursor project hooks: deny stash / hard-reset / clean / whole-tree restore, redact live env reads. Do **not** bind `stop` `followup_message` (Cursor submits that as a user turn). Merge `hooks.fragment.json` into `.cursor/hooks.json`. |
 
 ## Reference docs (`docs/`)
 

@@ -1,0 +1,24 @@
+---
+description: >
+  Recap this chat from evidence, deep-dive the leftover, emit one paste-ready
+  next-steps prompt. Triggers on "what's next", "next steps", "where are we",
+  "what should we do next", "recommend next", "session next", "recap and next",
+  "/next-steps", "/recommending-next-steps". Does not implement. Anti-triggers:
+  no work yet → getting-started; write a packet → session-handoff; claiming
+  done → post-flight; standup → summarizing-my-work; seed only → deep-dive;
+  framed symptom only → debugging-an-issue. Read the
+  `recommending-next-steps` skill.
+alwaysApply: false
+---
+
+# Recommending next steps
+
+When the user asks what to do next in an **ongoing session**, run the
+`recommending-next-steps` skill. Reconstruct from git + asks, run
+`deep-dive` or `debugging-an-issue` on the leftover, emit the
+`_shared/next-prompt.md` fence. Do not implement.
+
+`/next-steps` and `/recommending-next-steps` are this rule. A `## Next`
+sentence without the fenced `text` block is incomplete.
+
+Full procedure: read the `recommending-next-steps` skill.

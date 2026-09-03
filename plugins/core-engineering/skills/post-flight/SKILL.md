@@ -15,7 +15,8 @@ description: >
   do-it-right; mid-session course-correct → deep-flight; adversarial check of
   a finished build vs plan → review-build; live surfaces / "does it work" →
   verifying-session-surfaces; large named surface with no known bug →
-  hunting-defects.
+  hunting-defects; mid-session "what's next" / leftover dive →
+  recommending-next-steps.
 ---
 
 # Post-Flight — Session Review, Fix, and Improve
@@ -229,7 +230,7 @@ ticket IDs or touch unrelated teams.
 - skills: `do-it-right`, `deep-flight`, `root-cause-fix`, `agentic-loop`, `review-build`,
   `complete-the-build`, `reviewing-and-shipping`, `reviewing-code-quality`,
   `deslopping`, `simplifying-code`, `writing-tests`, `verifying-session-surfaces`,
-  `hunting-defects`
+  `hunting-defects`, `recommending-next-steps`
 - rules: `no-shortcuts`, `definition-of-done`, `regression-test`,
   `refactor-discipline`, `git-safety`, `shared-working-tree`
 - agents: `flight-checker`, `reviewer`

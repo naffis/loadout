@@ -70,27 +70,23 @@ test("deny-destructive-git blocks whole-tree restore and flagged stash", () => {
   assert.equal(flagged.permission, "deny");
 });
 
-test("hooks.fragment.json marks only this conversation's Write/StrReplace", () => {
-  const hooks = JSON.parse(readFileSync(join(here, "hooks.fragment.json"), "utf8"));
-  const post = hooks.hooks?.postToolUse ?? [];
-  assert.ok(
-    post.some(
-      (row) =>
-        String(row.command).includes("mark-gate-needed") &&
-        String(row.matcher).includes("Write"),
-    ),
-    "postToolUse Write/StrReplace must flag the stop reminder",
-  );
-  const afterEdit = hooks.hooks?.afterFileEdit ?? [];
-  assert.ok(
-    !afterEdit.some((row) => String(row.command).includes("mark-gate-needed")),
-    "workspace afterFileEdit must not flag the gate",
-  );
-  const tab = hooks.hooks?.afterTabFileEdit ?? [];
-  assert.ok(
-    !tab.some((row) => String(row.command).includes("mark-gate-needed")),
-    "TabWrite must not flag the gate",
-  );
+function commandsMention(hooks, event, needle) {
+  return (hooks.hooks?.[event] ?? []).some((row) => String(row.command).includes(needle));
+}
+
+test("hooks.json and fragment never wire a stop followup", () => {
+  const fragment = JSON.parse(readFileSync(join(here, "hooks.fragment.json"), "utf8"));
+  const livePath = join(here, "../hooks.json");
+  const docs = [fragment];
+  if (existsSync(livePath)) {
+    docs.push(JSON.parse(readFileSync(livePath, "utf8")));
+  }
+  for (const hooks of docs) {
+    assert.equal(commandsMention(hooks, "stop", "remind-gate"), false);
+    assert.equal(commandsMention(hooks, "postToolUse", "mark-gate-needed"), false);
+    assert.equal(commandsMention(hooks, "afterFileEdit", "mark-gate-needed"), false);
+    assert.equal(commandsMention(hooks, "afterTabFileEdit", "mark-gate-needed"), false);
+  }
 });
 
 test("redact-env-read blocks live env files and allows examples", () => {
@@ -108,178 +104,28 @@ test("redact-env-read blocks live env files and allows examples", () => {
   assert.equal(source.permission, "allow");
 });
 
-test("remind-gate follows up once then stays quiet", () => {
+test("remind-gate never emits followup_message even with a matching mark", () => {
   const stateDir = isolatedState();
-  const statePath = join(stateDir, "gate-conv-a.json");
+  const statePath = join(stateDir, "gate-writer.json");
   writeFileSync(
     statePath,
-    JSON.stringify({ file_path: "packages/foo/src/bar.ts", conversation_id: "conv-a" }),
-  );
-
-  const first = runHook(
-    "remind-gate.mjs",
-    {
-      status: "completed",
-      loop_count: 0,
-      conversation_id: "conv-a",
-    },
-    gateEnv(stateDir),
-  );
-  assert.match(first.followup_message ?? "", /Source changed/);
-  assert.equal(existsSync(statePath), false);
-
-  writeFileSync(
-    statePath,
-    JSON.stringify({ file_path: "packages/foo/src/bar.ts", conversation_id: "conv-a" }),
-  );
-  const second = runHook(
-    "remind-gate.mjs",
-    {
-      status: "completed",
-      loop_count: 1,
-      conversation_id: "conv-a",
-    },
-    gateEnv(stateDir),
-  );
-  assert.equal(second.followup_message, undefined);
-  rmSync(stateDir, { recursive: true, force: true });
-});
-
-test("remind-gate does not fire a leftover unscoped flag into another chat", () => {
-  const stateDir = isolatedState();
-  writeFileSync(
-    join(stateDir, "gate-needed.json"),
     JSON.stringify({
-      file_path: "packages/foo/src/sibling.test.ts",
+      file_path: "/repo/packages/foo/src/bar.ts",
+      conversation_id: "writer",
+      generation_id: "gen-1",
     }),
   );
-  const cross = runHook(
+  const out = runHook(
     "remind-gate.mjs",
     {
       status: "completed",
       loop_count: 0,
-      conversation_id: "agent-this",
+      conversation_id: "writer",
+      generation_id: "gen-1",
     },
     gateEnv(stateDir),
   );
-  assert.equal(cross.followup_message, undefined);
-  rmSync(stateDir, { recursive: true, force: true });
-});
-
-test("remind-gate ignores a sibling conversation's edit", () => {
-  const stateDir = isolatedState();
-  const env = gateEnv(stateDir);
-  runHook(
-    "mark-gate-needed.mjs",
-    {
-      tool_name: "Write",
-      tool_input: { path: "/repo/packages/foo/src/bar.ts" },
-      conversation_id: "agent-other",
-      generation_id: "gen-other",
-    },
-    env,
-  );
-  const cross = runHook(
-    "remind-gate.mjs",
-    {
-      status: "completed",
-      loop_count: 0,
-      conversation_id: "agent-this",
-      generation_id: "gen-this",
-    },
-    env,
-  );
-  assert.equal(cross.followup_message, undefined);
-
-  const own = runHook(
-    "remind-gate.mjs",
-    {
-      status: "completed",
-      loop_count: 0,
-      conversation_id: "agent-other",
-      generation_id: "gen-other",
-    },
-    env,
-  );
-  assert.match(own.followup_message ?? "", /bar\.ts/);
-  rmSync(stateDir, { recursive: true, force: true });
-});
-
-test("mark-gate-needed ignores afterFileEdit-shaped sibling writes", () => {
-  const stateDir = isolatedState();
-  const env = gateEnv(stateDir);
-  runHook(
-    "mark-gate-needed.mjs",
-    {
-      file_path: "/repo/packages/foo/src/sibling.contract.test.ts",
-      conversation_id: "diagnose-chat",
-    },
-    env,
-  );
-  const quiet = runHook(
-    "remind-gate.mjs",
-    {
-      status: "completed",
-      loop_count: 0,
-      conversation_id: "diagnose-chat",
-      generation_id: "gen-next-steps",
-    },
-    env,
-  );
-  assert.equal(quiet.followup_message, undefined);
-  rmSync(stateDir, { recursive: true, force: true });
-});
-
-test("mark-gate-needed records this conversation's Write via tool_input.path", () => {
-  const stateDir = isolatedState();
-  const env = gateEnv(stateDir);
-  runHook(
-    "mark-gate-needed.mjs",
-    {
-      tool_name: "Write",
-      tool_input: { path: "/repo/packages/foo/src/bar.ts" },
-      conversation_id: "writer-chat",
-      generation_id: "gen-1",
-    },
-    env,
-  );
-  const own = runHook(
-    "remind-gate.mjs",
-    {
-      status: "completed",
-      loop_count: 0,
-      conversation_id: "writer-chat",
-      generation_id: "gen-1",
-    },
-    env,
-  );
-  assert.match(own.followup_message ?? "", /bar\.ts/);
-  rmSync(stateDir, { recursive: true, force: true });
-});
-
-test("remind-gate stays quiet when the mark is from a prior generation", () => {
-  const stateDir = isolatedState();
-  const env = gateEnv(stateDir);
-  runHook(
-    "mark-gate-needed.mjs",
-    {
-      tool_name: "StrReplace",
-      tool_input: { path: "/repo/packages/foo/src/bar.ts" },
-      conversation_id: "same-chat",
-      generation_id: "gen-edit",
-    },
-    env,
-  );
-  const later = runHook(
-    "remind-gate.mjs",
-    {
-      status: "completed",
-      loop_count: 0,
-      conversation_id: "same-chat",
-      generation_id: "gen-next-steps",
-    },
-    env,
-  );
-  assert.equal(later.followup_message, undefined);
+  assert.equal(out.followup_message, undefined);
+  assert.equal(existsSync(statePath), false);
   rmSync(stateDir, { recursive: true, force: true });
 });

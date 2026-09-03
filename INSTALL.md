@@ -19,10 +19,10 @@ Invokable skill mirror (once `meta` is installed): **`equipping-loadout`**.
 
 ## Scope
 
-| Directory | Role |
-|---|---|
-| **Consumer project** (`cwd`) | Where you run `init` / `add` / `update` |
-| **loadout source** (this repo) | Upstream only — do **not** treat a loadout checkout as the consumer unless the user explicitly wants to equip *this* repo |
+| Directory                      | Role                                                                                                                      |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
+| **Consumer project** (`cwd`)   | Where you run `init` / `add` / `update`                                                                                   |
+| **loadout source** (this repo) | Upstream only — do **not** treat a loadout checkout as the consumer unless the user explicitly wants to equip _this_ repo |
 
 Pin when you care about reproducibility:
 
@@ -38,11 +38,11 @@ Floating `npx github:naffis/loadout` tracks the default branch.
 
 In the **consumer** project:
 
-| Signal | Tool |
-|---|---|
-| `.cursor/` or `.cursor/rules/` exists | Cursor |
-| `.claude/` or `CLAUDE.md` exists | Claude Code |
-| Neither | Treat as **both** (CLI vendors for both) |
+| Signal                                | Tool                                     |
+| ------------------------------------- | ---------------------------------------- |
+| `.cursor/` or `.cursor/rules/` exists | Cursor                                   |
+| `.claude/` or `CLAUDE.md` exists      | Claude Code                              |
+| Neither                               | Treat as **both** (CLI vendors for both) |
 
 ---
 
@@ -170,7 +170,7 @@ Summarize:
 
 - Tools detected
 - What ran (`init`, plugin install, CLI `add`)
-- How to start work: **`/start`** or *"I want to build X — what should I do?"* (`getting-started`)
+- How to start work: **`/start`** or _"I want to build X — what should I do?"_ (`getting-started`)
 - How to refresh later: **"update loadout to latest"** (Flow B)
 - Optional: Cursor Remote Rules still needed if they haven't done step 3
 
@@ -221,10 +221,11 @@ No CLI step — they auto-sync when configured. Say so if relevant.
 
 ## After install — invoke, don't re-explain
 
-| Intent | What to do |
-|---|---|
-| Unsure how to start | `/start` or `getting-started` |
-| Ship a known feature | Follow `ship-a-feature` (starter covers its `uses:`) |
-| Plan → review → build | Needs the **`plan-then-build` kit** (or Claude plugins). Starter alone is not enough for `/plan` / `/review-plan` on Cursor — see `bootstrap-project` Path A step 4, or `add` that workflow's ids. With Claude plugins installed, `/plan` → `/review-plan` → implement → `/review-build` works. |
-| Refresh loadout | Flow B / `equipping-loadout` |
-| Browse everything | `npx github:naffis/loadout list` or `docs/catalog.md` |
+| Intent                    | What to do                                                                                                                                                                                                                                                                                      |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Unsure how to start       | `/start` or `getting-started`                                                                                                                                                                                                                                                                   |
+| Mid-session "what's next" | `/next-steps` (`recommending-next-steps`)                                                                                                                                                                                                                                                       |
+| Ship a known feature      | Follow `ship-a-feature` (starter covers its `uses:`)                                                                                                                                                                                                                                            |
+| Plan → review → build     | Needs the **`plan-then-build` kit** (or Claude plugins). Starter alone is not enough for `/plan` / `/review-plan` on Cursor — see `bootstrap-project` Path A step 4, or `add` that workflow's ids. With Claude plugins installed, `/plan` → `/review-plan` → implement → `/review-build` works. |
+| Refresh loadout           | Flow B / `equipping-loadout`                                                                                                                                                                                                                                                                    |
+| Browse everything         | `npx github:naffis/loadout list` or `docs/catalog.md`                                                                                                                                                                                                                                           |

@@ -22,6 +22,18 @@ only report.
 9. Independent checker (`references/independent-checker.md`) — fresh context,
    read-only; CLEAN requires PASS (or docs-only N/A).
 10. Post-flight report with full coverage accounting.
+11. Last — emit this fence and nothing after it. A `## Next` sentence is
+    incomplete:
+
+```text
+verifying-session-surfaces: <CLEAN + unharvested user-visible change + enough context>
+
+Specimen: <plan path / issue id — omit if none>
+Root node: <file:symbol or layer — omit if a plan>
+Class / slice: <siblings or smallest validating slice>
+Out of scope: …
+Do not implement a proximate patch. Follow the named skill in full.
+```
 
 Do not commit/push/PR unless explicitly asked. Prefer `review-build` when the
 ask is a fresh-chat grade against a written plan rather than maker fix-mode.

@@ -9,7 +9,8 @@ description: >
   handoff", "continue from handoff", "pick up where we left off", "context is
   full — hand off", or a long task will outlive the window. Anti-triggers:
   standup / what did I ship → summarizing-my-work; weekly recap → weekly-review;
-  plan exhaustion → complete-the-build; session wrap → reviewing-and-shipping.
+  plan exhaustion → complete-the-build; session wrap → reviewing-and-shipping;
+  mid-session recap + leftover dive (no packet) → recommending-next-steps.
 ---
 
 # Session handoff
@@ -106,7 +107,7 @@ Report: matches handoff / diverged (list how) / blocked.
 ## Pairs with
 
 - skills: `complete-the-build`, `agentic-loop`, `create-plan`,
-  `summarizing-my-work` (different job)
+  `summarizing-my-work` (different job), `recommending-next-steps`
 - rules: `git-safety`, `no-shortcuts`, `shared-working-tree`
 - commands: `session-handoff` (`/session-handoff`) — registry id `session-handoff-cmd`
 - workflows: `plan-then-build`, `run-autonomous-loop`

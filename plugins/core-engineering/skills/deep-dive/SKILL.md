@@ -11,7 +11,8 @@ description: >
   "/plan" → create-plan; "dig deeper" / "do it correctly" after a shallow fix
   → do-it-right; mid-build "are we still doing this right" → deep-flight
   (not this skill); research one library → researching-a-dependency;
-  already-framed local bug → debugging-an-issue.
+  already-framed local bug → debugging-an-issue; mid-session recap + leftover
+  → recommending-next-steps.
 ---
 
 # Deep dive
@@ -44,6 +45,7 @@ Not this skill:
 | Proven class root, implement the fix                 | `root-cause-fix`           |
 | Unfamiliar API/library to adopt                      | `researching-a-dependency` |
 | "What workflow should I run?"                        | `getting-started`          |
+| Mid-session "what's next" / recap then dive leftover | `recommending-next-steps`  |
 
 `dig in:` is this skill. `dig deeper` is `do-it-right`.
 
@@ -191,15 +193,28 @@ Class: idea|feature|bug|problem
 - Bugs: regression = …
 - Out of scope: …
 
-## Next
-<smallest validating slice, and which skill to hand off to>
-
 ## Self-review
 Objection: …
 Verdict: revised | survived because …
 
 DECISION: <any choice the user must make>
 ```
+
+Then **last** — `_shared/next-prompt.md`. A `## Next` sentence is incomplete:
+
+````markdown
+## Next prompt
+
+```text
+create-plan: <committed recommendation + enough context to act>
+
+Specimen: <plan path / issue id — omit if none>
+Root node: <file:symbol or layer — omit if a plan>
+Class / slice: <smallest validating slice>
+Out of scope: …
+Do not implement a proximate patch. Follow the named skill in full.
+```
+````
 
 ## Guardrails
 
@@ -215,8 +230,9 @@ DECISION: <any choice the user must make>
 ## Pairs with
 
 - rules: `deep-dive-rule`, `no-shortcuts`, `definition-of-done`, `regression-test`
-- skills: `getting-started`, `create-plan`, `planning-a-change`, `review-plan`,
+- skills: `getting-started`, `recommending-next-steps`, `create-plan`, `planning-a-change`, `review-plan`,
   `do-it-right`, `root-cause-fix`, `debugging-an-issue`,
   `researching-a-dependency`, `writing-an-adr`, `running-a-dev-cycle`
 - agents: `explorer`
+- commands: `deep-dive-cmd` (`/deep-dive`)
 - workflows: `plan-then-build`, `ship-a-feature`, `debug-production`

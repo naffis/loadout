@@ -12,7 +12,8 @@ description: >
   for thoroughness. Anti-triggers: everyday red test already framed →
   debugging-an-issue; plan exhaustion → complete-the-build; investigate-only →
   debugging-with-observability; seed thought / "deep dive:" / "dig in:" →
-  deep-dive (not this skill; "dig deeper" stays here).
+  deep-dive (not this skill; "dig deeper" stays here); mid-session recap →
+  recommending-next-steps.
 ---
 
 # Do it right
@@ -168,7 +169,7 @@ heuristic."
 - rules: `do-it-right-rule`, `no-shortcuts`, `regression-test`,
   `definition-of-done`
 - skills: `root-cause-fix`, `debugging-an-issue`, `deep-flight`, `agentic-loop`,
-  `reviewing-and-shipping`, `post-flight`
+  `reviewing-and-shipping`, `post-flight`, `recommending-next-steps`
 - agents: `flight-checker`, `reviewer`
 - commands: `do-it-right-cmd` (`/do-it-right`)
 - refs: `references/diagnosis-gate.md`, `references/solution-gate.md`,

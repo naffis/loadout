@@ -14,6 +14,8 @@ You have a goal but not a plan: "I want to build X", "what should I do?", "how d
 1. **Get the goal clear.** If the request is vague or large, interview briefly (one short round): what's the outcome, the constraints, the **done-condition**, and what's explicitly out of scope. Don't over-ask — one or two sharp questions, then proceed. (Anthropic's "let the agent interview you" pattern.)
 2. **Orient if new to the repo.** If you don't know the codebase yet, run the `onboard-to-codebase` workflow (it uses the `explorer` agent) to learn the stack, the change pattern, and the test/build commands before committing to an approach.
 3. **Classify the work and route to a workflow:**
+   - Mid-session "what's next" / recap this chat then dive the leftover →
+     **`recommending-next-steps`** (`/next-steps`). Not `getting-started`.
    - Seed thought / "deep dive:" / "dig in:" / "what's the best way to X" (not yet a plan or a fix) → **`deep-dive`**.
    - Build/change a feature (ordinary, well-understood) → **`ship-a-feature`**.
    - High-stakes / unfamiliar / multi-file with real trade-offs → **`plan-then-build`**
@@ -96,14 +98,14 @@ Kickoff prompt:
   `ship-a-migration`, `dependency-bump`, `cut-a-release`, `run-quality-loop`, `run-autonomous-loop`,
   `defect-hunt`
 - skills: `planning-a-change`, `create-plan`, `review-plan`, `complete-the-build`,
-  `review-build`, `deep-flight`, `post-flight`, `verifying-session-surfaces`, `session-handoff`, `do-it-right`, `deep-dive`, `test-driven`, `simplifying-code`,
+  `review-build`, `deep-flight`, `post-flight`, `verifying-session-surfaces`, `session-handoff`, `recommending-next-steps`, `do-it-right`, `deep-dive`, `test-driven`, `simplifying-code`,
   `running-a-dev-cycle`, `agentic-loop`, `task-topology`, `equipping-loadout`,
   `hunting-defects`
 - commands: `start` (`/start`), `plan` (`/plan`), `build-as-graph-cmd` (`/build-as-graph`),
   `review-plan-cmd` (`/review-plan`),
   `complete-the-build-cmd` (`/complete-the-build`), `deep-flight-cmd` (`/deep-flight`), `review-build-cmd` (`/review-build`), `post-flight-cmd` (`/post-flight`),
   `verifying-session-surfaces-cmd` (`/verify-surfaces`),
-  `session-handoff-cmd` (`/session-handoff`), `do-it-right-cmd` (`/do-it-right`),
+  `session-handoff-cmd` (`/session-handoff`), `next-steps-cmd` (`/next-steps`), `do-it-right-cmd` (`/do-it-right`),
   `tdd-cmd` (`/tdd`), `simplify-cmd` (`/simplify`), `hunt-defects-cmd` (`/hunt-defects`)
 - runbooks: `loop-preflight`, `harness-setup`, `bootstrap-project`, `hotfix-and-rollback`
 - templates: `automation-loop`, `state-file`

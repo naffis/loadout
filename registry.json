@@ -56,7 +56,9 @@
         "verifying-session-surfaces-cmd",
         "hunting-defects",
         "hunt-defects-cmd",
-        "defect-hunt"
+        "defect-hunt",
+        "recommending-next-steps",
+        "next-steps-cmd"
       ],
       "workflows": [
         "ship-a-feature",
@@ -99,9 +101,98 @@
         "no-shortcuts",
         "definition-of-done",
         "regression-test",
-        "explorer"
+        "explorer",
+        "recommending-next-steps",
+        "deep-dive-cmd"
       ],
       "workflows": ["plan-then-build", "ship-a-feature", "debug-production"]
+    },
+    {
+      "id": "recommending-next-steps",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/recommending-next-steps",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["cursor", "claude"],
+      "layer": "skill",
+      "pairs_with": [
+        "recommending-next-steps-rule",
+        "deep-dive",
+        "debugging-an-issue",
+        "do-it-right",
+        "getting-started",
+        "session-handoff",
+        "post-flight",
+        "complete-the-build",
+        "create-plan",
+        "root-cause-fix",
+        "deep-flight",
+        "no-shortcuts",
+        "git-safety",
+        "deep-dive-rule",
+        "next-steps-cmd",
+        "recommending-next-steps-cmd"
+      ],
+      "workflows": ["plan-then-build", "ship-a-feature", "debug-production"]
+    },
+    {
+      "id": "recommending-next-steps-rule",
+      "type": "cursor-rule",
+      "source": "rules/recommending-next-steps.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["cursor", "claude"],
+      "layer": "rule",
+      "pairs_with": [
+        "recommending-next-steps",
+        "deep-dive",
+        "debugging-an-issue",
+        "do-it-right",
+        "getting-started",
+        "session-handoff",
+        "post-flight",
+        "no-shortcuts"
+      ]
+    },
+    {
+      "id": "next-steps-cmd",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/next-steps.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": ["claude", "cursor"],
+      "layer": "command",
+      "pairs_with": [
+        "recommending-next-steps",
+        "recommending-next-steps-cmd",
+        "deep-dive",
+        "do-it-right"
+      ]
+    },
+    {
+      "id": "recommending-next-steps-cmd",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/recommending-next-steps.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": ["claude", "cursor"],
+      "layer": "command",
+      "pairs_with": ["recommending-next-steps", "next-steps-cmd", "deep-dive"]
+    },
+    {
+      "id": "deep-dive-cmd",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/deep-dive.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": ["claude", "cursor"],
+      "layer": "command",
+      "pairs_with": [
+        "deep-dive",
+        "deep-dive-rule",
+        "recommending-next-steps",
+        "create-plan"
+      ]
     },
     {
       "id": "planning-a-change",
@@ -2375,7 +2466,7 @@
       "id": "cursor-safety-hooks",
       "type": "hook",
       "source": "hooks/cursor-safety",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "managed": false,
       "tools": ["cursor"],
       "layer": "hook",

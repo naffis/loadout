@@ -65,23 +65,25 @@ thought (`deep dive: should we …` / `dig in: checkout double-charges`) runs
 ### Commands
 
 Type the slash command: `/start`, `/plan`, `/review-plan`, `/review-build`,
-`/verify-surfaces`, `/post-flight`, `/hunt-defects`, `/changelog`.
+`/verify-surfaces`, `/post-flight`, `/next-steps`, `/deep-dive`, `/hunt-defects`, `/changelog`.
 Commands are explicit, repeatable actions. `loadout add <command>` vendors them to
 `.cursor/commands/<filename>.md` (Cursor) and `.claude/commands/<filename>.md` (Claude Code);
 Claude Code can alternatively get them via the plugin marketplace.
 
 **Planning + review loop (Cursor-friendly):**
 
-| Command               | Runs                          | When                                                                             |
-| --------------------- | ----------------------------- | -------------------------------------------------------------------------------- |
-| `/plan <task>`        | `create-plan`                 | Multi-file or uncertain work. Prefer Plan Mode. Skip one-sentence diffs.         |
-| `/review-plan`        | `review-plan`                 | After a plan, before coding. Prefer a fresh chat.                                |
-| `/review-build`       | `review-build`                | After implementation, before calling it done. Prefer a fresh chat.               |
-| `/post-flight`        | `post-flight`                 | End-of-session review-and-FIX (ask vs ship, sibling sweep, independent checker). |
-| `/verify-surfaces`    | `verifying-session-surfaces`  | Exercise this session's live surfaces; root-cause-fix what breaks.               |
-| `/hunt-defects`       | `hunting-defects`             | Exhaustive review of a named package with no known bug (census + waves).         |
-| `/audit-lifecycle`    | `auditing-resource-lifecycle` | Acquire vs release; explain every imbalance delta>0.                             |
-| `/walk-failure-paths` | `walking-failure-paths`       | Empty / error / cancel / retry / park walk.                                      |
+| Command               | Runs                          | When                                                                                                                    |
+| --------------------- | ----------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `/plan <task>`        | `create-plan`                 | Multi-file or uncertain work. Prefer Plan Mode. Skip one-sentence diffs.                                                |
+| `/review-plan`        | `review-plan`                 | After a plan, before coding. Prefer a fresh chat.                                                                       |
+| `/review-build`       | `review-build`                | After implementation, before calling it done. Prefer a fresh chat.                                                      |
+| `/post-flight`        | `post-flight`                 | End-of-session review-and-FIX (ask vs ship, sibling sweep, independent checker).                                        |
+| `/verify-surfaces`    | `verifying-session-surfaces`  | Exercise this session's live surfaces; root-cause-fix what breaks.                                                      |
+| `/hunt-defects`       | `hunting-defects`             | Exhaustive review of a named package with no known bug (census + waves).                                                |
+| `/audit-lifecycle`    | `auditing-resource-lifecycle` | Acquire vs release; explain every imbalance delta>0.                                                                    |
+| `/walk-failure-paths` | `walking-failure-paths`       | Empty / error / cancel / retry / park walk.                                                                             |
+| `/next-steps`         | `recommending-next-steps`     | Mid-session recap + leftover dive → one paste-ready next prompt. Does not implement. Alias: `/recommending-next-steps`. |
+| `/deep-dive`          | `deep-dive`                   | Seed → one committed recommendation. Last output is a paste-ready next prompt.                                          |
 
 `no-shortcuts` is always on and backs all three: no stubs, no unverified "green", read
 before asserting. For hard problems, run `/plan` across two models in parallel (worktrees)
@@ -110,7 +112,8 @@ happen every time (format-on-write, typecheck/lint gate, block destructive comma
 approval before push). See the [`harness-hooks`](../processes/runbooks/harness-hooks.md)
 runbook. Shipped Cursor kit: `loadout add cursor-safety-hooks` (then merge
 `hooks.fragment.json` into `.cursor/hooks.json` — keep format hooks; never mark
-`afterFileEdit`). `loadout init` still installs the SessionStart update-notify hook.
+`afterFileEdit`). Never bind a `stop` `followup_message` (Cursor submits it as a
+user turn). `loadout init` still installs the SessionStart update-notify hook.
 Bugbot does not load `.cursor/rules`; add `template-bugbot` → `.cursor/BUGBOT.md` and
 append repo-specific bans there.
 

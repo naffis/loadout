@@ -26,6 +26,18 @@ Default is **report only**. Implement only if the user said "and fix" — then
 5. Refute-or-promote. No missing-path sentence → speculative. Never Critical.
 6. Sibling sweep — callers and entry points first.
 7. Report + required `reviewer`/`/review` before CLEAN or Critical/High.
+8. Last — emit this fence and nothing after it. A `## Next` sentence is
+   incomplete:
+
+```text
+do-it-right: <Critical/High class + enough context to act>
+
+Specimen: <plan path / issue id — omit if none>
+Root node: <file:symbol or layer — omit if a plan>
+Class / slice: <siblings or smallest validating slice>
+Out of scope: …
+Do not implement a proximate patch. Follow the named skill in full.
+```
 
 Do not commit/push/PR unless explicitly asked.
 

@@ -19,6 +19,18 @@ regression.
 4. Implement — owning skill / class-kill at correct layer.
 5. Prove — regression + inverse + DoD.
 6. Do-it-right report.
+7. Last — emit this fence and nothing after it. A `## Next` sentence is
+   incomplete:
+
+```text
+deep-flight: <Chosen Fix + enough context to act>
+
+Specimen: <plan path / issue id — omit if none>
+Root node: <file:symbol or layer — omit if a plan>
+Class / slice: <siblings or smallest validating slice>
+Out of scope: …
+Do not implement a proximate patch. Follow the named skill in full.
+```
 
 Do not commit/push/PR unless explicitly asked.
 

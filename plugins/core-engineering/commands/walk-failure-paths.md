@@ -13,6 +13,19 @@ names fail-open.
 
 If the user named a directory, run `census.sh` first. Default is **report only**.
 
+Last — emit this fence and nothing after it. A `## Next` sentence is
+incomplete:
+
+```text
+do-it-right: <promoted exit + enough context to act>
+
+Specimen: <plan path / issue id — omit if none>
+Root node: <file:symbol or layer — omit if a plan>
+Class / slice: <siblings or smallest validating slice>
+Out of scope: …
+Do not implement a proximate patch. Follow the named skill in full.
+```
+
 Do not commit/push/PR unless explicitly asked.
 
 Surface / notes: $ARGUMENTS

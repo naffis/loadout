@@ -1,12 +1,6 @@
 {
   "version": 1,
   "hooks": {
-    "postToolUse": [
-      {
-        "command": "node .cursor/hooks/mark-gate-needed.mjs",
-        "matcher": "Write|StrReplace"
-      }
-    ],
     "beforeShellExecution": [
       {
         "command": "node .cursor/hooks/deny-destructive-git.mjs"
@@ -20,12 +14,6 @@
     "beforeTabFileRead": [
       {
         "command": "node .cursor/hooks/redact-env-read.mjs"
-      }
-    ],
-    "stop": [
-      {
-        "command": "node .cursor/hooks/remind-gate.mjs",
-        "loop_limit": 1
       }
     ]
   }

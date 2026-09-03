@@ -33,4 +33,17 @@ matches the approved plan. Skip planning when the change is a one-sentence
 diff. For hard problems, run `/plan` across two models in parallel (worktrees)
 and merge the best plan.
 
+Last — emit this fence and nothing after it. A `## Next` sentence is
+incomplete:
+
+```text
+review-plan: <plan path + enough context to act>
+
+Specimen: <docs/plans/YYYY-MM-DD-slug.md>
+Root node: <file:symbol or layer — omit if a plan>
+Class / slice: <siblings or smallest validating slice>
+Out of scope: …
+Do not implement a proximate patch. Follow the named skill in full.
+```
+
 Task: $ARGUMENTS

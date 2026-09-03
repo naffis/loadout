@@ -19,6 +19,18 @@ COMPLETE.
 5. Completeness re-pass — rebuild matrix; shortcut sweep; DoD; gates (paste output).
 6. Converge — two consecutive clean passes (survivors only with named criteria).
 7. Completion Report + handoff to `review-build`.
+8. Last — emit this fence and nothing after it. A `## Next` sentence is
+   incomplete:
+
+```text
+review-build: <plan path + enough context to act>
+
+Specimen: <plan path>
+Root node: <file:symbol or layer — omit if a plan>
+Class / slice: <siblings or smallest validating slice>
+Out of scope: …
+Do not implement a proximate patch. Follow the named skill in full.
+```
 
 Do not commit/push/PR unless explicitly asked.
 

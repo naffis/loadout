@@ -14,6 +14,18 @@ on the class-kill path and **fix drift now**. This is not `deep-dive` and not
 4. Gates — project verify commands; paste closers.
 5. Isolated `flight-checker` (readonly, no resume). FAIL → one fix+recheck.
 6. Deep-flight report (ON-COURSE / CORRECTED / OFF-COURSE).
+7. Last — emit this fence and nothing after it. A `## Next` sentence is
+   incomplete:
+
+```text
+post-flight: <ON-COURSE wrap + enough context to act>
+
+Specimen: <plan path / issue id — omit if none>
+Root node: <file:symbol or layer — omit if a plan>
+Class / slice: <siblings or smallest validating slice>
+Out of scope: …
+Do not implement a proximate patch. Follow the named skill in full.
+```
 
 If no Chosen Fix exists yet, stop and run `do-it-right`. If the session is
 wrapping, hand off to `post-flight` after ON-COURSE.
