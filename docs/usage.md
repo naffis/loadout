@@ -45,8 +45,22 @@ A rule's frontmatter decides _when it loads_. Four modes:
 | **Manual**          | no description, no globs             | Only when you `@rule-name` it in chat                  | Rarely-needed references                                                      |
 
 - **In Cursor:** rules live in `.cursor/rules/*.mdc` and load per the table above. `@rule-name` forces one in.
-- **In Claude Code:** there's no native `.mdc`. `loadout add` _projects_ a rule's body into a managed block in `CLAUDE.md` so the same constraint applies. Genuinely cross-tool baseline conventions belong in `AGENTS.md`.
+- **In Claude Code:** CLAUDE.md is always-on. Claude also has `.claude/rules/` with optional `paths` (path-scoped). loadout does **not** vendor that directory. `loadout add` / `update` projects a rule body into the managed `CLAUDE.md` block **only when `alwaysApply: true`**. Glob and agent-requested rules stay as `.cursor/rules/*.mdc` (Cursor); a previously projected non-always-on block is **removed** on `update`. Genuinely cross-tool baseline conventions belong in `AGENTS.md` (Claude can `@AGENTS.md`).
+- **Remote Rules** of this repo's `rules/` tree is the **full library**, including every `alwaysApply: true` file (shared-trunk kit included). Prefer CLI `add` of starter ids if you do not want that tax.
 - You generally don't "call" a rule — you rely on it loading. To check which are active in Cursor: Settings → Rules.
+
+### Cursor built-in skills (do not reinvent)
+
+These ship with Cursor. Catalog them here; do **not** add loadout skills that copy the names.
+
+| Call | Use for |
+| ---- | ------- |
+| `/review` | Agent Review of a diff |
+| `/review-bugbot` | Bugbot review |
+| `/review-security` | Security Review |
+| `/loop` | Recurring / interval run |
+| `/autopilot` | Cloud / unattended agent |
+| `/canvas` | Visual / analytical artifact |
 
 ### Skills (`SKILL.md`)
 
@@ -65,7 +79,7 @@ thought (`deep dive: should we …` / `dig in: checkout double-charges`) runs
 ### Commands
 
 Type the slash command: `/start`, `/plan`, `/review-plan`, `/review-build`,
-`/verify-surfaces`, `/post-flight`, `/next-steps`, `/deep-dive`, `/hunt-defects`, `/changelog`.
+`/verify-surfaces`, `/verify-claim`, `/post-flight`, `/next-steps`, `/deep-dive`, `/hunt-defects`, `/changelog`.
 Commands are explicit, repeatable actions. `loadout add <command>` vendors them to
 `.cursor/commands/<filename>.md` (Cursor) and `.claude/commands/<filename>.md` (Claude Code);
 Claude Code can alternatively get them via the plugin marketplace.
@@ -79,6 +93,7 @@ Claude Code can alternatively get them via the plugin marketplace.
 | `/review-build`       | `review-build`                | After implementation, before calling it done. Prefer a fresh chat.                                                      |
 | `/post-flight`        | `post-flight`                 | End-of-session review-and-FIX (ask vs ship, sibling sweep, independent checker).                                        |
 | `/verify-surfaces`    | `verifying-session-surfaces`  | Exercise this session's live surfaces; root-cause-fix what breaks.                                                      |
+| `/verify-claim`       | `verifying-a-claim`           | One named claim; `VERIFIED` / `NOT VERIFIED` / `INCONCLUSIVE`. Not session inventory, not `/review`.                    |
 | `/hunt-defects`       | `hunting-defects`             | Exhaustive review of a named package with no known bug (census + waves).                                                |
 | `/audit-lifecycle`    | `auditing-resource-lifecycle` | Acquire vs release; explain every imbalance delta>0.                                                                    |
 | `/walk-failure-paths` | `walking-failure-paths`       | Empty / error / cancel / retry / park walk.                                                                             |
@@ -156,7 +171,8 @@ npx github:naffis/loadout doctor        # validate the loadout repo itself
 Pin with a tag when you care about reproducibility: `npx github:naffis/loadout#<tag> <command>`.
 
 What `add` does per type: skills → `.cursor/skills/<id>/`; rules → `.cursor/rules/<id>.mdc`
-**and** projected into `CLAUDE.md`; commands → `.cursor/commands/<id>.md` + `.claude/commands/<id>.md`;
+**and**, when `alwaysApply: true`, projected into `CLAUDE.md` (non-always-on rules are
+not projected; `update` unprojects a leftover block); commands → `.cursor/commands/<id>.md` + `.claude/commands/<id>.md`;
 agents → `.cursor/agents/<id>.md` + `.claude/agents/<id>.md`; MCP → merged into
 `.mcp.json`/`.cursor/mcp.json`; docs/workflows → copied preserving their path. Everything
 vendored is tracked in `loadout.lock.json`, so `update` can three-way merge without clobbering

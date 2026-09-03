@@ -14,7 +14,7 @@ A feature branch has diverged from its base and needs to be updated before mergi
 
 1. **Back up:** note the current SHA (`git rev-parse HEAD`) so you can recover.
 2. **Update base:** `git fetch origin && git rebase origin/<base>`.
-3. **Resolve conflicts semantically**, not mechanically: understand both sides' intent. For lockfiles, regenerate (see `lockfile-conflicts`); never hand-merge them.
+3. **Resolve conflicts** with `resolving-merge-conflicts`: semantic resolve (prefer both sides when safe), lockfile regenerate, stage, gate green, then continue. For lockfiles, regenerate (see `lockfile-conflicts`); never hand-merge them.
 4. **After each resolution**, re-read the combined result for correctness, then `git rebase --continue`.
 5. **Validate:** run the build and the affected tests on the rebased branch.
 6. **Push** with lease, never a plain force: `git push --force-with-lease`.
@@ -28,5 +28,5 @@ A feature branch has diverged from its base and needs to be updated before mergi
 ## Pairs with
 
 - rules: `lockfile-conflicts`, `testing-conventions`
-- skills: `reviewing-and-shipping`
+- skills: `reviewing-and-shipping`, `resolving-merge-conflicts`
 - workflows: `clear-the-queue`

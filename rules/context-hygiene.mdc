@@ -1,0 +1,38 @@
+---
+description: >
+  Start a new conversation when the task changes, the agent is confused, or
+  two corrections have failed. Triggers on long chat, new task, context rot,
+  "@Chats", "fresh chat", "handoff this session". Points at session-handoff.
+  Do not pile more turns into a rotting window.
+alwaysApply: false
+---
+
+# Context hygiene
+
+When the task changes, you are confused, or two corrections have failed,
+**start a new conversation**. Do not add more turns to a rotting window.
+
+## When this fires
+
+- The user switched to a different task in the same chat
+- Two attempted corrections failed
+- The thread is long and earlier constraints have drifted
+- The user says `@Chats`, "fresh chat", or asks for a handoff
+
+## What to do
+
+1. Stop implementing in this chat.
+2. If the next chat needs this session's state, run `session-handoff` (or
+   `@Chats` / the handoff packet the user already has).
+3. Tell the user to paste the handoff (or the next-prompt fence) into a
+   **new** conversation.
+
+Claude Code equivalent: `/clear` between unrelated tasks.
+
+## Do not
+
+- Keep going "just one more try" after two failed corrections
+- Paste a skill or procedure body into `AGENTS.md` to "save context"
+- Summarize the whole thread into always-on rules
+
+Full handoff procedure: `session-handoff`.

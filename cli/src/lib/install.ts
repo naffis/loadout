@@ -6,7 +6,8 @@ import {
   copyInto,
   mergeMcp,
   planTargets,
-  projectRuleIntoClaudeMd,
+  ruleIsAlwaysApply,
+  syncClaudeRuleProjection,
   type Tools,
 } from "./project.js";
 import { getAsset } from "./source.js";
@@ -85,8 +86,14 @@ function applyVendorActions(
         break;
       }
       case "projectRule": {
-        projectRuleIntoClaudeMd(join(ctx.projectRoot, action.target), id, readFileSync(srcAbs, "utf8"));
-        info(c.dim(`  projected ${id} into ${action.target}`));
+        const body = readFileSync(srcAbs, "utf8");
+        const claudeMd = join(ctx.projectRoot, action.target);
+        syncClaudeRuleProjection(claudeMd, id, body);
+        if (ruleIsAlwaysApply(body)) {
+          info(c.dim(`  projected ${id} into ${action.target}`));
+        } else {
+          info(c.dim(`  unprojected ${id} from ${action.target} (not alwaysApply)`));
+        }
         break;
       }
       case "mergeMcp": {

@@ -830,7 +830,23 @@
       "managed": true,
       "tools": ["cursor", "claude"],
       "layer": "skill",
-      "pairs_with": ["lockfile-conflicts", "reviewing-and-shipping"],
+      "pairs_with": ["lockfile-conflicts", "reviewing-and-shipping", "resolving-merge-conflicts"],
+      "workflows": ["clear-the-queue"]
+    },
+    {
+      "id": "resolving-merge-conflicts",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/resolving-merge-conflicts",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["cursor", "claude"],
+      "layer": "skill",
+      "pairs_with": [
+        "rebasing-a-branch",
+        "lockfile-conflicts",
+        "git-safety",
+        "no-stash"
+      ],
       "workflows": ["clear-the-queue"]
     },
     {
@@ -1380,6 +1396,23 @@
       "workflows": ["ship-a-feature", "plan-then-build", "run-autonomous-loop"]
     },
     {
+      "id": "verifying-a-claim",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/verifying-a-claim",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["cursor", "claude"],
+      "layer": "skill",
+      "pairs_with": [
+        "verifying-session-surfaces",
+        "root-cause-fix",
+        "no-shortcuts",
+        "ui-evidence",
+        "verify-claim-cmd"
+      ],
+      "workflows": ["ship-a-feature", "plan-then-build"]
+    },
+    {
       "id": "recreating-a-design",
       "type": "skill",
       "source": "plugins/core-engineering/skills/recreating-a-design",
@@ -1637,6 +1670,20 @@
         "post-flight",
         "flight-checker",
         "reviewer"
+      ]
+    },
+    {
+      "id": "verify-claim-cmd",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/verify-claim.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": ["claude", "cursor"],
+      "layer": "command",
+      "pairs_with": [
+        "verifying-a-claim",
+        "verifying-session-surfaces",
+        "root-cause-fix"
       ]
     },
     {
@@ -2192,6 +2239,26 @@
       "managed": true,
       "tools": ["cursor", "claude"],
       "layer": "rule"
+    },
+    {
+      "id": "context-hygiene",
+      "type": "cursor-rule",
+      "source": "rules/context-hygiene.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["cursor", "claude"],
+      "layer": "rule",
+      "pairs_with": ["session-handoff", "agents-md-hygiene"]
+    },
+    {
+      "id": "agents-md-hygiene",
+      "type": "cursor-rule",
+      "source": "rules/agents-md-hygiene.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["cursor", "claude"],
+      "layer": "rule",
+      "pairs_with": ["context-hygiene"]
     },
     {
       "id": "ship-a-feature",

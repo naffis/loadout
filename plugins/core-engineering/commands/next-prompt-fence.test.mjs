@@ -23,6 +23,7 @@ const REQUIRED = [
   "session-handoff",
   "plan",
   "start",
+  "verify-claim",
 ];
 
 test("diagnose/audit/review commands contain a literal next-prompt fence", () => {

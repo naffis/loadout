@@ -1,0 +1,33 @@
+---
+description: >
+  Keep AGENTS.md and CLAUDE.md thin. Per-line litmus: would removing this
+  cause a mistake? Situational procedures belong in a skill, not these files.
+  Triggers when editing AGENTS.md, CLAUDE.md, or their templates.
+alwaysApply: false
+globs: ["**/AGENTS.md", "**/CLAUDE.md"]
+---
+
+# AGENTS.md / CLAUDE.md hygiene
+
+These files are always-on context. Every line is a per-request tax.
+
+## Litmus (every line)
+
+Would removing this cause an agent to make a mistake? If not, cut it.
+
+## Allowed
+
+- Stack, commands, project-specific conventions, hard do-nots
+- Filling template placeholders (stack, commands, trunk name)
+- A pointer to a skill or rule (`context-hygiene`, `session-handoff`)
+
+## Forbidden
+
+- Pasting a skill or procedure body (workflow steps, review checklists)
+- Style-guide dumps a linter already enforces
+- Situational how-to that only matters for one task
+
+Nested `AGENTS.md` in a subdirectory wins for that area. Claude reads
+`CLAUDE.md` (import `@AGENTS.md`); do not duplicate the same essay in both.
+
+See `context-hygiene` when the chat itself is the problem, not the file.

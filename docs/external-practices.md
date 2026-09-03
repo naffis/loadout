@@ -22,7 +22,7 @@ Across Anthropic, Cursor, Codex, and the Loop Engineering methodology
 | Layer                    | Anthropic (Claude Code)                               | Cursor                                                        | loadout layer   |
 | ------------------------ | ----------------------------------------------------- | ------------------------------------------------------------- | --------------- |
 | Always-on project policy | `CLAUDE.md` (loaded every session, kept short)        | `AGENTS.md` + always-apply `.mdc`                             | baseline / rule |
-| Scoped constraints       | (none native; CLAUDE.md imports)                      | `.mdc` rules: Always / Auto-attach / Agent-requested / Manual | rule            |
+| Scoped constraints       | `.claude/rules/` + optional `paths` (loadout does not vendor) | `.mdc` rules: Always / Auto-attach / Agent-requested / Manual | rule            |
 | Invokable procedure      | `SKILL.md` skill (`.claude/skills/`)                  | `SKILL.md` skill (`.cursor/skills/`)                          | skill           |
 | Repeatable command       | slash command / skill with `disable-model-invocation` | `/command`                                                    | command         |
 | Delegated sub-task       | subagent (`.claude/agents/`)                          | subagent (`.cursor/agents/`)                                  | agent           |
@@ -182,12 +182,12 @@ patterns already folded in from the Loop Engineering pass. New, concrete tighten
 | --- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ---------------------------------- |
 | 1   | Adopt canonical **skill frontmatter rules** (gerund `name` ≤64/lowercase-hyphen/no reserved words; third-person `description` ≤1024 with what+when) | `skill-author`, doctor | **done** (doctor)                  |
 | 2   | Enforce the **500-line `SKILL.md` body** rule and **one-level-deep references** as the size guidance (replaces the vague soft limit)                | `skill-author`, doctor | **done** (doctor warns >500 lines) |
-| 3   | Adopt **CLAUDE.md hygiene** ("would removing this cause a mistake?"; situational → skill) as a baseline/template convention                         | templates              | **later** (template)               |
+| 3   | Adopt **CLAUDE.md hygiene** ("would removing this cause a mistake?"; situational → skill) as a baseline/template convention                         | templates, `agents-md-hygiene` | **done**                       |
 | 4   | House style for skills: `## Trigger` / `## Workflow` / `## Suggested Checks` / `## Guardrails` (+ existing `## Pairs with`)                         | `skill-author`         | **later** (skill-author)           |
-| 5   | Rules: enforce "reference files, don't paste"; "what to avoid" (no style-guide dumps, use a linter) as `rule-author` guidance                       | `rule-author`          | **later**                          |
+| 5   | Rules: enforce "reference files, don't paste"; "what to avoid" (no style-guide dumps, use a linter) as `rule-author` guidance                       | `rule-author`, `agents-md-hygiene` | **done**                   |
 | 6   | Seed a **verification/eval** convention (give a check; show evidence; plan→validate→execute; build evals first)                                     | workflows, runbooks    | **later**                          |
 
-(Items 1–2 are implemented in `doctor` now; the rest are authored during the harvest.)
+(Items 1–2 live in `doctor`; 3 and 5 shipped with `agents-md-hygiene` / `rule-author`. Items 4 and 6 remain later.)
 
 ---
 
@@ -211,8 +211,8 @@ These were **generalized, public-safe** candidates synthesized from the sources 
 | `make-pr-reviewable`                 | Clean noisy history, add reviewer guidance                      | opening-a-pr               | ship-a-feature     |
 | `fixing-ci`                          | Find failing checks, inspect logs, apply focused fixes          | ci-watcher                 | fix-ci-until-green |
 | `looping-on-ci`                      | Watch CI and iterate until green                                | ci-watcher, fixing-ci      | fix-ci-until-green |
-| `resolving-merge-conflicts`          | Resolve conflicts, validate build/tests                         | —                          | —                  |
-| `verifying-a-claim`                  | Baseline/treatment artifacts → VERIFIED/NOT/INCONCLUSIVE        | reviewer                   | ship-a-feature     |
+| `resolving-merge-conflicts`          | **done** — ships as loadout skill (lockfile regenerate, gate, no auto-invoke) | rebasing-a-branch, lockfile-conflicts | clear-the-queue |
+| `verifying-a-claim`                  | **done** — ships; verdicts `VERIFIED` / `NOT VERIFIED` / `INCONCLUSIVE` | verifying-session-surfaces | ship-a-feature     |
 | `reviewing-a-diff` (subagent-backed) | Adversarial diff review in fresh context                        | reviewer                   | ship-a-feature     |
 | `cutting-a-release`                  | Tag, changelog, release notes, publish                          | —                          | cut-a-release      |
 | `migrating-a-schema`                 | Reversible up/down migration with validation                    | db-migration-safety        | ship-a-feature     |

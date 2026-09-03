@@ -8,9 +8,12 @@ the live index and `loadout list --installed` for what's in a project. See
 Code); rules → load by their mode (see each below); subagents → "use the `<name>` subagent";
 command → `/changelog`.
 
+**Cursor-native (do not reinvent):** `/review`, `/review-bugbot`, `/review-security`,
+`/loop`, `/autopilot`, `/canvas`. See [`usage.md`](./usage.md).
+
 ---
 
-## Skills (59)
+## Skills (61)
 
 ### Getting started (start here)
 
@@ -51,7 +54,8 @@ command → `/changelog`.
 | `session-handoff`             | Write or resume a durable handoff so a fresh chat continues without cold-start archaeology.                                                                                                                   | "write a handoff" / `/session-handoff`                                  |
 | `review-build`                | Evidence-first implementation review: git diff, plan trace, `shortcut-sweep` RECEIPT, pasted gates, `flight-checker`. Prefer fresh chat.                                                                      | "Review the build" / `/review-build`                                    |
 | `post-flight`                 | End-of-session review-and-FIX: ask vs ship, scripted shortcut sweep, class-kill, sibling sweep, DoD, gates, `flight-checker`. Completes deferred work by default.                                             | "post-flight" / "run post-flight" / `/post-flight`                      |
-| `verifying-session-surfaces`  | Exercise every session-created/updated live surface (UI/API/CLI/MCP/job) with pasted evidence, then root-cause-fix failures. Complementary to `post-flight` (code wrap) and Cursor `verify-this` (one claim). | "test all the surfaces" / "ensure it works" / `/verify-surfaces`        |
+| `verifying-session-surfaces`  | Exercise every session-created/updated live surface (UI/API/CLI/MCP/job) with pasted evidence, then root-cause-fix failures. Complementary to `post-flight` (code wrap) and `verifying-a-claim` (one claim). | "test all the surfaces" / "ensure it works" / `/verify-surfaces`        |
+| `verifying-a-claim`           | One named claim, baseline vs treatment, verdict `VERIFIED` / `NOT VERIFIED` / `INCONCLUSIVE`. Does not implement. Not session inventory, not Cursor `/review`.                                              | "verify this claim" / `/verify-claim`                                   |
 | `planning-a-change`           | Explore → plan → implement a non-trivial change. Before multi-file/unfamiliar work; skip one-liners. Plan-only → `create-plan`.                                                                               | `/planning-a-change` or describe a multi-file task                      |
 | `reviewing-and-shipping`      | Review for correctness & intent, run tests, wrap up; commit/PR only when asked (whole-tree commit if shared-working-tree).                                                                                    | when wrapping up a change                                               |
 | `writing-commit-messages`     | Conventional-commit message from a diff.                                                                                                                                                                      | when committing / "write a commit message"                              |
@@ -59,6 +63,7 @@ command → `/changelog`.
 | `opening-a-pr`                | Branch → push → PR with a validation-first description. Only when user explicitly asks for a PR.                                                                                                              | when turning work into a PR                                             |
 | `making-a-pr-reviewable`      | Tidy history, sharpen description, add reviewer guidance (no behavior change).                                                                                                                                | before review on a noisy/large PR                                       |
 | `rebasing-a-branch`           | Rebase onto base with semantic conflict review and `--force-with-lease`.                                                                                                                                      | when a branch is behind                                                 |
+| `resolving-merge-conflicts`   | Semantic merge/rebase conflict resolve; lockfile regenerate; gate green; no commit/push. `disable-model-invocation`.                                                                                          | conflict markers / `/resolving-merge-conflicts`                         |
 | `triaging-review-feedback`    | Bucket unresolved PR comments into a plan and address them.                                                                                                                                                   | when a PR has open threads                                              |
 | `assessing-release-readiness` | Go / no-go assessment (gates, risk, rollback).                                                                                                                                                                | before promoting / releasing                                            |
 
@@ -128,7 +133,7 @@ command → `/changelog`.
 
 ---
 
-## Rules (38)
+## Rules (40)
 
 How a rule loads is set by its frontmatter. You don't usually call rules; they load
 automatically (or `@rule-name` for manual ones).
@@ -139,17 +144,18 @@ automatically (or `@rule-name` for manual ones).
 | --------------------- | --------------------------------------------------------------------------------------------------------------------- |
 | `no-shortcuts`        | No stubs/bandaids/silent fallbacks; don't claim green without pasted output; read before asserting; ask on ambiguity. |
 | `regression-test`     | Every bug fix ships a test that fails before and passes after.                                                        |
-| `no-inline-imports`   | Imports at module top; no inline/lazy imports.                                                                        |
 | `no-secrets-in-code`  | Never hardcode secrets/PII; env/secret store; never log them.                                                         |
-| `git-safety`          | No autonomous commit/branch/push/PR/stash/WIP wipe; explicit ask required.                                            |
-| `no-stash`            | Absolute ban on `git stash` (and stash-like /tmp moves).                                                              |
-| `shared-working-tree` | Parallel agents share one local trunk; no per-agent branches/worktrees; commit-all via skill.                         |
+| `git-safety`          | No autonomous commit/branch/push/PR/stash/WIP wipe; explicit ask required. Shared-trunk kit — always-on when installed. |
+| `no-stash`            | Absolute ban on `git stash` (and stash-like /tmp moves). Shared-trunk kit — always-on when installed.                 |
+| `shared-working-tree` | Parallel agents share one local trunk; no per-agent branches/worktrees; commit-all via skill. Shared-trunk kit — always-on when installed. |
 
 ### Auto-attached by file glob
 
 | Rule                           | Globs           | Gist                                                                              |
 | ------------------------------ | --------------- | --------------------------------------------------------------------------------- |
 | `no-any`                       | `**/*.ts(x)`    | Ban `any`/`@ts-ignore`; `unknown` + narrowing.                                    |
+| `no-inline-imports`            | `**/*.ts` `**/*.tsx` `**/*.js` `**/*.jsx` `**/*.mjs` `**/*.cjs` | Imports at module top; no inline/lazy imports.                          |
+| `agents-md-hygiene`            | `**/AGENTS.md`, `**/CLAUDE.md` | Thin AGENTS.md/CLAUDE.md; litmus; no skill-body paste. Also agent-requested. |
 | `no-floating-promises`         | `**/*.ts(x)`    | Await/return/void+catch; use platform "wait until".                               |
 | `typescript-exhaustive-switch` | `**/*.ts(x)`    | `never` default case on unions/enums.                                             |
 | `testing-conventions`          | test/spec globs | Arrange-Act-Assert; mock only at boundaries.                                      |
@@ -161,6 +167,8 @@ automatically (or `@rule-name` for manual ones).
 
 | Rule                            | Gist                                                                                                                                                                                  |
 | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `context-hygiene`               | New conversation on task change, confusion, or two failed corrections; `@Chats` / `session-handoff`. Do not pile turns.                                                               |
+| `agents-md-hygiene`             | Thin AGENTS.md/CLAUDE.md; per-line litmus; no skill-body paste. Also glob-attached on those files.                                                                                    |
 | `size-limits`                   | Files ~<400 (hard ~1000), functions ~<50; extract before sprawl. Switch stays a switch — extract case bodies, do not convert to a lookup table.                                       |
 | `refactor-discipline`           | Behavior-preserving, scoped; test net first; no bundled fixes.                                                                                                                        |
 | `test-coverage`                 | Coverage is a guide not a goal; cover new code + branches/error paths; pick a floor, don't game it.                                                                                   |
@@ -202,7 +210,7 @@ Dispatch with "use the `<name>` subagent". They run in a fresh context and repor
 | `ci-watcher`        | Monitor the PR's CI; concise pass/fail with links to failures.                                                    |
 | `implement-node`    | Execute one TASK.md unit under hard allowlist + unit verifier; report PASSED/FAILED.                              |
 
-## Commands (21)
+## Commands (22)
 
 | Command                    | What                                                                                                                                                                 |
 | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -216,6 +224,7 @@ Dispatch with "use the `<name>` subagent". They run in a fresh context and repor
 | `/review-build`            | Evidence-first review of implemented work vs plan/request (runs `review-build`). Prefer a fresh chat.                                                                |
 | `/post-flight`             | End-of-session review-and-FIX: ask vs ship, class-kill, sibling sweep, independent checker (runs `post-flight`).                                                     |
 | `/verify-surfaces`         | Exercise this session's new/changed live surfaces and root-cause-fix what breaks (runs `verifying-session-surfaces`; registry id: `verifying-session-surfaces-cmd`). |
+| `/verify-claim`            | Verify one named claim; verdict `VERIFIED` / `NOT VERIFIED` / `INCONCLUSIVE` (runs `verifying-a-claim`; registry id: `verify-claim-cmd`).                            |
 | `/session-handoff`         | Write or resume a durable session handoff for a fresh chat (runs `session-handoff`).                                                                                 |
 | `/next-steps`              | Recap this session from evidence, deep-dive the leftover, emit one paste-ready next prompt (runs `recommending-next-steps`).                                         |
 | `/recommending-next-steps` | Same as `/next-steps` (alias).                                                                                                                                       |

@@ -47,9 +47,17 @@ You have a goal but not a plan: "I want to build X", "what should I do?", "how d
      path if plan review is still owed too.
    - Mid-session after substantial edits; course-correct before claiming done →
      **`deep-flight`** (`/deep-flight`). Not `deep-dive`.
+   - One named claim (baseline vs treatment) → **`verifying-a-claim`**
+     (`/verify-claim`). Not session inventory, not Cursor `/review`.
    - End of a session; prove live surfaces work, then root-cause-fix →
      **`verifying-session-surfaces`** (`/verify-surfaces`). Prefer when the
      ask is "test all the surfaces / ensure it works."
+   - Diff / PR review → Cursor-native **`/review`**, **`/review-bugbot`**,
+     **`/review-security`**. Do not invent a loadout skill with those names.
+   - Recurring interval run → Cursor **`/loop`**. Unattended cloud → **`/autopilot`**.
+     Visual / analytical artifact → **`/canvas`**.
+   - Merge or rebase conflict markers → **`resolving-merge-conflicts`**
+     (`/resolving-merge-conflicts`). Not a stash.
    - End of a session; fix what the proof turns up (sibling sweep + checker) →
      **`post-flight`** (`/post-flight`). Prefer over a chat-only wrap-up summary.
      Run `/verify-surfaces` first when the session added user-visible surfaces.
@@ -98,13 +106,14 @@ Kickoff prompt:
   `ship-a-migration`, `dependency-bump`, `cut-a-release`, `run-quality-loop`, `run-autonomous-loop`,
   `defect-hunt`
 - skills: `planning-a-change`, `create-plan`, `review-plan`, `complete-the-build`,
-  `review-build`, `deep-flight`, `post-flight`, `verifying-session-surfaces`, `session-handoff`, `recommending-next-steps`, `do-it-right`, `deep-dive`, `test-driven`, `simplifying-code`,
+  `review-build`, `deep-flight`, `post-flight`, `verifying-session-surfaces`, `verifying-a-claim`, `resolving-merge-conflicts`, `session-handoff`, `recommending-next-steps`, `do-it-right`, `deep-dive`, `test-driven`, `simplifying-code`,
   `running-a-dev-cycle`, `agentic-loop`, `task-topology`, `equipping-loadout`,
   `hunting-defects`
 - commands: `start` (`/start`), `plan` (`/plan`), `build-as-graph-cmd` (`/build-as-graph`),
   `review-plan-cmd` (`/review-plan`),
   `complete-the-build-cmd` (`/complete-the-build`), `deep-flight-cmd` (`/deep-flight`), `review-build-cmd` (`/review-build`), `post-flight-cmd` (`/post-flight`),
   `verifying-session-surfaces-cmd` (`/verify-surfaces`),
+  `verify-claim-cmd` (`/verify-claim`),
   `session-handoff-cmd` (`/session-handoff`), `next-steps-cmd` (`/next-steps`), `do-it-right-cmd` (`/do-it-right`),
   `tdd-cmd` (`/tdd`), `simplify-cmd` (`/simplify`), `hunt-defects-cmd` (`/hunt-defects`)
 - runbooks: `loop-preflight`, `harness-setup`, `bootstrap-project`, `hotfix-and-rollback`

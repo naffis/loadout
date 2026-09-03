@@ -9,7 +9,15 @@ import {
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
-import { mergeMcp, planTargets, projectRuleIntoClaudeMd } from "./project.js";
+import {
+  mergeMcp,
+  planTargets,
+  projectRuleIntoClaudeMd,
+  ruleIsAlwaysApply,
+  shouldRefreshClaudeProjectionOnUpdate,
+  syncClaudeRuleProjection,
+  unprojectRuleFromClaudeMd,
+} from "./project.js";
 import { findSourceRoot } from "./source.js";
 import type { RegistryAsset } from "./types.js";
 
@@ -79,6 +87,130 @@ test("projectRuleIntoClaudeMd inserts once and is idempotent", () => {
       out.includes("body-v2") && !out.includes("body-v1"),
       "rule body refreshed",
     );
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("ruleIsAlwaysApply reads frontmatter only", () => {
+  assert.equal(
+    ruleIsAlwaysApply("---\nalwaysApply: true\n---\nbody\n"),
+    true,
+  );
+  assert.equal(
+    ruleIsAlwaysApply(
+      "---\nalwaysApply: false\nglobs: [\"**/*.ts\"]\n---\nbody\n",
+    ),
+    false,
+  );
+  assert.equal(ruleIsAlwaysApply("# No frontmatter\n"), false);
+});
+
+test("alwaysApply false is not inserted and unprojects an existing block", () => {
+  const dir = tmp();
+  try {
+    const claude = join(dir, "CLAUDE.md");
+    writeFileSync(claude, "# Project\n\nuser content\n");
+    projectRuleIntoClaudeMd(
+      claude,
+      "no-inline-imports",
+      "---\nalwaysApply: true\n---\n# Inline\nkeep-me\n",
+    );
+    assert.ok(
+      readFileSync(claude, "utf8").includes("keep-me"),
+      "always-on still inserts",
+    );
+
+    unprojectRuleFromClaudeMd(claude, "no-inline-imports");
+    const after = readFileSync(claude, "utf8");
+    assert.ok(!after.includes("keep-me"), "unproject removes the body");
+    assert.ok(!after.includes("rule:no-inline-imports"), "marker gone");
+    assert.ok(after.includes("user content"), "user content preserved");
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("shouldRefreshClaudeProjectionOnUpdate is independent of .mdc hash", () => {
+  assert.equal(
+    shouldRefreshClaudeProjectionOnUpdate(false, "cursor-rule", true),
+    true,
+    "apply: refresh every installed cursor-rule for Claude",
+  );
+  assert.equal(
+    shouldRefreshClaudeProjectionOnUpdate(true, "cursor-rule", true),
+    false,
+    "--check never writes CLAUDE.md",
+  );
+  assert.equal(
+    shouldRefreshClaudeProjectionOnUpdate(false, "skill", true),
+    false,
+  );
+  assert.equal(
+    shouldRefreshClaudeProjectionOnUpdate(false, "cursor-rule", false),
+    false,
+  );
+});
+
+test("syncClaudeRuleProjection inserts alwaysApply true once", () => {
+  const dir = tmp();
+  try {
+    const claude = join(dir, "CLAUDE.md");
+    writeFileSync(claude, "# Project\n");
+    const body = "---\nalwaysApply: true\n---\n# Guard\nalways-on-body\n";
+    syncClaudeRuleProjection(claude, "no-shortcuts", body);
+    syncClaudeRuleProjection(claude, "no-shortcuts", body);
+    const out = readFileSync(claude, "utf8");
+    assert.equal(
+      out.match(/rule:no-shortcuts/g)?.length,
+      1,
+      "always-on insert is idempotent",
+    );
+    assert.ok(out.includes("always-on-body"), "always-on body inserted");
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("syncClaudeRuleProjection never inserts alwaysApply false", () => {
+  const dir = tmp();
+  try {
+    const claude = join(dir, "CLAUDE.md");
+    writeFileSync(claude, "# Project\n\nuser content\n");
+    syncClaudeRuleProjection(
+      claude,
+      "no-inline-imports",
+      "---\nalwaysApply: false\nglobs: [\"**/*.ts\"]\n---\n# Inline\nshould-not-appear\n",
+    );
+    const out = readFileSync(claude, "utf8");
+    assert.ok(!out.includes("should-not-appear"), "false rule body not inserted");
+    assert.ok(!out.includes("rule:no-inline-imports"), "no marker inserted");
+    assert.ok(out.includes("user content"), "user content preserved");
+
+    projectRuleIntoClaudeMd(
+      claude,
+      "no-inline-imports",
+      "---\nalwaysApply: true\n---\n# Inline\nlegacy-body\n",
+    );
+    syncClaudeRuleProjection(
+      claude,
+      "no-inline-imports",
+      "---\nalwaysApply: false\n---\n# Inline\nshould-not-appear\n",
+    );
+    const after = readFileSync(claude, "utf8");
+    assert.ok(!after.includes("legacy-body"), "update unprojects demoted rule");
+    assert.ok(!after.includes("should-not-appear"), "false body still not inserted");
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("unprojectRuleFromClaudeMd is a no-op when CLAUDE.md is missing", () => {
+  const dir = tmp();
+  try {
+    const missing = join(dir, "CLAUDE.md");
+    unprojectRuleFromClaudeMd(missing, "no-any");
+    assert.equal(existsSync(missing), false, "must not create CLAUDE.md");
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }

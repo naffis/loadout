@@ -74,7 +74,8 @@ outside the window so a fresh context resumes); and **sub-agent isolation** (bul
 exploration burns tokens in a sub-agent that returns a 1–2k-token distilled summary).
 
 - **Encoded by:** `agentic-loop/references/context-engineering.md`; the `explorer` agent;
-  the `STATE.md` template.
+  the `STATE.md` template; `context-hygiene` (new conversation on task change or two
+  failed corrections).
 
 ### 1.5 Orchestrator-workers + parallelism + worktrees
 
@@ -201,10 +202,11 @@ circular — the live surface is the oracle. Distinct from full-product
 dogfood and from code-wrap review.
 
 - **Encoded by:** `verifying-session-surfaces` (`/verify-surfaces`);
-  `session-inventory.sh` RECEIPT; `ui-evidence` for UI rows; `root-cause-fix`
-  for BROKEN; `flight-checker` as maker≠checker. Cursor Team Kit
-  `verify-this` is the one-claim cousin; Anthropic's 2026 verification-loop
-  essay is the loop shape.
+  `verifying-a-claim` (`/verify-claim`) for one named claim (`VERIFIED` /
+  `NOT VERIFIED` / `INCONCLUSIVE`); `session-inventory.sh` RECEIPT;
+  `ui-evidence` for UI rows; `root-cause-fix` for BROKEN; `flight-checker`
+  as maker≠checker. Cursor Team Kit `verify-this` is the one-claim cousin
+  we adapted; Anthropic's 2026 verification-loop essay is the loop shape.
 
 ### 1.15 Research-before-integrate
 

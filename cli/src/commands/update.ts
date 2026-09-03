@@ -9,7 +9,7 @@ import {
   readLockfile,
   writeLockfile,
 } from "../lib/lockfile.js";
-import { copyInto, detectTools, mergeMcp, planTargets, projectRuleIntoClaudeMd } from "../lib/project.js";
+import { copyInto, detectTools, mergeMcp, planTargets, shouldRefreshClaudeProjectionOnUpdate, syncClaudeRuleProjection } from "../lib/project.js";
 import { mergeOneRel, threeWayMerge } from "../lib/merge.js";
 import { findSourceRoot, getAsset, loadRegistry } from "../lib/source.js";
 import type { LockfileEntry } from "../lib/types.js";
@@ -74,26 +74,36 @@ export function update(args: string[]): number {
     const oursHash = hashPath(targetAbs);
 
     if (oursHash !== entry.baseHash) localDivergence.push(id);
-    if (theirsHash === entry.baseHash) continue; // upstream unchanged
+    const upstreamChanged = theirsHash !== entry.baseHash;
 
     if (check) {
-      updatesAvailable.push(id);
+      if (upstreamChanged) updatesAvailable.push(id);
       continue;
     }
 
-    const res = mergeAsset(targetAbs, baseAbs, srcAbs);
-    if (res.conflict) conflicts.push(id);
-    else merged.push(id);
+    if (upstreamChanged) {
+      const res = mergeAsset(targetAbs, baseAbs, srcAbs);
+      if (res.conflict) conflicts.push(id);
+      else merged.push(id);
 
-    if (asset.type === "cursor-rule" && tools.claude) {
-      projectRuleIntoClaudeMd(join(projectRoot, "CLAUDE.md"), id, readFileSync(targetAbs, "utf8"));
+      advanceBase(baseAbs, srcAbs);
+      entry.baseHash = theirsHash;
+      entry.localHash = hashPath(targetAbs);
+      entry.version = asset.version;
+      lock.installed[id] = entry as LockfileEntry;
     }
 
-    advanceBase(baseAbs, srcAbs);
-    entry.baseHash = theirsHash;
-    entry.localHash = hashPath(targetAbs);
-    entry.version = asset.version;
-    lock.installed[id] = entry as LockfileEntry;
+    // Claude projection is independent of the .mdc hash. A leftover
+    // <!-- rule:id --> block must still unproject when upstream (or the
+    // installed copy) is not always-on — e.g. no-any, already demoted.
+    if (shouldRefreshClaudeProjectionOnUpdate(check, asset.type, tools.claude)) {
+      const bodyAbs = existsSync(targetAbs) ? targetAbs : srcAbs;
+      syncClaudeRuleProjection(
+        join(projectRoot, "CLAUDE.md"),
+        id,
+        readFileSync(bodyAbs, "utf8"),
+      );
+    }
   }
 
   // Keep kits.starter + installed workflow uses: complete (unless --refresh-only).

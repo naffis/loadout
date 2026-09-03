@@ -2,6 +2,9 @@
 
 Loaded at the start of every Claude Code session. Keep it short — a bloated CLAUDE.md
 causes Claude to ignore instructions. Put situational knowledge in skills instead.
+Do not paste procedures or skill bodies into this file. Litmus per line: would removing
+this cause a mistake? Task-change / two-fail context rot is `context-hygiene` (`/clear`
+or a new chat), not more always-on text.
 
 ## Git safety (highest priority)
 
@@ -25,5 +28,5 @@ green, a changelog entry when users/operators would notice, and a doc update whe
 API, config, or a procedure changed. Verify with the project's check and show the evidence.
 
 <!-- loadout:managed:cursor-rules:start -->
-<!-- Projected Cursor rules appear here when vendored into a Claude-only project. -->
+<!-- Always-on (alwaysApply: true) Cursor rules appear here when projected. -->
 <!-- loadout:managed:cursor-rules:end -->

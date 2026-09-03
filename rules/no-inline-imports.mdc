@@ -1,6 +1,7 @@
 ---
 description: Keep imports at the top of the module; avoid inline/lazy imports.
-alwaysApply: true
+alwaysApply: false
+globs: ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.mjs", "**/*.cjs"]
 ---
 
 # No inline imports

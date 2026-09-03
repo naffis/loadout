@@ -47,7 +47,7 @@ shortcuts or missed siblings?" Large session: surfaces first, then
 | UX heuristics / first-time user                | `reviewing-ui`                                |
 | One framed bug, no session inventory           | `root-cause-fix`                              |
 | Mid-build "are we still on the right layer?"   | `deep-flight`                                 |
-| One named claim (baseline vs treatment)        | same evidence rules; inventory can be one row |
+| One named claim (baseline vs treatment)        | `verifying-a-claim` (`/verify-claim`)         |
 
 ## Contract (fill after inventory, before exercise)
 

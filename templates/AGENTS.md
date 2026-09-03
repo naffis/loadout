@@ -3,6 +3,9 @@
 Cross-tool baseline conventions, read by Cursor and other agents. Keep it THIN — only what
 applies broadly. Situational knowledge belongs in a skill (loaded on demand), not here.
 Litmus test per line: "would removing this cause an agent to make a mistake?" If not, cut it.
+Do not paste procedures or skill bodies into this file — that is a skill. When the chat
+itself is rotting (task change, two failed corrections), use `context-hygiene` / a new
+conversation, not more lines here.
 
 ## Stack
 

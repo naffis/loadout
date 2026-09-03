@@ -23,6 +23,10 @@ A rule is a standing constraint that should color behavior with no steps to run 
 | Manual via `@mention` | `false` | omitted | omitted |
 
 `description` is required for agent-requested rules and drives selection — make it specific.
+Always-on (`alwaysApply: true`) is the short universal set only. Language and
+area constraints use globs (`alwaysApply: false`). Doctor requires `globs` to
+be an array. `loadout add` / `update` project a rule into Claude `CLAUDE.md` only when
+`alwaysApply` is true; `update` unprojects a leftover block otherwise.
 
 ## Body conventions
 

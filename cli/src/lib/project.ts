@@ -8,6 +8,7 @@ import {
   writeFileSync,
 } from "node:fs";
 import { basename, dirname, join } from "node:path";
+import matter from "gray-matter";
 import type { RegistryAsset } from "./types.js";
 
 export interface Tools {
@@ -30,7 +31,7 @@ export function detectTools(projectRoot: string): Tools {
 export type TargetAction =
   | { kind: "copyFile"; target: string }
   | { kind: "copyDir"; target: string }
-  | { kind: "projectRule"; target: string } // append rule body into CLAUDE.md block
+  | { kind: "projectRule"; target: string } // sync CLAUDE.md: project if always-on, else unproject
   | { kind: "mergeMcp"; target: string }
   | { kind: "note"; message: string };
 
@@ -179,6 +180,61 @@ export function readContent(absPath: string): string {
 
 const RULE_BLOCK_START = "<!-- loadout:managed:cursor-rules:start -->";
 const RULE_BLOCK_END = "<!-- loadout:managed:cursor-rules:end -->";
+
+/** True only when the .mdc frontmatter sets alwaysApply: true. */
+export function ruleIsAlwaysApply(ruleBody: string): boolean {
+  try {
+    const parsed = matter(ruleBody);
+    return parsed.data.alwaysApply === true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Update must refresh Claude projection for every installed cursor-rule when
+ * Claude is present — including when the .mdc hash is unchanged. Hash gating
+ * is only for the file merge. `--check` never writes.
+ */
+export function shouldRefreshClaudeProjectionOnUpdate(
+  check: boolean,
+  assetType: string,
+  claude: boolean,
+): boolean {
+  return !check && assetType === "cursor-rule" && claude;
+}
+
+/** Project into CLAUDE.md only when alwaysApply is true; otherwise unproject. */
+export function syncClaudeRuleProjection(
+  claudeMdAbs: string,
+  ruleId: string,
+  ruleBody: string,
+): void {
+  if (ruleIsAlwaysApply(ruleBody)) {
+    projectRuleIntoClaudeMd(claudeMdAbs, ruleId, ruleBody);
+  } else {
+    unprojectRuleFromClaudeMd(claudeMdAbs, ruleId);
+  }
+}
+
+/** Remove one projected rule from the managed CLAUDE.md block. No-op if the file or marker is absent. */
+export function unprojectRuleFromClaudeMd(
+  claudeMdAbs: string,
+  ruleId: string,
+): void {
+  if (!existsSync(claudeMdAbs)) return;
+  const marker = `<!-- rule:${ruleId} -->`;
+  const doc = readFileSync(claudeMdAbs, "utf8");
+  if (!doc.includes(RULE_BLOCK_START) || !doc.includes(marker)) return;
+  const start = doc.indexOf(RULE_BLOCK_START) + RULE_BLOCK_START.length;
+  const end = doc.indexOf(RULE_BLOCK_END);
+  if (end === -1 || end < start) return;
+  let block = doc.slice(start, end);
+  const re = new RegExp(`${escapeRe(marker)}[\\s\\S]*?(?=<!-- rule:|$)`);
+  block = block.replace(re, "");
+  const next = `${doc.slice(0, start)}\n${block.trim()}\n${doc.slice(end)}`;
+  writeFileSync(claudeMdAbs, next);
+}
 
 /** Append/replace a rule's body inside the managed block in CLAUDE.md. Idempotent per rule. */
 export function projectRuleIntoClaudeMd(

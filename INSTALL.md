@@ -95,7 +95,15 @@ You cannot click Settings. Ask the user once:
 > Cursor → Settings → Rules and Commands → Remote Rule (GitHub) → paste
 > `https://github.com/naffis/loadout` (path `rules/`). Rules auto-sync on push.
 
-If they skip Remote Rules, the CLI still vendors rules into `.cursor/rules/`.
+Remote Rules of `rules/` is the **full library**, including every `alwaysApply: true`
+file (`git-safety`, `no-stash`, `shared-working-tree`, …). Prefer CLI `add` of starter
+ids (step 4) if you do not want that always-on tax. If they skip Remote Rules, the CLI
+still vendors chosen ids into `.cursor/rules/`. Claude: `add`/`update` projects a rule
+into `CLAUDE.md` only when `alwaysApply: true`; glob/agent-requested bodies are not
+dumped into always-on Claude context. `update` also **removes** a previously
+projected `<!-- rule:<id> -->` block when the current upstream file is not
+always-on (for example after `no-inline-imports` was demoted). That is intended
+shrink, not data loss — Cursor still has the `.mdc` copy.
 
 ### 4. Vendor the starter set
 
@@ -209,13 +217,17 @@ No lockfile / nothing vendored → say so and offer Flow A.
 
 ### 3. Cursor Remote Rules
 
-No CLI step — they auto-sync when configured. Say so if relevant.
+No CLI step — they auto-sync when configured. Say so if relevant. Remind: a Remote
+Rules scan of all of `rules/` includes every always-on file; starter consumers who
+want a thin always-on set should use CLI `add` of starter ids instead.
 
 ### 4. Report back
 
 - Updated / newly installed (missing) / already current / conflicts (paths; markers need a human resolve)
 - Plugin update status (done vs user must run slash commands)
 - Optional: `npx github:naffis/loadout list --installed`
+- Claude: any managed `CLAUDE.md` block for a rule that is no longer
+  `alwaysApply: true` is removed (intended shrink; Cursor `.mdc` copies stay)
 
 ---
 
