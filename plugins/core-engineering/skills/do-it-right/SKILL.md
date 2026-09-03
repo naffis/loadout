@@ -1,5 +1,7 @@
 ---
 name: do-it-right
+icon: search
+color: purple
 description: >
   Gateway when the user says "yes, fix it", "do it correctly", "dig deeper",
   "don't bandaid", "find the real issue", or approves a shallow proposal ("Want

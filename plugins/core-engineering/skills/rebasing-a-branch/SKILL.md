@@ -1,6 +1,7 @@
 ---
 name: rebasing-a-branch
 description: Safely rebase a branch onto its base with semantic conflict review. Use when a branch is behind and needs to catch up before merge.
+disable-model-invocation: true
 ---
 
 # Rebasing a branch

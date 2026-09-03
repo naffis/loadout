@@ -5,7 +5,8 @@ description: >
   test, runtime error, or unexpected behavior that isn't a one-line obvious fix.
   Anti-triggers: user said "yes / do it correctly" after a shallow proposal →
   do-it-right first; proven class fix → root-cause-fix; production issue with no
-  local repro → debugging-with-observability.
+  local repro → debugging-with-observability; large named surface with no
+  single known bug → hunting-defects.
 ---
 
 # Debugging an issue
@@ -61,6 +62,6 @@ See `references/symptom-decision-tree.md` for a per-symptom "first thing to try"
 
 - rules: `observability-first`, `regression-test`, `no-shortcuts`
 - skills: `root-cause-fix`, `do-it-right`, `triaging-flaky-tests`, `fixing-ci`,
-  `debugging-with-observability`
+  `debugging-with-observability`, `hunting-defects`
 - agents: `explorer`
 - workflows: `fix-ci-until-green`, `debug-production`

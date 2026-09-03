@@ -6,7 +6,8 @@ export type AssetType =
   | "mcp"
   | "template"
   | "doc"
-  | "workflow";
+  | "workflow"
+  | "hook";
 
 export type AssetLayer =
   | "baseline"
@@ -16,7 +17,8 @@ export type AssetLayer =
   | "agent"
   | "mcp"
   | "doc"
-  | "workflow";
+  | "workflow"
+  | "hook";
 
 export interface RegistryAsset {
   id: string;

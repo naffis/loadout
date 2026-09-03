@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { threeWayMerge } from "./merge.js";
+import { mergeOneRel, threeWayMerge } from "./merge.js";
 
 test("no change → returns ours, no conflict", () => {
   const r = threeWayMerge("a\nb\n", "a\nb\n", "a\nb\n");
@@ -36,4 +36,24 @@ test("both changed same line → conflict with markers, no data loss", () => {
   assert.ok(r.merged.includes("LOCAL"), "local side preserved in conflict");
   assert.ok(r.merged.includes("UPSTREAM"), "upstream side preserved in conflict");
   assert.ok(/<{7}/.test(r.merged), "conflict markers present");
+});
+
+test("local-only overlay file is skipped (not merged against empty upstream)", () => {
+  const overlay = "# Defect-hunt overlay — consumer\n";
+  const r = mergeOneRel(overlay, null, null);
+  assert.equal(r.kind, "skip", "project-overlay.md must survive loadout update");
+});
+
+test("missing on every side is skipped", () => {
+  const r = mergeOneRel(null, null, null);
+  assert.equal(r.kind, "skip");
+});
+
+test("new upstream file is written", () => {
+  const r = mergeOneRel(null, null, "family.md\n");
+  assert.equal(r.kind, "write");
+  if (r.kind === "write") {
+    assert.equal(r.conflict, false);
+    assert.equal(r.merged, "family.md\n");
+  }
 });

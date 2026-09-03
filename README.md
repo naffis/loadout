@@ -10,9 +10,12 @@ done — not sit as an unordered pile.
 
 > **Status: functional.** The CLI (`init`, `add`, `list`, `update`, `diff`, `doctor`) is
 > implemented with a lockfile and three-way merge. The library is general-purpose: 2
-> Claude Code plugins (55 skills, 15 commands, 7 subagents), 36 Cursor rules, 14 workflows, 6
+> Claude Code plugins (58 skills, 18 commands, 7 subagents), 36 Cursor rules, 15 workflows, 6
 > runbooks, and templates — generalized from practice and sanitized for public use.
-> Domain/vertical-specific assets are intentionally left out. See
+> Domain/vertical-specific assets are intentionally left out. `defect-hunt`
+> ships generic census/waves/classes; product writers, money, and tenancy live
+> in a consumer `project-overlay.md` that `loadout update` leaves in place
+> (`docs/defect-hunt-family.md`). See
 > `docs/external-practices.md`, `docs/agentic-patterns.md`, and `docs/loop-engineering.md`
 > for the conventions and patterns behind them.
 

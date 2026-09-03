@@ -23,7 +23,10 @@ A **skill** is a procedure you invoke to accomplish something, with a beginning 
 - Target **150–250 lines**. Hard cap 500. Newer models skim long bodies.
 - Progressive disclosure: metadata always loaded → body on trigger → `references/` and `scripts/` on demand. References **one hop** from `SKILL.md`.
 - **Scripts for fragile mechanical steps** (Cursor 2026 + Anthropic): a grep/receipt the agent can fake in prose must be a script the report quotes.
-- Optional Cursor fields: `paths` (file globs), `disable-model-invocation` (slash-only).
+- Optional Cursor fields: `paths` (file globs), `disable-model-invocation` (slash-only), `icon` / `color` (Custom Mode).
+- **Domain-package skills** (tied to a library or package path) must set `paths` so the skill attaches when those files are in play. Daily/process skills skip `paths`.
+- Daily skills you want as Cursor Custom Modes may set `icon` and `color`.
+- Destructive or high-stakes skills set `disable-model-invocation: true` so the model cannot auto-invoke them.
 - House structure: `## Trigger`, `## Workflow` (numbered), `## Suggested Checks`, optional `## Guardrails` / `## Never do`, `## Pairs with`.
 - Isolated verification: if the skill claims done, name a **readonly checker** (`flight-checker`, `reviewer`, `/review`) — never a same-context self-grade. See `docs/external-practices.md` § 2026 Cursor.
 

@@ -10,7 +10,7 @@ import {
   writeLockfile,
 } from "../lib/lockfile.js";
 import { copyInto, detectTools, mergeMcp, planTargets, projectRuleIntoClaudeMd } from "../lib/project.js";
-import { threeWayMerge } from "../lib/merge.js";
+import { mergeOneRel, threeWayMerge } from "../lib/merge.js";
 import { findSourceRoot, getAsset, loadRegistry } from "../lib/source.js";
 import type { LockfileEntry } from "../lib/types.js";
 
@@ -171,13 +171,12 @@ function mergeAsset(targetAbs: string, baseAbs: string, srcAbs: string): MergeOu
     const ours = readIf(join(targetAbs, rel));
     const base = readIf(join(baseAbs, rel));
     const theirs = readIf(join(srcAbs, rel));
-    if (theirs === null && ours === null) continue;
-    if (theirs === null && ours !== null) continue;
-    const r = threeWayMerge(ours ?? "", base ?? "", theirs ?? "");
-    if (r.conflict) conflict = true;
+    const step = mergeOneRel(ours, base, theirs);
+    if (step.kind === "skip") continue;
+    if (step.conflict) conflict = true;
     const dest = join(targetAbs, rel);
     mkdirSync(dirname(dest), { recursive: true });
-    writeFileSync(dest, r.merged);
+    writeFileSync(dest, step.merged);
   }
   return { conflict };
 }

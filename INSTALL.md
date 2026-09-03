@@ -146,6 +146,21 @@ npx github:naffis/loadout add \
 Distinct from `clear-the-queue` (N tickets). Prefer with the shared trunk kit above when
 that is the project's parallel-agent model.
 
+**Optional — defect hunt kit** (exhaustive review of a named package/directory when
+there is no single known bug). Generic core — product writers, money, tenancy live
+in a consumer overlay that `loadout update` leaves in place:
+
+```bash
+npx github:naffis/loadout add defect-hunt doc-defect-hunt-family
+npx github:naffis/loadout update
+```
+
+Then copy
+`.cursor/skills/hunting-defects/references/overlay-template.md` →
+`.cursor/skills/hunting-defects/references/project-overlay.md` and optionally add
+`.cursor/skills/hunting-defects/references/project-seed-patterns.txt`
+(tab-separated `id<TAB>regex`). Invoke: `/hunt-defects src`.
+
 **Security:** skills/rules are trusted instructions. Prefer a release tag when supply chain
 matters; skim unfamiliar `SKILL.md` / `.mdc` first (`audit-external-skills`).
 

@@ -51,6 +51,9 @@ You have a goal but not a plan: "I want to build X", "what should I do?", "how d
    - End of a session; fix what the proof turns up (sibling sweep + checker) →
      **`post-flight`** (`/post-flight`). Prefer over a chat-only wrap-up summary.
      Run `/verify-surfaces` first when the session added user-visible surfaces.
+   - Large named package/directory, no single known bug, exhaustive leaks/edges →
+     **`hunting-defects`** (`/hunt-defects`). Not a merge review. Workflow:
+     `defect-hunt`.
    - Open plan phases still Partial/Missing/Punted → **`complete-the-build`**
      (`/complete-the-build`) before review-build.
    - Context dying / switching chats mid-task → **`session-handoff`**
@@ -90,16 +93,18 @@ Kickoff prompt:
 
 - workflows: `ship-a-feature`, `plan-then-build`, `onboard-to-codebase`, `fix-ci-until-green`,
   `debug-production`, `security-pass`, `clear-the-queue`, `build-as-graph`, `safe-refactor`,
-  `ship-a-migration`, `dependency-bump`, `cut-a-release`, `run-quality-loop`, `run-autonomous-loop`
+  `ship-a-migration`, `dependency-bump`, `cut-a-release`, `run-quality-loop`, `run-autonomous-loop`,
+  `defect-hunt`
 - skills: `planning-a-change`, `create-plan`, `review-plan`, `complete-the-build`,
   `review-build`, `deep-flight`, `post-flight`, `verifying-session-surfaces`, `session-handoff`, `do-it-right`, `deep-dive`, `test-driven`, `simplifying-code`,
-  `running-a-dev-cycle`, `agentic-loop`, `task-topology`, `equipping-loadout`
+  `running-a-dev-cycle`, `agentic-loop`, `task-topology`, `equipping-loadout`,
+  `hunting-defects`
 - commands: `start` (`/start`), `plan` (`/plan`), `build-as-graph-cmd` (`/build-as-graph`),
   `review-plan-cmd` (`/review-plan`),
   `complete-the-build-cmd` (`/complete-the-build`), `deep-flight-cmd` (`/deep-flight`), `review-build-cmd` (`/review-build`), `post-flight-cmd` (`/post-flight`),
   `verifying-session-surfaces-cmd` (`/verify-surfaces`),
   `session-handoff-cmd` (`/session-handoff`), `do-it-right-cmd` (`/do-it-right`),
-  `tdd-cmd` (`/tdd`), `simplify-cmd` (`/simplify`)
+  `tdd-cmd` (`/tdd`), `simplify-cmd` (`/simplify`), `hunt-defects-cmd` (`/hunt-defects`)
 - runbooks: `loop-preflight`, `harness-setup`, `bootstrap-project`, `hotfix-and-rollback`
 - templates: `automation-loop`, `state-file`
 - docs: `catalog` (the menu of everything available), `doc-install` (`INSTALL.md`)

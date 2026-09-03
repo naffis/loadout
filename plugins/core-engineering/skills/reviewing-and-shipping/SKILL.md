@@ -11,7 +11,9 @@ Work is functionally complete and you're about to wrap up. Prefer
 `verifying-session-surfaces` (`/verify-surfaces`) when the change added
 user-visible surfaces and they have not been exercised live. Prefer
 `review-build` (`/review-build`) first when the change came from a written
-plan or the stakes are high — then use this skill.
+plan or the stakes are high — then use this skill. Prefer `hunting-defects`
+(`/hunt-defects`) when the ask is an exhaustive review of a named package
+with no single known bug (not this session's diff).
 
 ## Workflow
 
@@ -43,7 +45,7 @@ git diff
 - rules: `git-safety`, `shared-working-tree`, `no-stash`, `commit-and-pr-conventions`,
   `regression-test`, `testing-conventions`, `no-shortcuts`
 - skills: `review-build`, `post-flight`, `verifying-session-surfaces`, `writing-commit-messages`, `committing-on-shared-trunk`, `opening-a-pr`,
-  `deslopping`
+  `deslopping`, `hunting-defects`
 - agents: `reviewer`, `security-reviewer`
 - commands: `review-build-cmd` (`/review-build`), `verifying-session-surfaces-cmd` (`/verify-surfaces`)
 - workflows: `ship-a-feature`, `plan-then-build`, `cut-a-release`, `run-autonomous-loop`,

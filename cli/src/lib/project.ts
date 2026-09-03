@@ -39,21 +39,36 @@ export type TargetAction =
  * Returns one action per target; an asset can land in multiple places (e.g. a rule in
  * both .cursor/rules and CLAUDE.md).
  */
-export function planTargets(asset: RegistryAsset, tools: Tools, projectRoot: string): TargetAction[] {
+export function planTargets(
+  asset: RegistryAsset,
+  tools: Tools,
+  projectRoot: string,
+): TargetAction[] {
   const actions: TargetAction[] = [];
   const src = asset.source;
   switch (asset.type) {
     case "skill":
-      if (tools.cursor) actions.push({ kind: "copyDir", target: join(".cursor", "skills", asset.id) });
-      if (tools.claude) actions.push({ kind: "note", message: `skill '${asset.id}' for Claude Code is delivered via the plugin: /plugin install <plugin>@loadout` });
+      if (tools.cursor)
+        actions.push({
+          kind: "copyDir",
+          target: join(".cursor", "skills", asset.id),
+        });
+      if (tools.claude)
+        actions.push({
+          kind: "note",
+          message: `skill '${asset.id}' for Claude Code is delivered via the plugin: /plugin install <plugin>@loadout`,
+        });
       break;
     case "cursor-rule": {
-      // Always keep one tracked canonical copy; project into CLAUDE.md for Claude Code.
+      // Vendor by source basename so registry aliases (`create-plan-rule` →
+      // rules/create-plan.mdc) land as one file, not a second `*-rule.mdc`.
+      const ruleFile = basename(asset.source);
       const canonical = tools.cursor
-        ? join(".cursor", "rules", `${asset.id}.mdc`)
-        : join(".loadout", "rules", `${asset.id}.mdc`);
+        ? join(".cursor", "rules", ruleFile)
+        : join(".loadout", "rules", ruleFile);
       actions.push({ kind: "copyFile", target: canonical });
-      if (tools.claude) actions.push({ kind: "projectRule", target: "CLAUDE.md" });
+      if (tools.claude)
+        actions.push({ kind: "projectRule", target: "CLAUDE.md" });
       break;
     }
     case "command": {
@@ -61,21 +76,54 @@ export function planTargets(asset: RegistryAsset, tools: Tools, projectRoot: str
       // /review-plan) so registry ids can stay unique when a skill shares the name
       // (skill review-plan + command review-plan-cmd → still vendors as review-plan.md).
       const cmdFile = basename(asset.source);
-      if (tools.cursor) actions.push({ kind: "copyFile", target: join(".cursor", "commands", cmdFile) });
-      if (tools.claude) actions.push({ kind: "copyFile", target: join(".claude", "commands", cmdFile) });
+      if (tools.cursor)
+        actions.push({
+          kind: "copyFile",
+          target: join(".cursor", "commands", cmdFile),
+        });
+      if (tools.claude)
+        actions.push({
+          kind: "copyFile",
+          target: join(".claude", "commands", cmdFile),
+        });
       break;
     }
     case "agent":
       // Both tools load custom subagent personas from a per-tool agents dir.
-      if (tools.cursor) actions.push({ kind: "copyFile", target: join(".cursor", "agents", `${asset.id}.md`) });
-      if (tools.claude) actions.push({ kind: "copyFile", target: join(".claude", "agents", `${asset.id}.md`) });
+      if (tools.cursor)
+        actions.push({
+          kind: "copyFile",
+          target: join(".cursor", "agents", `${asset.id}.md`),
+        });
+      if (tools.claude)
+        actions.push({
+          kind: "copyFile",
+          target: join(".claude", "agents", `${asset.id}.md`),
+        });
       break;
     case "mcp":
-      if (tools.cursor) actions.push({ kind: "mergeMcp", target: join(".cursor", "mcp.json") });
+      if (tools.cursor)
+        actions.push({ kind: "mergeMcp", target: join(".cursor", "mcp.json") });
       if (tools.claude) actions.push({ kind: "mergeMcp", target: ".mcp.json" });
       break;
     case "template":
       actions.push({ kind: "copyFile", target: templateTarget(asset) });
+      break;
+    case "hook":
+      if (tools.cursor) {
+        actions.push({ kind: "copyDir", target: join(".cursor", "hooks") });
+        actions.push({
+          kind: "note",
+          message:
+            "merge hooks/cursor-safety/hooks.fragment.json into .cursor/hooks.json (keep existing format hooks; do not mark afterFileEdit)",
+        });
+      } else {
+        actions.push({
+          kind: "note",
+          message:
+            "cursor-safety hooks are Cursor project hooks; Claude Code: see harness-hooks.md PreToolUse equivalents",
+        });
+      }
       break;
     case "doc":
     case "workflow":
@@ -84,7 +132,10 @@ export function planTargets(asset: RegistryAsset, tools: Tools, projectRoot: str
       break;
     default: {
       const _never: never = asset.type;
-      actions.push({ kind: "note", message: `unknown asset type ${String(_never)}` });
+      actions.push({
+        kind: "note",
+        message: `unknown asset type ${String(_never)}`,
+      });
     }
   }
   return actions;
@@ -93,6 +144,7 @@ export function planTargets(asset: RegistryAsset, tools: Tools, projectRoot: str
 function templateTarget(asset: RegistryAsset): string {
   if (asset.id === "template-agents-md") return "AGENTS.md";
   if (asset.id === "template-claude-md") return "CLAUDE.md";
+  if (asset.id === "template-bugbot") return join(".cursor", "BUGBOT.md");
   return join("docs", "loadout", basename(asset.source));
 }
 
@@ -129,7 +181,11 @@ const RULE_BLOCK_START = "<!-- loadout:managed:cursor-rules:start -->";
 const RULE_BLOCK_END = "<!-- loadout:managed:cursor-rules:end -->";
 
 /** Append/replace a rule's body inside the managed block in CLAUDE.md. Idempotent per rule. */
-export function projectRuleIntoClaudeMd(claudeMdAbs: string, ruleId: string, ruleBody: string): void {
+export function projectRuleIntoClaudeMd(
+  claudeMdAbs: string,
+  ruleId: string,
+  ruleBody: string,
+): void {
   const marker = `<!-- rule:${ruleId} -->`;
   const entry = `${marker}\n${stripFrontmatter(ruleBody).trim()}\n`;
 
@@ -172,9 +228,16 @@ export interface McpMergeResult {
   collisions: string[];
 }
 
-export function mergeMcp(targetAbs: string, incomingJson: string): McpMergeResult {
-  const incoming = JSON.parse(incomingJson) as { mcpServers?: Record<string, unknown> };
-  const existing: { mcpServers?: Record<string, unknown> } = existsSync(targetAbs)
+export function mergeMcp(
+  targetAbs: string,
+  incomingJson: string,
+): McpMergeResult {
+  const incoming = JSON.parse(incomingJson) as {
+    mcpServers?: Record<string, unknown>;
+  };
+  const existing: { mcpServers?: Record<string, unknown> } = existsSync(
+    targetAbs,
+  )
     ? JSON.parse(readFileSync(targetAbs, "utf8"))
     : {};
   existing.mcpServers ??= {};

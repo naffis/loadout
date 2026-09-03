@@ -1,13 +1,21 @@
 ---
 name: reviewing-code-quality
-description: Audit code for maintainability — oversized files/functions, deep nesting, duplication, leaky boundaries, dead code, and unclear naming. Use to assess code health or before merging a large change, separate from a correctness review.
+description: >
+  Audit code for maintainability — oversized files/functions, deep nesting,
+  duplication, leaky boundaries, dead code, and unclear naming. Use to assess
+  code health or before merging a large change, separate from a correctness
+  review. Anti-triggers: exhaustive defect hunt of a named package with no
+  known bug → hunting-defects; wrap the working tree to ship →
+  reviewing-and-shipping.
 ---
 
 # Reviewing code quality
 
 ## Trigger
 
-Assessing maintainability of a file, module, or diff — distinct from a correctness review (`reviewer` agent) and from slop cleanup (`deslopping`).
+Assessing maintainability of a file, module, or diff — distinct from a
+correctness review (`reviewer` agent), from slop cleanup (`deslopping`), and
+from an exhaustive defect hunt (`hunting-defects`).
 
 ## Workflow
 
@@ -33,6 +41,6 @@ A prioritized list: each finding with file:line, why it hurts maintainability, a
 ## Pairs with
 
 - rules: `size-limits`, `refactor-discipline`, `no-shortcuts`
-- skills: `refactoring-code`, `deslopping`
+- skills: `refactoring-code`, `deslopping`, `hunting-defects`
 - agents: `reviewer`
 - workflows: `safe-refactor`

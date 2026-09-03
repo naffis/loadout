@@ -26,7 +26,12 @@ scripts fast and idempotent — they run constantly.
 {
   "version": 1,
   "hooks": {
-    "afterFileEdit": [{ "command": ".cursor/hooks/format.sh", "matcher": "Write|StrReplace|TabWrite" }]
+    "afterFileEdit": [
+      {
+        "command": ".cursor/hooks/format.sh",
+        "matcher": "Write|StrReplace|TabWrite"
+      }
+    ]
   }
 }
 ```
@@ -58,21 +63,28 @@ out=$(npm run -s typecheck 2>&1) || { echo "Typecheck failed:"; echo "$out"; exi
 exit 0
 ```
 
-## Pattern 3 — Block destructive commands (deterministic guardrail)
+## Pattern 3 — Cursor safety kit (shipped)
 
-A `PreToolUse`/before-bash hook that refuses irreversible actions regardless of what the
-prompt said:
+Naive grep of `rm -rf` / `DROP TABLE` is not enough: agents stash via `git -C … stash`,
+restore the whole tree with `git checkout HEAD -- .`, and dump `.env` with `cat`. A stop
+hook that flags **any** workspace `afterFileEdit` also fires on a sibling chat's writes.
 
-```bash
-#!/usr/bin/env bash
-# reads the proposed command on stdin; exit non-zero to block
-cmd=$(cat)
-if printf '%s' "$cmd" | grep -Eiq 'rm -rf /|git push .*--force|git reset --hard|DROP TABLE|TRUNCATE'; then
-  echo "Blocked destructive command. Ask a human to run it." >&2
-  exit 1
-fi
-exit 0
-```
+`loadout add cursor-safety-hooks` copies `hooks/cursor-safety/` into `.cursor/hooks/`.
+Merge `hooks.fragment.json` into `.cursor/hooks.json` — keep an existing format hook;
+never attach `mark-gate-needed` to `afterFileEdit` / `afterTabFileEdit`.
+
+| Event                                  | Script                                                                                                                                                                                                |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `beforeShellExecution`                 | `deny-destructive-git.mjs` — stash (incl. flagged `-C`), `reset --hard`, `clean -f`, `checkout`/`restore` whose pathspec is `.`, `cat`/pager of `.env*`, `printenv`. Allows `git restore src/foo.ts`. |
+| `beforeReadFile` / `beforeTabFileRead` | `redact-env-read.mjs` — deny live secret files; allow `*.example`.                                                                                                                                    |
+| `postToolUse` `Write\|StrReplace`      | `mark-gate-needed.mjs` — this conversation + generation only.                                                                                                                                         |
+| `stop` `loop_limit: 1`                 | `remind-gate.mjs` — at most one follow-up; ignore leftover `gate-needed.json` and sibling chats.                                                                                                      |
+
+Gitignore `.cursor/hooks/state/`. Reload Cursor Settings → Hooks. Prove with
+`node --test .cursor/hooks/hooks.test.mjs`.
+
+Claude Code: bind the same bans on `PreToolUse` (bash) and a scoped `Stop`; this kit's
+event names are Cursor's.
 
 ## Pattern 4 — Require approval before push / PR / production
 

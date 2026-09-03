@@ -1,5 +1,7 @@
 ---
 name: create-plan
+icon: book-open
+color: blue
 description: >
   Create a complete, zero-shortcut implementation plan before coding. Use when
   the user says "create-plan", "run create-plan", "/plan", "Create a plan for

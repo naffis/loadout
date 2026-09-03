@@ -15,9 +15,10 @@ Single routing table for thoroughness skills. Do not duplicate this table.
 | Open plan phases still Partial / Missing / Punted                             | `complete-the-build`         | Exhaust the gap matrix                 | Yes                   |
 | Proven class root, implement + regression                                     | `root-cause-fix`             | Loop A/B → implement at pinned layer   | Yes after Loop A      |
 | Everyday bug already framed                                                   | `debugging-an-issue`         | Repro → hypotheses → fix → lock        | Yes                   |
+| Large named surface, no single known bug — leaks / edge cases / exhaustive    | `hunting-defects`            | Census → hunt classes → refute → report | No (report)            |
 
 `dig in:` = `deep-dive`. `dig deeper` = `do-it-right`. `deep-flight` is **not**
-`deep-dive`.
+`deep-dive`. Defect-hunt routing: `hunting-defects/references/family.md`.
 
 ## Isolated checker
 

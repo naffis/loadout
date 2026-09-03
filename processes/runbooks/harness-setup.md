@@ -19,6 +19,8 @@ starter kit), then climb these rungs.
 
 1. **Memory** — an `AGENTS.md` (and `CLAUDE.md` for Claude Code) that loads every session.
    Start from `templates/AGENTS.md`. Keep it short — a pilot's checklist, not a style guide.
+   When a package has conventions the root file must not grow to hold, add a nested
+   `AGENTS.md` in that package. Agents walking those files pick it up.
 2. **Rules** — scoped `.cursor/rules/*.mdc` for constraints that should color behaviour on
    matching files. `loadout add <rule>`; author new ones with the `rule-author` skill.
 3. **Skills** — invokable procedures with progressive disclosure (lean body, detail in
@@ -27,7 +29,9 @@ starter kit), then climb these rungs.
    Treat tool descriptions as trusted prompt text — audit any external MCP first
    (`audit-external-skills`). Start from `templates/mcp.json`.
 5. **Hooks** — the enforcement layer for must-happen-every-time behaviour. See
-   `harness-hooks.md` (format-on-write, post-edit checks, block-destructive, approval gates).
+   `harness-hooks.md`. Start with `loadout add cursor-safety-hooks` (deny stash / whole-tree
+   restore / live `.env` reads; scoped stop reminder), then add format-on-write and
+   approval gates as failures demand.
 6. **Subagents** — split the maker from the checker. Use `reviewer` / `security-reviewer`
    for verification and `explorer` for read-only investigation that keeps main context clean.
 7. **Planning + verification** — decompose to a plan file and write the done-condition

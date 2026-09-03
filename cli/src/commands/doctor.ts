@@ -27,6 +27,7 @@ const VALID_ASSET_TYPES = new Set([
   "template",
   "doc",
   "workflow",
+  "hook",
 ]);
 
 const ALWAYS_APPLY_SOFT_LIMIT = 1500; // chars; always-on rules are a per-request tax
@@ -75,7 +76,9 @@ function checkMarketplace(root: string, f: Findings): Set<string> {
     }
     const srcDir = join(root, p.source);
     if (!existsSync(srcDir)) {
-      f.errors.push(`marketplace.json: plugin '${p.name}' source not found: ${p.source}`);
+      f.errors.push(
+        `marketplace.json: plugin '${p.name}' source not found: ${p.source}`,
+      );
       continue;
     }
     const manifestPath = join(srcDir, ".claude-plugin", "plugin.json");
@@ -104,7 +107,9 @@ function checkMarketplace(root: string, f: Findings): Set<string> {
 }
 
 function checkSkills(root: string, f: Findings): void {
-  const skillFiles = walk(join(root, "plugins"), (file) => file.endsWith("SKILL.md"));
+  const skillFiles = walk(join(root, "plugins"), (file) =>
+    file.endsWith("SKILL.md"),
+  );
   for (const file of skillFiles) {
     const rel = relative(root, file);
     let parsed;
@@ -121,10 +126,14 @@ function checkSkills(root: string, f: Findings): void {
       f.errors.push(`${rel}: SKILL.md frontmatter missing 'name'`);
     } else {
       if (!/^[a-z0-9-]{1,64}$/.test(name)) {
-        f.errors.push(`${rel}: skill name '${name}' must be lowercase letters/numbers/hyphens, <=64 chars`);
+        f.errors.push(
+          `${rel}: skill name '${name}' must be lowercase letters/numbers/hyphens, <=64 chars`,
+        );
       }
       if (/anthropic|claude/i.test(name)) {
-        f.errors.push(`${rel}: skill name '${name}' must not contain reserved words "anthropic"/"claude"`);
+        f.errors.push(
+          `${rel}: skill name '${name}' must not contain reserved words "anthropic"/"claude"`,
+        );
       }
     }
     const desc = fm.description;
@@ -132,18 +141,26 @@ function checkSkills(root: string, f: Findings): void {
       f.errors.push(`${rel}: SKILL.md frontmatter missing 'description'`);
     } else {
       if (desc.length > 1024) {
-        f.errors.push(`${rel}: skill description exceeds 1024 chars (${desc.length})`);
+        f.errors.push(
+          `${rel}: skill description exceeds 1024 chars (${desc.length})`,
+        );
       }
       if (/^\s*(i |i'|you |you'|we )/i.test(desc)) {
-        f.warnings.push(`${rel}: write the description in third person ("Generates…/Use when…"), not first/second person`);
+        f.warnings.push(
+          `${rel}: write the description in third person ("Generates…/Use when…"), not first/second person`,
+        );
       }
     }
     const bodyLines = parsed.content.split("\n").length;
     if (bodyLines > 500) {
-      f.warnings.push(`${rel}: SKILL.md body is ${bodyLines} lines (>500). Split detail into one-level-deep reference files.`);
+      f.warnings.push(
+        `${rel}: SKILL.md body is ${bodyLines} lines (>500). Split detail into one-level-deep reference files.`,
+      );
     }
     if (!/##\s*Pairs with/i.test(parsed.content)) {
-      f.warnings.push(`${rel}: missing a '## Pairs with' section (composition convention 3.3)`);
+      f.warnings.push(
+        `${rel}: missing a '## Pairs with' section (composition convention 3.3)`,
+      );
     }
   }
 }
@@ -161,7 +178,9 @@ function checkRules(root: string, f: Findings): void {
     }
     const fm = parsed.data as Record<string, unknown>;
     if (!fm.description) {
-      f.errors.push(`${rel}: .mdc frontmatter missing 'description' (required for agent-requested mode)`);
+      f.errors.push(
+        `${rel}: .mdc frontmatter missing 'description' (required for agent-requested mode)`,
+      );
     }
     if (fm.globs !== undefined && !Array.isArray(fm.globs)) {
       f.errors.push(`${rel}: .mdc 'globs' must be an array when present`);
@@ -169,7 +188,10 @@ function checkRules(root: string, f: Findings): void {
     if (fm.alwaysApply !== undefined && typeof fm.alwaysApply !== "boolean") {
       f.errors.push(`${rel}: .mdc 'alwaysApply' must be a boolean`);
     }
-    if (fm.alwaysApply === true && parsed.content.length > ALWAYS_APPLY_SOFT_LIMIT) {
+    if (
+      fm.alwaysApply === true &&
+      parsed.content.length > ALWAYS_APPLY_SOFT_LIMIT
+    ) {
       f.warnings.push(
         `${rel}: alwaysApply rule is long (${parsed.content.length} chars). ` +
           `Always-on tokens load on every request — keep it short.`,
@@ -188,7 +210,12 @@ function workflowIds(root: string): Set<string> {
   return ids;
 }
 
-function checkWorkflows(root: string, f: Findings, assetIds: Set<string>, reg: Registry | null): void {
+function checkWorkflows(
+  root: string,
+  f: Findings,
+  assetIds: Set<string>,
+  reg: Registry | null,
+): void {
   const dir = join(root, "processes", "workflows");
   if (!existsSync(dir)) return;
 
@@ -226,7 +253,9 @@ function checkWorkflows(root: string, f: Findings, assetIds: Set<string>, reg: R
     }
     for (const ref of uses.rules ?? []) {
       if (!assetIds.has(ref) && !ruleExists(root, ref)) {
-        f.errors.push(`${rel}: references unknown rule '${ref}' in 'uses.rules'`);
+        f.errors.push(
+          `${rel}: references unknown rule '${ref}' in 'uses.rules'`,
+        );
       }
       const canonical = ruleIdByBasename.get(ref);
       if (canonical && canonical !== ref) {
@@ -239,7 +268,9 @@ function checkWorkflows(root: string, f: Findings, assetIds: Set<string>, reg: R
     for (const field of ["gate", "stop_condition", "state"] as const) {
       const val = (fm as Record<string, unknown>)[field];
       if (val !== undefined && typeof val !== "string") {
-        f.errors.push(`${rel}: workflow '${field}' must be a string when present`);
+        f.errors.push(
+          `${rel}: workflow '${field}' must be a string when present`,
+        );
       }
     }
   }
@@ -248,11 +279,23 @@ function checkWorkflows(root: string, f: Findings, assetIds: Set<string>, reg: R
 // "Skills as injection vectors" (inbound-trust lint). Warn-only: legitimate content can
 // legitimately discuss these phrases, so this surfaces for review rather than failing CI.
 const INJECTION_PATTERNS: Array<{ re: RegExp; label: string }> = [
-  { re: /ignore (all )?previous instructions/i, label: "prompt-injection phrase" },
-  { re: /disregard (the )?(system|above) (prompt|instructions)/i, label: "prompt-injection phrase" },
+  {
+    re: /ignore (all )?previous instructions/i,
+    label: "prompt-injection phrase",
+  },
+  {
+    re: /disregard (the )?(system|above) (prompt|instructions)/i,
+    label: "prompt-injection phrase",
+  },
   { re: /\bcurl\b[^\n]*\|\s*(sh|bash)/i, label: "pipe-to-shell download" },
-  { re: /(AKIA[0-9A-Z]{16}|sk-[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{20,})/, label: "hardcoded credential" },
-  { re: /process\.env\.[A-Z_]+[^\n]{0,40}(fetch|http|curl|post)/i, label: "env var exfiltration" },
+  {
+    re: /(AKIA[0-9A-Z]{16}|sk-[A-Za-z0-9]{20,}|ghp_[A-Za-z0-9]{20,})/,
+    label: "hardcoded credential",
+  },
+  {
+    re: /process\.env\.[A-Z_]+[^\n]{0,40}(fetch|http|curl|post)/i,
+    label: "env var exfiltration",
+  },
 ];
 
 function checkInjection(root: string, f: Findings): void {
@@ -270,13 +313,19 @@ function checkInjection(root: string, f: Findings): void {
     }
     for (const { re, label } of INJECTION_PATTERNS) {
       if (re.test(body)) {
-        f.warnings.push(`${rel}: possible ${label} — review before shipping (injection lint)`);
+        f.warnings.push(
+          `${rel}: possible ${label} — review before shipping (injection lint)`,
+        );
       }
     }
   }
 }
 
-function checkRegistry(root: string, f: Findings, workflows: Set<string>): void {
+function checkRegistry(
+  root: string,
+  f: Findings,
+  workflows: Set<string>,
+): void {
   const path = join(root, "registry.json");
   if (!existsSync(path)) {
     f.errors.push("Missing registry.json");
@@ -298,7 +347,8 @@ function checkRegistry(root: string, f: Findings, workflows: Set<string>): void 
       f.errors.push("registry.json: an asset is missing 'id'");
       continue;
     }
-    if (ids.has(a.id)) f.errors.push(`registry.json: duplicate asset id '${a.id}'`);
+    if (ids.has(a.id))
+      f.errors.push(`registry.json: duplicate asset id '${a.id}'`);
     ids.add(a.id);
     validateAsset(root, a, f);
   }
@@ -307,32 +357,44 @@ function checkRegistry(root: string, f: Findings, workflows: Set<string>): void 
   for (const a of reg.assets) {
     for (const ref of a.pairs_with ?? []) {
       if (!ids.has(ref) && !ruleExists(root, ref)) {
-        f.errors.push(`registry.json: '${a.id}'.pairs_with references nothing: '${ref}'`);
+        f.errors.push(
+          `registry.json: '${a.id}'.pairs_with references nothing: '${ref}'`,
+        );
       }
     }
     for (const wf of a.workflows ?? []) {
       if (!workflows.has(wf)) {
-        f.errors.push(`registry.json: '${a.id}'.workflows references missing workflow: '${wf}'`);
+        f.errors.push(
+          `registry.json: '${a.id}'.workflows references missing workflow: '${wf}'`,
+        );
       }
     }
   }
 
   if (!reg.kits || typeof reg.kits !== "object" || Array.isArray(reg.kits)) {
-    f.errors.push("registry.json: missing kits object (kits.starter drives update backfill)");
+    f.errors.push(
+      "registry.json: missing kits object (kits.starter drives update backfill)",
+    );
   } else {
     for (const [kitName, kitIds] of Object.entries(reg.kits)) {
       if (!Array.isArray(kitIds)) {
-        f.errors.push(`registry.json: kits.${kitName} must be an array of asset ids`);
+        f.errors.push(
+          `registry.json: kits.${kitName} must be an array of asset ids`,
+        );
         continue;
       }
       for (const kitId of kitIds) {
         if (!ids.has(kitId)) {
-          f.errors.push(`registry.json: kits.${kitName} references unknown asset '${kitId}'`);
+          f.errors.push(
+            `registry.json: kits.${kitName} references unknown asset '${kitId}'`,
+          );
         }
       }
     }
     if (!Array.isArray(reg.kits.starter) || reg.kits.starter.length === 0) {
-      f.errors.push("registry.json: kits.starter must be a non-empty array of asset ids");
+      f.errors.push(
+        "registry.json: kits.starter must be a non-empty array of asset ids",
+      );
     }
   }
 }
@@ -352,7 +414,9 @@ function validateAsset(root: string, a: RegistryAsset, f: Findings): void {
   if (a.source) {
     const src = join(root, a.source);
     if (!existsSync(src)) {
-      f.errors.push(`registry.json: '${a.id}' source path not found: ${a.source}`);
+      f.errors.push(
+        `registry.json: '${a.id}' source path not found: ${a.source}`,
+      );
     }
   } else {
     f.errors.push(`registry.json: '${a.id}' missing 'source'`);
@@ -368,17 +432,27 @@ function checkOrphans(root: string, reg: Registry | null, f: Findings): void {
   const sources = new Set((reg?.assets ?? []).map((a) => a.source));
   for (const file of walk(join(root, "rules"), (p) => p.endsWith(".mdc"))) {
     const rel = relative(root, file);
-    if (!sources.has(rel)) f.warnings.push(`${rel}: rule is not listed in registry.json (orphaned)`);
+    if (!sources.has(rel))
+      f.warnings.push(`${rel}: rule is not listed in registry.json (orphaned)`);
   }
-  for (const file of walk(join(root, "plugins"), (p) => p.endsWith("SKILL.md"))) {
+  for (const file of walk(join(root, "plugins"), (p) =>
+    p.endsWith("SKILL.md"),
+  )) {
     const rel = relative(root, dirname(file));
-    if (!sources.has(rel)) f.warnings.push(`${rel}: skill is not listed in registry.json (orphaned)`);
+    if (!sources.has(rel))
+      f.warnings.push(
+        `${rel}: skill is not listed in registry.json (orphaned)`,
+      );
   }
 }
 
 // Composition drift: a skill's registry `pairs_with` ids should be mentioned in its
 // SKILL.md `## Pairs with` prose, so the two sources of truth stay aligned.
-function checkComposition(root: string, reg: Registry | null, f: Findings): void {
+function checkComposition(
+  root: string,
+  reg: Registry | null,
+  f: Findings,
+): void {
   for (const a of reg?.assets ?? []) {
     if (a.type !== "skill" || !a.pairs_with?.length) continue;
     const skillPath = join(root, a.source, "SKILL.md");
@@ -409,7 +483,9 @@ function checkDocsSync(root: string, reg: Registry | null, f: Findings): void {
   for (const [re, actual, label] of checks) {
     const m = text.match(re);
     if (m && Number(m[1]) !== actual) {
-      f.warnings.push(`docs/catalog.md: "${label} (${m[1]})" header disagrees with registry count ${actual}`);
+      f.warnings.push(
+        `docs/catalog.md: "${label} (${m[1]})" header disagrees with registry count ${actual}`,
+      );
     }
   }
 }

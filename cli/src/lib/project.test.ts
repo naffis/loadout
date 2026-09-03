@@ -1,5 +1,11 @@
 import assert from "node:assert/strict";
-import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
@@ -15,15 +21,27 @@ test("mergeMcp adds new servers and leaves collisions untouched", () => {
   const dir = tmp();
   try {
     const target = join(dir, "mcp.json");
-    writeFileSync(target, JSON.stringify({ mcpServers: { existing: { command: "keep" } } }));
+    writeFileSync(
+      target,
+      JSON.stringify({ mcpServers: { existing: { command: "keep" } } }),
+    );
     const res = mergeMcp(
       target,
-      JSON.stringify({ mcpServers: { existing: { command: "OVERWRITE" }, fresh: { command: "x" } } }),
+      JSON.stringify({
+        mcpServers: {
+          existing: { command: "OVERWRITE" },
+          fresh: { command: "x" },
+        },
+      }),
     );
     assert.deepEqual(res.added, ["fresh"]);
     assert.deepEqual(res.collisions, ["existing"]);
     const out = JSON.parse(readFileSync(target, "utf8"));
-    assert.equal(out.mcpServers.existing.command, "keep", "existing server not overwritten");
+    assert.equal(
+      out.mcpServers.existing.command,
+      "keep",
+      "existing server not overwritten",
+    );
     assert.ok(out.mcpServers.fresh, "new server added");
   } finally {
     rmSync(dir, { recursive: true, force: true });
@@ -35,18 +53,32 @@ test("projectRuleIntoClaudeMd inserts once and is idempotent", () => {
   try {
     const claude = join(dir, "CLAUDE.md");
     writeFileSync(claude, "# Project\n\nuser content\n");
-    projectRuleIntoClaudeMd(claude, "no-any", "---\nx: 1\n---\n# No any\nbody-v1\n");
+    projectRuleIntoClaudeMd(
+      claude,
+      "no-any",
+      "---\nx: 1\n---\n# No any\nbody-v1\n",
+    );
     let out = readFileSync(claude, "utf8");
     assert.ok(out.includes("user content"), "user content preserved");
     assert.ok(out.includes("rule:no-any"), "rule marker inserted");
-    assert.ok(out.includes("body-v1"), "rule body inserted (frontmatter stripped)");
+    assert.ok(
+      out.includes("body-v1"),
+      "rule body inserted (frontmatter stripped)",
+    );
     assert.ok(!out.includes("x: 1"), "frontmatter not projected");
 
     // Re-projecting the same rule with new body replaces, doesn't duplicate.
     projectRuleIntoClaudeMd(claude, "no-any", "# No any\nbody-v2\n");
     out = readFileSync(claude, "utf8");
-    assert.equal(out.match(/rule:no-any/g)?.length, 1, "rule not duplicated on re-project");
-    assert.ok(out.includes("body-v2") && !out.includes("body-v1"), "rule body refreshed");
+    assert.equal(
+      out.match(/rule:no-any/g)?.length,
+      1,
+      "rule not duplicated on re-project",
+    );
+    assert.ok(
+      out.includes("body-v2") && !out.includes("body-v1"),
+      "rule body refreshed",
+    );
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
@@ -64,11 +96,69 @@ test("planTargets maps a cursor-rule to a .cursor copy plus a CLAUDE.md projecti
   const actions = planTargets(asset, { cursor: true, claude: true }, "/proj");
   const kinds = actions.map((a) => a.kind);
   assert.ok(kinds.includes("copyFile"), "rule gets a tracked file copy");
-  assert.ok(kinds.includes("projectRule"), "rule projected into CLAUDE.md for Claude Code");
+  assert.ok(
+    kinds.includes("projectRule"),
+    "rule projected into CLAUDE.md for Claude Code",
+  );
+});
+
+test("planTargets vendors a cursor-rule by source basename when id differs", () => {
+  const asset: RegistryAsset = {
+    id: "create-plan-rule",
+    type: "cursor-rule",
+    source: "rules/create-plan.mdc",
+    version: "0.1.0",
+    managed: true,
+    tools: ["cursor", "claude"],
+  };
+  assert.deepEqual(
+    copyTargets(planTargets(asset, { cursor: true, claude: false }, "/proj")),
+    [join(".cursor", "rules", "create-plan.mdc")],
+    "alias ids must not create a second create-plan-rule.mdc",
+  );
+});
+
+test("planTargets copies cursor-safety hooks into .cursor/hooks", () => {
+  const asset: RegistryAsset = {
+    id: "cursor-safety-hooks",
+    type: "hook",
+    source: "hooks/cursor-safety",
+    version: "0.1.0",
+    managed: false,
+    tools: ["cursor"],
+  };
+  const actions = planTargets(asset, { cursor: true, claude: false }, "/proj");
+  assert.ok(
+    actions.some(
+      (a) => a.kind === "copyDir" && a.target === join(".cursor", "hooks"),
+    ),
+  );
+  assert.ok(
+    actions.some(
+      (a) => a.kind === "note" && a.message.includes("hooks.fragment.json"),
+    ),
+  );
+});
+
+test("planTargets vendors template-bugbot as .cursor/BUGBOT.md", () => {
+  const asset: RegistryAsset = {
+    id: "template-bugbot",
+    type: "template",
+    source: "templates/BUGBOT.md",
+    version: "0.1.0",
+    managed: false,
+    tools: ["cursor"],
+  };
+  assert.deepEqual(
+    copyTargets(planTargets(asset, { cursor: true, claude: false }, "/proj")),
+    [join(".cursor", "BUGBOT.md")],
+  );
 });
 
 function copyTargets(actions: ReturnType<typeof planTargets>): string[] {
-  return actions.filter((a) => a.kind === "copyFile").map((a) => (a as { target: string }).target);
+  return actions
+    .filter((a) => a.kind === "copyFile")
+    .map((a) => (a as { target: string }).target);
 }
 
 test("planTargets vendors a command into each tool's commands dir", () => {
@@ -87,7 +177,10 @@ test("planTargets vendors a command into each tool's commands dir", () => {
   );
   assert.deepEqual(
     copyTargets(planTargets(asset, { cursor: true, claude: true }, "/proj")),
-    [join(".cursor", "commands", "start.md"), join(".claude", "commands", "start.md")],
+    [
+      join(".cursor", "commands", "start.md"),
+      join(".claude", "commands", "start.md"),
+    ],
   );
 });
 
@@ -102,7 +195,10 @@ test("planTargets vendors commands by source basename when id differs", () => {
   };
   assert.deepEqual(
     copyTargets(planTargets(asset, { cursor: true, claude: true }, "/proj")),
-    [join(".cursor", "commands", "review-plan.md"), join(".claude", "commands", "review-plan.md")],
+    [
+      join(".cursor", "commands", "review-plan.md"),
+      join(".claude", "commands", "review-plan.md"),
+    ],
     "slash command stays /review-plan even when registry id is review-plan-cmd",
   );
 });
@@ -116,15 +212,20 @@ test("planTargets vendors an agent into each tool's agents dir", () => {
     managed: false,
     tools: ["cursor", "claude"],
   };
-  assert.deepEqual(copyTargets(planTargets(asset, { cursor: true, claude: false }, "/proj")), [
-    join(".cursor", "agents", "reviewer.md"),
-  ]);
-  assert.deepEqual(copyTargets(planTargets(asset, { cursor: false, claude: true }, "/proj")), [
-    join(".claude", "agents", "reviewer.md"),
-  ]);
+  assert.deepEqual(
+    copyTargets(planTargets(asset, { cursor: true, claude: false }, "/proj")),
+    [join(".cursor", "agents", "reviewer.md")],
+  );
+  assert.deepEqual(
+    copyTargets(planTargets(asset, { cursor: false, claude: true }, "/proj")),
+    [join(".claude", "agents", "reviewer.md")],
+  );
 });
 
 test("findSourceRoot resolves to a dir containing registry.json (fixes npx list/doctor)", () => {
   const root = findSourceRoot();
-  assert.ok(existsSync(join(root, "registry.json")), "source root holds the registry");
+  assert.ok(
+    existsSync(join(root, "registry.json")),
+    "source root holds the registry",
+  );
 });

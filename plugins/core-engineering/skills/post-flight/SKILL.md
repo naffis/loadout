@@ -1,5 +1,7 @@
 ---
 name: post-flight
+icon: flag
+color: orange
 description: >
   End-of-session review-and-FIX: ask vs ship, shortcut sweep, fix-correctness
   (class-kill not bandaid), sibling sweep (pattern self-validate; callers first;
@@ -12,7 +14,8 @@ description: >
   single bug at session start → root-cause-fix; mid-fix "do it correctly" →
   do-it-right; mid-session course-correct → deep-flight; adversarial check of
   a finished build vs plan → review-build; live surfaces / "does it work" →
-  verifying-session-surfaces.
+  verifying-session-surfaces; large named surface with no known bug →
+  hunting-defects.
 ---
 
 # Post-Flight — Session Review, Fix, and Improve
@@ -225,7 +228,8 @@ ticket IDs or touch unrelated teams.
 
 - skills: `do-it-right`, `deep-flight`, `root-cause-fix`, `agentic-loop`, `review-build`,
   `complete-the-build`, `reviewing-and-shipping`, `reviewing-code-quality`,
-  `deslopping`, `simplifying-code`, `writing-tests`, `verifying-session-surfaces`
+  `deslopping`, `simplifying-code`, `writing-tests`, `verifying-session-surfaces`,
+  `hunting-defects`
 - rules: `no-shortcuts`, `definition-of-done`, `regression-test`,
   `refactor-discipline`, `git-safety`, `shared-working-tree`
 - agents: `flight-checker`, `reviewer`

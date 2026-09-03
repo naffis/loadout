@@ -1,5 +1,7 @@
 ---
 name: deep-flight
+icon: shield
+color: cyan
 description: >
   Mid-session in-flight quality gate after substantial edits, before claiming
   done. Use when the user says "deep-flight", "deep flight", "in-flight check",

@@ -53,7 +53,10 @@
         "deep-flight",
         "deep-flight-cmd",
         "verifying-session-surfaces",
-        "verifying-session-surfaces-cmd"
+        "verifying-session-surfaces-cmd",
+        "hunting-defects",
+        "hunt-defects-cmd",
+        "defect-hunt"
       ],
       "workflows": [
         "ship-a-feature",
@@ -69,7 +72,8 @@
         "onboard-to-codebase",
         "run-autonomous-loop",
         "run-quality-loop",
-        "build-as-graph"
+        "build-as-graph",
+        "defect-hunt"
       ]
     },
     {
@@ -131,7 +135,7 @@
       "id": "create-plan",
       "type": "skill",
       "source": "plugins/core-engineering/skills/create-plan",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "managed": true,
       "tools": ["cursor", "claude"],
       "layer": "skill",
@@ -261,7 +265,7 @@
       "id": "post-flight",
       "type": "skill",
       "source": "plugins/core-engineering/skills/post-flight",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "managed": true,
       "tools": ["cursor", "claude"],
       "layer": "skill",
@@ -291,7 +295,8 @@
         "do-it-right-cmd",
         "deep-flight",
         "flight-checker",
-        "verifying-session-surfaces"
+        "verifying-session-surfaces",
+        "hunting-defects"
       ],
       "workflows": [
         "ship-a-feature",
@@ -304,7 +309,7 @@
       "id": "do-it-right",
       "type": "skill",
       "source": "plugins/core-engineering/skills/do-it-right",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "managed": true,
       "tools": ["cursor", "claude"],
       "layer": "skill",
@@ -385,7 +390,7 @@
       "id": "deep-flight",
       "type": "skill",
       "source": "plugins/core-engineering/skills/deep-flight",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "managed": true,
       "tools": ["cursor", "claude"],
       "layer": "skill",
@@ -541,7 +546,8 @@
         "git-safety",
         "post-flight",
         "verifying-session-surfaces",
-        "verifying-session-surfaces-cmd"
+        "verifying-session-surfaces-cmd",
+        "hunting-defects"
       ],
       "workflows": [
         "ship-a-feature",
@@ -618,9 +624,90 @@
         "fixing-ci",
         "debugging-with-observability",
         "explorer",
-        "do-it-right"
+        "do-it-right",
+        "hunting-defects"
       ],
       "workflows": ["fix-ci-until-green", "debug-production"]
+    },
+    {
+      "id": "hunting-defects",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/hunting-defects",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["cursor", "claude"],
+      "layer": "skill",
+      "provenance": {
+        "source_repo": "generalized from wavemaker + waverunner practice",
+        "harvested": "2026-08-31"
+      },
+      "pairs_with": [
+        "auditing-resource-lifecycle",
+        "walking-failure-paths",
+        "reviewing-and-shipping",
+        "reviewing-code-quality",
+        "do-it-right",
+        "root-cause-fix",
+        "post-flight",
+        "debugging-an-issue",
+        "no-shortcuts",
+        "observability-first",
+        "explorer",
+        "reviewer",
+        "hunt-defects-cmd",
+        "defect-hunt",
+        "doc-defect-hunt-family"
+      ],
+      "workflows": ["defect-hunt"]
+    },
+    {
+      "id": "auditing-resource-lifecycle",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/auditing-resource-lifecycle",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["cursor", "claude"],
+      "layer": "skill",
+      "provenance": {
+        "source_repo": "generalized from wavemaker + waverunner practice",
+        "harvested": "2026-08-31"
+      },
+      "pairs_with": [
+        "hunting-defects",
+        "walking-failure-paths",
+        "root-cause-fix",
+        "no-shortcuts",
+        "audit-lifecycle-cmd",
+        "defect-hunt",
+        "doc-defect-hunt-family"
+      ],
+      "workflows": ["defect-hunt"]
+    },
+    {
+      "id": "walking-failure-paths",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/walking-failure-paths",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["cursor", "claude"],
+      "layer": "skill",
+      "provenance": {
+        "source_repo": "generalized from wavemaker + waverunner practice",
+        "harvested": "2026-08-31"
+      },
+      "pairs_with": [
+        "hunting-defects",
+        "auditing-resource-lifecycle",
+        "writing-tests",
+        "improving-test-coverage",
+        "debugging-an-issue",
+        "no-shortcuts",
+        "regression-test",
+        "walk-failure-paths-cmd",
+        "defect-hunt",
+        "doc-defect-hunt-family"
+      ],
+      "workflows": ["defect-hunt"]
     },
     {
       "id": "fixing-ci",
@@ -648,7 +735,7 @@
       "id": "rebasing-a-branch",
       "type": "skill",
       "source": "plugins/core-engineering/skills/rebasing-a-branch",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "managed": true,
       "tools": ["cursor", "claude"],
       "layer": "skill",
@@ -700,7 +787,8 @@
         "size-limits",
         "refactor-discipline",
         "refactoring-code",
-        "deslopping"
+        "deslopping",
+        "hunting-defects"
       ],
       "workflows": ["safe-refactor"]
     },
@@ -1225,7 +1313,7 @@
       "id": "skill-author",
       "type": "skill",
       "source": "plugins/meta/skills/skill-author",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "managed": true,
       "tools": ["cursor", "claude"],
       "layer": "skill",
@@ -1402,6 +1490,47 @@
         "root-cause-fix",
         "reviewer"
       ]
+    },
+    {
+      "id": "hunt-defects-cmd",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/hunt-defects.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": ["claude", "cursor"],
+      "layer": "command",
+      "pairs_with": [
+        "hunting-defects",
+        "auditing-resource-lifecycle",
+        "walking-failure-paths",
+        "do-it-right",
+        "reviewer",
+        "defect-hunt"
+      ]
+    },
+    {
+      "id": "audit-lifecycle-cmd",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/audit-lifecycle.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": ["claude", "cursor"],
+      "layer": "command",
+      "pairs_with": [
+        "auditing-resource-lifecycle",
+        "hunting-defects",
+        "defect-hunt"
+      ]
+    },
+    {
+      "id": "walk-failure-paths-cmd",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/walk-failure-paths.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": ["claude", "cursor"],
+      "layer": "command",
+      "pairs_with": ["walking-failure-paths", "hunting-defects", "defect-hunt"]
     },
     {
       "id": "verifying-session-surfaces-cmd",
@@ -1630,7 +1759,7 @@
       "id": "size-limits",
       "type": "cursor-rule",
       "source": "rules/size-limits.mdc",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "managed": true,
       "tools": ["cursor", "claude"],
       "layer": "rule"
@@ -2040,6 +2169,22 @@
       "pairs_with": ["post-flight"]
     },
     {
+      "id": "defect-hunt",
+      "type": "workflow",
+      "source": "processes/workflows/defect-hunt.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["cursor", "claude"],
+      "layer": "workflow",
+      "pairs_with": [
+        "hunting-defects",
+        "auditing-resource-lifecycle",
+        "walking-failure-paths",
+        "hunt-defects-cmd",
+        "doc-defect-hunt-family"
+      ]
+    },
+    {
       "id": "security-pass",
       "type": "workflow",
       "source": "processes/workflows/security-pass.md",
@@ -2139,7 +2284,7 @@
       "id": "harness-setup",
       "type": "doc",
       "source": "processes/runbooks/harness-setup.md",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "managed": true,
       "tools": ["cursor", "claude"],
       "layer": "doc"
@@ -2148,7 +2293,7 @@
       "id": "harness-hooks",
       "type": "doc",
       "source": "processes/runbooks/harness-hooks.md",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "managed": true,
       "tools": ["cursor", "claude"],
       "layer": "doc"
@@ -2217,6 +2362,32 @@
       "layer": "mcp"
     },
     {
+      "id": "template-bugbot",
+      "type": "template",
+      "source": "templates/BUGBOT.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": ["cursor"],
+      "layer": "baseline",
+      "pairs_with": ["cursor-safety-hooks", "no-stash", "git-safety", "no-any"]
+    },
+    {
+      "id": "cursor-safety-hooks",
+      "type": "hook",
+      "source": "hooks/cursor-safety",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": ["cursor"],
+      "layer": "hook",
+      "pairs_with": [
+        "harness-hooks",
+        "no-stash",
+        "git-safety",
+        "no-secrets-in-code",
+        "template-bugbot"
+      ]
+    },
+    {
       "id": "doc-external-practices",
       "type": "doc",
       "source": "docs/external-practices.md",
@@ -2247,7 +2418,7 @@
       "id": "doc-agent-harness-engineering",
       "type": "doc",
       "source": "docs/agent-harness-engineering.md",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "managed": true,
       "tools": ["cursor", "claude"],
       "layer": "doc"
@@ -2265,7 +2436,7 @@
       "id": "doc-usage",
       "type": "doc",
       "source": "docs/usage.md",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "managed": true,
       "tools": ["cursor", "claude"],
       "layer": "doc"
@@ -2274,10 +2445,20 @@
       "id": "doc-catalog",
       "type": "doc",
       "source": "docs/catalog.md",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "managed": true,
       "tools": ["cursor", "claude"],
       "layer": "doc"
+    },
+    {
+      "id": "doc-defect-hunt-family",
+      "type": "doc",
+      "source": "docs/defect-hunt-family.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["cursor", "claude"],
+      "layer": "doc",
+      "pairs_with": ["hunting-defects", "defect-hunt"]
     }
   ]
 }

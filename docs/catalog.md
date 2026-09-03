@@ -10,7 +10,7 @@ command → `/changelog`.
 
 ---
 
-## Skills (55)
+## Skills (58)
 
 ### Getting started (start here)
 
@@ -71,6 +71,9 @@ command → `/changelog`.
 | `debugging-with-observability` | Debug a production/staging issue from runtime evidence (correlation ids → query logs/traces → interpret → tail → hand off).                                                        | "why did it fail in prod?" / no local repro                   |
 | `fixing-ci`                    | Find failing checks, classify (env/flake/real), fix the root cause.                                                                                                                | red PR checks / failing build                                 |
 | `triaging-flaky-tests`         | Diagnose non-determinism with evidence; real fix, not retries.                                                                                                                     | a test that passes/fails randomly                             |
+| `hunting-defects`              | Exhaustive no-shortcut defect hunt over a large named surface with no single known bug. Census → waves → hunt classes → refute → sibling sweep. Report only unless asked to fix.   | "hunt defects" / `/hunt-defects` / exhaustive package review  |
+| `auditing-resource-lifecycle`  | Acquire vs release on every path (listeners, timers, EventSource, object URLs, money latches). **Imbalance delta>0 must be explained.** Dispatched by `hunting-defects`.           | "find leaks" / `/audit-lifecycle`                             |
+| `walking-failure-paths`        | Exhaustive empty / error / timeout / cancel / retry / park / fail-closed walk. Swallowed catches, silent fallbacks, untested exits. Dispatched by `hunting-defects`.               | "walk failure paths" / `/walk-failure-paths`                  |
 
 ### Testing
 
@@ -114,13 +117,13 @@ command → `/changelog`.
 
 ### Meta — keep loadout itself sharp (plugin: `meta`)
 
-| Skill                   | What / when                                                                                   | Call                                                            |
-| ----------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| `hardening-the-harness` | "The ratchet": turn a real failure into a permanent guard in the right layer.                 | after a mistake you don't want again                            |
-| `equipping-loadout`     | Follow `INSTALL.md` to install (starter = ship-a-feature kit) or update loadout in a project. | "use this" / "update loadout" / paste github.com/naffis/loadout |
-| `skill-author`          | Scaffold a SKILL.md to conventions; apply the rule-vs-skill test.                             | creating/restructuring a skill                                  |
-| `rule-author`           | Scaffold a `.mdc` rule with the right type/frontmatter.                                       | creating/restructuring a rule                                   |
-| `learning-from-chats`   | Mine recurring preferences from chats → rules/skills/AGENTS.md.                               | "learn how I work" / capture a correction                       |
+| Skill                   | What / when                                                                                                     | Call                                                            |
+| ----------------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| `hardening-the-harness` | "The ratchet": turn a real failure into a permanent guard in the right layer.                                   | after a mistake you don't want again                            |
+| `equipping-loadout`     | Follow `INSTALL.md` to install (starter = ship-a-feature kit) or update loadout in a project.                   | "use this" / "update loadout" / paste github.com/naffis/loadout |
+| `skill-author`          | Scaffold a SKILL.md to conventions; domain skills set `paths`; daily skills may set Custom Mode `icon`/`color`. | creating/restructuring a skill                                  |
+| `rule-author`           | Scaffold a `.mdc` rule with the right type/frontmatter.                                                         | creating/restructuring a rule                                   |
+| `learning-from-chats`   | Mine recurring preferences from chats → rules/skills/AGENTS.md.                                                 | "learn how I work" / capture a correction                       |
 
 ---
 
@@ -134,7 +137,6 @@ automatically (or `@rule-name` for manual ones).
 | Rule                  | Gist                                                                                                                  |
 | --------------------- | --------------------------------------------------------------------------------------------------------------------- |
 | `no-shortcuts`        | No stubs/bandaids/silent fallbacks; don't claim green without pasted output; read before asserting; ask on ambiguity. |
-| `size-limits`         | Files ~<400 (hard ~1000), functions ~<50; extract before sprawl.                                                      |
 | `regression-test`     | Every bug fix ships a test that fails before and passes after.                                                        |
 | `no-inline-imports`   | Imports at module top; no inline/lazy imports.                                                                        |
 | `no-secrets-in-code`  | Never hardcode secrets/PII; env/secret store; never log them.                                                         |
@@ -158,6 +160,7 @@ automatically (or `@rule-name` for manual ones).
 
 | Rule                            | Gist                                                                                                                                                                                  |
 | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `size-limits`                   | Files ~<400 (hard ~1000), functions ~<50; extract before sprawl. Switch stays a switch — extract case bodies, do not convert to a lookup table.                                       |
 | `refactor-discipline`           | Behavior-preserving, scoped; test net first; no bundled fixes.                                                                                                                        |
 | `test-coverage`                 | Coverage is a guide not a goal; cover new code + branches/error paths; pick a floor, don't game it.                                                                                   |
 | `observability-first`           | Read logs/traces before source; structured logging + correlation IDs.                                                                                                                 |
@@ -197,7 +200,7 @@ Dispatch with "use the `<name>` subagent". They run in a fresh context and repor
 | `ci-watcher`        | Monitor the PR's CI; concise pass/fail with links to failures.                                                    |
 | `implement-node`    | Execute one TASK.md unit under hard allowlist + unit verifier; report PASSED/FAILED.                              |
 
-## Commands (15)
+## Commands (18)
 
 | Command               | What                                                                                                                                                                 |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -216,10 +219,13 @@ Dispatch with "use the `<name>` subagent". They run in a fresh context and repor
 | `/simplify`           | Behavior-preserving clarity/YAGNI pass on the current diff (runs `simplifying-code`).                                                                                |
 | `/quality-loop`       | Run one cycle of the product quality loop (routes to `exercising-the-product` / `reviewing-ui` / `recreating-a-design`; optional focus area argument).               |
 | `/changelog`          | Draft release notes from merged work since the last tag.                                                                                                             |
+| `/hunt-defects`       | Exhaustive census of a large named surface with no single known bug (runs `hunting-defects`). Registry id: `hunt-defects-cmd`.                                       |
+| `/audit-lifecycle`    | Acquire vs release on every path; explain every imbalance delta>0 (runs `auditing-resource-lifecycle`). Registry id: `audit-lifecycle-cmd`.                          |
+| `/walk-failure-paths` | Exhaustive empty / error / cancel / retry / park walk (runs `walking-failure-paths`). Registry id: `walk-failure-paths-cmd`.                                         |
 
 ---
 
-## Workflows (14)
+## Workflows (15)
 
 Named recipes (`processes/workflows/`). Each lists the rules/skills/commands/agents it
 composes and optional `gate` / `stop_condition` / `state`.
@@ -240,6 +246,7 @@ composes and optional `gate` / `stop_condition` / `state`.
 | `onboard-to-codebase` | `explorer` + `planning-a-change`                                                                                                                                                                                                                                             |
 | `run-autonomous-loop` | `running-a-dev-cycle` + `agentic-loop` + plan (`/plan`/`review-plan` when needed) + `review-build` + `root-cause-fix` → `reviewer` → `reviewing-and-shipping`; stop = contract met + review-build PASS + reviewer SAFE + gate green                                          |
 | `run-quality-loop`    | `exercising-the-product` / `reviewing-ui` + `agentic-loop` + `root-cause-fix` → `reviewer`; stop = clean pass with zero new high-severity findings + gate green                                                                                                              |
+| `defect-hunt`         | `hunting-defects` → lifecycle + failure-path specialists → refute → sibling sweep → `reviewer`; optional overlay; gate = census RECEIPT + wave log; stop = CLEAN or ISSUES FOUND with unreviewed = 0. Report-only unless asked to fix. `loadout add defect-hunt`             |
 
 ---
 
@@ -249,24 +256,32 @@ composes and optional `gate` / `stop_condition` / `state`.
 | --------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | `bootstrap-project`   | First-day equip: `loadout init` → baselines → starter rules/workflow → doctor → `/start`; what not to binge-install. |
 | `harness-setup`       | Default → self-improving progression; the ratchet; work backwards from behaviour.                                    |
-| `harness-hooks`       | The enforcement layer: ready-to-paste `hooks.json` + scripts (format, checks, block-destructive, approval).          |
+| `harness-hooks`       | The enforcement layer: format + checks + shipped `cursor-safety-hooks` (deny/redact/scoped stop) + approval.         |
 | `loop-preflight`      | Gates before automating a loop (4-condition test, 30-second check, Ralph-Wiggum, security tax).                      |
 | `multi-plane-deploy`  | Deploy order for an app split across DB / runner / edge / static planes.                                             |
 | `hotfix-and-rollback` | Outage decision: rollback vs flag vs forward hotfix; blast radius; verify; class-fix follow-up; ratchet.             |
 
-## Templates (5) — `templates/`
+## Templates (6) — `templates/`
 
-| Template                           | What                                                                                            |
-| ---------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `template-agents-md` → `AGENTS.md` | Thin cross-tool baseline (stack, commands, conventions, do-nots).                               |
-| `template-claude-md` → `CLAUDE.md` | Claude Code baseline: git-safety, pointer to AGENTS.md, definition-of-done, managed rule block. |
-| `template-state-file` → `STATE.md` | Persistent loop/workflow memory across runs.                                                    |
-| `template-automation-loop`         | Automation/loop starter (goal, gate, caps, the loop, scheduling, guardrails).                   |
-| `template-mcp` → `mcp.json`        | MCP starter (Context7 + Playwright); merged by key on `add`.                                    |
+| Template                                | What                                                                                                          |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `template-agents-md` → `AGENTS.md`      | Thin cross-tool baseline (stack, commands, conventions, do-nots).                                             |
+| `template-claude-md` → `CLAUDE.md`      | Claude Code baseline: git-safety, pointer to AGENTS.md, definition-of-done, managed rule block.               |
+| `template-state-file` → `STATE.md`      | Persistent loop/workflow memory across runs.                                                                  |
+| `template-automation-loop`              | Automation/loop starter (goal, gate, caps, the loop, scheduling, guardrails).                                 |
+| `template-mcp` → `mcp.json`             | MCP starter (Context7 + Playwright); merged by key on `add`.                                                  |
+| `template-bugbot` → `.cursor/BUGBOT.md` | Bugbot review contract (rules do not apply). General git/secret/`any` bans; add product bans in the consumer. |
+
+## Hooks (1) — `hooks/cursor-safety/`
+
+| Asset                 | What                                                                                                                                                                                         |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cursor-safety-hooks` | Cursor project hooks: deny stash / hard-reset / clean / whole-tree restore, redact live env reads, conversation-scoped stop reminder. Merge `hooks.fragment.json` into `.cursor/hooks.json`. |
 
 ## Reference docs (`docs/`)
 
 `doc-install` / repo-root `INSTALL.md` (agent _use this_ / _update to latest_ contract),
 `usage` (this guide's companion), `catalog` (this file), `external-practices` (Anthropic/Cursor
 conventions), `agentic-patterns` (the 2026 agentic-coding pattern catalog behind these assets),
-`loop-engineering`, `agent-harness-engineering`.
+`loop-engineering`, `agent-harness-engineering`, `defect-hunt-family` (exhaustive
+review without a known bug — generic core + consumer overlay).

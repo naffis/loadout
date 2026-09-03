@@ -8,6 +8,25 @@ export interface MergeResult {
   conflict: boolean;
 }
 
+export type RelMerge = { kind: "skip" } | { kind: "write"; merged: string; conflict: boolean };
+
+/**
+ * Per-file rule for vendoring a skill/rule directory.
+ * Local-only files (present on disk, absent upstream) are left untouched —
+ * consumer overlays such as `project-overlay.md` rely on this.
+ * `null` means the file does not exist on that side.
+ */
+export function mergeOneRel(
+  ours: string | null,
+  base: string | null,
+  theirs: string | null,
+): RelMerge {
+  if (theirs === null && ours === null) return { kind: "skip" };
+  if (theirs === null && ours !== null) return { kind: "skip" };
+  const r = threeWayMerge(ours ?? "", base ?? "", theirs ?? "");
+  return { kind: "write", merged: r.merged, conflict: r.conflict };
+}
+
 /**
  * Three-way merge of text. `ours` = file on disk, `base` = merge base (upstream at install),
  * `theirs` = new upstream. diff3-style: clean merges combine both sides; conflicts produce
