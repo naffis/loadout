@@ -19,15 +19,15 @@
 Across Anthropic, Cursor, Codex, and the Loop Engineering methodology
 (`docs/loop-engineering.md`), the building blocks are the same and load differently:
 
-| Layer                    | Anthropic (Claude Code)                               | Cursor                                                        | loadout layer   |
-| ------------------------ | ----------------------------------------------------- | ------------------------------------------------------------- | --------------- |
-| Always-on project policy | `CLAUDE.md` (loaded every session, kept short)        | `AGENTS.md` + always-apply `.mdc`                             | baseline / rule |
+| Layer                    | Anthropic (Claude Code)                                       | Cursor                                                        | loadout layer   |
+| ------------------------ | ------------------------------------------------------------- | ------------------------------------------------------------- | --------------- |
+| Always-on project policy | `CLAUDE.md` (loaded every session, kept short)                | `AGENTS.md` + always-apply `.mdc`                             | baseline / rule |
 | Scoped constraints       | `.claude/rules/` + optional `paths` (loadout does not vendor) | `.mdc` rules: Always / Auto-attach / Agent-requested / Manual | rule            |
-| Invokable procedure      | `SKILL.md` skill (`.claude/skills/`)                  | `SKILL.md` skill (`.cursor/skills/`)                          | skill           |
-| Repeatable command       | slash command / skill with `disable-model-invocation` | `/command`                                                    | command         |
-| Delegated sub-task       | subagent (`.claude/agents/`)                          | subagent (`.cursor/agents/`)                                  | agent           |
-| External access          | MCP server                                            | MCP server                                                    | mcp             |
-| Bundled distribution     | plugin + marketplace                                  | plugin / Remote Rules                                         | (layers A/B)    |
+| Invokable procedure      | `SKILL.md` skill (`.claude/skills/`)                          | `SKILL.md` skill (`.cursor/skills/`)                          | skill           |
+| Repeatable command       | slash command / skill with `disable-model-invocation`         | `/command`                                                    | command         |
+| Delegated sub-task       | subagent (`.claude/agents/`)                                  | subagent (`.cursor/agents/`)                                  | agent           |
+| External access          | MCP server                                                    | MCP server                                                    | mcp             |
+| Bundled distribution     | plugin + marketplace                                          | plugin / Remote Rules                                         | (layers A/B)    |
 
 This is exactly loadout's layer map. The research **confirms** loadout's core
 architecture; the value below is in the _authoring conventions_ and the _candidate content_.
@@ -178,14 +178,14 @@ Mostly **confirmation** — the research validates the layer model, SKILL.md-as-
 plugin=shipping, skills-vs-MCP, native rails, and the maker/checker + verification-gate
 patterns already folded in from the Loop Engineering pass. New, concrete tightenings:
 
-| #   | Change                                                                                                                                              | Where                  | Status                             |
-| --- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ---------------------------------- |
-| 1   | Adopt canonical **skill frontmatter rules** (gerund `name` ≤64/lowercase-hyphen/no reserved words; third-person `description` ≤1024 with what+when) | `skill-author`, doctor | **done** (doctor)                  |
-| 2   | Enforce the **500-line `SKILL.md` body** rule and **one-level-deep references** as the size guidance (replaces the vague soft limit)                | `skill-author`, doctor | **done** (doctor warns >500 lines) |
-| 3   | Adopt **CLAUDE.md hygiene** ("would removing this cause a mistake?"; situational → skill) as a baseline/template convention                         | templates, `agents-md-hygiene` | **done**                       |
-| 4   | House style for skills: `## Trigger` / `## Workflow` / `## Suggested Checks` / `## Guardrails` (+ existing `## Pairs with`)                         | `skill-author`         | **later** (skill-author)           |
-| 5   | Rules: enforce "reference files, don't paste"; "what to avoid" (no style-guide dumps, use a linter) as `rule-author` guidance                       | `rule-author`, `agents-md-hygiene` | **done**                   |
-| 6   | Seed a **verification/eval** convention (give a check; show evidence; plan→validate→execute; build evals first)                                     | workflows, runbooks    | **later**                          |
+| #   | Change                                                                                                                                              | Where                              | Status                             |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- | ---------------------------------- |
+| 1   | Adopt canonical **skill frontmatter rules** (gerund `name` ≤64/lowercase-hyphen/no reserved words; third-person `description` ≤1024 with what+when) | `skill-author`, doctor             | **done** (doctor)                  |
+| 2   | Enforce the **500-line `SKILL.md` body** rule and **one-level-deep references** as the size guidance (replaces the vague soft limit)                | `skill-author`, doctor             | **done** (doctor warns >500 lines) |
+| 3   | Adopt **CLAUDE.md hygiene** ("would removing this cause a mistake?"; situational → skill) as a baseline/template convention                         | templates, `agents-md-hygiene`     | **done**                           |
+| 4   | House style for skills: `## Trigger` / `## Workflow` / `## Suggested Checks` / `## Guardrails` (+ existing `## Pairs with`)                         | `skill-author`                     | **later** (skill-author)           |
+| 5   | Rules: enforce "reference files, don't paste"; "what to avoid" (no style-guide dumps, use a linter) as `rule-author` guidance                       | `rule-author`, `agents-md-hygiene` | **done**                           |
+| 6   | Seed a **verification/eval** convention (give a check; show evidence; plan→validate→execute; build evals first)                                     | workflows, runbooks                | **later**                          |
 
 (Items 1–2 live in `doctor`; 3 and 5 shipped with `agents-md-hygiene` / `rule-author`. Items 4 and 6 remain later.)
 
@@ -202,22 +202,23 @@ These were **generalized, public-safe** candidates synthesized from the sources 
 
 ### Skills (plugin: `core-engineering` unless noted)
 
-| id (gerund where natural)            | What / when                                                     | pairs_with                 | workflows          |
-| ------------------------------------ | --------------------------------------------------------------- | -------------------------- | ------------------ |
-| `planning-a-change`                  | Explore → plan → implement → verify; use before multi-file work | base-conventions, reviewer | ship-a-feature     |
-| `reviewing-and-shipping`             | Review branch, run tests, commit, open/update PR                | reviewer, commit-helper    | ship-a-feature     |
-| `writing-commit-messages`            | Generate conventional commits from a diff                       | base-conventions           | ship-a-feature     |
-| `opening-a-pr`                       | Fresh branch → work → PR with good description                  | make-pr-reviewable         | ship-a-feature     |
-| `make-pr-reviewable`                 | Clean noisy history, add reviewer guidance                      | opening-a-pr               | ship-a-feature     |
-| `fixing-ci`                          | Find failing checks, inspect logs, apply focused fixes          | ci-watcher                 | fix-ci-until-green |
-| `looping-on-ci`                      | Watch CI and iterate until green                                | ci-watcher, fixing-ci      | fix-ci-until-green |
-| `resolving-merge-conflicts`          | **done** — ships as loadout skill (lockfile regenerate, gate, no auto-invoke) | rebasing-a-branch, lockfile-conflicts | clear-the-queue |
-| `verifying-a-claim`                  | **done** — ships; verdicts `VERIFIED` / `NOT VERIFIED` / `INCONCLUSIVE` | verifying-session-surfaces | ship-a-feature     |
-| `reviewing-a-diff` (subagent-backed) | Adversarial diff review in fresh context                        | reviewer                   | ship-a-feature     |
-| `cutting-a-release`                  | Tag, changelog, release notes, publish                          | —                          | cut-a-release      |
-| `migrating-a-schema`                 | Reversible up/down migration with validation                    | db-migration-safety        | ship-a-feature     |
-| `deslopping`                         | Strip AI slop from a branch diff                                | base-conventions           | ship-a-feature     |
-| `onboarding-to-a-codebase`           | Senior-engineer Q&A tour of an unfamiliar repo                  | —                          | onboard            |
+| id (gerund where natural)            | What / when                                                                   | pairs_with                            | workflows          |
+| ------------------------------------ | ----------------------------------------------------------------------------- | ------------------------------------- | ------------------ |
+| `planning-a-change`                  | Explore → plan → implement → verify; use before multi-file work               | base-conventions, reviewer            | ship-a-feature     |
+| `reviewing-and-shipping`             | Review branch, run tests, commit, open/update PR                              | reviewer, commit-helper               | ship-a-feature     |
+| `writing-commit-messages`            | Generate conventional commits from a diff                                     | base-conventions                      | ship-a-feature     |
+| `opening-a-pr`                       | Fresh branch → work → PR with good description                                | make-pr-reviewable                    | ship-a-feature     |
+| `make-pr-reviewable`                 | Clean noisy history, add reviewer guidance                                    | opening-a-pr                          | ship-a-feature     |
+| `fixing-ci`                          | Find failing checks, inspect logs, apply focused fixes                        | ci-watcher                            | fix-ci-until-green |
+| `looping-on-ci`                      | Watch CI and iterate until green                                              | ci-watcher, fixing-ci                 | fix-ci-until-green |
+| `resolving-merge-conflicts`          | **done** — ships as loadout skill (lockfile regenerate, gate, no auto-invoke) | rebasing-a-branch, lockfile-conflicts | clear-the-queue    |
+| `verifying-a-claim`                  | **done** — ships; verdicts `VERIFIED` / `NOT VERIFIED` / `INCONCLUSIVE`       | verifying-session-surfaces            | ship-a-feature     |
+| `reviewing-a-diff` (subagent-backed) | Adversarial diff review in fresh context                                      | reviewer                              | ship-a-feature     |
+| `cutting-a-release`                  | Tag, changelog, release notes, publish                                        | —                                     | cut-a-release      |
+| `migrating-a-schema`                 | Reversible up/down migration with validation                                  | db-migration-safety                   | ship-a-feature     |
+| `deslopping`                         | Strip AI slop from a branch **code** diff                                     | base-conventions                      | ship-a-feature     |
+| `cleaning-ai-copy`                   | **done** — rewrite user-facing prose; scanner RECEIPT; not `deslopping`       | copy-voice, deslopping                | ship-a-feature     |
+| `onboarding-to-a-codebase`           | Senior-engineer Q&A tour of an unfamiliar repo                                | —                                     | onboard            |
 
 ### Meta skills (plugin: `meta`)
 
@@ -292,10 +293,12 @@ Adding more prose is the proximate patch. Class root: process as unenforced pros
 | Commands sunset (mid-2026)                                        | New workflows belong in skills (auto-invoke). Keep slash commands as thin wrappers. Do **not** set `disable-model-invocation` on flight gates — they must auto-trigger. |
 
 Shipped assets: `deep-flight` + `deep-flight-rule` + `deep-flight-cmd` +
-`flight-checker` + `_shared/scripts/shortcut-sweep.sh` + `_shared/flight-family.md`.
-Same-day plan-build family: `plan-checker` + `plan-ban-sweep.sh` +
-`_shared/plan-build-family.md` (create-plan / review-plan / complete-the-build /
-review-build). See `docs/plan-build-family.md`.
+`flight-checker` + `_shared/scripts/shortcut-sweep.sh` + `_shared/flight-family.md`
+
+- `_shared/plain-english-brief.md`.
+  Same-day plan-build family: `plan-checker` + `plan-ban-sweep.sh` +
+  `_shared/plan-build-family.md` (create-plan / review-plan / complete-the-build /
+  review-build). See `docs/plan-build-family.md`.
 
 Do **not** use `paths` on flight skills (they fire on conversation, not file
 globs). Do **not** make the checker a same-session `Task generalPurpose`.

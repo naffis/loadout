@@ -8,8 +8,9 @@ description: >
   "simplify", "simplify this", "simplify the diff", "reduce complexity",
   "YAGNI pass", "make this clearer", "/simplify", or after a large
   agent-written change before review-build. Anti-triggers: AI-slop style
-  cleanup only → deslopping; planned structural move/extract →
-  refactoring-code; maintainability audit without edits → reviewing-code-quality.
+  cleanup only → deslopping; AI copy / ChatGPT voice → cleaning-ai-copy;
+  planned structural move/extract → refactoring-code; maintainability audit
+  without edits → reviewing-code-quality.
 ---
 
 # Simplify code
@@ -18,8 +19,9 @@ Modern models over-build. This skill is a **behavior-preserving clarity pass**
 on the current diff (or named files): fewer branches, less indirection, match
 local patterns — not a redesign and not a drive-by feature.
 
-Distinct from `deslopping` (narrating comments, `any` casts, AI tells) and
-`refactoring-code` (planned structural moves behind a test net).
+Distinct from `deslopping` (narrating comments, `any` casts),
+`cleaning-ai-copy` (prose / ChatGPT voice), and `refactoring-code`
+(planned structural moves behind a test net).
 
 ## Trigger
 
@@ -95,7 +97,7 @@ Short list: what got simpler (files), what was left alone (and why), gates run.
 
 ## Pairs with
 
-- skills: `deslopping`, `refactoring-code`, `review-build`, `reviewing-code-quality`,
-  `writing-tests`
+- skills: `deslopping`, `cleaning-ai-copy`, `refactoring-code`, `review-build`,
+  `reviewing-code-quality`, `writing-tests`
 - rules: `no-shortcuts`, `refactor-discipline`, `size-limits`
 - commands: `simplify` (`/simplify`) — registry id `simplify-cmd`

@@ -30,15 +30,15 @@ cases, or a thorough audit — **not** a merge review of the current diff.
 
 ## When to use vs neighbours
 
-| Situation                       | Use                              |
-| ------------------------------- | -------------------------------- |
-| Large surface, no single bug    | **This skill**                   |
-| Diff vs trunk / wrap to ship    | `reviewing-and-shipping`         |
-| Size / nesting / naming         | `reviewing-code-quality`         |
-| "Why is this failing"           | `debugging-an-issue`             |
-| Leaks only                      | `auditing-resource-lifecycle`    |
-| Error/empty/cancel only         | `walking-failure-paths`          |
-| Fix the findings                | `do-it-right` → `root-cause-fix` |
+| Situation                    | Use                              |
+| ---------------------------- | -------------------------------- |
+| Large surface, no single bug | **This skill**                   |
+| Diff vs trunk / wrap to ship | `reviewing-and-shipping`         |
+| Size / nesting / naming      | `reviewing-code-quality`         |
+| "Why is this failing"        | `debugging-an-issue`             |
+| Leaks only                   | `auditing-resource-lifecycle`    |
+| Error/empty/cancel only      | `walking-failure-paths`          |
+| Fix the findings             | `do-it-right` → `root-cause-fix` |
 
 ## Workflow
 
@@ -111,6 +111,7 @@ then clones. New hits are re-refuted (they do not inherit severity).
 
 ### 7. Report + checker
 
+Write `_shared/plain-english-brief.md` in chat. The file/log shape is
 [`references/report-template.md`](references/report-template.md). Wave log must
 list every `review:` file.
 
@@ -155,3 +156,4 @@ drive-by.
 - commands: `hunt-defects-cmd` (`/hunt-defects`)
 - workflows: `defect-hunt`
 - docs: `doc-defect-hunt-family`
+- refs: `_shared/plain-english-brief.md`

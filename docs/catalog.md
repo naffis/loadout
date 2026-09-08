@@ -11,18 +11,22 @@ command → `/changelog`.
 **Cursor-native (do not reinvent):** `/review`, `/review-bugbot`, `/review-security`,
 `/loop`, `/autopilot`, `/canvas`. See [`usage.md`](./usage.md).
 
+Human-facing replies from diagnose / review / plan / wrap skills:
+`plugins/core-engineering/skills/_shared/plain-english-brief.md` (what's going
+on, what to do, any decision). Details only if asked.
+
 ---
 
-## Skills (61)
+## Skills (62)
 
 ### Getting started (start here)
 
-| Skill                     | What / when                                                                                                                                                                 | Call                                                             |
-| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| `getting-started`         | Route a goal to the right workflow + supporting skills/rules, decide manual vs loop, and emit a ready-to-run kickoff prompt.                                                | "I want to build X, what should I do?" / new to a repo           |
-| `recommending-next-steps` | Recap this chat from git + asks, deep-dive the leftover, emit one paste-ready next prompt. Does not implement.                                                              | "what's next" / `/next-steps` / `/recommending-next-steps`       |
-| `deep-dive`               | Take a brief seed (idea / feature / bug / problem), investigate repo then world, force real alternatives, one self-critique, land on the best solution. Does not implement. | `deep dive:` / `dig in:` / `/deep-dive`                          |
-| `deep-flight`             | Mid-session in-flight quality gate: chosen layer, shortcut RECEIPT, quoted gates, readonly `flight-checker`. Fixes drift now. Not `deep-dive`.                              | `deep-flight` / `/deep-flight` / "are we still doing this right" |
+| Skill                     | What / when                                                                                                                                                                                                            | Call                                                             |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| `getting-started`         | Route a goal to the right workflow + supporting skills/rules, decide manual vs loop, and emit a ready-to-run kickoff prompt.                                                                                           | "I want to build X, what should I do?" / new to a repo           |
+| `recommending-next-steps` | Recap this chat from git + asks, deep-dive the leftover, emit one paste-ready next prompt. Does not implement.                                                                                                         | "what's next" / `/next-steps` / `/recommending-next-steps`       |
+| `deep-dive`               | Take a brief seed (idea / feature / bug / problem), investigate repo then world, force real alternatives, one self-critique, land on the best solution. Reply is `_shared/plain-english-brief.md`. Does not implement. | `deep dive:` / `dig in:` / `/deep-dive`                          |
+| `deep-flight`             | Mid-session in-flight quality gate: chosen layer, shortcut RECEIPT, quoted gates, readonly `flight-checker`. Fixes drift now. Not `deep-dive`.                                                                         | `deep-flight` / `/deep-flight` / "are we still doing this right" |
 
 ### Agentic loops & orchestration
 
@@ -46,26 +50,26 @@ command → `/changelog`.
 
 ### Shipping & pull requests
 
-| Skill                         | What / when                                                                                                                                                                                                   | Call                                                                    |
-| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| `create-plan`                 | Zero-shortcut plan: CreatePlan + research `.md` + `plan-ban-sweep` + `plan-checker`. Clarify first. Never Write-only in Cursor.                                                                               | "create-plan" / `/plan`                                                 |
-| `review-plan`                 | Multi-pass plan stress-test; Pass 5 = `plan-ban-sweep` RECEIPT + `plan-checker` (not "think harder"). Fix in place; refresh CreatePlan.                                                                       | "Review the plan" / `/review-plan`                                      |
-| `complete-the-build`          | Exhaust Partial/Missing/Punted: gap matrix before coding, `shortcut-sweep` RECEIPT, two clean passes, hand off to `review-build`.                                                                             | "Complete the build" / `/complete-the-build`                            |
-| `session-handoff`             | Write or resume a durable handoff so a fresh chat continues without cold-start archaeology.                                                                                                                   | "write a handoff" / `/session-handoff`                                  |
-| `review-build`                | Evidence-first implementation review: git diff, plan trace, `shortcut-sweep` RECEIPT, pasted gates, `flight-checker`. Prefer fresh chat.                                                                      | "Review the build" / `/review-build`                                    |
-| `post-flight`                 | End-of-session review-and-FIX: ask vs ship, scripted shortcut sweep, class-kill, sibling sweep, DoD, gates, `flight-checker`. Completes deferred work by default.                                             | "post-flight" / "run post-flight" / `/post-flight`                      |
+| Skill                         | What / when                                                                                                                                                                                                  | Call                                                                    |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
+| `create-plan`                 | Zero-shortcut plan: CreatePlan + research `.md` + `plan-ban-sweep` + `plan-checker`. Clarify first. Never Write-only in Cursor.                                                                              | "create-plan" / `/plan`                                                 |
+| `review-plan`                 | Multi-pass plan stress-test; Pass 5 = `plan-ban-sweep` RECEIPT + `plan-checker` (not "think harder"). Fix in place; refresh CreatePlan.                                                                      | "Review the plan" / `/review-plan`                                      |
+| `complete-the-build`          | Exhaust Partial/Missing/Punted: gap matrix before coding, `shortcut-sweep` RECEIPT, two clean passes, hand off to `review-build`.                                                                            | "Complete the build" / `/complete-the-build`                            |
+| `session-handoff`             | Write or resume a durable handoff so a fresh chat continues without cold-start archaeology.                                                                                                                  | "write a handoff" / `/session-handoff`                                  |
+| `review-build`                | Evidence-first implementation review: git diff, plan trace, `shortcut-sweep` RECEIPT, pasted gates, `flight-checker`. Prefer fresh chat.                                                                     | "Review the build" / `/review-build`                                    |
+| `post-flight`                 | End-of-session review-and-FIX: ask vs ship, scripted shortcut sweep, class-kill, sibling sweep, DoD, gates, `flight-checker`. Completes deferred work by default.                                            | "post-flight" / "run post-flight" / `/post-flight`                      |
 | `verifying-session-surfaces`  | Exercise every session-created/updated live surface (UI/API/CLI/MCP/job) with pasted evidence, then root-cause-fix failures. Complementary to `post-flight` (code wrap) and `verifying-a-claim` (one claim). | "test all the surfaces" / "ensure it works" / `/verify-surfaces`        |
-| `verifying-a-claim`           | One named claim, baseline vs treatment, verdict `VERIFIED` / `NOT VERIFIED` / `INCONCLUSIVE`. Does not implement. Not session inventory, not Cursor `/review`.                                              | "verify this claim" / `/verify-claim`                                   |
-| `planning-a-change`           | Explore → plan → implement a non-trivial change. Before multi-file/unfamiliar work; skip one-liners. Plan-only → `create-plan`.                                                                               | `/planning-a-change` or describe a multi-file task                      |
-| `reviewing-and-shipping`      | Review for correctness & intent, run tests, wrap up; commit/PR only when asked (whole-tree commit if shared-working-tree).                                                                                    | when wrapping up a change                                               |
-| `writing-commit-messages`     | Conventional-commit message from a diff.                                                                                                                                                                      | when committing / "write a commit message"                              |
-| `committing-on-shared-trunk`  | Commit/push the entire shared trunk working tree — no stash, no session-scoped staging, no branch unless asked.                                                                                               | "commit" / "commit and push" with parallel agents / shared-working-tree |
-| `opening-a-pr`                | Branch → push → PR with a validation-first description. Only when user explicitly asks for a PR.                                                                                                              | when turning work into a PR                                             |
-| `making-a-pr-reviewable`      | Tidy history, sharpen description, add reviewer guidance (no behavior change).                                                                                                                                | before review on a noisy/large PR                                       |
-| `rebasing-a-branch`           | Rebase onto base with semantic conflict review and `--force-with-lease`.                                                                                                                                      | when a branch is behind                                                 |
-| `resolving-merge-conflicts`   | Semantic merge/rebase conflict resolve; lockfile regenerate; gate green; no commit/push. `disable-model-invocation`.                                                                                          | conflict markers / `/resolving-merge-conflicts`                         |
-| `triaging-review-feedback`    | Bucket unresolved PR comments into a plan and address them.                                                                                                                                                   | when a PR has open threads                                              |
-| `assessing-release-readiness` | Go / no-go assessment (gates, risk, rollback).                                                                                                                                                                | before promoting / releasing                                            |
+| `verifying-a-claim`           | One named claim, baseline vs treatment, verdict `VERIFIED` / `NOT VERIFIED` / `INCONCLUSIVE`. Does not implement. Not session inventory, not Cursor `/review`.                                               | "verify this claim" / `/verify-claim`                                   |
+| `planning-a-change`           | Explore → plan → implement a non-trivial change. Before multi-file/unfamiliar work; skip one-liners. Plan-only → `create-plan`.                                                                              | `/planning-a-change` or describe a multi-file task                      |
+| `reviewing-and-shipping`      | Review for correctness & intent, run tests, wrap up; commit/PR only when asked (whole-tree commit if shared-working-tree).                                                                                   | when wrapping up a change                                               |
+| `writing-commit-messages`     | Conventional-commit message from a diff.                                                                                                                                                                     | when committing / "write a commit message"                              |
+| `committing-on-shared-trunk`  | Commit/push the entire shared trunk working tree — no stash, no session-scoped staging, no branch unless asked.                                                                                              | "commit" / "commit and push" with parallel agents / shared-working-tree |
+| `opening-a-pr`                | Branch → push → PR with a validation-first description. Only when user explicitly asks for a PR.                                                                                                             | when turning work into a PR                                             |
+| `making-a-pr-reviewable`      | Tidy history, sharpen description, add reviewer guidance (no behavior change).                                                                                                                               | before review on a noisy/large PR                                       |
+| `rebasing-a-branch`           | Rebase onto base with semantic conflict review and `--force-with-lease`.                                                                                                                                     | when a branch is behind                                                 |
+| `resolving-merge-conflicts`   | Semantic merge/rebase conflict resolve; lockfile regenerate; gate green; no commit/push. `disable-model-invocation`.                                                                                         | conflict markers / `/resolving-merge-conflicts`                         |
+| `triaging-review-feedback`    | Bucket unresolved PR comments into a plan and address them.                                                                                                                                                  | when a PR has open threads                                              |
+| `assessing-release-readiness` | Go / no-go assessment (gates, risk, rollback).                                                                                                                                                               | before promoting / releasing                                            |
 
 ### Debugging & CI
 
@@ -95,8 +99,9 @@ command → `/changelog`.
 | ------------------------ | ------------------------------------------------------------------------------------------------------------ | --------------------------------------- |
 | `reviewing-code-quality` | Maintainability audit: oversized files/functions, nesting, duplication, leaky boundaries, dead code, naming. | assess code health / before a big merge |
 | `refactoring-code`       | Behavior-preserving refactor behind a test net, in small reviewable moves.                                   | improving structure of existing code    |
-| `simplifying-code`       | Behavior-preserving clarity/YAGNI pass on the diff (distinct from `deslopping`).                             | "simplify" / `/simplify`                |
-| `deslopping`             | Remove AI-generated slop from a branch diff (no behavior change).                                            | after generating code, before review    |
+| `simplifying-code`       | Behavior-preserving clarity/YAGNI pass on the diff (distinct from `deslopping` and `cleaning-ai-copy`).      | "simplify" / `/simplify`                |
+| `deslopping`             | Remove AI-generated slop from a **code** diff (no behavior change). Prose → `cleaning-ai-copy`.              | after generating code, before review    |
+| `cleaning-ai-copy`       | Rewrite user-facing prose that still reads like a model. Quotes scanner RECEIPTs. Not `deslopping`.          | "deslop copy" / `/deslop-copy`          |
 
 ### Dependencies & data
 
@@ -140,28 +145,28 @@ automatically (or `@rule-name` for manual ones).
 
 ### Always on (kept short — load every request)
 
-| Rule                  | Gist                                                                                                                  |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `no-shortcuts`        | No stubs/bandaids/silent fallbacks; don't claim green without pasted output; read before asserting; ask on ambiguity. |
-| `regression-test`     | Every bug fix ships a test that fails before and passes after.                                                        |
-| `no-secrets-in-code`  | Never hardcode secrets/PII; env/secret store; never log them.                                                         |
-| `git-safety`          | No autonomous commit/branch/push/PR/stash/WIP wipe; explicit ask required. Shared-trunk kit — always-on when installed. |
-| `no-stash`            | Absolute ban on `git stash` (and stash-like /tmp moves). Shared-trunk kit — always-on when installed.                 |
+| Rule                  | Gist                                                                                                                                       |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `no-shortcuts`        | No stubs/bandaids/silent fallbacks; don't claim green without pasted output; read before asserting; ask on ambiguity.                      |
+| `regression-test`     | Every bug fix ships a test that fails before and passes after.                                                                             |
+| `no-secrets-in-code`  | Never hardcode secrets/PII; env/secret store; never log them.                                                                              |
+| `git-safety`          | No autonomous commit/branch/push/PR/stash/WIP wipe; explicit ask required. Shared-trunk kit — always-on when installed.                    |
+| `no-stash`            | Absolute ban on `git stash` (and stash-like /tmp moves). Shared-trunk kit — always-on when installed.                                      |
 | `shared-working-tree` | Parallel agents share one local trunk; no per-agent branches/worktrees; commit-all via skill. Shared-trunk kit — always-on when installed. |
 
 ### Auto-attached by file glob
 
-| Rule                           | Globs           | Gist                                                                              |
-| ------------------------------ | --------------- | --------------------------------------------------------------------------------- |
-| `no-any`                       | `**/*.ts(x)`    | Ban `any`/`@ts-ignore`; `unknown` + narrowing.                                    |
-| `no-inline-imports`            | `**/*.ts` `**/*.tsx` `**/*.js` `**/*.jsx` `**/*.mjs` `**/*.cjs` | Imports at module top; no inline/lazy imports.                          |
-| `agents-md-hygiene`            | `**/AGENTS.md`, `**/CLAUDE.md` | Thin AGENTS.md/CLAUDE.md; litmus; no skill-body paste. Also agent-requested. |
-| `no-floating-promises`         | `**/*.ts(x)`    | Await/return/void+catch; use platform "wait until".                               |
-| `typescript-exhaustive-switch` | `**/*.ts(x)`    | `never` default case on unions/enums.                                             |
-| `testing-conventions`          | test/spec globs | Arrange-Act-Assert; mock only at boundaries.                                      |
-| `copy-voice`                   | `**/*.md(x)`    | Human, direct copy; no em-dashes, no filler/hype.                                 |
-| `db-migration-safety`          | migration globs | Reversible, expand/contract; never reset a remote DB.                             |
-| `docstrings-current`           | code globs      | In-code docs/docstrings reflect current behavior; comments explain why, not what. |
+| Rule                           | Globs                                                           | Gist                                                                              |
+| ------------------------------ | --------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `no-any`                       | `**/*.ts(x)`                                                    | Ban `any`/`@ts-ignore`; `unknown` + narrowing.                                    |
+| `no-inline-imports`            | `**/*.ts` `**/*.tsx` `**/*.js` `**/*.jsx` `**/*.mjs` `**/*.cjs` | Imports at module top; no inline/lazy imports.                                    |
+| `agents-md-hygiene`            | `**/AGENTS.md`, `**/CLAUDE.md`                                  | Thin AGENTS.md/CLAUDE.md; litmus; no skill-body paste. Also agent-requested.      |
+| `no-floating-promises`         | `**/*.ts(x)`                                                    | Await/return/void+catch; use platform "wait until".                               |
+| `typescript-exhaustive-switch` | `**/*.ts(x)`                                                    | `never` default case on unions/enums.                                             |
+| `testing-conventions`          | test/spec globs                                                 | Arrange-Act-Assert; mock only at boundaries.                                      |
+| `copy-voice`                   | `**/*.md(x)`                                                    | Human, direct copy; no leftover tokens, no category-label + koan, no filler/hype. |
+| `db-migration-safety`          | migration globs                                                 | Reversible, expand/contract; never reset a remote DB.                             |
+| `docstrings-current`           | code globs                                                      | In-code docs/docstrings reflect current behavior; comments explain why, not what. |
 
 ### Agent-requested (pulled in when relevant)
 
@@ -210,7 +215,7 @@ Dispatch with "use the `<name>` subagent". They run in a fresh context and repor
 | `ci-watcher`        | Monitor the PR's CI; concise pass/fail with links to failures.                                                    |
 | `implement-node`    | Execute one TASK.md unit under hard allowlist + unit verifier; report PASSED/FAILED.                              |
 
-## Commands (22)
+## Commands (23)
 
 | Command                    | What                                                                                                                                                                 |
 | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -231,6 +236,7 @@ Dispatch with "use the `<name>` subagent". They run in a fresh context and repor
 | `/deep-dive`               | Investigate a seed until one committed recommendation; last output is a paste-ready next prompt (runs `deep-dive`).                                                  |
 | `/tdd`                     | Strict red→green→refactor; no production code before pasted RED (runs `test-driven`).                                                                                |
 | `/simplify`                | Behavior-preserving clarity/YAGNI pass on the current diff (runs `simplifying-code`).                                                                                |
+| `/deslop-copy`             | Clean AI voice from user-facing prose (runs `cleaning-ai-copy`). Not `deslopping`. Registry id: `deslop-copy-cmd`.                                                   |
 | `/quality-loop`            | Run one cycle of the product quality loop (routes to `exercising-the-product` / `reviewing-ui` / `recreating-a-design`; optional focus area argument).               |
 | `/changelog`               | Draft release notes from merged work since the last tag.                                                                                                             |
 | `/hunt-defects`            | Exhaustive census of a large named surface with no single known bug (runs `hunting-defects`). Registry id: `hunt-defects-cmd`.                                       |

@@ -20,8 +20,9 @@ Single routing table for thoroughness skills. Do not duplicate this table.
 
 `dig in:` = `deep-dive`. `dig deeper` = `do-it-right`. `deep-flight` is **not**
 `deep-dive`. Mid-session recap + leftover dive is `recommending-next-steps`
-(`/next-steps`). Last output of diagnose / audit / review is
-`_shared/next-prompt.md`. Defect-hunt routing: `hunting-defects/references/family.md`.
+(`/next-steps`). User-facing reply is `_shared/plain-english-brief.md`. Last
+output of diagnose / audit / review is `_shared/next-prompt.md`. Defect-hunt
+routing: `hunting-defects/references/family.md`.
 
 ## Isolated checker
 

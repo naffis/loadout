@@ -22,7 +22,7 @@ You changed behavior, a public API/signature, config/env/flags, a CLI, or an ope
 3. **Update in the same change.** Edit each surface to match the new behavior. Reference the canonical source instead of duplicating; link, don't paste.
 4. **Update examples.** Fix commands/snippets so they still run; remove examples for removed behavior.
 5. **Delete stale docs** for anything you removed — a wrong doc is a trap.
-6. **Verify.** Re-read the diff's docs as a new reader; check links resolve and examples are correct (run them or a link-checker where available).
+6. **Verify.** Re-read the diff's docs as a new reader; check links resolve and examples are correct (run them or a link-checker where available). Apply `copy-voice`. If the draft still reads like a model, run `cleaning-ai-copy`.
 
 ## Guardrails
 
@@ -32,5 +32,6 @@ You changed behavior, a public API/signature, config/env/flags, a CLI, or an ope
 ## Pairs with
 
 - rules: `documentation-updates`, `docstrings-current`, `copy-voice`
-- skills: `writing-an-adr`, `auditing-doc-freshness`, `reviewing-and-shipping`
+- skills: `writing-an-adr`, `auditing-doc-freshness`, `reviewing-and-shipping`,
+  `cleaning-ai-copy` (prose / ChatGPT voice)
 - workflows: `ship-a-feature`, `plan-then-build`, `ship-a-migration`, `safe-refactor`

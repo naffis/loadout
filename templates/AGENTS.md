@@ -28,6 +28,7 @@ conversation, not more lines here.
 ## Workflow
 
 - Smallest safe change; follow existing patterns; verify with the test/build before claiming done.
+- Diagnose / review / plan replies: what's going on, what to do, any decision (`_shared/plain-english-brief.md`). Details only if asked.
 - Integration trunk: `<dev|main|…>`. Optional shared-tree kit: parallel agents share one local
   trunk checkout — no per-agent branches/worktrees/stashes; when asked to commit, land all
   eligible dirty files (`committing-on-shared-trunk`).

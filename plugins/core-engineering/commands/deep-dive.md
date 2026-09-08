@@ -13,7 +13,8 @@ This is not `do-it-right` (implement after Chosen Fix) and not
 1. Frame the seed — idea / feature / bug / problem. Underlying problem first.
 2. Investigate repo then world. Force real alternatives. One self-critique.
 3. Commit one recommendation. Kill criteria. Out of scope.
-4. One self-review pass, then the deep-dive report.
+4. One self-review pass, then `_shared/plain-english-brief.md` (not the
+   full report).
 5. Last — emit this fence and nothing after it. A `## Next` sentence is
    incomplete:
 

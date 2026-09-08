@@ -104,21 +104,8 @@ job**, not the loudest? If the critique lands, revise. Skip on LIGHT.
 
 ### 5. Output
 
-Terse recap, then the required fence. Incomplete without the fence.
-
-```
-## Session so far
-Asks: …
-Accomplished: <path or receipt per row>
-Leftover: <one sentence>
-Ran: deep-dive | debugging-an-issue | do-it-right 0–2 | skip (<why>)
-
-## Recommendation
-<the pick, one short paragraph>
-Kill criteria: …
-Out of scope: …
-DECISION: <or none>
-```
+Write `_shared/plain-english-brief.md`. Incomplete without the fence. Keep
+the ask/accomplished/receipt list off the page unless they ask.
 
 Then **this block is required** (nothing after):
 
@@ -167,6 +154,7 @@ git log -5 --oneline
   `root-cause-fix`, `deep-flight`
 - rules: `no-shortcuts`, `git-safety`, `deep-dive-rule`,
   `recommending-next-steps-rule`
-- refs: `_shared/next-prompt.md`, `_shared/flight-family.md`
+- refs: `_shared/plain-english-brief.md`, `_shared/next-prompt.md`,
+  `_shared/flight-family.md`
 - commands: `next-steps-cmd` (`/next-steps`), `recommending-next-steps-cmd`
   (`/recommending-next-steps`)

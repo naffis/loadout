@@ -26,6 +26,14 @@ const REQUIRED = [
   "verify-claim",
 ];
 
+test("AC-08 deslop-copy is not a diagnose command and has no fence", () => {
+  assert.equal(REQUIRED.includes("deslop-copy"), false);
+  const path = join(here, "deslop-copy.md");
+  assert.equal(existsSync(path), true);
+  const body = readFileSync(path, "utf8");
+  assert.doesNotMatch(body, /```text\n/);
+});
+
 test("diagnose/audit/review commands contain a literal next-prompt fence", () => {
   for (const name of REQUIRED) {
     const path = join(here, `${name}.md`);

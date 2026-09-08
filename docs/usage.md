@@ -53,14 +53,14 @@ A rule's frontmatter decides _when it loads_. Four modes:
 
 These ship with Cursor. Catalog them here; do **not** add loadout skills that copy the names.
 
-| Call | Use for |
-| ---- | ------- |
-| `/review` | Agent Review of a diff |
-| `/review-bugbot` | Bugbot review |
-| `/review-security` | Security Review |
-| `/loop` | Recurring / interval run |
-| `/autopilot` | Cloud / unattended agent |
-| `/canvas` | Visual / analytical artifact |
+| Call               | Use for                      |
+| ------------------ | ---------------------------- |
+| `/review`          | Agent Review of a diff       |
+| `/review-bugbot`   | Bugbot review                |
+| `/review-security` | Security Review              |
+| `/loop`            | Recurring / interval run     |
+| `/autopilot`       | Cloud / unattended agent     |
+| `/canvas`          | Visual / analytical artifact |
 
 ### Skills (`SKILL.md`)
 
@@ -75,6 +75,11 @@ Example: "plan and ship the auth refactor" will pull in `planning-a-change` then
 `reviewing-and-shipping`; or run `/planning-a-change` to force it. A half-formed
 thought (`deep dive: should we …` / `dig in: checkout double-charges`) runs
 `deep-dive`: classify, investigate, recommend. It does not implement.
+
+Code slop (narrating comments, `any`, over-abstraction) is `deslopping`.
+User-facing prose that still reads like a model is `cleaning-ai-copy` /
+`/deslop-copy`. Do not fold those jobs together. Do not treat Cursor `/review`
+as a copy detector.
 
 ### Commands
 
@@ -296,7 +301,7 @@ pattern: `fix-ci-until-green`, `plan-then-build`, `debug-production`, `cut-a-rel
 loadout is meant to compound — every mistake becomes a permanent guard ("the ratchet").
 
 - **`hardening-the-harness`** (skill) — the ratchet itself: take a real failure and encode a guard in the _right_ layer (an `AGENTS.md` line, a rule, a hook, a subagent check, or a skill).
-- **`rule-author`** / **`skill-author`** (skills) — scaffold a new rule/skill to loadout's conventions and apply the rule-vs-skill test. `skill-author` enforces the frontmatter contract (gerund name, third-person description, body <500 lines, references one level deep) that `doctor` checks.
+- **`rule-author`** / **`skill-author`** (skills) — scaffold a new rule/skill to loadout's conventions and apply the rule-vs-skill test. `skill-author` enforces the frontmatter contract (gerund name, third-person description, body <500 lines, references one level deep) that `doctor` checks. Human-facing skill replies use `_shared/plain-english-brief.md`.
 - **`learning-from-chats`** (skill) — mine recurring preferences from chats into rules/skills/`AGENTS.md`.
 - **Progression:** brand-new repos start with [`bootstrap-project`](../processes/runbooks/bootstrap-project.md); then [`harness-setup`](../processes/runbooks/harness-setup.md) walks the default → self-improving rungs; [`loop-preflight`](../processes/runbooks/loop-preflight.md) gates before you automate anything. Active outages use [`hotfix-and-rollback`](../processes/runbooks/hotfix-and-rollback.md).
 

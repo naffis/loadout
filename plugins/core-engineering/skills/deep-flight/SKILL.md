@@ -76,18 +76,9 @@ session, hand off to `post-flight` after ON-COURSE.
 
 ## Report
 
-```
-## Deep-flight report
-**Verdict:** ON-COURSE / CORRECTED (N) / OFF-COURSE
-- Ask still in force:
-- Chosen layer (file:symbol):
-- Layer still correct? yes / no → {handoff}
-- Shortcut RECEIPT: quoted / missing
-- Gates: {quoted closing lines}
-- flight-checker: PASS / FAIL / blocked
-- Drift fixed:
-- Residual: none | {item + why it survives}
-```
+Write `_shared/plain-english-brief.md`. Verdict in **What's going on**
+(on course / corrected / off course). Keep the RECEIPT and gate dump off
+the page unless they ask.
 
 ## Never do
 
@@ -105,4 +96,5 @@ session, hand off to `post-flight` after ON-COURSE.
 - agents: `flight-checker`, `reviewer`
 - commands: `deep-flight-cmd` (`/deep-flight`), `do-it-right-cmd`
   (`/do-it-right`), `post-flight-cmd` (`/post-flight`)
-- refs: `_shared/flight-family.md`, `_shared/scripts/shortcut-sweep.sh`
+- refs: `_shared/flight-family.md`, `_shared/plain-english-brief.md`,
+  `_shared/scripts/shortcut-sweep.sh`

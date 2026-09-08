@@ -29,5 +29,6 @@ would appear.
 3. `complete-the-build` / `review-build` quote `shortcut-sweep.sh`;
    `review-build` requires `flight-checker` (or `/review`).
 4. Shared routing `_shared/plan-build-family.md`.
+5. Chat replies are `_shared/plain-english-brief.md` — not the research doc.
 
 Loadout ships the generalized copies (`naffis-coding-loadout`).

@@ -203,36 +203,9 @@ decision the user owns — never to keep patching or delete an assertion to forc
 
 ## Output — the fix report
 
-```markdown
-# Root-cause fix — <issue>
-
-## Root cause (proven)
-
-"The bug exists because **_, which causes _**." + the principle the fix establishes.
-Causal chain: proximate -> ... -> ROOT (evidence per link).
-Alternatives ruled out: [A, B + the evidence that killed each].
-
-## The fix
-
-- Layer/node changed: <file . function . branch> (the cause, not the symptom)
-- What changed + why this is the right level.
-- Why it generalizes: <the full class of cases now covered>.
-- Root-node candidate shown + why chosen over the cheaper bandaid (named).
-- Blast radius: <what else touches this path; invariants preserved; adjacent cases safe>.
-
-## Validation
-
-- Acceptance contract: end state . evidence . constraints . budget — all met (cycles: N/3).
-- Regression test: <path> — fails on pre-fix code, passes after; covers repro + siblings.
-- Gates: typecheck OK . affected tests OK
-- Independent checker: <reviewer/bugbot> — verdict (or findings reconciled), or "skipped: <why>".
-- Definition-of-Done rows satisfied: <changelog / docs / surface, or N/A + why>.
-- Edits left UNSTAGED; no commit/push unless the user asked.
-
-## Residual / uncertainty
-
-[Anything not proven, or a deliberately surfaced correctness-vs-scope trade-off + recommendation.]
-```
+Write `_shared/plain-english-brief.md`. Keep the causal chain, rejected
+alternatives, and gate dump off the page unless they ask. One line of proof
+is enough (test path or checker verdict).
 
 ## Common pitfalls
 
@@ -257,6 +230,7 @@ Alternatives ruled out: [A, B + the evidence that killed each].
 - skills: `debugging-an-issue`, `do-it-right`, `agentic-loop`, `reviewing-and-shipping`,
   `post-flight`, `debugging-with-observability`
 - rules: `regression-test`, `no-shortcuts`, `definition-of-done`
+- refs: `_shared/plain-english-brief.md`
 - agents: `reviewer`, `security-reviewer`
 - workflows: `run-autonomous-loop`, `debug-production`, `security-pass`
 - runbooks: `hotfix-and-rollback`

@@ -6,7 +6,7 @@ Run the `simplifying-code` skill in full. Scope to the branch/session diff (or
 named paths). Behavior must stay identical. Prefer a test net before edits;
 paste gate output after.
 
-Distinct from `deslopping` (AI-slop cleanup) and `refactoring-code` (structural
-moves).
+Distinct from `deslopping` (code slop), `cleaning-ai-copy` (prose / ChatGPT
+voice), and `refactoring-code` (structural moves).
 
 Focus / paths: $ARGUMENTS

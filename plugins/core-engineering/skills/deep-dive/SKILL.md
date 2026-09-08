@@ -62,7 +62,7 @@ Not this skill:
 | **bug**     | broken/wrong/failing behavior                      | Reproduce/trace and root-cause **before** any solution space                 |
 | **problem** | pain without a proposed fix ("this is messy")      | Interrogate, then treat as feature or bug once the underlying issue is named |
 
-**Mode** (pick the lightest that fits; state it and why):
+**Mode** (pick the lightest that fits; keep it off the user reply):
 
 | Mode         | When                                               | How far                                                                    |
 | ------------ | -------------------------------------------------- | -------------------------------------------------------------------------- |
@@ -160,45 +160,21 @@ Do not skip this step on STANDARD or FULL. Skip on LIGHT.
 
 ### 7. Output
 
-Terse and direct. No filler, no parallel-structure padding, no em-dashes.
-Lead with the recommendation, then reasoning, then alternatives, then the
-self-review verdict.
+Write `_shared/plain-english-brief.md`. Do the reasoning, alternatives, and
+self-review; do not print them unless they ask.
 
 **LIGHT:**
 
 ```
-Mode: LIGHT (<why>)
-Recommendation: <two lines>
-Cause (bugs): <one line>
+What's going on
+<two lines>
+
+What we need to do
+<the pick>
 ```
 
-**STANDARD / FULL:**
-
-```
-## Recommendation
-<the pick, one short paragraph>
-
-Mode: STANDARD|FULL (<why>)
-Class: idea|feature|bug|problem
-
-## Reasoning
-<chain, including local findings and cited external sources>
-
-## Alternatives considered
-- <approach>: steeled, why it lost
-- …
-
-## Done / out of scope
-- Verify: …
-- Bugs: regression = …
-- Out of scope: …
-
-## Self-review
-Objection: …
-Verdict: revised | survived because …
-
-DECISION: <any choice the user must make>
-```
+**STANDARD / FULL:** same brief. Put any choice under **Decision**. No
+Mode/Class line, no alternatives table, no Self-review in the reply.
 
 Then **last** — `_shared/next-prompt.md`. A `## Next` sentence is incomplete:
 
@@ -236,3 +212,4 @@ Do not implement a proximate patch. Follow the named skill in full.
 - agents: `explorer`
 - commands: `deep-dive-cmd` (`/deep-dive`)
 - workflows: `plan-then-build`, `ship-a-feature`, `debug-production`
+- refs: `_shared/plain-english-brief.md`, `_shared/next-prompt.md`

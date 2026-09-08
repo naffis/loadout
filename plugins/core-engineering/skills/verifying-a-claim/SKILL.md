@@ -27,12 +27,12 @@ Do **not** use this for code-review of a diff — that is Cursor `/review`,
 
 ## Neighbors
 
-| Ask | Use instead |
-| --- | --- |
-| Session-wide inventory ("test all the surfaces") | `verifying-session-surfaces` |
-| Diff / PR review | `/review` / `/review-bugbot` / `/review-security` |
-| One framed bug, no named claim | `root-cause-fix` |
-| UX heuristics | `reviewing-ui` |
+| Ask                                              | Use instead                                       |
+| ------------------------------------------------ | ------------------------------------------------- |
+| Session-wide inventory ("test all the surfaces") | `verifying-session-surfaces`                      |
+| Diff / PR review                                 | `/review` / `/review-bugbot` / `/review-security` |
+| One framed bug, no named claim                   | `root-cause-fix`                                  |
+| UX heuristics                                    | `reviewing-ui`                                    |
 
 ## Workflow
 
@@ -55,19 +55,22 @@ Do **not** use this for code-review of a diff — that is Cursor `/review`,
 
 ## Output
 
-```text
-VERIFIED | NOT VERIFIED | INCONCLUSIVE
-Claim: <falsifiable claim>
+Exactly this shape (Team Kit). Do not soften `NOT VERIFIED`. Do not implement
+a fix. `NOT VERIFIED` hands to `root-cause-fix`.
 
+```
+<VERIFIED | NOT VERIFIED | INCONCLUSIVE>
+Claim: <falsifiable restatement>
 Evidence:
-<metric/artifact>: baseline=<...>, treatment=<...>, delta=<...>, threshold=<...>
-
-Reasoning:
-<one tight paragraph naming the evidence and any confounds>
+- Baseline: <pasted>
+- Treatment: <pasted>
+- Delta: <treatment minus baseline>
+- Threshold: <the bar the claim named>
+Reasoning: <why this verdict>
 ```
 
-Do not soften `NOT VERIFIED`. Do not implement a fix. `NOT VERIFIED` hands
-to `root-cause-fix`.
+Then write `_shared/plain-english-brief.md`. Verdict + claim in **What's going
+on**. Keep the metric table off the brief unless they ask.
 
 Keep evidence inline unless the user asks to write files.
 
@@ -91,4 +94,4 @@ Last output: a `_shared/next-prompt.md` fence. Nothing after the closing fence.
 - rules: `no-shortcuts`, `ui-evidence`
 - commands: `verify-claim-cmd` (`/verify-claim`)
 - workflows: `ship-a-feature`, `plan-then-build`
-- refs: `_shared/next-prompt.md`
+- refs: `_shared/plain-english-brief.md`, `_shared/next-prompt.md`

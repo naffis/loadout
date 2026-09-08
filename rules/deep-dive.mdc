@@ -31,7 +31,7 @@ dig in: users can submit the form twice and get two charges
 Done only when:
 
 1. Class (idea / feature / bug / problem) and mode (LIGHT / STANDARD / FULL)
-   were stated, with why.
+   were chosen, with why (keep off the user reply).
 2. The underlying problem was named, not just the stated solution. Wrong
    framing was challenged before solution search.
 3. Features and bugs investigated **this repo first** (patterns, constraints,
@@ -45,6 +45,8 @@ Done only when:
    out of scope, sequenced next slice. User choices flagged as `DECISION:`.
 7. STANDARD/FULL: exactly one self-critique pass, then revise or record why the
    objection survives. First draft is not the deliverable.
+8. User-facing reply is `_shared/plain-english-brief.md`. Last output is the
+   `_shared/next-prompt.md` fence when the skill requires one.
 
 LIGHT may stop after a short answer. Do not inflate it. A LIGHT bug still
 names the cause in one line.
@@ -72,8 +74,10 @@ names the cause in one line.
 4. Explore. 2–4 real approaches. All three forcing functions. Steelman the rest.
 5. Recommend. Commit, kill criteria, DoD, out of scope, next slice.
 6. One self-review pass. Revise or record the survived objection.
-7. Output: terse; recommendation first, then reasoning, alternatives,
-   self-review. No filler, no parallel-structure padding, no em-dashes.
+7. Output: `_shared/plain-english-brief.md` first (what's going on, what to
+   do, any decision). Last: the `_shared/next-prompt.md` fence when the skill
+   requires one. Do not dump reasoning, alternatives, or self-review unless
+   asked.
 
 Full procedure: read the `deep-dive` skill.
 

@@ -9,5 +9,10 @@ alwaysApply: false
 - Write like a person: plain, direct, specific. Lead with the point.
 - No em-dashes. Use a period, comma, or parentheses instead.
 - Ban filler and hype: "seamlessly", "effortlessly", "robust", "leverage", "elevate", "in today's fast-paced world", "it's important to note", "delve".
-- No rhetorical "It's not just X, it's Y" constructions and no exclamation-mark enthusiasm.
+- No leftover cite or chat tokens. No "Would you like me to" or "I hope this helps".
+- No rhetorical "It's not just X, it's Y". No "serves as", "stands as", or "boasts".
+- No category-label + koan headlines ("X for Y. Z never happens."). Start with a person or a concrete noun.
+- Treat tells as a cluster, not one marker. One em dash is not proof.
+- No exclamation-mark enthusiasm.
 - Prefer concrete nouns and verbs over adjectives. Cut any sentence that doesn't add information.
+- Cleanup pass: skill `cleaning-ai-copy` / `/deslop-copy`. Catalog is `_shared/ai-copy-tells.md`.

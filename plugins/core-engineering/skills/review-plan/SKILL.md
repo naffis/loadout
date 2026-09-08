@@ -79,31 +79,9 @@ FAIL → fix P0/P1, one recheck. Same-session degrade cannot yield APPROVED.
 
 ## Review report
 
-```markdown
-# Plan review: <plan name>
-
-## Verdict
-
-APPROVED | APPROVED WITH CONDITIONS | BLOCKED
-
-## Passes
-
-- Pass 0–4: …
-- plan-ban-sweep: RECEIPT quoted
-- plan-checker: PASS / FAIL
-
-## Blockers found → resolved
-
-## P1 fixes applied
-
-## Fresh sources (URL + takeaway)
-
-## Pre-mortem → mitigations
-
-## Review changelog
-
-## Conditions — or "none"
-```
+Write `_shared/plain-english-brief.md`. Verdict goes in **What's going on**
+(approved / blocked / still open). Keep the pass log and pre-mortem off the
+page unless they ask.
 
 ## Never do
 
@@ -121,7 +99,8 @@ APPROVED | APPROVED WITH CONDITIONS | BLOCKED
 - agents: `plan-checker`
 - rules: `review-plan-rule`, `create-plan-rule`, `no-shortcuts`,
   `definition-of-done`, `implement-node-rule`
-- refs: `_shared/plan-build-family.md`, `_shared/scripts/plan-ban-sweep.sh`
+- refs: `_shared/plan-build-family.md`, `_shared/scripts/plan-ban-sweep.sh`,
+  `_shared/plain-english-brief.md`
 - commands: `plan` (`/plan`), `review-plan-cmd` (`/review-plan`),
   `review-build-cmd`
 - workflows: `plan-then-build`, `build-as-graph`

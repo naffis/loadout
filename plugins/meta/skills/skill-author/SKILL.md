@@ -31,6 +31,7 @@ A **skill** is a procedure you invoke to accomplish something, with a beginning 
 - Diagnose / audit / review, and any skill that hands to a fresh chat: last
   output is `_shared/next-prompt.md` (one fenced `text` prompt).
 - Isolated verification: if the skill claims done, name a **readonly checker** (`flight-checker`, `reviewer`, `/review`) — never a same-context self-grade. See `docs/external-practices.md` § 2026 Cursor.
+- Human-facing reply: `_shared/plain-english-brief.md` (what's going on, what to do, any decision). Run the procedure; do not dump it. Details only if asked.
 
 ## Workflow
 
@@ -40,3 +41,4 @@ A **skill** is a procedure you invoke to accomplish something, with a beginning 
 
 - skills: `rule-author`, `learning-from-chats`, `deep-flight`, `post-flight`, `do-it-right`
 - docs: `external-practices`, `loop-engineering`
+- refs: `_shared/plain-english-brief.md`

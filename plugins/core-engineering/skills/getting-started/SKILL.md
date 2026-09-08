@@ -72,6 +72,8 @@ You have a goal but not a plan: "I want to build X", "what should I do?", "how d
    - Want strict test-first → **`test-driven`** (`/tdd`).
    - Large agent diff feels overbuilt → **`simplifying-code`** (`/simplify`) then
      review-build.
+   - Changelog / docs / UI strings sound like ChatGPT → **`cleaning-ai-copy`**
+     (`/deslop-copy`). Not `deslopping` (code slop) and not Cursor `/review`.
    - Improve product quality by using it ("dogfood it", "review the UI", "find and fix
      issues end to end") → **`run-quality-loop`** (`exercising-the-product` for behavior,
      `reviewing-ui` for UX; `recreating-a-design` when matching a specific visual target).

@@ -18,7 +18,7 @@ git log --author="$(git config user.email)" --since="<date>" --pretty="%h %s" --
 ```
 
 2. **Group** by theme: features, fixes, refactors/tech-debt, docs/infra. Merge related commits into one line.
-3. **Write outcome-first** lines: what now works or is better, not commit hashes. Apply `copy-voice` (plain, no filler).
+3. **Write outcome-first** lines: what now works or is better, not commit hashes. Apply `copy-voice` (plain, no filler). If the draft still reads like a model, run `cleaning-ai-copy`.
 4. **Lead with impact**; keep it scannable. Note anything blocked or in-flight.
 
 ## Guardrails

@@ -8,10 +8,13 @@ Applies when this run **ends without implementing**, or **leaves work for a
 new chat** (plan → review, build → grade, residual after a fix pass). Do not
 emit a second essay after the fence.
 
+The **user-facing reply** is `_shared/plain-english-brief.md` first (what's
+going on, what to do, any decision). This fence is last. Do not put the
+full report between them.
+
 ## Required last section
 
-After the report (Self-review / DECISION / appendix included), emit exactly
-this, and **nothing after the closing fence**:
+After the brief, emit exactly this, and **nothing after the closing fence**:
 
 ````markdown
 ## Next prompt

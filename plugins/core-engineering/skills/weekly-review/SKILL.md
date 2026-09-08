@@ -15,7 +15,7 @@ End-of-week recap, or input for a retro.
 2. **Classify** each into **net-new** (features/capabilities), **bugfix** (corrections), and **tech-debt** (refactors, deps, infra, cleanup).
 3. **Highlight** the few items that mattered most per bucket — impact over volume.
 4. **Surface signals:** recurring bug areas, debt that keeps resurfacing, anything that slipped.
-5. **Write** a tight recap: highlights per bucket, then 1–2 themes/next-steps. Apply `copy-voice`.
+5. **Write** a tight recap: highlights per bucket, then 1–2 themes/next-steps. Apply `copy-voice`. If the draft still reads like a model, run `cleaning-ai-copy`.
 
 ## Guardrails
 

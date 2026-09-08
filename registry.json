@@ -552,6 +552,7 @@
       },
       "pairs_with": [
         "deslopping",
+        "cleaning-ai-copy",
         "refactoring-code",
         "review-build",
         "reviewing-code-quality",
@@ -868,7 +869,29 @@
       "managed": true,
       "tools": ["cursor", "claude"],
       "layer": "skill",
-      "pairs_with": ["size-limits", "no-any", "copy-voice", "simplifying-code"],
+      "pairs_with": [
+        "size-limits",
+        "no-any",
+        "copy-voice",
+        "simplifying-code",
+        "cleaning-ai-copy"
+      ],
+      "workflows": ["safe-refactor", "ship-a-feature", "plan-then-build"]
+    },
+    {
+      "id": "cleaning-ai-copy",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/cleaning-ai-copy",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["cursor", "claude"],
+      "layer": "skill",
+      "pairs_with": [
+        "copy-voice",
+        "deslopping",
+        "simplifying-code",
+        "deslop-copy-cmd"
+      ],
       "workflows": ["safe-refactor", "ship-a-feature", "plan-then-build"]
     },
     {
@@ -1720,6 +1743,16 @@
       "tools": ["claude", "cursor"],
       "layer": "command",
       "pairs_with": ["simplifying-code", "deslopping", "review-build"]
+    },
+    {
+      "id": "deslop-copy-cmd",
+      "type": "command",
+      "source": "plugins/core-engineering/commands/deslop-copy.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": ["claude", "cursor"],
+      "layer": "command",
+      "pairs_with": ["cleaning-ai-copy", "deslopping", "simplifying-code"]
     },
     {
       "id": "session-handoff-cmd",

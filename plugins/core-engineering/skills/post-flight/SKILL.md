@@ -177,35 +177,8 @@ Every step emits a named artifact in the report. Missing artifact = not done:
 ### Step 10 — Stop condition and report
 
 Stop when: two consecutive maker passes with zero new P0/P1; Step 7 green;
-Step 9 PASS (or docs-only N/A). Then report:
-
-```markdown
-## Post-flight report
-
-**Verdict:** CLEAN / FIXED (N issues) / BLOCKED (needs user input)
-
-### Requirements matrix
-
-### Fix-correctness matrix
-
-### Sibling / similar-issue sweep
-
-### Independent checker
-
-### Coverage accounting
-
-### Per-file audit
-
-### Found and fixed
-
-### Deferred work completed
-
-### Logged, not fixed
-
-### Verification
-
-### Tickets (if project syncs issues)
-```
+Step 9 PASS (or docs-only N/A). Then write `_shared/plain-english-brief.md`.
+Keep the matrices and per-file audit off the page unless they ask.
 
 Leave edits unstaged unless the user asked to commit (`git-safety`).
 
@@ -239,4 +212,4 @@ ticket IDs or touch unrelated teams.
 - workflows: `ship-a-feature`, `plan-then-build`, `run-autonomous-loop`,
   `debug-production`
 - references: `fix-correctness-audit.md`, `sibling-surface-sweep.md`,
-  `independent-checker.md`
+  `independent-checker.md`, `_shared/plain-english-brief.md`

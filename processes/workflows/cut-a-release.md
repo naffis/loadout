@@ -15,7 +15,7 @@ If this release includes a schema/data migration that is not already expand-safe
 tested, finish it via `ship-a-migration` first — do not discover expand/contract mid-promote.
 
 1. **Readiness** — `assessing-release-readiness`: scope, gates, risk surface, rollback plan → GO / GO-WITH-CONDITIONS / NO-GO.
-2. **Changelog** — run the `changelog` command to draft release notes from merged work; apply `copy-voice`.
+2. **Changelog** — run the `changelog` command to draft release notes from merged work; apply `copy-voice`. If the draft still reads like a model, run `cleaning-ai-copy`.
 3. **Promote** — follow `multi-plane-deploy` (runbook) for the deploy order; tag the release.
 4. **Verify** post-deploy on the affected paths; keep the rollback ready.
 

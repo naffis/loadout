@@ -1,0 +1,88 @@
+{
+  "red": {
+    "artifacts": [
+      "oaicite",
+      "contentReference",
+      "oai_citation",
+      "turn0search",
+      "utm_source=chatgpt.com",
+      "grok_card"
+    ],
+    "artifactRegex": [
+      "\\[cite:\\s*\\d+\\]",
+      "【[^】]*†[^】]*】",
+      "\\[web:\\d+\\]"
+    ],
+    "phrases": [
+      "Would you like me to",
+      "Regenerate response",
+      "I hope this helps",
+      "You're absolutely right",
+      "in today's fast-paced world",
+      "it's important to note"
+    ],
+    "words": [
+      "delve",
+      "delves",
+      "delving",
+      "tapestry",
+      "intricate",
+      "showcasing",
+      "realm"
+    ],
+    "verbPhrases": [
+      "underscoring",
+      "underscore the",
+      "underscores the"
+    ],
+    "scaffolds": [
+      "notXbutY",
+      "servesAs",
+      "standsAs",
+      "boasts",
+      "taxonomyInvariant"
+    ]
+  },
+  "orange": {
+    "clusterWords": [
+      "across",
+      "additionally",
+      "comprehensive",
+      "crucial",
+      "enhancing",
+      "exhibited",
+      "insights",
+      "notably",
+      "particularly",
+      "within"
+    ],
+    "clusterThreshold": 2,
+    "promo": [
+      "testament",
+      "pivotal",
+      "nestled",
+      "evolving landscape"
+    ],
+    "danglingIng": [
+      "highlighting",
+      "ensuring",
+      "reflecting",
+      "emphasizing",
+      "fostering",
+      "aligning"
+    ],
+    "solemnInvariant": [
+      "never sees",
+      "never stored",
+      "never leaves",
+      "never shared",
+      "the model never"
+    ],
+    "schemaLeakWithInvariant": ["the value"]
+  },
+  "yellow": {
+    "emDash": true,
+    "emDashChars": ["\u2014", "\u2013"],
+    "emDashDensityPerThousand": 8
+  }
+}

@@ -1,5 +1,8 @@
 # Hunt report template
 
+Chat reply is `_shared/plain-english-brief.md`. This template is the file/log,
+not the chat.
+
 Copy this shape. Completeness is a count, not a vibe.
 
 ```markdown

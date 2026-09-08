@@ -18,7 +18,7 @@ regression.
 3. Solutions — `references/solution-gate.md`; Chosen Fix before edits.
 4. Implement — owning skill / class-kill at correct layer.
 5. Prove — regression + inverse + DoD.
-6. Do-it-right report.
+6. `_shared/plain-english-brief.md` (not the scorecard).
 7. Last — emit this fence and nothing after it. A `## Next` sentence is
    incomplete:
 

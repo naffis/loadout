@@ -66,7 +66,7 @@ Invoke when any of these are true:
 
 ### Phase 0 — Frame (no edits)
 
-Write in the reply:
+Hold this until Phase 5. Do not print it as you go:
 
 1. **Symptom** — observed vs expected (one sentence each).
 2. **Prior proposal** — what was offered (or what you were about to offer). Label
@@ -134,18 +134,8 @@ launch `flight-checker` (readonly).
 
 ### Phase 5 — Report
 
-```
-## Do-it-right report
-- Symptom:
-- Prior draft proposal (rejected / refined):
-- Confirmed issues (N): …
-- Hypotheses eliminated: …
-- Chosen fix(es) + layer:
-- Rejected alternatives:
-- Class-kill attestation (sibling that must now be impossible):
-- Tests / gates:
-- Residual risk (only if real; else "none"):
-```
+Write `_shared/plain-english-brief.md`. Keep the scorecard and rejected
+alternatives off the page unless they ask.
 
 ## Never do
 
@@ -173,4 +163,4 @@ heuristic."
 - agents: `flight-checker`, `reviewer`
 - commands: `do-it-right-cmd` (`/do-it-right`)
 - refs: `references/diagnosis-gate.md`, `references/solution-gate.md`,
-  `references/worked-examples.md`
+  `references/worked-examples.md`, `_shared/plain-english-brief.md`

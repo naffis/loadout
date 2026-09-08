@@ -98,6 +98,9 @@ plan**, not follow-ups.
 Prefer `/review-plan` before Build on non-trivial work. After review, refresh
 CreatePlan so Build matches the approved plan.
 
+Chat reply after CreatePlan: `_shared/plain-english-brief.md`. Do not paste
+the research doc into chat.
+
 If a later build misses intent: **revert, refine this plan, rebuild** — do not
 patch a drifted agent (Cursor Plan Mode).
 
@@ -120,7 +123,8 @@ patch a drifted agent (Cursor Plan Mode).
 - rules: `create-plan-rule`, `no-shortcuts`, `definition-of-done`,
   `regression-test`, `testing-conventions`, `implement-node-rule`
 - refs: `references/cursor-native-plan.md`, `references/plan-template.md`,
-  `_shared/plan-build-family.md`, `_shared/scripts/plan-ban-sweep.sh`
+  `_shared/plan-build-family.md`, `_shared/scripts/plan-ban-sweep.sh`,
+  `_shared/plain-english-brief.md`
 - commands: `plan` (`/plan`), `review-plan-cmd`, `review-build-cmd`
 - workflows: `plan-then-build`, `build-as-graph`
 - docs: `docs/plan-build-family.md`

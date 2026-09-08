@@ -72,3 +72,85 @@ test("AC-11 verifying-a-claim names three verdicts and anti-triggers", () => {
   assert.match(desc, /verify this claim/i);
   assert.match(desc, /Anti-triggers/i);
 });
+
+test("AC-05 copy-voice stays glob-attached", () => {
+  const { data } = parseMdc("rules/copy-voice.mdc");
+  assert.equal(data.alwaysApply, false);
+  assert.deepEqual(data.globs, ["**/*.md", "**/*.mdx"]);
+});
+
+test("AC-17 copy-voice body is under 80 lines", () => {
+  const raw = readFileSync(join(root, "rules/copy-voice.mdc"), "utf8");
+  const body = raw.replace(/^---[\s\S]*?---\s*/, "");
+  const lines = body.split("\n");
+  assert.ok(lines.length < 80, `copy-voice body is ${lines.length} lines`);
+});
+
+test("AC-06 getting-started routes cleaning-ai-copy", () => {
+  const body = readFileSync(
+    join(root, "plugins/core-engineering/skills/getting-started/SKILL.md"),
+    "utf8",
+  );
+  assert.match(body, /cleaning-ai-copy/);
+  assert.match(body, /\/deslop-copy/);
+});
+
+test("AC-07 deslopping hands prose to cleaning-ai-copy", () => {
+  const body = readFileSync(
+    join(root, "plugins/core-engineering/skills/deslopping/SKILL.md"),
+    "utf8",
+  );
+  assert.match(body, /cleaning-ai-copy/);
+  assert.match(body, /ChatGPT voice/);
+});
+
+test("AC-15 brief omits measured-token literals", () => {
+  const brief = readFileSync(
+    join(
+      root,
+      "plugins/core-engineering/skills/_shared/plain-english-brief.md",
+    ),
+    "utf8",
+  );
+  assert.doesNotMatch(brief, /delve/);
+  assert.doesNotMatch(brief, /tapestry/);
+  assert.doesNotMatch(brief, /oaicite/);
+});
+
+test("AC-18 marketplace and plugin versions are 0.21.0", () => {
+  const mp = JSON.parse(
+    readFileSync(join(root, ".claude-plugin/marketplace.json"), "utf8"),
+  );
+  const plugin = JSON.parse(
+    readFileSync(
+      join(root, "plugins/core-engineering/.claude-plugin/plugin.json"),
+      "utf8",
+    ),
+  );
+  assert.equal(mp.version, "0.21.0");
+  const core = mp.plugins.find((p) => p.name === "core-engineering");
+  assert.equal(core.version, "0.21.0");
+  assert.equal(plugin.version, "0.21.0");
+});
+
+test("AC-19 kits.starter excludes cleaning-ai-copy", () => {
+  const registry = JSON.parse(
+    readFileSync(join(root, "registry.json"), "utf8"),
+  );
+  assert.equal(registry.kits.starter.includes("cleaning-ai-copy"), false);
+  assert.equal(registry.kits.starter.includes("deslop-copy-cmd"), false);
+});
+
+test("AC-20 cleaning-ai-copy description names deslop copy and deslopping", () => {
+  const body = readFileSync(
+    join(
+      root,
+      "plugins/core-engineering/skills/cleaning-ai-copy/SKILL.md",
+    ),
+    "utf8",
+  );
+  const desc = String(matter(body).data.description);
+  assert.match(desc, /deslop copy/);
+  assert.match(desc, /Anti-triggers/i);
+  assert.match(desc, /deslopping/);
+});

@@ -1,13 +1,17 @@
 ---
 name: deslopping
-description: Remove AI-generated slop from a branch diff. Use after generating code, before review, to clean up style without changing behavior.
+description: >
+  Remove AI-generated slop from a branch code diff. Use after generating
+  code, before review, to clean up style without changing behavior.
+  Anti-triggers: prose / ChatGPT voice / "deslop copy" → cleaning-ai-copy.
 ---
 
 # Deslopping
 
 ## Trigger
 
-A branch has AI-written changes that need cleanup before review.
+A branch has AI-written **code** that needs cleanup before review. Prose /
+ChatGPT voice is `cleaning-ai-copy`, not this skill.
 
 ## Workflow
 
@@ -28,5 +32,6 @@ Diff against the base branch and remove slop introduced by the branch:
 ## Pairs with
 
 - rules: `size-limits`, `no-any`, `copy-voice`
-- skills: `reviewing-and-shipping`, `simplifying-code` (clarity/YAGNI; distinct job)
+- skills: `reviewing-and-shipping`, `simplifying-code` (clarity/YAGNI; distinct job),
+  `cleaning-ai-copy` (prose / ChatGPT voice)
 - workflows: `safe-refactor`, `ship-a-feature`, `plan-then-build`
