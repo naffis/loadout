@@ -58,7 +58,12 @@
         "hunt-defects-cmd",
         "defect-hunt",
         "recommending-next-steps",
-        "next-steps-cmd"
+        "next-steps-cmd",
+        "auditing-search-visibility",
+        "writing-citable-content",
+        "optimizing-for-discovery",
+        "audit-search-cmd",
+        "optimize-discovery-cmd"
       ],
       "workflows": [
         "ship-a-feature",
@@ -75,7 +80,8 @@
         "run-autonomous-loop",
         "run-quality-loop",
         "build-as-graph",
-        "defect-hunt"
+        "defect-hunt",
+        "search-visibility"
       ]
     },
     {
@@ -2650,6 +2656,175 @@
       "tools": ["cursor", "claude"],
       "layer": "doc",
       "pairs_with": ["hunting-defects", "defect-hunt"]
+    },
+    {
+      "id": "auditing-search-visibility",
+      "type": "skill",
+      "source": "plugins/search-visibility/skills/auditing-search-visibility",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["cursor", "claude"],
+      "layer": "skill",
+      "provenance": {
+        "source_repo": "synthesized from Google Search Central 2026 + Princeton GEO + C-SEO Bench; public skills reviewed not vendored",
+        "harvested": "2026-09-08"
+      },
+      "pairs_with": [
+        "people-first-content",
+        "no-search-spam",
+        "search-technical",
+        "optimizing-for-discovery",
+        "writing-citable-content",
+        "cleaning-ai-copy",
+        "reviewing-ui",
+        "audit-search-cmd",
+        "search-visibility"
+      ],
+      "workflows": ["search-visibility"]
+    },
+    {
+      "id": "writing-citable-content",
+      "type": "skill",
+      "source": "plugins/search-visibility/skills/writing-citable-content",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["cursor", "claude"],
+      "layer": "skill",
+      "provenance": {
+        "source_repo": "synthesized from Google helpful-content + extractability practice",
+        "harvested": "2026-09-08"
+      },
+      "pairs_with": [
+        "people-first-content",
+        "no-search-spam",
+        "copy-voice",
+        "optimizing-for-discovery",
+        "auditing-search-visibility",
+        "cleaning-ai-copy",
+        "search-visibility"
+      ],
+      "workflows": ["search-visibility"]
+    },
+    {
+      "id": "optimizing-for-discovery",
+      "type": "skill",
+      "source": "plugins/search-visibility/skills/optimizing-for-discovery",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["cursor", "claude"],
+      "layer": "skill",
+      "provenance": {
+        "source_repo": "synthesized from Google Search Essentials + AI-optimization guide",
+        "harvested": "2026-09-08"
+      },
+      "pairs_with": [
+        "search-technical",
+        "no-search-spam",
+        "people-first-content",
+        "auditing-search-visibility",
+        "writing-citable-content",
+        "optimize-discovery-cmd",
+        "search-visibility"
+      ],
+      "workflows": ["search-visibility"]
+    },
+    {
+      "id": "people-first-content",
+      "type": "cursor-rule",
+      "source": "rules/people-first-content.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["cursor", "claude"],
+      "layer": "rule",
+      "pairs_with": [
+        "no-search-spam",
+        "writing-citable-content",
+        "auditing-search-visibility"
+      ]
+    },
+    {
+      "id": "no-search-spam",
+      "type": "cursor-rule",
+      "source": "rules/no-search-spam.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["cursor", "claude"],
+      "layer": "rule",
+      "pairs_with": [
+        "people-first-content",
+        "search-technical",
+        "optimizing-for-discovery"
+      ]
+    },
+    {
+      "id": "search-technical",
+      "type": "cursor-rule",
+      "source": "rules/search-technical.mdc",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["cursor", "claude"],
+      "layer": "rule",
+      "pairs_with": [
+        "no-search-spam",
+        "optimizing-for-discovery",
+        "auditing-search-visibility"
+      ]
+    },
+    {
+      "id": "audit-search-cmd",
+      "type": "command",
+      "source": "plugins/search-visibility/commands/audit-search.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": ["claude", "cursor"],
+      "layer": "command",
+      "pairs_with": [
+        "auditing-search-visibility",
+        "optimizing-for-discovery",
+        "writing-citable-content"
+      ]
+    },
+    {
+      "id": "optimize-discovery-cmd",
+      "type": "command",
+      "source": "plugins/search-visibility/commands/optimize-discovery.md",
+      "version": "0.1.0",
+      "managed": false,
+      "tools": ["claude", "cursor"],
+      "layer": "command",
+      "pairs_with": [
+        "optimizing-for-discovery",
+        "auditing-search-visibility"
+      ]
+    },
+    {
+      "id": "search-visibility",
+      "type": "workflow",
+      "source": "processes/workflows/search-visibility.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["cursor", "claude"],
+      "layer": "workflow",
+      "pairs_with": [
+        "auditing-search-visibility",
+        "writing-citable-content",
+        "optimizing-for-discovery",
+        "audit-search-cmd",
+        "optimize-discovery-cmd"
+      ]
+    },
+    {
+      "id": "doc-search-visibility",
+      "type": "doc",
+      "source": "plugins/search-visibility/README.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["cursor", "claude"],
+      "layer": "doc",
+      "pairs_with": [
+        "auditing-search-visibility",
+        "search-visibility"
+      ]
     }
   ]
 }

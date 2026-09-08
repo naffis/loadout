@@ -313,3 +313,25 @@ globs). Do **not** make the checker a same-session `Task generalPurpose`.
 - Cursor — [Skills](https://cursor.com/docs/skills), [Subagents](https://cursor.com/docs/subagents) (verifier), [Agent Review](https://cursor.com/docs/agent/agent-review), [Rules](https://cursor.com/docs/rules), [Cursor Team Kit](https://github.com/cursor/cursor-team-kit)
 - Community — [VoltAgent/awesome-claude-code-subagents](https://github.com/VoltAgent/awesome-claude-code-subagents), [ComposioHQ/awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills), [hesreallyhim/awesome-claude-code](https://github.com/hesreallyhim/awesome-claude-code)
 - `docs/loop-engineering.md` (Loop Engineering)
+
+---
+
+## 9. Search visibility harvest (2026-09-08)
+
+SEO / AIO / GEO kit ships as plugin `search-visibility` (not in `kits.starter`).
+Reviewed public skills as untrusted (`audit-external-skills`). Did not vendor
+them. House doctrine is T1 Google Search Central plus labeled T2/T3 caveats
+in `plugins/search-visibility/skills/_shared/evidence.md`.
+
+| Source | Takeaway we shipped |
+| --- | --- |
+| [Google AI-optimization guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) (2026-07-10) | SEO still applies to Overviews/AI Mode; ignore llms.txt/chunking/AI-only rewrites as Google levers |
+| [Helpful content](https://developers.google.com/search/docs/fundamentals/creating-helpful-content) + [spam policies](https://developers.google.com/search/docs/essentials/spam-policies) | People-first; no scaled content; E-E-A-T / who-how-why |
+| Princeton GEO (arXiv:2311.09735) | Cite, quantify, quote as *quality*, not a promised +40% |
+| C-SEO Bench (arXiv:2506.11097) | Most GEO "methods" ineffective or harmful; do not ship hacks |
+| coreyhaines31 `ai-seo` v2.5.0 | Google vs other-engine split; What NOT to Do. Not copied. |
+| TLC GEO skill | "Documentation quality, not a trick." Honest llms.txt caveats. |
+
+Shipped: `auditing-search-visibility` + scanner RECEIPT, `writing-citable-content`,
+`optimizing-for-discovery`, rules `people-first-content` / `no-search-spam` /
+`search-technical`, workflow `search-visibility`.

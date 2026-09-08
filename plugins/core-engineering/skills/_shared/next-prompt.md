@@ -56,6 +56,7 @@ command that stops at "emit the report" will skip it — keep the literal
 | `walking-failure-paths`        | `do-it-right:` on promoted exits                                                                  |
 | `hunting-defects`              | `do-it-right:` on Critical/High, one class at a time                                              |
 | `auditing-doc-freshness`       | `updating-docs:` on leftover stale items                                                          |
+| `auditing-search-visibility`   | `optimizing-for-discovery:` on blockers; `writing-citable-content:` on thin/commodity prose       |
 | `reviewing-code-quality`       | `refactoring-code:` on must-fix; taste-only → wrap                                                |
 | `reviewing-dependencies`       | `dependency-bump` / `researching-a-dependency:` on the top-risk bump                              |
 | `reviewing-ui`                 | leftover P0/P1 → continue from `UI-REVIEW.md`; stop → wrap                                        |

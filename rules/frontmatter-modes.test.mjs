@@ -49,9 +49,27 @@ test("AC-04 kits.starter excludes shared-trunk ids and no-inline-imports", () =>
     "no-stash",
     "shared-working-tree",
     "no-inline-imports",
+    "auditing-search-visibility",
+    "search-visibility",
   ]) {
     assert.equal(starter.includes(id), false, `${id} must not be in starter`);
   }
+});
+
+test("search-visibility rules are agent-requested or glob, never always-on", () => {
+  for (const rel of [
+    "rules/people-first-content.mdc",
+    "rules/no-search-spam.mdc",
+    "rules/search-technical.mdc",
+  ]) {
+    const { data } = parseMdc(rel);
+    assert.equal(data.alwaysApply, false, rel);
+    assert.ok(data.description && String(data.description).length > 0, rel);
+  }
+  const tech = parseMdc("rules/search-technical.mdc");
+  assert.ok(Array.isArray(tech.data.globs));
+  assert.ok(tech.data.globs.includes("**/*.tsx"));
+  assert.ok(tech.data.globs.includes("**/robots.ts"));
 });
 
 test("AC-11 verifying-a-claim names three verdicts and anti-triggers", () => {
@@ -95,6 +113,16 @@ test("AC-06 getting-started routes cleaning-ai-copy", () => {
   assert.match(body, /\/deslop-copy/);
 });
 
+test("getting-started routes search-visibility and requires install", () => {
+  const body = readFileSync(
+    join(root, "plugins/core-engineering/skills/getting-started/SKILL.md"),
+    "utf8",
+  );
+  assert.match(body, /search-visibility/);
+  assert.match(body, /loadout add search-visibility/);
+  assert.match(body, /live HTML RECEIPT/);
+});
+
 test("AC-07 deslopping hands prose to cleaning-ai-copy", () => {
   const body = readFileSync(
     join(root, "plugins/core-engineering/skills/deslopping/SKILL.md"),
@@ -117,7 +145,7 @@ test("AC-15 brief omits measured-token literals", () => {
   assert.doesNotMatch(brief, /oaicite/);
 });
 
-test("AC-18 marketplace and plugin versions are 0.21.0", () => {
+test("AC-18 marketplace and plugin versions are 0.22.0", () => {
   const mp = JSON.parse(
     readFileSync(join(root, ".claude-plugin/marketplace.json"), "utf8"),
   );
@@ -127,10 +155,19 @@ test("AC-18 marketplace and plugin versions are 0.21.0", () => {
       "utf8",
     ),
   );
-  assert.equal(mp.version, "0.21.0");
+  const searchVis = JSON.parse(
+    readFileSync(
+      join(root, "plugins/search-visibility/.claude-plugin/plugin.json"),
+      "utf8",
+    ),
+  );
+  assert.equal(mp.version, "0.22.0");
   const core = mp.plugins.find((p) => p.name === "core-engineering");
-  assert.equal(core.version, "0.21.0");
-  assert.equal(plugin.version, "0.21.0");
+  assert.equal(core.version, "0.22.0");
+  assert.equal(plugin.version, "0.22.0");
+  const searchEntry = mp.plugins.find((p) => p.name === "search-visibility");
+  assert.equal(searchEntry.version, "0.1.0");
+  assert.equal(searchVis.version, "0.1.0");
 });
 
 test("AC-19 kits.starter excludes cleaning-ai-copy", () => {
@@ -139,6 +176,8 @@ test("AC-19 kits.starter excludes cleaning-ai-copy", () => {
   );
   assert.equal(registry.kits.starter.includes("cleaning-ai-copy"), false);
   assert.equal(registry.kits.starter.includes("deslop-copy-cmd"), false);
+  assert.equal(registry.kits.starter.includes("auditing-search-visibility"), false);
+  assert.equal(registry.kits.starter.includes("search-visibility"), false);
 });
 
 test("AC-20 cleaning-ai-copy description names deslop copy and deslopping", () => {

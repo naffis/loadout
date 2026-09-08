@@ -84,6 +84,7 @@ plugin) and Cursor (via `.cursor/skills/`).
 /plugin marketplace add naffis/loadout
 /plugin install core-engineering@loadout
 /plugin install meta@loadout
+/plugin install search-visibility@loadout
 /plugin update core-engineering
 /plugin marketplace update
 ```

@@ -1,0 +1,31 @@
+---
+description: >
+  Never use search or AI-citation spam. Triggers on SEO, AIO, GEO, AEO,
+  programmatic pages, schema, "rank this", "get cited by ChatGPT", or any
+  request to manipulate discovery.
+alwaysApply: false
+---
+
+# No search spam
+
+Google's spam policies apply to classic results and to generative features
+that read the same index. Other engines punish the same junk.
+
+**Never:**
+
+- Keyword stuffing, hidden text, cloaking, sneaky redirects, doorway pages
+- Scaled content: many thin URLs, fan-out variants, or AI drafts whose
+  purpose is ranking or citation manipulation
+- A second "AI version" of the same page, or chunking a page into AI-bait
+  fragments
+- Structured data that does not match visible content (fake FAQ, reviews,
+  ratings, breadcrumbs, Organization)
+- Inauthentic mentions: bought comments, fake Reddit/Wikipedia, review spam
+- Expired-domain, site-reputation, or link-spam schemes
+- `noindex` / robots Disallow games to hide thin copies while ranking a
+  different URL
+- Promising a ranking, snippet, AI Overview, or citation as a deliverable
+
+**Do instead:** one honest page per topic, crawlable HTML, schema that
+mirrors the page, sources you can defend. If the user asks for a banned
+tactic, refuse and use `optimizing-for-discovery` / `writing-citable-content`.

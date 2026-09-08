@@ -1,0 +1,23 @@
+{
+  "name": "search-visibility",
+  "displayName": "Search Visibility",
+  "version": "0.1.0",
+  "description": "SEO, AIO, and GEO skills and rules for public pages: people-first content, technical discovery, and citable structure.",
+  "author": {
+    "name": "David Naffis"
+  },
+  "homepage": "https://github.com/naffis/loadout",
+  "repository": "https://github.com/naffis/loadout",
+  "license": "MIT",
+  "keywords": [
+    "seo",
+    "aio",
+    "geo",
+    "aeo",
+    "search",
+    "structured-data"
+  ],
+  "category": "developer-tools",
+  "skills": "./skills/",
+  "commands": "./commands/"
+}

@@ -1,0 +1,39 @@
+---
+description: >
+  Technical discovery constraints for public HTML: crawlable links, honest
+  metadata, SSR text, schema that matches the page. Triggers on robots.txt,
+  sitemap, JSON-LD, canonical, Next.js metadata, SEO tags, llms.txt.
+globs:
+  - "**/robots.txt"
+  - "**/robots.ts"
+  - "**/sitemap*.xml"
+  - "**/sitemap.ts"
+  - "**/llms.txt"
+  - "**/*.html"
+  - "**/*.mdx"
+  - "**/*.tsx"
+  - "**/*.jsx"
+alwaysApply: false
+---
+
+# Search technical
+
+When these files (or equivalent metadata in a framework) are in play:
+
+- Main content must appear in the first HTML response. Client-only text is
+  not "done" for search or for agents.
+- One topic, one URL. Set a canonical. Do not ship near-duplicate paths
+  without a redirect or canonical plan.
+- Title, meta description, and H1 describe the same page. One H1.
+- Links Google should follow are real `<a href>` URLs, not JS-only clicks.
+- Images and video have descriptive alt / captions when they carry meaning.
+- JSON-LD is valid JSON, uses a real Schema.org type, and repeats only
+  facts visible on the page. Prefer one `@graph` over contradictory blocks.
+- `robots.txt` must not `Disallow: /` for `Googlebot` unless the user wants
+  the site out of Google. Search/cite bots: `crawlers.md` in
+  `auditing-search-visibility`.
+- `llms.txt` is optional agent navigation. It does not replace robots and
+  is not a Google ranking file.
+- Framework metadata (Next.js `metadata`, `generateMetadata`, `sitemap.ts`)
+  must emit the same facts as the rendered page. Do not set a title in
+  metadata that the H1 contradicts.

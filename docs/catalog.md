@@ -17,7 +17,7 @@ on, what to do, any decision). Details only if asked.
 
 ---
 
-## Skills (62)
+## Skills (65)
 
 ### Getting started (start here)
 
@@ -136,9 +136,17 @@ on, what to do, any decision). Details only if asked.
 | `rule-author`           | Scaffold a `.mdc` rule with the right type/frontmatter.                                                         | creating/restructuring a rule                                   |
 | `learning-from-chats`   | Mine recurring preferences from chats → rules/skills/AGENTS.md.                                                 | "learn how I work" / capture a correction                       |
 
+### Search visibility (plugin: `search-visibility`)
+
+| Skill                           | What / when                                                                                                                                                         | Call                                              |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| `auditing-search-visibility`    | Report-only SEO / AIO / GEO audit. Quotes scanner RECEIPT on first-response HTML (files or live URLs). No fake /100 score. No citation promise.                      | "SEO audit" / "GEO audit" / `/audit-search`       |
+| `writing-citable-content`       | Write or rewrite public prose: people-first, definition lead, sources. Not metadata/schema.                                                                         | "write a citable page" / "GEO content" / "AEO"    |
+| `optimizing-for-discovery`      | Implement metadata, SSR text, robots, honest JSON-LD. Re-scan. Blockers must be 0.                                                                                  | "optimize this page" / "add schema" / `/optimize-discovery` |
+
 ---
 
-## Rules (40)
+## Rules (43)
 
 How a rule loads is set by its frontmatter. You don't usually call rules; they load
 automatically (or `@rule-name` for manual ones).
@@ -165,6 +173,7 @@ automatically (or `@rule-name` for manual ones).
 | `typescript-exhaustive-switch` | `**/*.ts(x)`                                                    | `never` default case on unions/enums.                                             |
 | `testing-conventions`          | test/spec globs                                                 | Arrange-Act-Assert; mock only at boundaries.                                      |
 | `copy-voice`                   | `**/*.md(x)`                                                    | Human, direct copy; no leftover tokens, no category-label + koan, no filler/hype. |
+| `search-technical`             | `robots.txt`, `robots.ts`, `sitemap*`, `llms.txt`, `*.html`, `*.mdx`, `*.tsx`, `*.jsx` | Crawlable HTML, honest metadata, schema matches the page.          |
 | `db-migration-safety`          | migration globs                                                 | Reversible, expand/contract; never reset a remote DB.                             |
 | `docstrings-current`           | code globs                                                      | In-code docs/docstrings reflect current behavior; comments explain why, not what. |
 
@@ -198,6 +207,8 @@ automatically (or `@rule-name` for manual ones).
 | `capability-removal`            | Removing a capability means removing all of it — wiring, tests, docs, config, dead code — not just the entry point.                                                                   |
 | `ui-evidence`                   | UI claims require UI evidence: render and look, never bypass the interface to make a check pass, re-verify after every mutation, check multiple widths, show the artifacts.           |
 | `implement-node`                | Per-unit executor for task graphs: allowlist-only edits, contract read-only, own verifier, PASSED/FAILED only (no caveats). Registry id: `implement-node-rule`.                       |
+| `people-first-content`          | Public pages are unique and written for people; no commodity ranking bait. Loads with SEO / AIO / GEO / marketing copy.                                                               |
+| `no-search-spam`                | Never scaled content, cloaking, fake schema, inauthentic mentions, or citation promises.                                                                                              |
 
 ---
 
@@ -215,7 +226,7 @@ Dispatch with "use the `<name>` subagent". They run in a fresh context and repor
 | `ci-watcher`        | Monitor the PR's CI; concise pass/fail with links to failures.                                                    |
 | `implement-node`    | Execute one TASK.md unit under hard allowlist + unit verifier; report PASSED/FAILED.                              |
 
-## Commands (23)
+## Commands (25)
 
 | Command                    | What                                                                                                                                                                 |
 | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -242,10 +253,12 @@ Dispatch with "use the `<name>` subagent". They run in a fresh context and repor
 | `/hunt-defects`            | Exhaustive census of a large named surface with no single known bug (runs `hunting-defects`). Registry id: `hunt-defects-cmd`.                                       |
 | `/audit-lifecycle`         | Acquire vs release on every path; explain every imbalance delta>0 (runs `auditing-resource-lifecycle`). Registry id: `audit-lifecycle-cmd`.                          |
 | `/walk-failure-paths`      | Exhaustive empty / error / cancel / retry / park walk (runs `walking-failure-paths`). Registry id: `walk-failure-paths-cmd`.                                         |
+| `/audit-search`            | SEO / AIO / GEO audit of named pages. Quotes scanner RECEIPT. Report only (runs `auditing-search-visibility`). Registry id: `audit-search-cmd`.                      |
+| `/optimize-discovery`      | Implement metadata, robots, and honest structured data (runs `optimizing-for-discovery`). Registry id: `optimize-discovery-cmd`.                                     |
 
 ---
 
-## Workflows (15)
+## Workflows (16)
 
 Named recipes (`processes/workflows/`). Each lists the rules/skills/commands/agents it
 composes and optional `gate` / `stop_condition` / `state`.
@@ -267,6 +280,7 @@ composes and optional `gate` / `stop_condition` / `state`.
 | `run-autonomous-loop` | `running-a-dev-cycle` + `agentic-loop` + plan (`/plan`/`review-plan` when needed) + `review-build` + `root-cause-fix` → `reviewer` → `reviewing-and-shipping`; stop = contract met + review-build PASS + reviewer SAFE + gate green                                          |
 | `run-quality-loop`    | `exercising-the-product` / `reviewing-ui` + `agentic-loop` + `root-cause-fix` → `reviewer`; stop = clean pass with zero new high-severity findings + gate green                                                                                                              |
 | `defect-hunt`         | `hunting-defects` → lifecycle + failure-path specialists → refute → sibling sweep → `reviewer`; optional overlay; gate = census RECEIPT + wave log; stop = CLEAN or ISSUES FOUND with unreviewed = 0. Report-only unless asked to fix. `loadout add defect-hunt`             |
+| `search-visibility`   | `/audit-search` → `writing-citable-content` → `/optimize-discovery` → `reviewer`. People-first + no spam. Not in `kits.starter`. `loadout add search-visibility`                                                                                                              |
 
 ---
 

@@ -81,10 +81,14 @@ User-facing prose that still reads like a model is `cleaning-ai-copy` /
 `/deslop-copy`. Do not fold those jobs together. Do not treat Cursor `/review`
 as a copy detector.
 
+Public-page discovery (SEO, Google AI Overviews / AIO, other-engine GEO) is
+the `search-visibility` plugin: `/audit-search`, `writing-citable-content`,
+`/optimize-discovery`. Not in the starter kit. Do not promise citations.
+
 ### Commands
 
 Type the slash command: `/start`, `/plan`, `/review-plan`, `/review-build`,
-`/verify-surfaces`, `/verify-claim`, `/post-flight`, `/next-steps`, `/deep-dive`, `/hunt-defects`, `/changelog`.
+`/verify-surfaces`, `/verify-claim`, `/post-flight`, `/next-steps`, `/deep-dive`, `/hunt-defects`, `/audit-search`, `/optimize-discovery`, `/changelog`.
 Commands are explicit, repeatable actions. `loadout add <command>` vendors them to
 `.cursor/commands/<filename>.md` (Cursor) and `.claude/commands/<filename>.md` (Claude Code);
 Claude Code can alternatively get them via the plugin marketplace.
@@ -104,6 +108,8 @@ Claude Code can alternatively get them via the plugin marketplace.
 | `/walk-failure-paths` | `walking-failure-paths`       | Empty / error / cancel / retry / park walk.                                                                             |
 | `/next-steps`         | `recommending-next-steps`     | Mid-session recap + leftover dive → one paste-ready next prompt. Does not implement. Alias: `/recommending-next-steps`. |
 | `/deep-dive`          | `deep-dive`                   | Seed → one committed recommendation. Last output is a paste-ready next prompt.                                          |
+| `/audit-search`       | `auditing-search-visibility`  | SEO / AIO / GEO audit of named pages or live URLs. Quotes first-response HTML RECEIPT. Report only.                     |
+| `/optimize-discovery` | `optimizing-for-discovery`    | Implement metadata, robots, and honest structured data. Re-scan.                                                        |
 
 `no-shortcuts` is always on and backs all three: no stubs, no unverified "green", read
 before asserting. For hard problems, run `/plan` across two models in parallel (worktrees)
@@ -153,6 +159,7 @@ loadout ships across three layers; use whichever fits.
 /plugin marketplace add naffis/loadout
 /plugin install core-engineering@loadout
 /plugin install meta@loadout
+/plugin install search-visibility@loadout
 /plugin update core-engineering
 ```
 

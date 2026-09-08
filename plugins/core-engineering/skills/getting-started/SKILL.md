@@ -74,6 +74,12 @@ You have a goal but not a plan: "I want to build X", "what should I do?", "how d
      review-build.
    - Changelog / docs / UI strings sound like ChatGPT → **`cleaning-ai-copy`**
      (`/deslop-copy`). Not `deslopping` (code slop) and not Cursor `/review`.
+   - Public-page SEO / AIO / GEO / "get cited" / AI Overviews → workflow
+     **`search-visibility`** (install first: `loadout add search-visibility`):
+     `auditing-search-visibility` (`/audit-search`) then
+     `writing-citable-content` and/or `optimizing-for-discovery`
+     (`/optimize-discovery`). Named URLs need a live HTML RECEIPT. Not a
+     ranking promise.
    - Improve product quality by using it ("dogfood it", "review the UI", "find and fix
      issues end to end") → **`run-quality-loop`** (`exercising-the-product` for behavior,
      `reviewing-ui` for UX; `recreating-a-design` when matching a specific visual target).
@@ -106,18 +112,20 @@ Kickoff prompt:
 - workflows: `ship-a-feature`, `plan-then-build`, `onboard-to-codebase`, `fix-ci-until-green`,
   `debug-production`, `security-pass`, `clear-the-queue`, `build-as-graph`, `safe-refactor`,
   `ship-a-migration`, `dependency-bump`, `cut-a-release`, `run-quality-loop`, `run-autonomous-loop`,
-  `defect-hunt`
+  `defect-hunt`, `search-visibility`
 - skills: `planning-a-change`, `create-plan`, `review-plan`, `complete-the-build`,
   `review-build`, `deep-flight`, `post-flight`, `verifying-session-surfaces`, `verifying-a-claim`, `resolving-merge-conflicts`, `session-handoff`, `recommending-next-steps`, `do-it-right`, `deep-dive`, `test-driven`, `simplifying-code`,
   `running-a-dev-cycle`, `agentic-loop`, `task-topology`, `equipping-loadout`,
-  `hunting-defects`
+  `hunting-defects`, `auditing-search-visibility`, `writing-citable-content`,
+  `optimizing-for-discovery`
 - commands: `start` (`/start`), `plan` (`/plan`), `build-as-graph-cmd` (`/build-as-graph`),
   `review-plan-cmd` (`/review-plan`),
   `complete-the-build-cmd` (`/complete-the-build`), `deep-flight-cmd` (`/deep-flight`), `review-build-cmd` (`/review-build`), `post-flight-cmd` (`/post-flight`),
   `verifying-session-surfaces-cmd` (`/verify-surfaces`),
   `verify-claim-cmd` (`/verify-claim`),
   `session-handoff-cmd` (`/session-handoff`), `next-steps-cmd` (`/next-steps`), `do-it-right-cmd` (`/do-it-right`),
-  `tdd-cmd` (`/tdd`), `simplify-cmd` (`/simplify`), `hunt-defects-cmd` (`/hunt-defects`)
+  `tdd-cmd` (`/tdd`), `simplify-cmd` (`/simplify`), `hunt-defects-cmd` (`/hunt-defects`),
+  `audit-search-cmd` (`/audit-search`), `optimize-discovery-cmd` (`/optimize-discovery`)
 - runbooks: `loop-preflight`, `harness-setup`, `bootstrap-project`, `hotfix-and-rollback`
 - templates: `automation-loop`, `state-file`
 - docs: `catalog` (the menu of everything available), `doc-install` (`INSTALL.md`)

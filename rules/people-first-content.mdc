@@ -1,0 +1,29 @@
+---
+description: >
+  Public pages must be unique, helpful, and written for people. Triggers on
+  SEO, AIO, GEO, AEO, landing pages, blog posts, docs, marketing copy, or
+  "write content for search / AI Overviews / ChatGPT citations."
+alwaysApply: false
+---
+
+# People-first content
+
+Applies when writing or editing a URL that strangers will read (site, docs,
+blog, changelog that doubles as marketing).
+
+- Write for a named audience that would use this page if they arrived
+  directly. Do not write a page whose only job is to rank or to be cited.
+- Bring a unique point of view: first-hand experience, original data, or
+  analysis that is not a rewrite of the ten results already ranking.
+- Answer the question completely. A reader should not need a second search
+  to finish the job.
+- Show who wrote it, how it was made (including material AI use), and why
+  it exists. Trust first. Experience, expertise, and authority support it.
+- YMYL topics (money, health, safety, civic) need identifiable experts and
+  sources. Do not ship thin advice there.
+- Title and H1 describe the page. No clickbait, no date-bump without a
+  real change.
+- Commodity listicles ("7 tips anyone could write") are a miss. Either add
+  proof only this team has, or do not publish.
+- After the draft, run `writing-citable-content` for extractable structure
+  and `cleaning-ai-copy` if the prose still sounds like a model.

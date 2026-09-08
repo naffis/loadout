@@ -82,7 +82,11 @@ If you **are** Claude Code, run these; otherwise tell the user to:
 /plugin marketplace add naffis/loadout
 /plugin install core-engineering@loadout
 /plugin install meta@loadout
+/plugin install search-visibility@loadout
 ```
+
+`search-visibility` is optional (SEO / AIO / GEO). Skip it unless the project
+has public pages to discover.
 
 Claude skills/commands/agents come from the plugins. Still run CLI `add` below for
 workflows, Cursor-side skill copies, rule projection into `CLAUDE.md`, and the install
