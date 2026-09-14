@@ -1,30 +1,19 @@
 ---
 name: summarizing-my-work
-description: Summarize authored commits over a time period into a concise status update. Use for an ad-hoc "what did I get done" / standup note over an arbitrary window; for a structured weekly recap split by category, use weekly-review instead.
+disable-model-invocation: true
+description: >
+  Summarize authored commits for a standup note. Use for "what did I get done". Structured week → weekly-review.
 ---
 
 # Summarizing my work
 
-## Trigger
-
-A request for a status update or "what did I ship" over a window.
-
-## Workflow
-
-1. **Collect** authored commits in the window:
+Ad-hoc window. Structured weekly/retro → `weekly-review`.
 
 ```bash
 git log --author="$(git config user.email)" --since="<date>" --pretty="%h %s" --no-merges
 ```
 
-2. **Group** by theme: features, fixes, refactors/tech-debt, docs/infra. Merge related commits into one line.
-3. **Write outcome-first** lines: what now works or is better, not commit hashes. Apply `copy-voice` (plain, no filler). If the draft still reads like a model, run `cleaning-ai-copy`.
-4. **Lead with impact**; keep it scannable. Note anything blocked or in-flight.
-
-## Guardrails
-
-- Summarize outcomes, not activity. "Fixed N bugs" beats a commit dump.
-- Don't include private/customer details in a shareable update.
+Outcomes, not a commit dump. No customer/PII. Voice: `copy-voice` / `cleaning-ai-copy`.
 
 ## Pairs with
 

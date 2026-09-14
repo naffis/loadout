@@ -1,32 +1,15 @@
 ---
 name: hunting-defects
 description: >
-  Exhaustive no-shortcut defect hunt over a large named surface (package,
-  directory, feature) when there is no single known bug. Censuses product code
-  (not docs/css), partitions into waves with a written wave log, hunts
-  leaks/races/error-paths/contracts/honesty, refutes candidates, sibling-sweeps
-  callers first. Use to improve code at scale. Triggers: "hunt defects",
-  "exhaustive review", "review this package thoroughly", "find all issues",
-  "find leaks and edge cases", "never take shortcuts review", "audit this
-  module", "/hunt-defects". Anti-triggers: merge/diff wrap → reviewing-and-shipping;
-  maintainability only → reviewing-code-quality; known symptom →
-  debugging-an-issue / root-cause-fix; runtime logs without a named surface →
-  debugging-with-observability; session wrap → post-flight.
+  Exhaustive defect hunt of a named surface with no single known bug. Use for "hunt defects" or /hunt-defects. Known symptom → debugging-an-issue.
 ---
 
 # Hunting defects
 
-Review a **large surface** as if missing an issue is the failure. Completeness
-is a census of `review:` files plus a wave log, not report length.
-
-Routing: [`references/family.md`](references/family.md).
-Project overlay (optional): copy [`references/overlay-template.md`](references/overlay-template.md)
-to [`references/project-overlay.md`](references/project-overlay.md).
-
-## Trigger
-
-User names a package, directory, or feature and wants defects, leaks, edge
-cases, or a thorough audit — **not** a merge review of the current diff.
+Census of `review:` files plus a wave log. Named package/directory/feature —
+not a merge review. Routing: [`references/family.md`](references/family.md).
+Overlay: [`references/overlay-template.md`](references/overlay-template.md) →
+[`references/project-overlay.md`](references/project-overlay.md).
 
 ## When to use vs neighbours
 
@@ -44,14 +27,11 @@ cases, or a thorough audit — **not** a merge review of the current diff.
 
 ### 1. Frame
 
-Write: exact paths; classes (default = all eight in
-[`references/hunt-classes.md`](references/hunt-classes.md)); out of scope
-(generated, style, docs); **REPORT** vs **FIX** (FIX only if they said
-"and fix"). Do not read files until the census runs.
-
-If `references/project-overlay.md` exists in this skill directory, read it
-before hunting. It names this repo's writers, latches, money, and authz.
-If absent, hunt the eight generic classes only — do not invent a stack.
+Exact paths; classes (default = all eight in
+[`references/hunt-classes.md`](references/hunt-classes.md)); out of scope;
+**REPORT** vs **FIX** (FIX only if they said "and fix"). No file reads until
+census. Read `references/project-overlay.md` if present; else the eight generic
+classes only — do not invent a stack.
 
 ### 2. Census (required receipt)
 
@@ -61,96 +41,67 @@ If absent, hunt the eight generic classes only — do not invent a stack.
 plugins/core-engineering/skills/hunting-defects/scripts/census.sh <path...>
 ```
 
-Quote `RECEIPT`. Completeness = every `review:` line. `test:` is optional
-(failure-path wave). `docs:` / `style:` are not hunted unless asked.
+Quote `RECEIPT`. Completeness = every `review:` line. `test:` optional
+(failure-path wave). `docs:` / `style:` not hunted unless asked.
 
-If `review_files` > 200, do not sample. Ask to narrow **or** run every wave
+`review_files` > 200: do not sample. Narrow **or** run every wave
 `waves_needed` says. Stopping because "enough findings" → **INCOMPLETE**.
 
 ### 3. Waves
 
-Follow [`references/wave-protocol.md`](references/wave-protocol.md). Print the
-file list for wave W/K **before** reading. After each wave, refute and emit a
-partial findings block, then continue.
-
-Wave ≥ 15: `explorer` (Cursor Task `explore`) with
+[`references/wave-protocol.md`](references/wave-protocol.md). Print the file
+list for wave W/K **before** reading. After each wave: refute, partial findings,
+continue. Wave ≥ 15: `explorer` (Task `explore`) with
 [`references/hunter-brief.md`](references/hunter-brief.md) and only that list.
 Parent refutes; hunter severity is discarded.
 
 ### 4. Hunt
 
-Per class in [`references/hunt-classes.md`](references/hunt-classes.md):
-
-- Lifecycle → `auditing-resource-lifecycle` (quote sweep + **explain every
-  imbalance delta>0**)
-- Failure paths → `walking-failure-paths`
-- Race → fill [`references/concurrency-slice.md`](references/concurrency-slice.md)
-  for every shared-mutable seed
-- Classes 3–8 seeds:
+Follow [`references/hunt-classes.md`](references/hunt-classes.md). Quote
+lifecycle + failure-path RECEIPTs when those classes run. Race: fill
+[`references/concurrency-slice.md`](references/concurrency-slice.md) for every
+shared-mutable seed. Classes 3–8:
 
 ```bash
 .cursor/skills/hunting-defects/scripts/class-seed-sweep.sh <path...>
 .cursor/skills/_shared/scripts/shortcut-sweep.sh <path...>
 ```
 
-Quote both RECEIPTs. Hits are candidates. If shortcut-sweep is missing, say so
-and still hunt swallowed `catch` via the failure-path sweep.
-
-Read the **enclosing function**, not ±3 lines.
+Quote both RECEIPTs. Hits are candidates. Missing shortcut-sweep → say so;
+still hunt swallowed `catch` via the failure-path sweep. Read the **enclosing
+function**, not ±3 lines.
 
 ### 5. Refute-or-promote
 
 [`references/refute-protocol.md`](references/refute-protocol.md). Cannot name
-the missing path in one sentence → **speculative**. Speculative is never
-Critical.
+the missing path in one sentence → **speculative**. Speculative is never Critical.
 
 ### 6. Sibling sweep
 
-Each **promoted** finding is a seed. Search **callers and entry points first**,
-then clones. New hits are re-refuted (they do not inherit severity).
+Each **promoted** finding is a seed. Callers and entry points **first**, then
+clones. New hits are re-refuted (they do not inherit severity).
 
 ### 7. Report + checker
 
-Write `_shared/plain-english-brief.md` in chat. The file/log shape is
-[`references/report-template.md`](references/report-template.md). Wave log must
-list every `review:` file.
+`_shared/plain-english-brief.md`. Shape: [`references/report-template.md`](references/report-template.md).
+Wave log lists every `review:` file.
 
-**`reviewer` (readonly) or `/review` is required** before `SURFACE CLEAN` or
-any Critical/High. Same-session self-grade cannot raise speculative → proven
-and cannot certify CLEAN.
+**`reviewer` (readonly) or `/review` is required** before `SURFACE CLEAN` or any
+Critical/High. Same-session self-grade cannot raise speculative → proven and
+cannot certify CLEAN.
 
-If `FIX`: `do-it-right` on Critical/High **one class at a time**. No Medium/Low
-drive-by.
-
-## Suggested Checks
-
-```bash
-.cursor/skills/hunting-defects/scripts/census.sh src
-.cursor/skills/hunting-defects/scripts/class-seed-sweep.sh src
-.cursor/skills/auditing-resource-lifecycle/scripts/lifecycle-sweep.sh src
-.cursor/skills/walking-failure-paths/scripts/failure-path-sweep.sh src
-.cursor/skills/_shared/scripts/shortcut-sweep.sh src
-```
+If `FIX`: `do-it-right` on Critical/High **one class at a time**. No Medium/Low drive-by.
 
 ## Guardrails
 
 - No census RECEIPT + wave log covering every `review:` file → INCOMPLETE.
 - Never implement during the hunt unless `FIX` was explicit.
 - Leave edits unstaged. No commit/push/PR unless asked.
-- Do not bake product names into findings that the overlay did not name.
-
-## Never do
-
-- Sample 8 files and title the reply "full audit".
-- Count markdown/CSS as reviewed product code.
-- Dump the whole package into one explorer prompt.
-- Treat grep hits or imbalance delta as bugs without pairing.
+- Do not sample, count markdown/CSS as product code, dump the package into one explorer prompt, treat grep/imbalance hits as bugs without pairing, or bake overlay-unnamed product names.
 
 ## Pairs with
 
-- skills: `auditing-resource-lifecycle`, `walking-failure-paths`,
-  `reviewing-and-shipping`, `reviewing-code-quality`, `do-it-right`,
-  `root-cause-fix`, `post-flight`, `debugging-an-issue`
+- skills: `auditing-resource-lifecycle`, `walking-failure-paths`, `reviewing-and-shipping`, `reviewing-code-quality`, `do-it-right`, `root-cause-fix`, `post-flight`, `debugging-an-issue`
 - rules: `no-shortcuts`, `observability-first`
 - agents: `explorer`, `reviewer`
 - commands: `hunt-defects-cmd` (`/hunt-defects`)

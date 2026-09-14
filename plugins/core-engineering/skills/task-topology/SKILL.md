@@ -1,13 +1,7 @@
 ---
 name: task-topology
 description: >
-  Triage a nontrivial dev task into single-loop, pipeline, or graph topology before
-  implementing. Writes a topology declaration (units, file boundaries, verifiers, merge
-  order) that downstream skills treat as the contract. Use at the start of any nontrivial
-  task, when choosing whether to parallelize work units, or when asked for "task topology",
-  "single loop vs graph", or "how should we structure this work". Anti-triggers: one-liner
-  / QUICK fix → just implement; N independent tickets → orchestrating-parallel-agents;
-  already-decomposed units → decompose or implement-node.
+  Choose single-loop, pipeline, or graph before implementing. Use at the start of a nontrivial task or for "how should we structure this".
 ---
 
 # Task topology

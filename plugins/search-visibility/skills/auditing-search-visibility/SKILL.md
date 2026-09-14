@@ -3,13 +3,7 @@ name: auditing-search-visibility
 icon: search
 color: blue
 description: >
-  Audit a page or site for SEO, AIO, and GEO readiness and emit a findings
-  report. Use when the user says "SEO audit", "GEO audit", "AIO audit",
-  "AEO audit", "AI visibility", "will this get cited", "Search Console",
-  "AI Overviews", "audit this page for search", or "/audit-search". Quotes
-  the scanner RECEIPT. Report only unless asked to fix. Anti-triggers:
-  write the page → writing-citable-content; implement metadata/schema/robots
-  → optimizing-for-discovery; classic code quality → reviewing-code-quality.
+  Audit a page for SEO/AIO/GEO and emit findings. Use for "SEO audit" or /audit-search. Report only unless asked to fix.
 ---
 
 # Auditing search visibility

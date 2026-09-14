@@ -1,6 +1,7 @@
 ---
 name: hardening-the-harness
-description: Turn a real agent failure into a permanent guard in the right harness layer (AGENTS.md line, rule, hook, subagent check, or skill). Use when the agent made a mistake you don't want to see again — "the ratchet."
+description: >
+  Turn a real agent failure into a guard in the right layer, and prune stale ones. Use after a mistake you do not want repeated.
 ---
 
 # Hardening the harness
@@ -21,12 +22,13 @@ The agent did something wrong — shipped broken/“finished” code, ran a dest
    - A repeatable procedure done ad hoc → a **skill** (use `skill-author`).
 3. **Write the guard** in that layer. Keep it minimal and specific to the observed failure.
 4. **Trace it:** the new rule/hook/check should map to this exact failure. If you can't justify it from a real mistake, don't add it.
-5. **Prune as you go:** if an old guard exists only for a mistake a current model no longer makes, remove it. Harnesses move, not just grow.
+5. **Prune first.** Smarter models need less prescription (Anthropic). If an old guard exists only for a mistake the current model no longer makes, **remove it** in the same change as any add. Harnesses move, not just grow. A lecture the model already knows is context rot, not a ratchet. Wortmann: keep a line only if it is failure-backed, tool-enforceable, decision-encoding, or triggerable — otherwise delete it. Unused skills still inject their **description** every turn; slash-only (`disable-model-invocation`) or delete them.
 
 ## Guardrails
 
-- Add constraints from observed failures, not speculation — every line earns its place (`AGENTS.md`/rules stay short or they get ignored).
-- Don't fix one failure by bloating an always-on rule; put enforcement in a hook, knowledge in memory, procedure in a skill.
+- Add constraints from **observed** failures, not speculation. Litmus: *would removing this cause a mistake on today's model?* If not, cut it.
+- Don't fix one failure by bloating an always-on rule; put enforcement in a hook, knowledge in a thin `AGENTS.md` line, procedure in a skill.
+- Don't encode generic engineering (TDD, how to rebase, how to write a PR) as a skill. Those are model defaults now.
 
 ## Pairs with
 

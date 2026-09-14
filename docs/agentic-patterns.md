@@ -21,6 +21,16 @@ loop that prompts, acts, and verifies itself across many turns_. A coding agent 
 task reliable instead of a hopeful one-shot. They come from a small set of primary
 sources plus field practice, mapped here onto concrete loadout assets.
 
+**2026-09:** Frontier models already know generic TDD, git, review, and debugging.
+Skills that restate that knowledge are context rot. Keep harness moves the model
+still fails (verification contracts, maker≠checker, house git, unique routing).
+Authoring litmus: `skill-author` / [`external-practices.md`](./external-practices.md) §10.
+
+**2026-09 second pass:** The always-on tax is **skill descriptions**, not only
+bodies. Vercel: unused skills do not help and can hurt; `AGENTS.md` should be a
+retrieval index. OpenAI Astra: narrow WHEN, router `SKILL.md`, no “read these
+docs before every edit.” See [`external-practices.md`](./external-practices.md) §11.
+
 ---
 
 ## 1. The pattern catalog

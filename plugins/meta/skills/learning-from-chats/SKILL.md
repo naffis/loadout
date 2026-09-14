@@ -1,6 +1,7 @@
 ---
 name: learning-from-chats
-description: Extract durable working preferences from recent chats and turn them into skills, rules, or AGENTS.md lines. Use when asked to learn preferences or capture a repeated correction.
+description: >
+  Extract a reusable lesson from a chat into the harness. Use when asked to learn from this session.
 ---
 
 # Learning from chats

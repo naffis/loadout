@@ -1,27 +1,21 @@
 ---
 name: assessing-release-readiness
-description: Make a go/no-go release assessment for a set of changes. Use before promoting to production or cutting a release.
+disable-model-invocation: true
+description: >
+  Make a go/no-go release call for a named change set. Use before promoting to production or cutting a release.
 ---
 
 # Assessing release readiness
 
-## Trigger
+About to promote or cut a release.
 
-About to promote changes to production or cut a release.
+## House contract
 
-## Workflow
-
-1. **Scope:** list what's shipping since the last release (merged PRs / commits).
-2. **Gates:** CI green, required reviews done, no open must-fix threads.
-3. **Risk surface:** migrations present? feature flags? destructive ops? external contract changes? For each, confirm the rollout and rollback plan.
-4. **Verification:** the key user paths affected have been exercised (tests or manual), with evidence.
-5. **Operational readiness:** monitoring/alerts in place for new surfaces; on-call aware of risky changes.
-6. **Verdict:** GO, GO-WITH-CONDITIONS (list them), or NO-GO (list blockers). Be explicit.
-
-## Guardrails
-
-- "Tests pass" is necessary, not sufficient — weigh blast radius and reversibility.
-- Don't bundle a risky migration with an urgent hotfix release.
+1. Scope the shipping set (since last release).
+2. Run project gates. Tests-green is necessary, not sufficient — weigh blast radius and reversibility.
+3. Every risky surface (migration, flag, contract change) must have a rollback.
+4. Verdict: `GO` | `GO-WITH-CONDITIONS` (list them) | `NO-GO` (list blockers).
+5. Don't bundle a risky migration with an urgent hotfix.
 
 ## Pairs with
 

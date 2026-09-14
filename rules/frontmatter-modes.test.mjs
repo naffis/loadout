@@ -88,7 +88,7 @@ test("AC-11 verifying-a-claim names three verdicts and anti-triggers", () => {
   const fm = matter(body).data;
   const desc = String(fm.description);
   assert.match(desc, /verify this claim/i);
-  assert.match(desc, /Anti-triggers/i);
+  assert.match(body, /session-wide inventory/i);
 });
 
 test("AC-05 copy-voice stays glob-attached", () => {
@@ -180,6 +180,12 @@ test("AC-19 kits.starter excludes cleaning-ai-copy", () => {
   assert.equal(registry.kits.starter.includes("search-visibility"), false);
 });
 
+test("doctor warns skill descriptions over 400 chars", () => {
+  const src = readFileSync(join(root, "cli/src/commands/doctor.ts"), "utf8");
+  assert.match(src, /desc\.length > 400/);
+  assert.match(src, /house target/);
+});
+
 test("AC-20 cleaning-ai-copy description names deslop copy and deslopping", () => {
   const body = readFileSync(
     join(
@@ -190,6 +196,6 @@ test("AC-20 cleaning-ai-copy description names deslop copy and deslopping", () =
   );
   const desc = String(matter(body).data.description);
   assert.match(desc, /deslop copy/);
-  assert.match(desc, /Anti-triggers/i);
   assert.match(desc, /deslopping/);
+  assert.match(body, /Code-only slop/);
 });

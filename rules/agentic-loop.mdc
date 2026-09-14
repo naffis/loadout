@@ -1,12 +1,8 @@
 ---
 description: >
-  Run a non-trivial coding task as a verifiable perceive->plan->act->observe->verify->reflect
-  loop with a stop-condition contract, an independent checker, durable memory, a managed
-  context budget, and bounded autonomy. Read the `agentic-loop` skill when this is relevant.
-  Triggers on "agentic loop", "loop engineering", "context engineering", "stop condition",
-  "maker-checker", "verify before done", "manage context", "spawn subagents". Anti-triggers:
-  full dev-cycle routing -> running-a-dev-cycle; one root cause + class fix -> root-cause-fix;
-  quick bug -> debugging-an-issue; a product's agent tools -> agent-tool-design.
+  Run a non-trivial coding task as a verified perceive→act→verify loop.
+  Triggers on "agentic loop", "stop condition", "maker-checker". Read the
+  `agentic-loop` skill. Full feature cycle → running-a-dev-cycle.
 alwaysApply: false
 ---
 

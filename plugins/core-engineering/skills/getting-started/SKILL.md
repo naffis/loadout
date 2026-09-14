@@ -1,96 +1,78 @@
 ---
 name: getting-started
-description: Recommend how to proceed on a goal and produce a ready-to-run kickoff prompt. Use when you're new to a project or unsure where to begin — "I want to build X, what should I do?", "how do I start?", "which workflow applies?". Routes the goal to the right loadout workflow, skills, and rules, and decides manual vs autonomous loop. Also routes "use/install/update loadout" to equipping-loadout / INSTALL.md.
+description: >
+  Route a new goal to the lightest loadout path and emit a kickoff prompt. Use when new to a project or asking how to start.
 ---
 
 # Getting started
 
 ## Trigger
 
-You have a goal but not a plan: "I want to build X", "what should I do?", "how do I start?", or you just loaded loadout into an unfamiliar repo and don't know which workflow to run.
+Goal but no plan: "I want to build X", "how do I start?", "which workflow
+applies?", or loadout just loaded into an unfamiliar repo.
 
 ## Workflow
 
-1. **Get the goal clear.** If the request is vague or large, interview briefly (one short round): what's the outcome, the constraints, the **done-condition**, and what's explicitly out of scope. Don't over-ask — one or two sharp questions, then proceed. (Anthropic's "let the agent interview you" pattern.)
-2. **Orient if new to the repo.** If you don't know the codebase yet, run the `onboard-to-codebase` workflow (it uses the `explorer` agent) to learn the stack, the change pattern, and the test/build commands before committing to an approach.
-3. **Classify the work and route to a workflow:**
-   - Mid-session "what's next" / recap this chat then dive the leftover →
-     **`recommending-next-steps`** (`/next-steps`). Not `getting-started`.
+1. **Orient if new.** Unknown codebase → `onboard-to-codebase` (`explorer`)
+   before committing to an approach. If the request is vague: one short round
+   on outcome, done-condition, and out-of-scope — then proceed.
+2. **Classify the work and route:**
+   - Mid-session "what's next" / recap + leftover dive → **`recommending-next-steps`** (`/next-steps`). Not this skill.
    - Seed thought / "deep dive:" / "dig in:" / "what's the best way to X" (not yet a plan or a fix) → **`deep-dive`**.
-   - Build/change a feature (ordinary, well-understood) → **`ship-a-feature`**.
-   - High-stakes / unfamiliar / multi-file with real trade-offs → **`plan-then-build`**
+   - Ordinary well-understood feature → **`ship-a-feature`**.
+   - High-stakes / unfamiliar / multi-file trade-offs → **`plan-then-build`**
      (`/plan` → `/review-plan` → implement → `/complete-the-build` when open →
      `/review-build`).
    - Red CI / failing build → **`fix-ci-until-green`**.
-   - Staging/prod failure, no local repro yet → **`debug-production`** (evidence first).
-   - Immediate outage action (rollback / flag / surgical hotfix) → **`hotfix-and-rollback`**
-     runbook, then finish the class fix via `debug-production` / `root-cause-fix`.
+   - Staging/prod failure, no local repro → **`debug-production`** (evidence first).
+   - Immediate outage (rollback / flag / hotfix) → **`hotfix-and-rollback`**, then class-fix via `debug-production` / `root-cause-fix`.
    - Security review of a diff/surface → **`security-pass`**.
-   - Several independent tickets at once → **`clear-the-queue`**.
-   - One nontrivial task that may split into file-bounded verified units (or you need to
-     decide single-loop vs pipeline vs graph) → **`build-as-graph`** / `task-topology`
-     (default stays single-loop; not a ticket queue).
+   - Several independent tickets → **`clear-the-queue`**.
+   - One task that may split into file-bounded units → **`build-as-graph`** /
+     `task-topology` (default single-loop; not a ticket queue).
    - Behavior-preserving cleanup → **`safe-refactor`**.
    - Schema/data migration → **`ship-a-migration`**.
    - Dependency upgrade / bump PR → **`dependency-bump`**.
    - Promote / release → **`cut-a-release`**.
    - Learn a codebase → **`onboard-to-codebase`**.
-   - User pasted loadout / "use this" / "update loadout" → **`equipping-loadout`**
-     (follow repo-root `INSTALL.md` / `doc-install`); do not improvise install steps.
-   - Brand-new / unequipped repo (no loadout yet) → **`equipping-loadout`** / `INSTALL.md`
-     for the fast path, or **`bootstrap-project`** for the progressive human path.
-   - Attended end-to-end across phases (research→plan→build→verify→docs) →
-     **`running-a-dev-cycle`** (classifies the task; each phase is an `agentic-loop`).
+   - "use/install/update loadout" → **`equipping-loadout`** (`INSTALL.md` / `doc-install`); do not improvise.
+   - Unequipped repo → **`equipping-loadout`** / `INSTALL.md`, or **`bootstrap-project`**.
+   - Attended research→plan→build→verify→docs → **`running-a-dev-cycle`**.
    - Unattended until-contract-met (passed `loop-preflight`) → **`run-autonomous-loop`**.
-   - Already implemented; need evidence-first verification → **`review-build`**
-     (`/review-build`), preferably in a fresh chat — or the full **`plan-then-build`**
-     path if plan review is still owed too.
-   - Mid-session after substantial edits; course-correct before claiming done →
-     **`deep-flight`** (`/deep-flight`). Not `deep-dive`.
-   - One named claim (baseline vs treatment) → **`verifying-a-claim`**
-     (`/verify-claim`). Not session inventory, not Cursor `/review`.
-   - End of a session; prove live surfaces work, then root-cause-fix →
-     **`verifying-session-surfaces`** (`/verify-surfaces`). Prefer when the
-     ask is "test all the surfaces / ensure it works."
+   - Already implemented; evidence-first check → **`review-build`** (`/review-build`), fresh chat preferred — or full **`plan-then-build`** if plan review is still owed.
+   - Mid-session course-correct → **`deep-flight`** (`/deep-flight`). Not `deep-dive`.
+   - One named claim (baseline vs treatment) → **`verifying-a-claim`** (`/verify-claim`). Not session inventory, not Cursor `/review`.
+   - Prove live surfaces work → **`verifying-session-surfaces`** (`/verify-surfaces`). Prefer when the ask is "test all the surfaces / ensure it works."
    - Diff / PR review → Cursor-native **`/review`**, **`/review-bugbot`**,
-     **`/review-security`**. Do not invent a loadout skill with those names.
-   - Recurring interval run → Cursor **`/loop`**. Unattended cloud → **`/autopilot`**.
-     Visual / analytical artifact → **`/canvas`**.
-   - Merge or rebase conflict markers → **`resolving-merge-conflicts`**
-     (`/resolving-merge-conflicts`). Not a stash.
-   - End of a session; fix what the proof turns up (sibling sweep + checker) →
-     **`post-flight`** (`/post-flight`). Prefer over a chat-only wrap-up summary.
-     Run `/verify-surfaces` first when the session added user-visible surfaces.
-   - Large named package/directory, no single known bug, exhaustive leaks/edges →
-     **`hunting-defects`** (`/hunt-defects`). Not a merge review. Workflow:
-     `defect-hunt`.
-   - Open plan phases still Partial/Missing/Punted → **`complete-the-build`**
-     (`/complete-the-build`) before review-build.
-   - Context dying / switching chats mid-task → **`session-handoff`**
-     (`/session-handoff`).
+     **`/review-security`**. Do not invent loadout skills with those names.
+   - Recurring interval → Cursor **`/loop`**. Unattended cloud → **`/autopilot`**. Visual artifact → **`/canvas`**.
+   - Merge/rebase conflict markers → **`resolving-merge-conflicts`**. Not a stash.
+   - Session wrap + sibling fix → **`post-flight`** (`/post-flight`). Run `/verify-surfaces` first if user-visible surfaces landed.
+   - Large named package, no single bug → **`hunting-defects`** (`/hunt-defects`). Not a merge review. Workflow: `defect-hunt`.
+   - Open plan Partial/Missing/Punted → **`complete-the-build`** (`/complete-the-build`) before review-build.
+   - Context dying / switching chats → **`session-handoff`** (`/session-handoff`).
    - Approved a shallow fix / "do it correctly" → **`do-it-right`** (`/do-it-right`).
-   - Want strict test-first → **`test-driven`** (`/tdd`).
-   - Large agent diff feels overbuilt → **`simplifying-code`** (`/simplify`) then
-     review-build.
-   - Changelog / docs / UI strings sound like ChatGPT → **`cleaning-ai-copy`**
-     (`/deslop-copy`). Not `deslopping` (code slop) and not Cursor `/review`.
-   - Public-page SEO / AIO / GEO / "get cited" / AI Overviews → workflow
-     **`search-visibility`** (install first: `loadout add search-visibility`):
-     `auditing-search-visibility` (`/audit-search`) then
-     `writing-citable-content` and/or `optimizing-for-discovery`
-     (`/optimize-discovery`). Named URLs need a live HTML RECEIPT. Not a
-     ranking promise.
-   - Improve product quality by using it ("dogfood it", "review the UI", "find and fix
-     issues end to end") → **`run-quality-loop`** (`exercising-the-product` for behavior,
-     `reviewing-ui` for UX; `recreating-a-design` when matching a specific visual target).
-   - No single workflow fits → compose from skills (`planning-a-change` or `create-plan`
-     first), and say so.
-4. **Decide manual vs autonomous loop.** Run the `loop-preflight` 4-condition test (repeats? automated verification? budget? agent has tools?). If it passes **and** the user wants unattended execution, recommend **`run-autonomous-loop`** (or schedule via the `automation-loop` template + a `STATE.md`). Otherwise recommend a single attended run (`ship-a-feature` / `plan-then-build` / `running-a-dev-cycle`). Respect the execution-order law: get a manual run reliable before scheduling anything.
-5. **Emit a kickoff prompt.** Output a concrete, paste-ready prompt that names the workflow, the objective, the **gate** (the project's test/lint command), the **done-condition**, and the key constraints/rules. This is the thing the user runs to actually start.
+   - Strict test-first → **`test-driven`** (`/tdd`).
+   - Large agent diff feels overbuilt → **`simplifying-code`** (`/simplify`) then review-build.
+   - Changelog / docs / UI strings sound like ChatGPT → **`cleaning-ai-copy`** (`/deslop-copy`). Not `deslopping`, not `/review`.
+   - Public-page SEO / AIO / GEO / "get cited" → **`search-visibility`**
+     (`loadout add search-visibility`): `auditing-search-visibility` (`/audit-search`)
+     then `writing-citable-content` and/or `optimizing-for-discovery`
+     (`/optimize-discovery`). Named URLs need a live HTML RECEIPT. Not a ranking promise.
+   - Dogfood / review UI / find-and-fix end to end → **`run-quality-loop`**
+     (`exercising-the-product` for behavior, `reviewing-ui` for UX;
+     `recreating-a-design` when matching a visual target).
+   - No single workflow fits → compose (`planning-a-change` or `create-plan` first), and say so.
+3. **Manual vs autonomous.** `loop-preflight` (repeats? automated verification?
+   budget? tools?). Pass **and** they want unattended → `run-autonomous-loop`
+   (or `automation-loop` + `STATE.md`). Else attended (`ship-a-feature` /
+   `plan-then-build` / `running-a-dev-cycle`). Manual-reliable before scheduling.
+4. **Kickoff prompt.** Names workflow, objective, **gate**, **done-condition**,
+   key constraints. Paste-ready.
 
 ## Output
 
-A short recommendation (which workflow + supporting skills/rules, and manual vs loop), then the kickoff prompt in a fenced block. Keep it to the point. Example shape:
+Short recommendation (workflow + skills/rules, manual vs loop), then:
 
 ```
 Plan: ship-a-feature (manual; doesn't pass the loop test yet).
@@ -98,34 +80,22 @@ Kickoff prompt:
   Use the ship-a-feature workflow to add <X>. Explore first and write a short plan
   (planning-a-change). Implement the smallest safe change, add tests for the new
   behavior and error paths, update docs in the same change. Gate: `npm test && npm run lint`.
-  Done when: <verifiable condition>. Then dispatch the reviewer subagent and open a PR.
+  Done when: <verifiable condition>. Then dispatch the reviewer subagent. Commit
+  the whole tree on trunk if asked (`committing-on-shared-trunk`). PR only if asked.
 ```
 
 ## Guardrails
 
-- Be a thin orchestrator: sequence and hand off to the workflow/skills; don't redo their work here.
-- Write the done-condition before recommending a kickoff — a goal without a verifiable end is not ready to run, especially as a loop.
-- Don't recommend a loop for one-off, unverifiable, or high-stakes work (see `loop-preflight`).
+- Thin orchestrator: sequence and hand off; don't redo their work.
+- Write the done-condition before kickoff — a goal without a verifiable end is not ready to run, especially as a loop.
+- Don't recommend a loop for one-off, unverifiable, or high-stakes work (`loop-preflight`).
+- Diff review is Cursor `/review` / `/review-bugbot` / `/review-security` — do not invent loadout skills with those names.
 
 ## Pairs with
 
-- workflows: `ship-a-feature`, `plan-then-build`, `onboard-to-codebase`, `fix-ci-until-green`,
-  `debug-production`, `security-pass`, `clear-the-queue`, `build-as-graph`, `safe-refactor`,
-  `ship-a-migration`, `dependency-bump`, `cut-a-release`, `run-quality-loop`, `run-autonomous-loop`,
-  `defect-hunt`, `search-visibility`
-- skills: `planning-a-change`, `create-plan`, `review-plan`, `complete-the-build`,
-  `review-build`, `deep-flight`, `post-flight`, `verifying-session-surfaces`, `verifying-a-claim`, `resolving-merge-conflicts`, `session-handoff`, `recommending-next-steps`, `do-it-right`, `deep-dive`, `test-driven`, `simplifying-code`,
-  `running-a-dev-cycle`, `agentic-loop`, `task-topology`, `equipping-loadout`,
-  `hunting-defects`, `auditing-search-visibility`, `writing-citable-content`,
-  `optimizing-for-discovery`
-- commands: `start` (`/start`), `plan` (`/plan`), `build-as-graph-cmd` (`/build-as-graph`),
-  `review-plan-cmd` (`/review-plan`),
-  `complete-the-build-cmd` (`/complete-the-build`), `deep-flight-cmd` (`/deep-flight`), `review-build-cmd` (`/review-build`), `post-flight-cmd` (`/post-flight`),
-  `verifying-session-surfaces-cmd` (`/verify-surfaces`),
-  `verify-claim-cmd` (`/verify-claim`),
-  `session-handoff-cmd` (`/session-handoff`), `next-steps-cmd` (`/next-steps`), `do-it-right-cmd` (`/do-it-right`),
-  `tdd-cmd` (`/tdd`), `simplify-cmd` (`/simplify`), `hunt-defects-cmd` (`/hunt-defects`),
-  `audit-search-cmd` (`/audit-search`), `optimize-discovery-cmd` (`/optimize-discovery`)
+- workflows: `ship-a-feature`, `plan-then-build`, `onboard-to-codebase`, `fix-ci-until-green`, `debug-production`, `security-pass`, `clear-the-queue`, `build-as-graph`, `safe-refactor`, `ship-a-migration`, `dependency-bump`, `cut-a-release`, `run-quality-loop`, `run-autonomous-loop`, `defect-hunt`, `search-visibility`
+- skills: `planning-a-change`, `create-plan`, `review-plan`, `complete-the-build`, `review-build`, `deep-flight`, `post-flight`, `verifying-session-surfaces`, `verifying-a-claim`, `resolving-merge-conflicts`, `session-handoff`, `recommending-next-steps`, `do-it-right`, `deep-dive`, `test-driven`, `simplifying-code`, `running-a-dev-cycle`, `agentic-loop`, `task-topology`, `equipping-loadout`, `hunting-defects`, `auditing-search-visibility`, `writing-citable-content`, `optimizing-for-discovery`
+- commands: `start` (`/start`), `plan` (`/plan`), `build-as-graph-cmd` (`/build-as-graph`), `review-plan-cmd` (`/review-plan`), `complete-the-build-cmd` (`/complete-the-build`), `deep-flight-cmd` (`/deep-flight`), `review-build-cmd` (`/review-build`), `post-flight-cmd` (`/post-flight`), `verifying-session-surfaces-cmd` (`/verify-surfaces`), `verify-claim-cmd` (`/verify-claim`), `session-handoff-cmd` (`/session-handoff`), `next-steps-cmd` (`/next-steps`), `do-it-right-cmd` (`/do-it-right`), `tdd-cmd` (`/tdd`), `simplify-cmd` (`/simplify`), `hunt-defects-cmd` (`/hunt-defects`), `audit-search-cmd` (`/audit-search`), `optimize-discovery-cmd` (`/optimize-discovery`)
 - runbooks: `loop-preflight`, `harness-setup`, `bootstrap-project`, `hotfix-and-rollback`
 - templates: `automation-loop`, `state-file`
 - docs: `catalog` (the menu of everything available), `doc-install` (`INSTALL.md`)

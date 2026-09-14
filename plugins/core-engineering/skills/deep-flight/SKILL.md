@@ -3,15 +3,7 @@ name: deep-flight
 icon: shield
 color: cyan
 description: >
-  Mid-session in-flight quality gate after substantial edits, before claiming
-  done. Use when the user says "deep-flight", "deep flight", "in-flight check",
-  "are we still doing this right", "course-correct", "don't drift", "check the
-  layer", or when do-it-right implementation is underway and verification has
-  not been proven. Confirms the chosen layer still holds, runs the shortcut
-  script, quotes gate output, then a readonly flight-checker. Fixes drift now.
-  Anti-triggers: seed thought / "deep dive:" → deep-dive; "yes, fix it" before
-  any Chosen Fix → do-it-right; session wrap / sibling sweep → post-flight;
-  plan-vs-build grade → review-build.
+  Mid-session quality gate after substantial edits. Use for "deep-flight" or "are we still doing this right". Not session wrap (post-flight).
 ---
 
 # Deep-flight — in-flight course-correct

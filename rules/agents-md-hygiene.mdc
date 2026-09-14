@@ -1,15 +1,22 @@
 ---
 description: >
-  Keep AGENTS.md and CLAUDE.md thin. Per-line litmus: would removing this
-  cause a mistake? Situational procedures belong in a skill, not these files.
-  Triggers when editing AGENTS.md, CLAUDE.md, or their templates.
+  Keep AGENTS.md and CLAUDE.md a thin index. Per-line litmus: would removing
+  this cause a mistake? Situational procedures belong in a skill. Triggers
+  when editing AGENTS.md, CLAUDE.md, or their templates.
 alwaysApply: false
 globs: ["**/AGENTS.md", "**/CLAUDE.md"]
 ---
 
 # AGENTS.md / CLAUDE.md hygiene
 
-These files are always-on context. Every line is a per-request tax.
+These files are always-on. Every line is a per-request tax. Bloated context
+files can **lower** task success (ETH Zurich 2026; Anthropic; Augment).
+
+## Shape
+
+An **index**: commands, gotchas, and pointers to files the agent should read
+*when that task happens*. Not a manual. Vercel: an 8KB docs index in
+`AGENTS.md` beat unused skills.
 
 ## Litmus (every line)
 
@@ -19,13 +26,16 @@ Would removing this cause an agent to make a mistake? If not, cut it.
 
 - Stack, commands, project-specific conventions, hard do-nots
 - Filling template placeholders (stack, commands, trunk name)
-- A pointer to a skill or rule (`context-hygiene`, `session-handoff`)
+- A pointer to a skill, rule, or doc (`session-handoff`, `docs/plans/`)
+- "Read X when doing Y" — never "read X before every edit"
 
 ## Forbidden
 
 - Pasting a skill or procedure body (workflow steps, review checklists)
 - Style-guide dumps a linter already enforces
+- Folder-structure or stack restatements the agent can see in the repo
 - Situational how-to that only matters for one task
+- Requiring a stack of docs before every typo fix
 
 Nested `AGENTS.md` in a subdirectory wins for that area. Claude reads
 `CLAUDE.md` (import `@AGENTS.md`); do not duplicate the same essay in both.

@@ -1,14 +1,7 @@
 ---
 name: auditing-resource-lifecycle
 description: >
-  Hunt resource and lifecycle leaks by walking acquire versus release on every
-  path — success, throw, early return, unmount, abort, replay. Covers listeners,
-  timers, AbortController, EventSource/WebSocket, object URLs, streams, queue
-  waiters, and subscriptions. Triggers: "find leaks", "lifecycle audit",
-  "memory leak", "listener leak", "unsubscribe missing", "revokeObjectURL",
-  "timer leak", "SSE leak", "/audit-lifecycle". Anti-triggers: known crash →
-  debugging-an-issue; whole-surface hunt → hunting-defects (dispatches this
-  pass); maintainability → reviewing-code-quality.
+  Pair every acquire with a release on all paths in a named surface. Use for leak/lifecycle audits or /audit-lifecycle. Not a whole-package hunt (hunting-defects).
 ---
 
 # Auditing resource lifecycle

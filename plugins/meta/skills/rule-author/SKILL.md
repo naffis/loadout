@@ -1,6 +1,7 @@
 ---
 name: rule-author
-description: Scaffold a new .mdc Cursor rule with correct type and frontmatter, and check whether it should be a skill instead. Use when adding or restructuring a rule.
+description: >
+  Scaffold a .mdc rule and apply the rule-vs-skill test. Use when creating or restructuring a rule.
 ---
 
 # Rule author
@@ -30,10 +31,11 @@ be an array. `loadout add` / `update` project a rule into Claude `CLAUDE.md` onl
 
 ## Body conventions
 
-- Keep it under 500 lines; split large rules into composable ones.
+- Add a rule **only when the agent repeats a mistake** (Cursor). If the current model already honors it, do not add it — and prune it if an old rule is now unused (`hardening-the-harness`).
+- Keep it under 50 lines when it only **routes** to a skill. Do not reprint a skill completeness bar. Hard cap 80 for a real constraint; 500 is a spec ceiling, not a goal.
 - Reference canonical files (`@path`) instead of pasting code that will go stale.
-- Write like a clear internal doc: focused, actionable, concrete examples.
-- Don't: dump a whole style guide (use a linter), document common tools the agent knows, or add edge cases that rarely apply. Add a rule only when the agent repeats a mistake.
+- Don't: dump a style guide (use a linter), document common tools (`npm`, `git`, `pytest`), or add rare edge cases. Don't restate what `AGENTS.md` already says.
+- Wortmann prune: failure-backed? tool-enforceable? decision-encoding? triggerable? If none, delete.
 
 ## Workflow
 

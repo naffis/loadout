@@ -3,78 +3,27 @@ name: post-flight
 icon: flag
 color: orange
 description: >
-  End-of-session review-and-FIX: ask vs ship, shortcut sweep, fix-correctness
-  (class-kill not bandaid), sibling sweep (pattern self-validate; callers first;
-  risk tiers), DoD, gates, then a fresh-context independent checker before CLEAN.
-  Completes deferred work by default. Triggers: "post-flight", "run post-flight",
-  "review everything we did", "make sure we didn't miss anything", "was the fix
-  correct", "no bandaid post-flight", "check for similar issues", "sibling sweep",
-  "final pass and fix". Anti-triggers: merge/PR critique → reviewing-code-quality;
-  open plan phases → complete-the-build; plan-only stress-test → review-plan;
-  single bug at session start → root-cause-fix; mid-fix "do it correctly" →
-  do-it-right; mid-session course-correct → deep-flight; adversarial check of
-  a finished build vs plan → review-build; live surfaces / "does it work" →
-  verifying-session-surfaces; large named surface with no known bug →
-  hunting-defects; mid-session "what's next" / leftover dive →
-  recommending-next-steps.
+  End-of-session ask-vs-ship review and fix, then an isolated checker. Use for "post-flight", "review everything we did", or "did we miss anything". Live surfaces → verifying-session-surfaces.
 ---
 
 # Post-Flight — Session Review, Fix, and Improve
 
-You just finished (or believe you finished) a body of work in this session.
-Prove it against evidence, not memory, and **fix** what the proof turns up.
-This is fix-mode review: findings get repaired here (unlike a read-only critique).
-
-Six iron rules:
-
-1. **Evidence over recall.** Never assert "we did X" from conversation memory.
-   Re-read the file, re-run the command, re-check the diff.
-2. **Fix, don't defer.** A finding is fixed now or logged with a reason it cannot
-   be fixed now. "Noted for later" without a log entry is a shortcut.
-3. **Converge, don't churn.** Improvements must reduce risk or close a gap in
-   what was ASKED. No drive-by refactors or scope invention (`refactor-discipline`).
-4. **Root fix, not specimen green.** A change that makes _this_ case pass while
-   the class still reproduces on a sibling path is a **P0** finding. Prefer
-   class-kill at the owning layer (`references/fix-correctness-audit.md`).
-5. **Hunt outside the diff.** For every behavioral class this session touched,
-   deep-dive related code for the same shape — and fix confirmed siblings before
-   CLEAN (`references/sibling-surface-sweep.md`).
-6. **Maker ≠ sole checker.** Behavioral sessions need the isolated
-   **`flight-checker`** (readonly) before CLEAN — not a `generalPurpose` Task
-   fed the maker's rationale (`references/independent-checker.md`).
-   Routing: `_shared/flight-family.md`.
-
-## Trigger
-
-Session wrap after substantive work. Prefer this over a chat-only summary when
-the user says "post-flight" / "final pass and fix". Prefer `review-build` when
-the ask is a fresh-chat adversarial grade against a written plan (not the maker
-fixing their own session). Prefer `do-it-right` mid-diagnosis before a fix lands.
+Prove the session against evidence and **fix** what turns up. Routing:
+`_shared/flight-family.md`. Do not absorb sibling-agent WIP as your ask.
+Prefer `review-build` for a fresh-chat plan grade; `do-it-right` before a
+fix lands. Never skip Step 4 or 5 on behavioral work; never self-grade CLEAN.
 
 ## Workflow
 
-### Step 0 — Reconstruct the ground truth
+### 0–1. Reconstruct + asked vs shipped
 
-1. Re-read the user's original request(s) **verbatim** — every message that
-   added or changed scope.
-2. List concrete deliverables those messages imply. Number them.
-3. Artifact list from git, not memory:
+Re-read asks **verbatim**. Number deliverables. Dropped todos and
+deferrals ("follow-up", pending todos, session `TODO`/`FIXME`, parking
+lot, partials) are findings.
 
 ```bash
-git status --porcelain
-git diff --stat
-git diff --stat --staged
+git status --porcelain && git diff --stat && git diff --stat --staged
 ```
-
-4. Unfinished or silently dropped todos are findings.
-5. **Deferral inventory** — first-class work items, not footnotes:
-   - "as a follow-up", "left for later", "deferred", "next step would be"
-   - Todos still `pending` / `in_progress`
-   - `TODO` / `FIXME` **introduced this session** (`git diff`)
-   - Parking-lot / plan "Discovered Issues" added this session
-   - Partial implementations with a note
-
-### Step 1 — Requirements diff (asked vs shipped)
 
 ```
 | # | Asked | Shipped? | Where | Verified how |
@@ -82,121 +31,54 @@ git diff --stat --staged
 | 1 | ...   | ✅ / ⚠️ partial / ❌ | path:symbol | test / command / read |
 ```
 
-Inverse: anything shipped that was NOT asked? Justify in one line or revert.
+Shipped-but-not-asked: justify or revert.
 
-### Step 2 — Adversarial re-read
+### 2–3. Per-file audit + shortcut sweep
 
-For each session-owned changed file:
-
-- Read the FULL current file — does the change cohere with surroundings?
-- Find every caller/consumer (`Grep`). Did any need updating?
-- Walk failure paths: empty input, throw, async reject, undefined fields.
-
-### Step 3 — Shortcut sweep (mechanical)
+Read each session-owned file; grep callers; walk empty/throw/async-reject.
+Emit a **per-file audit table** (one row per file). Then:
 
 ```bash
 .cursor/skills/_shared/scripts/shortcut-sweep.sh
 ```
 
-Quote the `RECEIPT`. A sweep with no RECEIPT was skipped.
+Quote the `RECEIPT`. No RECEIPT = skipped.
 
-### Step 4 — Fix-correctness / root-depth audit
+### 4. Fix-correctness
 
-**Read `references/fix-correctness-audit.md`.** For every behavioral intent:
+Read `references/fix-correctness-audit.md`; emit the **fix-correctness
+matrix**. Verdicts: `class-kill` · `correct-feature` · `bandaid` ·
+`wrong-layer` · `unproven` · `n/a-docs` · `n/a-refactor`. `bandaid` /
+`wrong-layer` / `unproven` is **P0** — `root-cause-fix`, then re-attest.
 
-1. Classify (bug-fix vs feature vs docs/refactor skip).
-2. Run the matching checklist (layer pin, counterfactual sibling, rejected
-   proximate, consumer trace, regression lock — or feature contract variant).
-3. Verdict: `class-kill` · `correct-feature` · `bandaid` · `wrong-layer` ·
-   `unproven` · `n/a-docs` · `n/a-refactor`.
-4. Any `bandaid` / `wrong-layer` / `unproven` is **P0** — escalate via
-   `root-cause-fix`, then re-attest.
+### 5. Sibling sweep
 
-Emit the fix-correctness matrix into the final report (silence = skipped).
+Read `references/sibling-surface-sweep.md` for every non-skipped Step 4
+intent. Emit sibling artifacts **or a negative attestation** (tier +
+validated path). Same-class / partial-port → fix now. Do not port a bandaid.
 
-### Step 5 — Sibling / similar-issue surface sweep
+### 6–8. DoD, gates, fix
 
-**Read `references/sibling-surface-sweep.md`.** For every non-skipped Step 4 intent:
+Walk `definition-of-done`; emit `triggered` / `not triggered`. Run
+documented gates; **paste closing lines**. P0/P1: fix now; re-run 4–7.
+Deferred work: **do it now**. Survivors need one of: (1) input only the
+user can give, (2) genuine scope change needing approval, (3)
+refactor-class item needing its own test net (`refactor-discipline`),
+(4) external dependency. After fixes, re-run 2–7 (fresh 4 + 5).
 
-1. Risk tier A/B/C + recon scout.
-2. Name class + mechanism + hunt keys.
-3. **Pattern self-validation** against pre-fix code (or new invariant for features).
-4. Hunt callers/entry points first; record query → hit count including zeros.
-5. Read full functions on plausible hits; triage `same-class` / `partial-port` → fix now.
-6. Zero siblings → write the **negative attestation** (tier + validated path).
+### 9–11. Checker, stop, ticket
 
-### Step 6 — Definition-of-Done walk
+Read `references/independent-checker.md`. Launch **`flight-checker`**
+(`readonly: true`, no `resume`). A `generalPurpose` Task fed the maker's
+story is not a checker. FAIL → fix once + one recheck; still failing →
+**BLOCKED**. Docs-only → N/A. Stop when: **two consecutive** maker passes
+with zero new P0/P1; gates green; checker PASS. Write
+`_shared/plain-english-brief.md`. Leave edits **unstaged** (`git-safety`).
+Optional issue-tracker progress — never invent ticket IDs.
 
-Walk `definition-of-done` for rows this session triggers. Common misses:
-
-- Regression test that fails when the fix is reverted
-- Docs/changelog for user- or operator-visible changes
-- Always-on docs (`AGENTS.md` / harness) when agent behavior changed
-- Size limits — did a grandfathered file grow past soft limits?
-
-### Step 7 — Ground-truth verification
-
-Run what the project documents as the gate (`AGENTS.md` / CI / plan test plan)
-for packages the diff actually touches. Paste real closing lines. Plus any
-change-specific proof (script, route, UI). Claims without evidence are forbidden.
-
-### Step 8 — Fix loop
-
-- **P0** (broken behavior, security, bandaid/wrong-layer/unproven, same-class
-  sibling): fix at the root; re-run Steps 4–7.
-- **P1** (asked-but-missing, partial DoD, partial-port): fix now.
-- **Deferred work:** **DO IT NOW by default.** Survivors need one of:
-  1. Input only the user can give
-  2. Genuine scope change needing approval
-  3. Refactor-class item needing its own test net (`refactor-discipline`)
-  4. External dependency (deploy, third-party, hardware)
-- **P2:** fix if small and reduces risk; else log with rationale.
-- **Out of scope:** log, don't expand the ask.
-
-After fixing, re-run Steps 2–7 on the fixes (including fresh Step 4 + 5).
-
-### Step 9 — Independent checker (fresh context)
-
-**Read `references/independent-checker.md`.** Launch **`flight-checker`**
-(`readonly: true`, no `resume`). A `generalPurpose` Task fed the maker's story
-is not a checker. FAIL → fix once + one recheck max. Still failing →
-**BLOCKED**. Docs-only → N/A with one line.
-
-### Effort contract — skipped work must be visible
-
-Every step emits a named artifact in the report. Missing artifact = not done:
-
-1. Per-file audit table with exactly one row per session-owned changed file
-2. Shortcut-sweep receipts (pattern → hit count, including 0)
-3. Fix-correctness matrix (one row per behavioral intent)
-4. Sibling-sweep artifacts (or negative attestation)
-5. Checker receipt
-6. Quoted command output
-7. DoD row accounting (`triggered` / `not triggered`)
-
-### Step 10 — Stop condition and report
-
-Stop when: two consecutive maker passes with zero new P0/P1; Step 7 green;
-Step 9 PASS (or docs-only N/A). Then write `_shared/plain-english-brief.md`.
-Keep the matrices and per-file audit off the page unless they ask.
-
-Leave edits unstaged unless the user asked to commit (`git-safety`).
-
-### Step 11 — Ticket sync (optional)
-
-If the project has an issue-tracker sync rule (e.g. Linear progress comments),
-run its **progress** path with the verdict + what was fixed/verified. Skip when
-the project has no such convention, or the change is trivial. Never invent
-ticket IDs or touch unrelated teams.
-
-## Guardrails / Never do
-
-- Audit from memory; report without fixing; skip Step 4 or 5 on behavioral work
-- Self-grade CLEAN without checker PASS (or docs-only N/A)
-- Port a bandaid to more call sites instead of fixing the owning layer
-- Absorb sibling-agent WIP on a shared dirty tree as your ask
-- Re-defer inventory items without naming a survivor criterion (1–4)
-- Declare clean on pass 1 (fixes are new attack surface)
+Missing named artifact = not done: per-file audit, shortcut RECEIPT,
+fix-correctness matrix, sibling artifacts or negative attestation,
+checker receipt, quoted command output, DoD row accounting.
 
 ## Pairs with
 

@@ -1,13 +1,7 @@
 ---
 description: >
-  Recap this chat from evidence, deep-dive the leftover, emit one paste-ready
-  next-steps prompt. Triggers on "what's next", "next steps", "where are we",
-  "what should we do next", "recommend next", "session next", "recap and next",
-  "/next-steps", "/recommending-next-steps". Does not implement. Anti-triggers:
-  no work yet → getting-started; write a packet → session-handoff; claiming
-  done → post-flight; standup → summarizing-my-work; seed only → deep-dive;
-  framed symptom only → debugging-an-issue. Read the
-  `recommending-next-steps` skill.
+  Recap this chat and emit one next-steps prompt. Triggers on "what's next",
+  "/next-steps". Does not implement. Read the `recommending-next-steps` skill.
 alwaysApply: false
 ---
 

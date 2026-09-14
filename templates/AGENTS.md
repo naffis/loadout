@@ -1,11 +1,11 @@
 # AGENTS.md (template)
 
-Cross-tool baseline conventions, read by Cursor and other agents. Keep it THIN — only what
-applies broadly. Situational knowledge belongs in a skill (loaded on demand), not here.
-Litmus test per line: "would removing this cause an agent to make a mistake?" If not, cut it.
-Do not paste procedures or skill bodies into this file — that is a skill. When the chat
-itself is rotting (task change, two failed corrections), use `context-hygiene` / a new
-conversation, not more lines here.
+Cross-tool baseline. This file is an **index**, not a manual. Vercel evals: a
+compressed index that points at retrievable files beat unused skills. Keep it
+THIN — commands, gotchas, pointers. Situational procedures belong in a skill.
+Litmus per line: "would removing this cause a mistake?" If not, cut it.
+Do not say "read architecture.md before every edit" (OpenAI Astra) — point at
+the file **when that task happens**. Do not paste skill bodies here.
 
 ## Stack
 
@@ -27,12 +27,17 @@ conversation, not more lines here.
 
 ## Workflow
 
-- Smallest safe change; follow existing patterns; verify with the test/build before claiming done.
 - Diagnose / review / plan replies: what's going on, what to do, any decision (`_shared/plain-english-brief.md`). Details only if asked.
 - Integration trunk: `<dev|main|…>`. Optional shared-tree kit: parallel agents share one local
   trunk checkout — no per-agent branches/worktrees/stashes; when asked to commit, land all
   eligible dirty files (`committing-on-shared-trunk`).
 - Branch/PR etiquette: <branch naming> · PRs only when explicitly asked · target `<integration branch>` · conventional commits.
+
+## Index (pointers, not essays)
+
+- House docs: `<path>` — read when <task>, not before every edit
+- Plan / research notes: `docs/plans/`
+- Prefer retrieval over training-data guesses for <framework APIs not in the model>
 
 ## Do not
 

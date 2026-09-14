@@ -1,13 +1,7 @@
 ---
 name: cleaning-ai-copy
 description: >
-  Rewrite user-facing prose so it no longer reads like a model. Use when the
-  user says "deslop copy", "AI voice", "ChatGPT", "clean the copy", "sounds
-  like a model", or "/deslop-copy". Runs the RECEIPT scanner, rewrites RED and
-  ORANGE hits without changing meaning, re-scans, and quotes both RECEIPTs.
-  Anti-triggers: code slop (narrating comments, any-casts, over-abstraction) →
-  deslopping; YAGNI / flatten the diff → simplifying-code. /deslop alone is
-  not this skill.
+  Rewrite user-facing prose so it no longer reads like a model. Use for "deslop copy", "AI voice", or /deslop-copy. Code slop → deslopping.
 ---
 
 # Cleaning AI copy

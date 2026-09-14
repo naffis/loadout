@@ -3,12 +3,7 @@ name: optimizing-for-discovery
 icon: globe
 color: green
 description: >
-  Implement technical and on-page discovery fixes for SEO, AIO, and GEO.
-  Use when the user says "optimize this page", "add schema", "JSON-LD",
-  "canonical", "robots.txt for GPTBot", "llms.txt", "Next.js metadata",
-  "make it rank", "get cited", or "/optimize-discovery". Implements; does
-  not stop at a report. Anti-triggers: audit only →
-  auditing-search-visibility; prose-only rewrite → writing-citable-content.
+  Implement discovery fixes (metadata, schema, robots). Use for "add schema" or /optimize-discovery. Audit only → auditing-search-visibility.
 ---
 
 # Optimizing for discovery

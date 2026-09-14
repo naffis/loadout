@@ -144,6 +144,10 @@ function checkSkills(root: string, f: Findings): void {
         f.errors.push(
           `${rel}: skill description exceeds 1024 chars (${desc.length})`,
         );
+      } else if (desc.length > 400) {
+        f.warnings.push(
+          `${rel}: skill description is ${desc.length} chars (house target ≤280, warn >400). Narrow WHEN; move anti-triggers into the body.`,
+        );
       }
       if (/^\s*(i |i'|you |you'|we )/i.test(desc)) {
         f.warnings.push(

@@ -1,95 +1,37 @@
 ---
 name: review-plan
 description: >
-  Extensively review and improve an existing implementation plan before coding.
-  Use when the user says "Review the plan", "Review this plan", "review plan",
-  "stress-test the plan", "go deeper on the plan", "improve the plan", or asks
-  to re-check planning work. Re-read session + plan + code, fresh external
-  research, pre-mortem, adversarial critique, fix shortcuts in the plan,
-  plan-ban-sweep RECEIPT, then isolated plan-checker. Anti-triggers: create a
-  new plan → create-plan; implement now; ordinary code review; claimed-done
-  vs plan → review-build. Prefer over deep-planning-review.
+  Stress-test and rewrite an existing plan before coding. Use for "review the plan". Do not implement.
 ---
 
 # Review a plan
 
-You are **not** summarizing and you are **not** rubber-stamping. Stress-test,
-do fresh research, and **rewrite the plan** until it meets the `create-plan`
-bar. Do not implement code.
+**Rewrite the plan** until it meets the `create-plan` bar. Chat-only
+critique is a failure. Do not implement until the user clicks **Build** or
+asks after approval. Routing: `_shared/plan-build-family.md`.
 
-Routing: `_shared/plan-build-family.md`.
-
-## Immediate action
-
-1. Read `.cursor/rules/review-plan.mdc` (bans).
-2. Edit the plan artifact(s) — chat-only critique is a failure. Update the
-   workspace research `.md` **and** refresh **CreatePlan** so **Build** matches
-   (`create-plan/references/cursor-native-plan.md`).
+Read `.cursor/rules/review-plan.mdc`. Edit the plan + workspace research
+`.md` and refresh **CreatePlan** so **Build** matches
+(`create-plan/references/cursor-native-plan.md`).
 
 ## Workflow
 
-### Pass 0 — Locate and re-read
-
-Find the plan (user path, `.cursor/plans/`, session CreatePlan). Re-read it
-entirely. Re-read live code + owning docs; verify assumptions.
-
-### Pass 1 — Spec-review gate
-
-| Dimension    | Pass criteria                                       |
-| ------------ | --------------------------------------------------- |
-| Scope        | One problem; non-goals strong enough to block creep |
-| Acceptance   | Every AC binary-testable; no subjective language    |
-| Contracts    | API/tool/job/UI complete; compat + migration        |
-| Dependencies | Named with fallback; no "TBD integration"           |
-| Operations   | Rollout, monitoring, **viable rollback**            |
-| Surfaces     | tool-exposure, KV, prompts, docs/changelog          |
-| Traceability | requirement → design → task → verification          |
-| Shortcuts    | No stubs or "decide during implementation"          |
-
-Block coding when rollback/deps/ACs/scope/security are open.
-
-### Pass 2 — Fresh external research
-
-New searches aimed at **holes** (do not only trust the plan's citations).
-Adopt / adapt / reject with URLs. SOTA vs invariants → choose explicitly.
-
-### Pass 3 — Pre-mortem + adversarial
-
-3–5 concrete failure narratives (3–6 months later) + mitigations in the plan.
-Lenses: correctness, security/tenancy, reliability, operability, simplicity,
-implementability. Falsify key decisions. Name one serious alternative not
-chosen.
-
-### Pass 4 — Apply fixes
-
-All P0/P1 into the plan file. Add a **Review changelog**. Prefer fixing over
-conditioning.
-
-### Pass 5 — Mechanical close (not "think harder")
-
-Adding another "be very thorough" pass is the proximate patch that made this
-skill come up short. Prove instead:
+1. Locate the plan; re-read it, live code, and owning docs.
+2. Spec-review (scope, binary ACs, contracts, named deps, rollback,
+   surfaces, traceability, no stubs). Block coding when those are open.
+3. Fresh external research aimed at **holes**. Adopt / adapt / reject with URLs.
+4. Pre-mortem: 3–5 failure narratives + mitigations; name one unchosen alternative.
+5. All **P0/P1 into the plan file**. Add a **Review changelog**.
+6. Quote the `RECEIPT`, then isolated **`plan-checker`** (`readonly`, no
+   `resume`). FAIL → fix P0/P1, one recheck. Same-session degrade cannot
+   yield APPROVED.
 
 ```bash
 .cursor/skills/_shared/scripts/plan-ban-sweep.sh .cursor/plans/<file>.md
 ```
 
-Quote the `RECEIPT`. Then launch **`plan-checker`** (`readonly`, no `resume`).
-FAIL → fix P0/P1, one recheck. Same-session degrade cannot yield APPROVED.
-
-## Review report
-
-Write `_shared/plain-english-brief.md`. Verdict goes in **What's going on**
-(approved / blocked / still open). Keep the pass log and pre-mortem off the
-page unless they ask.
-
-## Never do
-
-- Rubber-stamp or single-pass skim
-- Leave TBD/stubs; skip fresh research
-- Chat-only critique; stale CreatePlan / Build UI
-- Self-grade APPROVED without `plan-checker` PASS
-- Implement unless the user clicks Build or asks after approval
+Write `_shared/plain-english-brief.md`. Verdict in **What's going on**
+(approved / blocked / still open).
 
 ## Pairs with
 

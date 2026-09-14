@@ -1,38 +1,14 @@
 ---
 name: recommending-next-steps
 description: >
-  Recap this chat from evidence, deep-dive the leftover work, and emit one
-  paste-ready next-steps prompt. Use mid-session when the user says "what's
-  next", "next steps", "where are we", "what should we do next", "recommend
-  next", "session next", "recap and next", or runs /next-steps or
-  /recommending-next-steps. Reconstructs asks + git, runs deep-dive or
-  debugging-an-issue on the leftover (do-it-right if they already approved a
-  shallow fix), then `_shared/next-prompt.md`. Does not implement.
-  Anti-triggers: no work yet → getting-started; context dying / write a packet
-  → session-handoff; claiming done / sibling fix → post-flight; standup →
-  summarizing-my-work; seed only, no session recap → deep-dive; framed symptom
-  only → debugging-an-issue; mid-build layer check → deep-flight; open plan
-  phases → complete-the-build.
+  Recap this chat and emit one next-steps prompt. Use for "what's next", "where are we", or /next-steps. Does not implement.
 ---
 
 # Recommending next steps
 
-You are **mid-session**. Reconstruct what this chat actually did, deep-dive
-the leftover, emit **one** paste-ready first message for the next turn or
-chat. Do not implement.
-
-This is not `getting-started` (no work yet), not `session-handoff` (durable
-packet), not `post-flight` (wrap + fix), not a bare `deep-dive` (no recap).
-
-Routing: `_shared/flight-family.md`. Last output: `_shared/next-prompt.md`.
-
-## Trigger
-
-- "what's next", "next steps", "where are we", "what should we do next",
-  "recommend next", "session next", "recap and next", `/next-steps`,
-  `/recommending-next-steps`
-- A regular session has piled up work and the user wants an unambiguous
-  next prompt, not a menu
+Mid-session: reconstruct from evidence, run the leftover's owning skill, emit
+**one** paste-ready next prompt. Do not implement. Routing:
+`_shared/flight-family.md`. Last output: `_shared/next-prompt.md`.
 
 ## When to use vs neighbours
 
@@ -58,21 +34,16 @@ git diff --stat
 git log -5 --oneline
 ```
 
-Quote the status/stat. Then write:
+Quote status/stat. Then:
 
-1. **Asks** — verbatim user outcomes still in force (this chat).
+1. **Asks** — verbatim user outcomes still in force.
 2. **Accomplished** — only rows with a path, command, or quoted receipt.
-   Conversation memory without that evidence is not accomplished.
-3. **Leftover** — one sentence: the **underlying remaining problem**, not
-   the next button. If the leftover is wrong, say so before diving.
-4. **Failed attempts** — commands/errors so the next prompt does not repeat
-   them.
+3. **Leftover** — one sentence: the underlying remaining problem, not the next button.
+4. **Failed attempts** — commands/errors so the next prompt does not repeat them.
 
 No secrets, tokens, signed URLs, `.env` values.
 
 ### 2. Route the leftover (run the owning skill — do not re-derive)
-
-Read the owning skill and run it on the leftover seed:
 
 | Leftover                                   | Run                                                   |
 | ------------------------------------------ | ----------------------------------------------------- |
@@ -85,34 +56,21 @@ Read the owning skill and run it on the leftover seed:
 | Claiming done / they asked to wrap         | Stop; hand to `post-flight`                           |
 | Open plan gaps                             | Stop; hand to `complete-the-build`                    |
 
-Scale LIGHT / STANDARD / FULL with the owning dive. LIGHT only when the
-leftover is already a one-line proven cause or a one-line pick.
+Scale LIGHT / STANDARD / FULL with the owning dive. LIGHT only when leftover is
+a one-line proven cause or pick. `getting-started` names the next skill; it does
+not replace the dive.
 
-`getting-started` names the **next skill**. It does not replace the dive.
+### 3. Commit + output
 
-### 3. Commit the next step
-
-1. One next skill. Not a menu.
-2. Kill criteria — what would change this pick.
-3. Out of scope — resist expanding the session into a rewrite.
-4. Flag user choices as `DECISION:` (they go first in the fence).
-
-### 4. Self-review (exactly one pass)
-
-Would a skeptical engineer say this leftover is the **first remaining
-job**, not the loudest? If the critique lands, revise. Skip on LIGHT.
-
-### 5. Output
-
-Write `_shared/plain-english-brief.md`. Incomplete without the fence. Keep
-the ask/accomplished/receipt list off the page unless they ask.
-
-Then **this block is required** (nothing after):
+One next skill — not a menu. Kill criteria. Out of scope. `DECISION:` first in
+the fence. One self-review pass (is this the **first remaining job**, not the
+loudest? skip on LIGHT). Brief, then fence (≤20 lines, nothing after):
 
 ````markdown
 ## Next prompt
 
 ```text
+DECISION: <user choices first — omit if none>
 <root-skill>: <committed leftover + enough context to act>
 
 Specimen: <plan path / issue id — omit if none>
@@ -123,38 +81,16 @@ Do not implement a proximate patch. Follow the named skill in full.
 ```
 ````
 
-## Suggested Checks
-
-```bash
-git status --porcelain
-git diff --stat
-git log -5 --oneline
-```
-
 ## Guardrails
 
-- Evidence over recall. No accomplished row without a path or receipt.
-- Run the owning dive. Do not invent a third diagnosis process.
-- Do not implement. Do not write a handoff file unless they asked.
-- One prompt, ≤20 lines. Not "Want me to…?"
+- No accomplished row without a path or receipt. Do not recap from memory.
+- Run the owning dive. Do not implement. One prompt, not two. Not "Want me to…?"
+- Do not start `post-flight` or `session-handoff` unless the leftover table says so.
 - Leave edits unstaged. No commit/push/PR unless asked.
-
-## Never do
-
-- Recap from chat memory while `git status` is clean of those claims
-- Skip the dive because "we already talked about it"
-- End on `## Next` prose without a fenced `text` block
-- Emit two alternative prompts
-- Start `post-flight` or `session-handoff` unless the leftover table says so
 
 ## Pairs with
 
-- skills: `deep-dive`, `debugging-an-issue`, `do-it-right`, `getting-started`,
-  `session-handoff`, `post-flight`, `complete-the-build`, `create-plan`,
-  `root-cause-fix`, `deep-flight`
-- rules: `no-shortcuts`, `git-safety`, `deep-dive-rule`,
-  `recommending-next-steps-rule`
-- refs: `_shared/plain-english-brief.md`, `_shared/next-prompt.md`,
-  `_shared/flight-family.md`
-- commands: `next-steps-cmd` (`/next-steps`), `recommending-next-steps-cmd`
-  (`/recommending-next-steps`)
+- skills: `deep-dive`, `debugging-an-issue`, `do-it-right`, `getting-started`, `session-handoff`, `post-flight`, `complete-the-build`, `create-plan`, `root-cause-fix`, `deep-flight`
+- rules: `no-shortcuts`, `git-safety`, `deep-dive-rule`, `recommending-next-steps-rule`
+- refs: `_shared/plain-english-brief.md`, `_shared/next-prompt.md`, `_shared/flight-family.md`
+- commands: `next-steps-cmd` (`/next-steps`), `recommending-next-steps-cmd` (`/recommending-next-steps`)

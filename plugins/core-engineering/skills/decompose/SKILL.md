@@ -1,12 +1,7 @@
 ---
 name: decompose
 description: >
-  Turn a spec and task-topology declaration into sized work units with file allowlists,
-  shared interface contracts, per-unit verifiers, and done-conditions. Use after
-  task-topology chooses pipeline or graph, or when asked to "decompose this task", "split
-  into work units", or "write the unit contracts". Anti-triggers: topology still unknown →
-  task-topology first; implementing a unit → implement-node; merging units → integrate;
-  single-loop tasks → agentic-loop (no decompose).
+  Split a topology declaration into sized units with allowlists and verifiers. Use after task-topology chooses pipeline or graph.
 ---
 
 # Decompose

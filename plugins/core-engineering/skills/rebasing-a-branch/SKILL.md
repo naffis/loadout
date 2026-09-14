@@ -1,32 +1,20 @@
 ---
 name: rebasing-a-branch
-description: Safely rebase a branch onto its base with semantic conflict review. Use when a branch is behind and needs to catch up before merge.
+description: >
+  Rebase a branch onto its base with semantic conflict review. Slash-only. Use when a branch is behind before merge.
 disable-model-invocation: true
 ---
 
 # Rebasing a branch
 
-## Trigger
+Only when this is the **explicit** task. Never rebase or force-push a shared/integration trunk. Never stash.
 
-A feature branch has diverged from its base and needs to be updated before merging.
+Conflicts → `resolving-merge-conflicts`. Lockfiles → regenerate (`lockfile-conflicts`); never hand-merge.
 
-## Workflow
-
-1. **Back up:** note the current SHA (`git rev-parse HEAD`) so you can recover.
-2. **Update base:** `git fetch origin && git rebase origin/<base>`.
-3. **Resolve conflicts** with `resolving-merge-conflicts`: semantic resolve (prefer both sides when safe), lockfile regenerate, stage, gate green, then continue. For lockfiles, regenerate (see `lockfile-conflicts`); never hand-merge them.
-4. **After each resolution**, re-read the combined result for correctness, then `git rebase --continue`.
-5. **Validate:** run the build and the affected tests on the rebased branch.
-6. **Push** with lease, never a plain force: `git push --force-with-lease`.
-
-## Guardrails
-
-- Only force-push your own feature branch, never a shared/integration branch.
-- If a rebase gets confusing, `git rebase --abort` and reassess rather than guessing through conflicts.
-- Only run these git operations when that's the explicit task.
+Force-with-lease on **your own feature branch only**. Confusing rebase → `git rebase --abort`.
 
 ## Pairs with
 
-- rules: `lockfile-conflicts`, `testing-conventions`
+- rules: `lockfile-conflicts`, `testing-conventions`, `git-safety`, `no-stash`
 - skills: `reviewing-and-shipping`, `resolving-merge-conflicts`
 - workflows: `clear-the-queue`

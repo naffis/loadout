@@ -1,42 +1,15 @@
 ---
 name: reviewing-code-quality
+disable-model-invocation: true
 description: >
-  Audit code for maintainability — oversized files/functions, deep nesting,
-  duplication, leaky boundaries, dead code, and unclear naming. Use to assess
-  code health or before merging a large change, separate from a correctness
-  review. Anti-triggers: exhaustive defect hunt of a named package with no
-  known bug → hunting-defects; wrap the working tree to ship →
-  reviewing-and-shipping.
+  Audit maintainability (size, nesting, duplication, naming). Use for a health check, not a defect hunt.
 ---
 
 # Reviewing code quality
 
-## Trigger
+Assessment, not a rewrite. Flag `file:line` + why + a concrete move. Must-fix vs nice-to-have. Skip linter nits. Act via `refactoring-code`.
 
-Assessing maintainability of a file, module, or diff — distinct from a
-correctness review (`reviewer` agent), from slop cleanup (`deslopping`), and
-from an exhaustive defect hunt (`hunting-defects`).
-
-## Workflow
-
-Walk the target and flag issues, worst-first. Check:
-
-1. **Size** (per `size-limits`): files over ~400 lines, functions over ~50, giant `switch`/`if` ladders that want a table or polymorphism.
-2. **Nesting & control flow:** deep nesting that early returns would flatten; long parameter lists; boolean flag args that hide two functions.
-3. **Duplication:** copy-pasted logic that should be one helper; parallel structures that drift.
-4. **Boundaries & coupling:** business logic in controllers/handlers/UI; modules reaching across layers; circular deps; leaky abstractions.
-5. **Naming & clarity:** vague names (`data`, `handle`, `manager`), names that lie, comments compensating for unclear code.
-6. **Dead weight:** unused code/exports, commented-out blocks, speculative abstraction (one-use interfaces, config for values that never vary).
-7. **Error handling:** swallowed errors, over-broad catches, fallbacks that mask failures (see `no-shortcuts`).
-
-## Output
-
-A prioritized list: each finding with file:line, why it hurts maintainability, and a concrete fix (often "extract", "flatten", "rename", "delete"). Separate must-fix (actively harmful) from nice-to-have. Don't rewrite working code for taste; flag and recommend.
-
-## Guardrails
-
-- This is an assessment, not a refactor — to act on findings, use `refactoring-code` (behavior-preserving) or file focused fixes.
-- Report what affects maintainability; avoid style nits a linter already enforces.
+Anti-triggers: `hunting-defects`, `reviewing-and-shipping`, `deslopping`, `reviewer`.
 
 ## Pairs with
 

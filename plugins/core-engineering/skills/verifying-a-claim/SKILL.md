@@ -1,13 +1,7 @@
 ---
 name: verifying-a-claim
 description: >
-  Verify one named claim with baseline vs treatment evidence and return exactly
-  one verdict: VERIFIED, NOT VERIFIED, or INCONCLUSIVE. Triggers on "verify
-  this claim", "/verify-claim", baseline vs treatment, a single falsifiable
-  assertion. Does not implement a fix. Anti-triggers: "test all the surfaces"
-  / "prove this session works" → verifying-session-surfaces; diff code-review
-  → native /review / /review-bugbot / /review-security; root-cause on an
-  already-framed bug → root-cause-fix.
+  Verify one named claim with baseline vs treatment. Use for "verify this claim" or /verify-claim. Session surfaces → verifying-session-surfaces.
 ---
 
 # Verifying a claim

@@ -335,3 +335,49 @@ in `plugins/search-visibility/skills/_shared/evidence.md`.
 Shipped: `auditing-search-visibility` + scanner RECEIPT, `writing-citable-content`,
 `optimizing-for-discovery`, rules `people-first-content` / `no-search-spam` /
 `search-technical`, workflow `search-visibility`.
+
+---
+
+## 10. 2026-09 addendum — models need less skill prose
+
+Re-surveyed after frontier models started claiming they “don’t need most community skills.” The expert answer is **not** “delete the catalog.” It is: **keep what the model will still get wrong; cut what it already knows.**
+
+| Source | Takeaway |
+| --- | --- |
+| [Anthropic — Effective context engineering](https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents) (2025-09-29) | “Smarter models require less prescriptive engineering.” Start from a **minimal** prompt on the best model; add only what failed. Prompt formatting matters less as models improve. Smallest high-signal token set; context rot is real. |
+| [agentskills.io — Best practices](https://agentskills.io/skill-creation/best-practices) | *“Add what the agent lacks, omit what it knows.”* Litmus: would the agent get this wrong without this line? If the whole task works without the skill, the skill is not adding value. Overly comprehensive skills **hurt**. SKILL.md &lt; 500 lines **and** ~5,000 tokens. |
+| [Anthropic — Skill authoring](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) | Test on Opus: *does the Skill avoid over-explaining?* What works for Haiku may be too much for Opus. |
+| [Claude Code best practices](https://code.claude.com/docs/en/best-practices) | CLAUDE.md / AGENTS.md litmus: would removing this cause a mistake? Bloated always-on files get **ignored**. Situational knowledge → skill. After two failed corrections, `/clear`. Maker ≠ checker. |
+| [Cursor — Agent best practices](https://cursor.com/blog/agent-best-practices) (Lee Robinson, 2026-01) | Rules: add **only after a repeated mistake**. Don’t document common tools. Skills load on demand. Native Plan Mode, `/review`, Bugbot — don’t reinvent. Fresh chat on task change. |
+| [Cursor — Skills](https://cursor.com/docs/skills) + [Rules](https://cursor.com/docs/context/rules) | Built-ins: `/review`, `/review-bugbot`, `/review-security`, `/loop`, `/canvas`, `/migrate-to-skills`. Nested project skills auto-scope. `paths` not `globs` for new skills. |
+| [AGENTS.md](https://agents.md/) (AAIF / Linux Foundation) | Cross-tool README for agents: commands, conventions, gotchas. Nested; closest wins. Sample files are **short**. No required schema. |
+
+**What this catalog keeps (models still fail these):** house git (`git-safety`, `no-stash`, whole-tree commit), maker ≠ checker + RECEIPT scripts, unique routing/anti-triggers, unique output fences (`next-prompt`, verdicts), project gotchas.
+
+**What this catalog no longer teaches:** generic TDD, how to rebase, how to write a PR, coverage pyramids, 5-whys essays, ACI tool-design lectures, “why this matters” openers.
+
+Authoring contract: `skill-author` (omit-what-it-knows filter). Prune on ratchet: `hardening-the-harness`.
+
+---
+
+## 11. 2026-09 second pass — descriptions, index, invocation
+
+The first slims cut **bodies**. The larger tax was still on every turn: **name + description of every skill** load at startup (~100 tokens each in the spec; this catalog was ~30k description characters).
+
+| Source | Takeaway we missed |
+| --- | --- |
+| [Vercel — AGENTS.md outperforms skills](https://vercel.com/blog/agents-md-outperforms-skills-in-our-agent-evals) | Unused skill = **+0pp** vs baseline; worse on some tests. Explicit “use the skill” reached 79%. An **8KB AGENTS.md docs index** hit 100%. Skills win for **vertical, user-triggered** workflows (migrate, upgrade). Horizontal knowledge → index, not a skill the model must remember to open. |
+| [OpenAI — Rethinking skills for GPT-6 Astra](https://developers.openai.com/blog/rethinking-skills-and-prompts-for-gpt-6-astra) | Descriptions that are long or over-broad cause wrong loads; hosts **truncate** descriptions when many skills are installed. Narrow WHEN. `SKILL.md` is a **router**. Do not require reading a stack of docs before every edit. Over-specific itineraries now hinder. |
+| [agentskills.io — Optimizing descriptions](https://agentskills.io/skill-creation/optimizing-descriptions) | Description carries the entire trigger burden. Test should-trigger **and** near-miss should-not. In a large catalog, prefer Astra’s narrow WHEN over “be pushy.” |
+| [agentskills.io spec](https://agentskills.io/specification) | Progressive disclosure: metadata always → body on activate → refs on demand. `compatibility`, `metadata`, `allowed-tools`. |
+| [Claude Code / VS Code skills](https://code.claude.com/docs/en/skills) | `user-invocable: false` = model-only, hidden from `/`. `disable-model-invocation: true` = slash-only. |
+| [Cursor Skills](https://cursor.com/docs/skills) | Built-ins (`/review`, `/review-bugbot`, `/loop`, `/canvas`, `/migrate-to-skills`). Nested project skills auto-scope. `paths` not `globs`. Cloud: keep descriptions short (truncation reports). |
+| [Augment — context is a junk drawer](https://www.augmentcode.com/blog/your-agents-context-is-a-junk-drawer) (2026-02) | ETH Zurich: bloated context files can **reduce** success and raise cost. Wortmann prune: failure-backed / tool-enforceable / decision-encoding / triggerable — else delete. |
+| [Codex AGENTS.md](https://developers.openai.com/codex/agent-configuration/agents-md) | Nested files merge; closer wins. Keep global + repo files short. |
+
+**Catalog policy after this pass**
+
+- Descriptions: ≤280 chars typical; doctor **warns >400**. Anti-trigger tables live in the body.
+- Generic how-to skills are `disable-model-invocation: true` (slash-only) so they do not sit in always-on metadata.
+- `AGENTS.md` template is an **index** (commands, gotchas, “read X when Y”).
+- Matching `.mdc` files **route** to the skill; they do not reprint the completeness bar.

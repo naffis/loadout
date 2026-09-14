@@ -1,44 +1,18 @@
 ---
 name: reviewing-and-shipping
-description: Review the working tree for correctness and intent fit, run tests, and wrap up. Commit/push only when asked; with shared-working-tree, commit the whole trunk tree and open a PR only if explicitly requested.
+description: >
+  Wrap a finished change for ship. Use for "reviewing and shipping" or "wrap this up to ship". Plan-vs-diff → review-build.
 ---
 
 # Reviewing and shipping
 
-## Trigger
+| Prefer instead | When |
+| --- | --- |
+| `verifying-session-surfaces` | Live surfaces not exercised |
+| `review-build` | Came from a written plan / high stakes |
+| `hunting-defects` | Named package, no single known bug |
 
-Work is functionally complete and you're about to wrap up. Prefer
-`verifying-session-surfaces` (`/verify-surfaces`) when the change added
-user-visible surfaces and they have not been exercised live. Prefer
-`review-build` (`/review-build`) first when the change came from a written
-plan or the stakes are high — then use this skill. Prefer `hunting-defects`
-(`/hunt-defects`) when the ask is an exhaustive review of a named package
-with no single known bug (not this session's diff).
-
-## Workflow
-
-1. **Gather context.** Diff against the integration trunk from `AGENTS.md`, list dirty files, recall the intent.
-
-```bash
-git status
-git diff
-```
-
-2. **Run targeted tests** for the changed behavior. Add tests for new behavior or note the gap explicitly.
-   If this session created or updated a live surface, run `verifying-session-surfaces`
-   (`/verify-surfaces`) before treating tests as enough.
-3. **Review the diff** for correctness, regressions, security, and fit with the stated intent. For large diffs, dispatch the `reviewer` agent on a fresh context. Fix critical issues and re-run affected tests.
-4. **Self-deslop**: remove stray comments, dead code, `any` casts, and over-defensive scaffolding the change introduced.
-5. **Commit only if the user asked.**
-   - If `shared-working-tree` is installed → `committing-on-shared-trunk` (whole eligible tree, stay on trunk, no stash).
-   - Otherwise → focused conventional commit(s) as usual.
-6. **PR only if the user explicitly asked** for a PR — then `opening-a-pr`. Otherwise push the trunk when push was requested.
-
-## Guardrails
-
-- Ship only what you confirmed works; show the test/build evidence.
-- With `shared-working-tree`, do **not** leave sibling-agent WIP unstaged to keep a commit "focused."
-- Follow `git-safety` / `no-stash` / `commit-and-pr-conventions` — don't commit/push/branch unless explicitly asked.
+Commit only if asked. Shared-trunk → whole tree (`committing-on-shared-trunk`); don't leave sibling WIP unstaged. PR only if asked (`opening-a-pr`). Show gate evidence. `git-safety` / `no-stash`.
 
 ## Pairs with
 

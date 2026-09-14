@@ -1,10 +1,7 @@
 ---
 name: equipping-loadout
-description: >-
-  Install or refresh the naffis/loadout harness into the current project by following
-  repo-root INSTALL.md. Use when the user pastes https://github.com/naffis/loadout (or
-  this repo) and says "use this", "install loadout", "equip this project", "pull in
-  loadout", "update loadout", "update to latest", or "sync loadout".
+description: >
+  Install or refresh loadout from INSTALL.md. Use for "install loadout", "equip this project", or "update loadout".
 ---
 
 # Equipping loadout

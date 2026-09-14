@@ -3,106 +3,42 @@ name: create-plan
 icon: book-open
 color: blue
 description: >
-  Create a complete, zero-shortcut implementation plan before coding. Use when
-  the user says "create-plan", "run create-plan", "/plan", "Create a plan for
-  X", "plan for", "write a plan", "plan out", "implementation plan", "technical
-  plan", or "design plan" — including when those words are buried in a longer
-  prompt. Requires extensive in-repo AND external research. MUST finish with
-  Cursor CreatePlan (Build button) plus a workspace research .md; never
-  Write-only under .cursor/plans/. No TBD/stubs/deferred decisions.
-  Anti-triggers: user already asked to implement/build now; orchestrator Plan
-  phase already routed to planning.mdc LIGHT for a tiny enhancement; pure Q&A
-  with no plan requested; seed thought / "deep dive:" → deep-dive; existing
-  plan stress-test → review-plan.
+  Write a complete implementation plan before coding. Use for "create-plan", "/plan", or "write a plan for X". Not a seed investigation (deep-dive).
 ---
 
 # Create a plan
 
-Cursor Plan Mode (2026): clarify → research the repo → reviewable plan → you
-edit → **Build**. Delivery is **CreatePlan** (Build UI), not a `Write` to
-`.cursor/plans/` alone. Routing: `_shared/plan-build-family.md`.
+Delivery is **CreatePlan** (Build UI), not a `Write` to `.cursor/plans/` alone. Routing: `_shared/plan-build-family.md`.
+
+Not this skill: implement/build now · planning.mdc LIGHT tiny enhancement · Q&A with no plan asked · `deep dive:` → `deep-dive` · existing-plan stress-test → `review-plan`.
 
 ## Immediate action
 
-1. Read `.cursor/rules/create-plan.mdc` and
-   `references/cursor-native-plan.md`.
-2. If not in **Plan mode**, switch (`SwitchMode` → `plan`) — CreatePlan / Build
-   require it (`Shift+Tab`).
-3. Do **not** claim done after writing only a workspace markdown file.
-4. Do not implement unless the user clicks **Build** or explicitly asks.
+1. Read `.cursor/rules/create-plan.mdc` and `references/cursor-native-plan.md`.
+2. If not in **Plan mode**, `SwitchMode` → `plan` (`Shift+Tab`). CreatePlan / Build require it.
+3. Do **not** claim done after only a workspace markdown file.
+4. Do not implement unless the user clicks **Build** or explicitly asks. Research finished ≠ implement.
 
 ## Workflow
 
-### 0. Clarify (official Plan Mode step 1)
-
-If the ask is underspecified in a way that would change design, ask **one
-batch** of numbered questions and **stop until answered**. Minor ambiguity →
-labeled assumption. Do not invent product choices.
-
-### 1. Perceive — this repo first
-
-Read `AGENTS.md` (Documentation map), owning docs, live code that will change
-or be reused. Inventory existing primitives. Note hard constraints
-(no-shortcuts, tool-exposure, KV, prompt registry, billing, size limits,
-context-budget).
-
-Evidence: **live code > owning docs > AGENTS.md > labeled assumption**.
-
-### 2. Research externally (mandatory)
-
-Do not lock a design from training-data guesswork. Write 3–6 search questions;
-read primary sources (official docs, RFCs, vendor APIs). Cover SOTA, common
-practice, pitfalls, standards, reference implementations.
-
-Record a citations table (title + URL + takeaway). If SOTA conflicts with repo
-invariants, choose explicitly (adapt or reject). Skipping research because
-"we know the codebase" is a plan failure.
-
-### 3. Frame
-
-Problem · Outcome · In scope / Non-goals (each with why) · Success metrics.
-
-### 4. Decide
-
-For every non-trivial fork: ≥2 real alternatives (include one external
-practice when it exists); mini-ADR; pick one. Prefer correct over convenient.
-
-### 5. Specify
-
-EARS requirements; Given/When/Then ACs; ban vague words (`fast`, `robust`,
-`as needed`). Cover happy path, authz/validation, empty/boundary/idempotent/
-concurrent/partial-failure, migrations, observability.
-
-### 6. Decompose
-
-Each `T-0N`: files, deps, acceptance, verification, wiring (routes, tools,
-MCP/API, KV, prompts, docs/changelog). Tests and DoD rows are tasks **in this
-plan**, not follow-ups.
-
-### 7. Deliver + prove (not a self-grade)
-
-1. **CreatePlan** — `name`, `overview`, `plan`, non-empty `todos` (one per
-   `T-0N`). See `references/cursor-native-plan.md`.
-2. **Research doc** — `Write` `references/plan-template.md` to
-   `.cursor/plans/YYYY-MM-DD-<slug>.md`. Link it from the CreatePlan body
-   (this is Cursor's "Save to workspace").
-3. **plan-ban-sweep** — quote RECEIPT:
+1. **Clarify** — one batch of numbered questions if the answer changes design; then stop. Else labeled assumption. Do not invent product choices.
+2. **Perceive** — this repo first. Live code > owning docs > AGENTS.md > labeled assumption.
+3. **Research externally (mandatory)** — 3–6 search questions; primary sources; citations (title + URL + takeaway). SOTA vs invariants → choose explicitly. Skip because "we know the codebase" is a plan failure.
+4. **Specify + decompose** — every `T-0N` has files, AC, verifier, wiring; tests/DoD are tasks **in this plan**.
+5. **Deliver + prove**
+   1. **CreatePlan** — `name`, `overview`, `plan`, non-empty `todos` (one per `T-0N`). See `references/cursor-native-plan.md`. Empty `todos` banned.
+   2. **Research doc** — `Write` `references/plan-template.md` to `.cursor/plans/YYYY-MM-DD-<slug>.md`. Link it from the CreatePlan body.
+   3. **plan-ban-sweep** — quote RECEIPT:
 
 ```bash
 .cursor/skills/_shared/scripts/plan-ban-sweep.sh .cursor/plans/YYYY-MM-DD-<slug>.md
 ```
 
-4. Isolated **`plan-checker`** (`readonly`, no `resume`). Same-session
-   self-grade cannot close. FAIL → fix the plan, one recheck.
+   4. Isolated **`plan-checker`** (`readonly`, no `resume`). Same-session self-grade cannot close. FAIL → fix the plan, one recheck. Never same-session APPROVED.
 
-Prefer `/review-plan` before Build on non-trivial work. After review, refresh
-CreatePlan so Build matches the approved plan.
+Prefer `/review-plan` before Build on non-trivial work. After review, refresh CreatePlan so Build matches. Chat reply: `_shared/plain-english-brief.md`. Do not paste the research doc.
 
-Chat reply after CreatePlan: `_shared/plain-english-brief.md`. Do not paste
-the research doc into chat.
-
-If a later build misses intent: **revert, refine this plan, rebuild** — do not
-patch a drifted agent (Cursor Plan Mode).
+If a later build misses intent: **revert, refine this plan, rebuild**.
 
 ## Never do
 
