@@ -17,7 +17,7 @@ on, what to do, any decision). Details only if asked.
 
 ---
 
-## Skills (65)
+## Skills (66)
 
 ### Getting started (start here)
 
@@ -32,6 +32,7 @@ on, what to do, any decision). Details only if asked.
 
 | Skill                           | What / when                                                                                                                                                                                                | Call                                                          |
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `working-agentically`          | Apply the explicitly adopted portable shared-checkout process; preserve project constraints, coordinate writers, and reuse validation. | adopted `.loadout/engineering` profile / explicit adoption request |
 | `agentic-loop`                  | Run a non-trivial task as a verifiable perceive→plan→act→observe→verify→reflect loop: stop-condition contract, ground-truth verification, maker≠checker, durable memory, context budget, bounded autonomy. | long-horizon/multi-step work; "run this as a loop"            |
 | `running-a-dev-cycle`           | Adaptive end-to-end cycle: classify a task (QUICK/ENHANCEMENT/INTEGRATION/INVESTIGATION/ITERATION) and route it through the lightest path, each phase an agentic loop.                                     | "build this end to end" / "autonomous mode"                   |
 | `orchestrating-parallel-agents` | Run N independent items in parallel — worktrees by default, or shared trunk when `shared-working-tree` is installed; bounded concurrency; serialized landing gated by maker-checker.                       | "do these in parallel" / "clear the queue"                    |
@@ -313,6 +314,9 @@ composes and optional `gate` / `stop_condition` / `state`.
 | `cursor-safety-hooks` | Cursor project hooks: deny stash / hard-reset / clean / whole-tree restore, redact live env reads. Do **not** bind `stop` `followup_message` (Cursor submits that as a user turn). Merge `hooks.fragment.json` into `.cursor/hooks.json`. |
 
 ## Reference docs (`docs/`)
+
+`portable-engineering` documents the opt-in process profile and safe installer;
+`adopt-portable-engineering-prompt` is the reusable migration prompt for each project.
 
 `doc-install` / repo-root `INSTALL.md` (agent _use this_ / _update to latest_ contract),
 `usage` (this guide's companion), `catalog` (this file), `external-practices` (Anthropic/Cursor

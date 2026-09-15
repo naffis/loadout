@@ -13,6 +13,11 @@ it into their project, or **update** an existing install to match upstream.
 
 ## Workflow
 
+For explicit portable/shared-checkout engineering adoption or refresh, use the
+dedicated flow in `docs/portable-engineering.md` and
+`docs/adopt-portable-engineering-prompt.md` at the selected loadout revision.
+Do not route that request through the legacy starter installation below.
+
 1. **Load the contract.** `INSTALL.md` is the single source of truth for commands and the
    starter set. Resolve it in order:
    1. Consumer project root `INSTALL.md` (vendored via `doc-install`)

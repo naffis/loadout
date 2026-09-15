@@ -15,6 +15,34 @@
   },
   "assets": [
     {
+      "id": "working-agentically",
+      "type": "skill",
+      "source": "plugins/core-engineering/skills/working-agentically",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["codex", "grok", "claude", "cursor"],
+      "layer": "skill",
+      "pairs_with": ["doc-portable-engineering", "doc-adopt-portable-engineering-prompt"]
+    },
+    {
+      "id": "doc-portable-engineering",
+      "type": "doc",
+      "source": "docs/portable-engineering.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["generic"],
+      "layer": "doc"
+    },
+    {
+      "id": "doc-adopt-portable-engineering-prompt",
+      "type": "doc",
+      "source": "docs/adopt-portable-engineering-prompt.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": ["generic"],
+      "layer": "doc"
+    },
+    {
       "id": "getting-started",
       "type": "skill",
       "source": "plugins/core-engineering/skills/getting-started",

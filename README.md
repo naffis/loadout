@@ -5,6 +5,11 @@ Code skills and Cursor rules, plus the docs, processes, and project scaffolds th
 with them. New projects pull from it, you push improvements back, and existing projects
 pick up updates on a schedule.
 
+For existing projects adopting a faster shared-checkout workflow across Codex, Grok,
+Claude, Cursor, or Herdr, use the opt-in [portable engineering profile](./docs/portable-engineering.md)
+and its [project adoption prompt](./docs/adopt-portable-engineering-prompt.md).
+It adds managed process references while preserving project-owned instructions and docs.
+
 Skills and rules are designed to **compose into named workflows** that get real work
 done — not sit as an unordered pile.
 
@@ -59,6 +64,8 @@ vendoring? See [Consuming loadout](#consuming-loadout) below.
 ## Documentation
 
 - **[INSTALL.md](./INSTALL.md)** — agent contract for _use this_ / _update to latest_.
+- **[Portable engineering](./docs/portable-engineering.md)** — additive process adoption, CLI adapters, validation, and independent updates.
+- **[Project adoption prompt](./docs/adopt-portable-engineering-prompt.md)** — paste into each project's agent to migrate instructions with architecture and required gates preserved.
 - **[docs/usage.md](./docs/usage.md)** — how to install loadout, how each asset type loads and how you invoke it, and how the pieces compose. Start here.
 - **[docs/catalog.md](./docs/catalog.md)** — one-line reference for every skill, rule, subagent, command, workflow, runbook, and template, with how to call each.
 - **[docs/external-practices.md](./docs/external-practices.md)** — the Anthropic/Cursor authoring conventions behind the assets.
@@ -116,6 +123,7 @@ Pin consumers to release tags, not `main` — e.g. `npx github:naffis/loadout#v0
 | `loadout update [--check] [--refresh-only]` | Pull latest, three-way merge, and install missing `kits.starter` + workflow `uses:` deps; `--check` dry-runs (non-zero on drift); `--refresh-only` skips installs |
 | `loadout diff <id>`                         | Show upstream vs local for one asset                                                                                                                              |
 | `loadout doctor`                            | Validate manifests, frontmatter, composition refs, orphaned files, and lockfile integrity                                                                         |
+| `loadout engineering plan/apply/check/remove` | Preview, adopt, verify, update, or remove the separate portable engineering profile; supports `--tools codex,grok,claude,cursor` and `--dry-run` |
 
 There is no `build` command. Nothing is generated; the manifests are hand-maintained
 and `doctor` catches mistakes.
@@ -128,6 +136,9 @@ and `doctor` catches mistakes.
   `/plugin update` once per day. Pin to release tags, not `main`.
 - **Vendored assets**: run `loadout update` per project, or schedule `loadout update --check`
   in CI to open an update PR when drift exists.
+- **Portable engineering profile**: use `engineering plan`, then `engineering apply`
+  with a reviewed loadout revision. Project docs and `project.json` stay project-owned;
+  generic `update` does not update this profile.
 
 ## Updates never clobber local edits
 
