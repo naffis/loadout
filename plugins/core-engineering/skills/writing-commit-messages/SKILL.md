@@ -9,7 +9,7 @@ description: >
 
 `type(scope): summary` from the staged diff. Ticket id if present. No secrets.
 
-If `shared-working-tree` / `committing-on-shared-trunk` are installed: the staged set is the **whole tree**. Do **not** unstage "unrelated" files. Dominant theme in the subject; other themes in the body. Split only if the user asks.
+If `shared-working-tree` / `committing-on-shared-trunk` are installed: describe the coordinator's **coherent ready batch**. Inspect existing staged content; do not change staging ownership to fit a message. Unfinished or unrelated WIP stays out.
 
 ## Pairs with
 

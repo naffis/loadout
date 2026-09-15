@@ -6,9 +6,9 @@ alwaysApply: false
 # Commit and PR conventions
 
 - Commit messages: `type(scope): summary` (feat, fix, chore, refactor, docs, test). Imperative mood.
-- If `shared-working-tree` is installed, a user-asked commit includes **all** eligible dirty
-  files (`committing-on-shared-trunk`) — message the whole tree; list extra themes in the body.
-  Otherwise prefer focused, one-concern commits.
+- If `shared-working-tree` is installed, a user-asked commit includes a coherent ready batch
+  (`committing-on-shared-trunk`); keep unfinished or unrelated WIP out. Describe the staged
+  change, including its necessary tests and docs.
 - Include the issue/ticket id in the commit and PR body when one exists.
 - PRs only when the user explicitly asks. Descriptions are validation-first: what changed,
   why, and concrete "Verify that…" steps. Keep steps environment-neutral.

@@ -9,7 +9,7 @@ description: >
 
 Bucket: must-fix / should-fix / discuss / out-of-scope. Reply vs silently comply. Don't resolve others' threads. No drive-by refactors.
 
-Do **not** commit unless asked. If commit is authorized and `shared-working-tree` is installed → whole tree (`committing-on-shared-trunk`), not "focused commits."
+Do **not** commit unless asked. If commit is authorized and `shared-working-tree` is installed → coherent ready batch (`committing-on-shared-trunk`), leaving unrelated WIP untouched.
 
 ## Pairs with
 

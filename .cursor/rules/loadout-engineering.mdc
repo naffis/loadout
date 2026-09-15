@@ -1,0 +1,7 @@
+---
+description: Load the explicitly adopted loadout engineering profile
+alwaysApply: true
+---
+
+Read .loadout/engineering/WORKFLOW.md and .loadout/engineering/project.json.
+Preserve applicable project and nested instructions; surface conflicts.

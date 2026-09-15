@@ -15,6 +15,83 @@
   },
   "assets": [
     {
+      "id": "adopting-engineering",
+      "type": "skill",
+      "source": "plugins/meta/skills/adopting-engineering",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "skill",
+      "pairs_with": [
+        "equipping-loadout",
+        "doc-portable-engineering",
+        "doc-adopt-portable-engineering"
+      ]
+    },
+    {
+      "id": "adopt-engineering-cmd",
+      "type": "command",
+      "source": "plugins/meta/commands/adopt-engineering.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "command",
+      "pairs_with": [
+        "adopting-engineering"
+      ]
+    },
+    {
+      "id": "doc-portable-engineering",
+      "type": "doc",
+      "source": "docs/portable-engineering.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "doc",
+      "pairs_with": [
+        "adopting-engineering"
+      ]
+    },
+    {
+      "id": "doc-adopt-portable-engineering",
+      "type": "doc",
+      "source": "docs/adopt-portable-engineering-prompt.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "doc",
+      "pairs_with": [
+        "adopting-engineering"
+      ]
+    },
+    {
+      "id": "doc-efficient-agent-development",
+      "type": "doc",
+      "source": "docs/efficient-agent-development.md",
+      "version": "0.1.0",
+      "managed": true,
+      "tools": [
+        "cursor",
+        "claude"
+      ],
+      "layer": "doc",
+      "pairs_with": [
+        "adopting-engineering"
+      ]
+    },
+    {
       "id": "getting-started",
       "type": "skill",
       "source": "plugins/core-engineering/skills/getting-started",

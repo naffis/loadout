@@ -11,6 +11,9 @@ description: >
 The user points at the loadout GitHub repo (or a checkout of it) and wants to **install**
 it into their project, or **update** an existing install to match upstream.
 
+Portable workflow adoption or update → `adopting-engineering`. That route uses only
+engineering plan/apply/check and preserves project docs; do not run the flows below.
+
 ## Workflow
 
 1. **Load the contract.** `INSTALL.md` is the single source of truth for commands and the
@@ -39,7 +42,7 @@ it into their project, or **update** an existing install to match upstream.
 
 ## Pairs with
 
-- skills: `getting-started`, `hardening-the-harness`, `skill-author`, `rule-author`
+- skills: `adopting-engineering`, `getting-started`, `hardening-the-harness`, `skill-author`, `rule-author`
 - rules: `audit-external-skills`, `definition-of-done`
 - commands: `start`
 - docs: `doc-install`, `doc-usage`, `doc-catalog`, `harness-setup`, `bootstrap-project`

@@ -145,6 +145,15 @@ append repo-specific bans there.
 
 ---
 
+## Adopt the portable workflow in an existing project
+
+Use `/adopt-engineering` from the meta plugin, or invoke `adopting-engineering`.
+Default reviewed revision: `2f539afbdf4a724c0542f1c03c69ef46af036cb1`.
+The skill inspects the project and implements adoption with engineering
+plan/apply/check; it preserves architecture, project docs, security, and required gates.
+This route is separate from starter installation and generic update below.
+See [the adoption instructions](adopt-portable-engineering-prompt.md).
+
 ## 3. Installing and consuming
 
 **Agent shortcut:** when the user points at this repo and says _use this_ or _update to
@@ -207,9 +216,9 @@ and subagents, with optional `gate` (objective check), `stop_condition`, and `st
 2. **`planning-a-change`** (skill) — explore, write and stress-test a short plan.
 3. Implement, adding tests for new behavior.
 4. **`review-build`** (`/review-build`) — evidence-first check of the diff vs the plan (prefer a fresh chat when stakes are high).
-5. **`reviewer`** (subagent) checks the diff against the plan in a fresh context — maker ≠ checker.
+5. Satisfy required independent review once for the candidate; reuse a matching checker verdict from the preceding review.
 6. **`writing-commit-messages`** → **`opening-a-pr`** (skills); **`making-a-pr-reviewable`** if the diff is noisy.
-7. The `gate` (your test+lint command) must pass before "done."
+7. Applicable batch checks must pass before "done"; preserve required CI/release gates. Focused feedback during edits does not require the entire gate every time.
 
 For high-stakes work, use **`plan-then-build`** instead: `/plan` → `/review-plan` →
 implement → `/review-build`.
@@ -220,7 +229,7 @@ Other shipped workflows: `plan-then-build` (`/plan` → `/review-plan` → imple
 `cut-a-release`, `onboard-to-codebase`, `run-autonomous-loop`, `run-quality-loop`.
 
 **Routing within a workflow** follows the golden rule: the constraints are rules loaded
-automatically, the steps are skills, enforcement is a hook, and a separate subagent verifies.
+automatically, the steps are skills, enforcement is a hook, and required independent review uses a separate context. Skill composition does not imply repeating already-satisfied checks.
 The quality loop is a good mini-example: `reviewing-code-quality` (find issues) →
 `refactoring-code` (fix them safely) under the `size-limits` + `refactor-discipline` rules.
 
@@ -324,3 +333,50 @@ frontmatter, composition references, orphaned files, and lockfile integrity). CI
 - [`external-practices.md`](./external-practices.md) — the Anthropic/Cursor conventions behind the assets.
 - [`agentic-patterns.md`](./agentic-patterns.md) — the 2026 agentic-coding pattern catalog (the loop, context engineering, maker-checker, tool design, root-cause) mapped to the assets that encode each.
 - [`agent-harness-engineering.md`](./agent-harness-engineering.md) and [`loop-engineering.md`](./loop-engineering.md) — the methodologies loadout is built on.
+
+## Developing this loadout repository
+
+The source layout and distribution model are in README.md and
+agent-harness-engineering.md. The TypeScript CLI remains the legacy installer;
+portable adoption uses the separately pinned CLI described in the adoption skill.
+Node >=18 is the package contract; CI uses Node 20. Do not change dependencies or
+CLI behavior as part of a documentation/process adoption.
+
+| Scope | Actual commands | When |
+| --- | --- | --- |
+| Asset feedback | `node --import tsx cli/src/index.ts doctor` | After a coherent group of manifest/rule/skill edits; uses current source without a rebuild. |
+| Rule metadata feedback | `node --test rules/frontmatter-modes.test.mjs` | Rule loading modes, catalog metadata, or related instruction changes. |
+| CLI behavior feedback | `node --import tsx --test cli/src/lib/merge.test.ts cli/src/lib/project.test.ts cli/src/lib/desired.test.ts` | Installer/merge/projection behavior changes; narrow to the relevant file during iteration. |
+| Completed batch | `npm run build`, `npm test`, `node dist/index.js doctor` | Once for the completed candidate; the build is also the TypeScript check. Reuse unchanged-input passes. |
+| CI | `.github/workflows/validate.yml` | Also includes workflow YAML parsing and a scratch init/add/list smoke test. These inline jobs remain required by the existing workflow; no equivalent named local script exists. |
+| Release | `.github/workflows/release.yml` | On main: npm ci (prepare builds), doctor, version resolution, conditional tag/release. Preserve this trigger and GitHub authority; local validation does not publish. |
+
+`.loadout/engineering/project.json` maps runnable argv lists, not a shell pipeline
+or scheduler. Execute commands in order. The release list represents local
+preflight; GitHub's existing jobs, branch protection/rulesets, and release actions
+remain authoritative. Inline CI jobs are explicitly listed as unmapped there;
+an empty mapping or a skipped job is not a successful check.
+
+For documentation-only edits, doctor plus reference/configuration checks is the
+normal feedback loop. This repository's existing test suite is small; a final
+batch run is reasonable for changes spanning many distributed instructions. Do
+not run it after every paragraph or ask multiple reviewers to rerun it.
+
+### Invoking adoption across projects
+
+When the meta plugin containing this change is installed, use
+`/adopt-engineering` (Claude may namespace it as `/meta:adopt-engineering`). In a
+client that discovers the skill, invoke `adopting-engineering` directly. From a
+local loadout checkout, any agent can read
+`plugins/meta/skills/adopting-engineering/SKILL.md` and apply it in its current
+project. No global installation or plugin refresh is performed by adoption.
+
+This skill defaults to the reviewed full SHA, obtains that source outside the
+consumer, reads its adoption contract, and runs engineering plan/apply/check. The
+legacy CLI in this checkout does not expose those commands. See the skill for the
+tested source-build fallback when npm Git-package execution fails.
+
+For an update, supply a new reviewed SHA, keep the existing adapter selection,
+run plan/apply/check, and update project-owned provenance after success. Preserve
+project.json and project docs; never edit install.json hashes manually. Refresh
+active client context using its supported mechanism after instruction changes.

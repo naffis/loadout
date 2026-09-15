@@ -64,9 +64,9 @@ exactly when it's most likely wrong.
 
 One pass generates; a separate, independent pass evaluates against the contract and feeds
 back; iterate until clean. It works when the criteria are clear and feedback demonstrably
-improves the result — the case for code with tests. The guardrail: **the maker must not
-be the sole checker.** The model that wrote the code rationalizes its own diff, so a fresh
-context (a review sub-agent) grades shippable work.
+improves the result — the case for code with tests. Use objective checks throughout. A fresh review context is required when the project
+or user calls for independent review, and useful for material risk. Reuse matching
+review evidence across skill handoffs instead of adding a reviewer per unit.
 
 - **Encoded by:** the `reviewer` / `security-reviewer` agents (the checker);
   `review-plan` / `review-build` (and `/review-plan` / `/review-build` — prefer a fresh
@@ -92,7 +92,9 @@ exploration burns tokens in a sub-agent that returns a 1–2k-token distilled su
 A central agent decomposes a task and delegates units to workers — useful when subtasks
 aren't known up front. Independent units run in parallel (sectioning); genuinely uncertain
 changes can run as best-of-N (voting). File-level isolation via **git worktrees** lets
-parallel agents edit without collisions. The ceiling is **your review bandwidth**: ten
+parallel agents edit without collisions. Default to one writer in the existing checkout; worktree isolation requires explicit
+authorization. Additional writers need ownership and project capacity. The ceiling
+is **your review bandwidth**: ten
 parallel diffs you can't review is worse than two you can. Match concurrency to it, cap it
 hard, and serialize the risky step (landing/merge).
 

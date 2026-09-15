@@ -28,7 +28,7 @@ U-02 needs migrated schema → data dependency → **not graph**.
 
 **Choice: pipeline.** Merge/exec order: U-01 → U-02 → U-03. Shared contract holds
 request/response types + error codes. Each stage: implement-node → unit verifier →
-next. `integrate` still runs the full suite after each stage lands.
+next. `integrate` checks affected interfaces between stages and runs the full suite for the completed batch.
 
 ## Case C → graph (both tests pass)
 
@@ -44,7 +44,7 @@ Allowlists disjoint. Contract (written in `decompose`) defines `ExportRecord` an
 `Exporter` interface both import. Each verifier runs without the other unit's files.
 
 **Choice: graph.** Dispatch both implement-nodes (≤3 concurrency). Merge order for
-`integrate` (e.g. U-01 then U-02) still sequential with full-suite after each merge.
+`integrate` (e.g. U-01 then U-02) still sequential with full-suite once per completed batch.
 
 ## Case D → refuse graph (missing verifier)
 

@@ -17,7 +17,9 @@ workflow.
 
 1. **Watch** — `ci-watcher` agent reports failing checks with links and a category guess.
 2. **Classify & fix** — `fixing-ci`: env/infra → retry or escalate; flake → `triaging-flaky-tests`; real → reproduce locally and fix the root cause (`debugging-an-issue`).
-3. **Re-run** the exact failing command locally, then push.
+3. **Re-run** the exact failing command locally after a repair. Push only if authorized;
+   otherwise report the local result and remaining CI gate. Inspect existing runs
+   before requesting another; do not retry unchanged real failures.
 4. **Loop** until the `gate` holds. Never disable a test to get green.
 
 Run the fix cycle as a verified loop (`agentic-loop`) with a hard iteration budget. Hand-off: ci-watcher surfaces failures; fixing-ci routes each to the right skill; the state file tracks which checks remain.

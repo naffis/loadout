@@ -26,7 +26,7 @@ uses:
       committing-on-shared-trunk,
     ]
   agents: [implement-node, reviewer, security-reviewer]
-gate: "task file topology declared; every unit verifier green before integrate; full-suite verifier green after each merge and at end; allowlists respected; review-build PASS (incl. unit-boundary check)"
+gate: "task file topology declared; every unit verifier green before integrate; full-suite verifier green at the completed batch boundary; allowlists respected; review-build PASS (incl. unit-boundary check)"
 stop_condition: "outcome in TASK.md met; integrate complete; no unit left FAILED without explicit user decision; edits unstaged unless user asked to land"
 state: ".loadout/tasks/<slug>/TASK.md"
 ---
@@ -42,7 +42,7 @@ single loop). Named recipe around `task-topology` → `decompose` → `implement
 graph units stay on one trunk checkout; disjoint allowlists are what make parallelism
 safe. No per-unit worktrees unless the user explicitly asks.
 
-1. **Topology** — run `task-topology`. **Always** write `.loadout/tasks/<slug>/TASK.md`.
+1. **Topology** — run `task-topology`. Write `.loadout/tasks/<slug>/TASK.md` for pipeline/graph coordination or a durable handoff.
    Default **single-loop** → hand off to `agentic-loop` / `running-a-dev-cycle` and stop
    using the rest of this workflow. Escalate to **pipeline** or **graph** only when the
    skill's tests pass. Refuse pipeline/graph if any unit lacks a verifier.
@@ -52,14 +52,15 @@ safe. No per-unit worktrees unless the user explicitly asks.
    sets merge order. Sizing: one agent-session per unit; nested decompose = failure.
 4. **Implement** — dispatch `implement-node` with the prompt in
    `task-topology/references/dispatch-prompt.md`. Pipeline: **serial**. Graph: parallel
-   waves of **≤3**. Each worker: allowlist + contract read-only + own verifier;
+   waves only when authorized and within the project's writer ceiling (default 1).
+   Each worker: allowlist + contract read-only + own verifier;
    PASSED or FAILED only.
-5. **Integrate** — `integrate` in merge order; **full-suite** verifier after each accept;
+5. **Integrate** — `integrate` in merge order; affected/interface checks between accepts; full-suite at the completed batch boundary;
    re-dispatch contract violators; no hand-fixes across boundaries; end with spec review
    for divergent interface interpretations.
 6. **Review** — `/review-build` (prefer fresh chat): plan trace **and** git-diff vs unit
    allowlists. Dispatch `reviewer` (and `security-reviewer` when auth/input/secrets).
-7. **Land** — only if the user asked; whole-tree commit via `committing-on-shared-trunk`
+7. **Land** — only if the user asked; ready-batch checkpoint via `committing-on-shared-trunk`
    when shared-tree kit applies.
 
 Never call overlapping file sets a graph. Never proceed past a missing verifier. Never

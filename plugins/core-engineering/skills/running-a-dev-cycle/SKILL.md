@@ -21,19 +21,21 @@ Split one task into units → `task-topology` / `build-as-graph`.
 | **INVESTIGATION** | "evaluate/compare/is it possible/explore" | RESEARCH -> FINDINGS -> decision (build or stop) |
 | **ITERATION** | "improve quality/make it better", prior work exists | [RESEARCH?] -> PLAN(light) -> BUILD+TEST -> EVALUATE -> loop or ship |
 
-State the type before proceeding. QUICK that exceeds **5 files**, new patterns,
-or architectural decisions → reclassify ENHANCEMENT.
+Choose by risk and uncertainty, not file count alone. Skip a formal ledger for
+straightforward work; new architectural decisions warrant more planning.
 
 ## Phases (each maps to a loadout asset)
 
-Each phase is an `agentic-loop` with a gate. Skip only when the type's route omits it.
+Each phase uses relevant evidence. A phase transition does not require repeating a
+passing check: use focused feedback during edits, then one coherent batch validation.
+Preserve required review/release gates; read the adopted WORKFLOW.md/project.json when present.
 
 | Phase | Loadout asset | Gate |
 | --- | --- | --- |
 | RESEARCH | `researching-a-dependency` | Every unknown resolved; each new dependency has a reference doc with auth/API/errors/gotchas |
 | PLAN | `planning-a-change` (+ `reviewer` for a full-mode stress test) | A plan with phased tasks, acceptance criteria, and risks |
 | BUILD + TEST | `agentic-loop` execution + `writing-tests` under `no-shortcuts`/`size-limits` | Phase code complete; tests (happy + failure + edge) pass |
-| VERIFY | `reviewing-and-shipping` (+ `assessing-release-readiness` if promoting) | Independent review verdict SAFE; the gate green |
+| VERIFY | `reviewing-and-shipping` (+ `assessing-release-readiness` if promoting) | Applicable review satisfied; batch checks green (reuse matching evidence) |
 | DEPLOY (if a live service) | `multi-plane-deploy` runbook | Deploy verified healthy; post-deploy checks pass |
 | DOCS | `updating-docs` | Doc surfaces the change touched are updated in the same change |
 | FIX (defects found) | `root-cause-fix` | Each defect has a proven root cause + a class fix + regression test |

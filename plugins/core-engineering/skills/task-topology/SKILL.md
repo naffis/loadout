@@ -60,8 +60,8 @@ fall back to **single-loop** and say why.
 | Topology | How units run | Concurrency |
 | --- | --- | --- |
 | **single-loop** | One agentic loop; no unit fan-out | 1 |
-| **pipeline** | `implement-node` **one at a time** in merge order; unit verifier between stages; `integrate` full-suite after each accepted stage | 1 |
-| **graph** | `implement-node` in parallel waves, then `integrate` in merge order | **≤3** concurrent (same cap as `orchestrating-parallel-agents`); wave the rest |
+| **pipeline** | `implement-node` **one at a time** in merge order; unit verifier between stages; `integrate` full-suite at the completed batch boundary | 1 |
+| **graph** | `implement-node` in parallel waves, then `integrate` in merge order | Default 1; more only with authorization, ownership, and project writer capacity |
 
 Match concurrency to review bandwidth. Ten parallel unit diffs you cannot review is
 worse than two you can.
@@ -75,10 +75,10 @@ worse than two you can.
    verifier. Record PASS/FAIL evidence in the task file.
 4. **Choose topology** — single-loop | pipeline | graph. Prefer the simpler one when
    uncertain.
-5. **Always write the task file** — see [references/task-file.md](references/task-file.md).
-   Path: `.loadout/tasks/<slug>/TASK.md`. Even **single-loop** gets a minimal TASK.md
-   (choice + rationale + full-suite verifier; units section may be empty). This is the
-   durable contract artifact — not chat memory.
+5. **Record coordination when needed** — pipeline/graph requires the task file at
+   `.loadout/tasks/<slug>/TASK.md`; see [references/task-file.md](references/task-file.md).
+   A single loop can use the current task context. Create a durable file for a real
+   handoff or long-running task, not solely to restate an obvious execution choice.
 6. **Hand off**
    - single-loop → `agentic-loop` / `running-a-dev-cycle` (no decompose required).
    - pipeline or graph → `decompose` (fills units, writes the shared contract), then
@@ -91,7 +91,7 @@ worse than two you can.
 | --- | --- |
 | `orchestrating-parallel-agents` / `clear-the-queue` | Fans out **independent tickets/items**. This skill fans out **units of one task**. Do not use both for the same work without an explicit boundary (queue of tasks vs graph inside one task). |
 | `shared-working-tree` / `no-stash` / `git-safety` | If installed: graph units stay on the **single trunk checkout**; no per-unit worktrees/branches unless the user explicitly asks. Parallelism is safe only because allowlists are disjoint. Integrate via sequential apply, not worktree merge. |
-| Worktree isolation (when shared-tree kit is **not** installed) | Per-unit worktrees allowed; `integrate` may merge worktrees in declared order. |
+| Worktree isolation (when shared-tree kit is **not** installed) | Per-unit worktrees require explicit authorization; `integrate` follows declared order. |
 | `agentic-loop` | The executor *inside* a single-loop topology and inside each `implement-node` unit. Topology chooses the shape; the loop still verifies. |
 
 ## Never do
@@ -100,7 +100,7 @@ worse than two you can.
 - Proceed past a stage whose verifier does not exist.
 - Overlap file allowlists and still call it graph.
 - Spawn implementers before the task file exists (pipeline/graph).
-- Skip writing TASK.md because "it's obviously a single loop."
+- Omit durable ownership and verifier records for pipeline/graph work.
 - Duplicate the body of `orchestrating-parallel-agents` — link it for multi-ticket fan-out.
 
 ## Pairs with

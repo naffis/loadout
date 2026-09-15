@@ -13,7 +13,7 @@ Do NOT stage, commit, branch, push, stash, discard WIP, or open/merge PRs unless
 explicitly asks in their message. A request to MAKE a change is not permission to commit it.
 Leave edits as unstaged changes; when git work would follow, state the exact commands and let
 the user run them. If `shared-working-tree` / `no-stash` are installed: stay on one trunk
-checkout; never stash; when asked to commit, land the whole eligible tree
+checkout; never stash; when asked to commit, checkpoint a coherent ready batch
 (`committing-on-shared-trunk`).
 
 ## Project conventions
@@ -23,9 +23,10 @@ See @AGENTS.md for stack, commands, architecture, and conventions.
 ## Definition of done
 
 Claude Code does not load `.cursor/rules/`, so the always-on hygiene contract is restated
-here: a change that adds or alters behavior ships in the same change with tests + typecheck
-green, a changelog entry when users/operators would notice, and a doc update when behavior,
-API, config, or a procedure changed. Verify with the project's check and show the evidence.
+here: a change that adds or alters behavior includes meaningful tests and applicable
+checks, a changelog entry when users/operators would notice, and a doc update when behavior,
+API, config, or a procedure changed. Use focused feedback while editing, then validate the
+completed batch once. Preserve required CI/release gates and show actual evidence.
 
 <!-- loadout:managed:cursor-rules:start -->
 <!-- Always-on (alwaysApply: true) Cursor rules appear here when projected. -->

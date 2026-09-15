@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "workflow": "shared-checkout",
+  "maxWriters": 1,
+  "documentation": {
+    "architecture": [
+      "README.md",
+      "docs/agent-harness-engineering.md"
+    ],
+    "development": [
+      "docs/usage.md",
+      "docs/efficient-agent-development.md"
+    ]
+  },
+  "validation": {
+    "feedback": [
+      [
+        "node",
+        "--import",
+        "tsx",
+        "cli/src/index.ts",
+        "doctor"
+      ],
+      [
+        "node",
+        "--test",
+        "rules/frontmatter-modes.test.mjs"
+      ]
+    ],
+    "batch": [
+      [
+        "npm",
+        "run",
+        "build"
+      ],
+      [
+        "npm",
+        "test"
+      ],
+      [
+        "node",
+        "dist/index.js",
+        "doctor"
+      ]
+    ],
+    "release": [
+      [
+        "npm",
+        "run",
+        "build"
+      ],
+      [
+        "npm",
+        "test"
+      ],
+      [
+        "node",
+        "dist/index.js",
+        "doctor"
+      ]
+    ]
+  },
+  "source": {
+    "repository": "https://github.com/naffis/loadout",
+    "commit": "2f539afbdf4a724c0542f1c03c69ef46af036cb1"
+  },
+  "requiredGates": [
+    ".github/workflows/validate.yml",
+    ".github/workflows/release.yml"
+  ],
+  "unmappedChecks": [
+    {
+      "scope": "CI YAML parsing and init/add/list smoke",
+      "reason": "Existing inline jobs in .github/workflows/validate.yml; no named local script. Preserve CI jobs."
+    },
+    {
+      "scope": "Remote branch protections/rulesets and release actions",
+      "reason": "Not represented by local argv lists; inspect actual GitHub requirements before authorized landing/release."
+    }
+  ]
+}

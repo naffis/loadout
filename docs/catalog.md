@@ -17,7 +17,7 @@ on, what to do, any decision). Details only if asked.
 
 ---
 
-## Skills (65)
+## Skills (66)
 
 ### Getting started (start here)
 
@@ -34,10 +34,10 @@ on, what to do, any decision). Details only if asked.
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
 | `agentic-loop`                  | Run a non-trivial task as a verifiable perceive→plan→act→observe→verify→reflect loop: stop-condition contract, ground-truth verification, maker≠checker, durable memory, context budget, bounded autonomy. | long-horizon/multi-step work; "run this as a loop"            |
 | `running-a-dev-cycle`           | Adaptive end-to-end cycle: classify a task (QUICK/ENHANCEMENT/INTEGRATION/INVESTIGATION/ITERATION) and route it through the lightest path, each phase an agentic loop.                                     | "build this end to end" / "autonomous mode"                   |
-| `orchestrating-parallel-agents` | Run N independent items in parallel — worktrees by default, or shared trunk when `shared-working-tree` is installed; bounded concurrency; serialized landing gated by maker-checker.                       | "do these in parallel" / "clear the queue"                    |
+| `orchestrating-parallel-agents` | Run N independent items in parallel — one writer by default; authorized parallel work with ownership and a writer cap; worktrees only if requested; serialized landing.                       | "do these in parallel" / "clear the queue"                    |
 | `task-topology`                 | Triage a nontrivial task into single-loop / pipeline / graph; write the TASK.md contract (units, allowlists, verifiers, merge order). Default single-loop; graph only when both escalation tests pass.     | start of nontrivial work / "single loop vs graph"             |
 | `decompose`                     | Size pipeline/graph units (one session each), write the shared contract file, per-unit verifiers and done-conditions. Interfaces before implementation.                                                    | after task-topology chooses pipeline/graph                    |
-| `integrate`                     | Fan-in units in merge order; full-suite verifier after each merge; re-dispatch contract violators; spec review for divergent interface interpretations.                                                    | units report done / "merge the graph"                         |
+| `integrate`                     | Fan-in units in merge order; full-suite verifier once per completed batch; re-dispatch contract violators; spec review for divergent interface interpretations.                                                    | units report done / "merge the graph"                         |
 | `agent-tool-design`             | Design a product's agent-facing tools/MCP well (ACI): fewer higher-signal tools, namespacing, high-signal results, token efficiency, steering descriptions/errors.                                         | authoring/editing a tool schema, description, or result shape |
 
 ### Product quality loops (dogfood, review, iterate)
@@ -61,7 +61,7 @@ on, what to do, any decision). Details only if asked.
 | `verifying-session-surfaces`  | Exercise every session-created/updated live surface (UI/API/CLI/MCP/job) with pasted evidence, then root-cause-fix failures. Complementary to `post-flight` (code wrap) and `verifying-a-claim` (one claim). | "test all the surfaces" / "ensure it works" / `/verify-surfaces`        |
 | `verifying-a-claim`           | One named claim, baseline vs treatment, verdict `VERIFIED` / `NOT VERIFIED` / `INCONCLUSIVE`. Does not implement. Not session inventory, not Cursor `/review`.                                               | "verify this claim" / `/verify-claim`                                   |
 | `planning-a-change`           | Explore → plan → implement a non-trivial change. Before multi-file/unfamiliar work; skip one-liners. Plan-only → `create-plan`.                                                                              | `/planning-a-change` or describe a multi-file task                      |
-| `reviewing-and-shipping`      | Review for correctness & intent, run tests, wrap up; commit/PR only when asked (whole-tree commit if shared-working-tree).                                                                                   | when wrapping up a change                                               |
+| `reviewing-and-shipping`      | Review for correctness & intent, run tests, wrap up; commit/PR only when asked (ready-batch checkpoint if shared-working-tree).                                                                                   | when wrapping up a change                                               |
 | `writing-commit-messages`     | Conventional-commit message from a diff.                                                                                                                                                                     | when committing / "write a commit message"                              |
 | `committing-on-shared-trunk`  | Commit/push the entire shared trunk working tree — no stash, no session-scoped staging, no branch unless asked.                                                                                              | "commit" / "commit and push" with parallel agents / shared-working-tree |
 | `opening-a-pr`                | Branch → push → PR with a validation-first description. Only when user explicitly asks for a PR.                                                                                                             | when turning work into a PR                                             |
@@ -188,7 +188,7 @@ automatically (or `@rule-name` for manual ones).
 | `test-coverage`                 | Coverage is a guide not a goal; cover new code + branches/error paths; pick a floor, don't game it.                                                                                   |
 | `observability-first`           | Read logs/traces before source; structured logging + correlation IDs.                                                                                                                 |
 | `documentation-updates`         | Update the matching doc/changelog/ADR in the same change.                                                                                                                             |
-| `commit-and-pr-conventions`     | Conventional commits; validation-first PR descriptions; whole-tree commit when shared-working-tree is on.                                                                             |
+| `commit-and-pr-conventions`     | Conventional commits; validation-first PR descriptions; ready-batch checkpoints when shared-working-tree is on.                                                                             |
 | `prompt-extraction`             | Long prompts live in dedicated modules, not inline.                                                                                                                                   |
 | `audit-external-skills`         | Treat third-party skills/rules/MCP as untrusted; review first.                                                                                                                        |
 | `lockfile-conflicts`            | Never hand-merge lockfiles; resolve the manifest, regenerate.                                                                                                                         |
@@ -266,7 +266,7 @@ composes and optional `gate` / `stop_condition` / `state`.
 | Workflow              | Composes                                                                                                                                                                                                                                                                     |
 | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `ship-a-feature`      | rules + `planning-a-change` → implement → `verifying-session-surfaces` (live surfaces) → `deep-flight` (substantial edits) → `review-build` → optional `post-flight` → `reviewer` → `writing-commit-messages` / `opening-a-pr` / `making-a-pr-reviewable`; gate = tests+lint |
-| `build-as-graph`      | `task-topology` → (`decompose` → `implement-node` ×N → `integrate`) or single-loop handoff; full-suite after each merge; `/review-build` allowlist check; honors `shared-working-tree`                                                                                       |
+| `build-as-graph`      | `task-topology` → (`decompose` → `implement-node` ×N → `integrate`) or single-loop handoff; full-suite once per completed batch; `/review-build` allowlist check; honors `shared-working-tree`                                                                                       |
 | `plan-then-build`     | `/plan` → `/review-plan` → implement → `/verify-surfaces` → `/deep-flight` → `/complete-the-build` (when open rows) → test → docs → `/review-build` → optional `/post-flight` → `reviewer` → PR; high-rigor alternative to `ship-a-feature`                                  |
 | `fix-ci-until-green`  | `ci-watcher` → `fixing-ci` / `triaging-flaky-tests` / `debugging-an-issue`; stop = checks green                                                                                                                                                                              |
 | `debug-production`    | `debugging-with-observability` → repro → `do-it-right` (when shallow yes-fix) / `debugging-an-issue` / `root-cause-fix` → `deep-flight` after non-trivial implement → regression lock → `reviewer`; hand off to `hotfix-and-rollback` when needed                            |
@@ -319,3 +319,13 @@ composes and optional `gate` / `stop_condition` / `state`.
 conventions), `agentic-patterns` (the 2026 agentic-coding pattern catalog behind these assets),
 `loop-engineering`, `agent-harness-engineering`, `defect-hunt-family` (exhaustive
 review without a known bug — generic core + consumer overlay).
+
+## Portable engineering adoption
+
+| Asset | Use |
+| --- | --- |
+| `adopting-engineering` | Implement pinned workflow adoption or update in an existing project, preserving its architecture, docs, and gates. |
+| `adopt-engineering-cmd` (`/adopt-engineering`) | Thin meta-plugin wrapper for the adoption skill. |
+| `doc-portable-engineering` | Ownership, client adapters, configuration, and dedicated CLI lifecycle. |
+| `doc-adopt-portable-engineering` | Reusable adoption prompt and reviewed skill default. |
+| `doc-efficient-agent-development` | Research, rationale, audit findings, and measurement guidance. |

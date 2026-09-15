@@ -19,6 +19,15 @@ done — not sit as an unordered pile.
 > `docs/external-practices.md`, `docs/agentic-patterns.md`, and `docs/loop-engineering.md`
 > for the conventions and patterns behind them.
 
+## Adopt the portable workflow in an existing project
+
+Use `/adopt-engineering` from the meta plugin, or invoke `adopting-engineering`.
+Default reviewed revision: `2f539afbdf4a724c0542f1c03c69ef46af036cb1`.
+The skill inspects the project and implements adoption with engineering
+plan/apply/check; it preserves architecture, project docs, security, and required gates.
+This route is separate from starter installation and generic update below.
+See [the adoption instructions](docs/adopt-portable-engineering-prompt.md).
+
 ## Quick start
 
 **Agents:** if the user pastes this repo and says _use this_ or _update to latest_,

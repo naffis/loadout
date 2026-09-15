@@ -4,8 +4,8 @@ uses:
   rules: [no-shortcuts, commit-and-pr-conventions, definition-of-done, regression-test, testing-conventions]
   skills: [orchestrating-parallel-agents, running-a-dev-cycle, planning-a-change, writing-tests, rebasing-a-branch, reviewing-and-shipping, writing-commit-messages, opening-a-pr]
   agents: [reviewer, security-reviewer]
-gate: "each landed item: its acceptance contract met, checker SAFE, typecheck + test + lint green after rebase onto latest base"
-stop_condition: "every in-scope queue item is landed or explicitly deferred with reason; no item merged without maker≠checker; worktrees cleaned up"
+gate: "each landed item: its acceptance contract met, checker SAFE, applicable checks green on the integrated candidate"
+stop_condition: "every in-scope queue item is landed or explicitly deferred with reason; no item merged without maker≠checker; authorized worktrees cleaned up when safe"
 state: ".loadout/state/clear-the-queue.md"
 ---
 
@@ -33,13 +33,11 @@ parallelizing it.
    sets. Write them into the state file. **Any two items that touch overlapping files must
    sequence, not parallelize.** If unsure, sequence. Confirm the set and chosen concurrency
    with the user when the request was vague or the set is large.
-2. **Cap concurrency hard** — 1 item → run inline (`running-a-dev-cycle` / `ship-a-feature`),
-   no orchestration. 2–3 → parallel. More than 3 → waves of at most 3. Never exceed the cap;
-   ten unreviewed diffs are worse than two reviewed ones (`docs/agentic-patterns.md`
-   over-parallelization).
-3. **Isolate** — default: one git worktree + branch per parallel item (sub-agents work only
-   in their worktree). **If `shared-working-tree` is installed:** skip worktrees; all agents
-   share the trunk checkout (see `orchestrating-parallel-agents` shared-tree fork).
+2. **Default to one writer** — increase only for authorized parallel work with disjoint
+   ownership and capacity under project maxWriters. One coordinator owns Git and
+   shared services. Sequence when the coordination cost exceeds the benefit.
+3. **Assign ownership** — use the existing checkout. Worktree isolation requires an
+   explicit request; it is not implied by a queue of items. Preserve existing WIP.
 4. **Launch self-contained sub-agents** — each prompt must include: work location (worktree
    path **or** "shared trunk checkout"), full task + acceptance criteria, procedure pointer
    (`running-a-dev-cycle` or `ship-a-feature`), hard rules (`no-shortcuts`, gate must stay
@@ -49,15 +47,17 @@ parallelizing it.
    1. Dispatch `reviewer` (and `security-reviewer` when the item touches auth, input, data
       access, secrets, or external calls) against that item's acceptance contract.
    2. On a failing verdict, send findings back to that item's maker — do not land.
-   3. `rebasing-a-branch` onto the latest base; re-run the gate **after** the rebase.
+   3. Check affected integration points, then validate the completed coherent batch.
+      Reuse matching evidence; synchronize branches only when actually necessary
+      and authorized. Retain stricter required per-merge gates.
    4. Merge/open the PR only if the user asked (`commit-and-pr-conventions`); otherwise
-      present branch + verdict.
-   5. Finish one landing before starting the next so the next rebases on the newer base.
-   6. Remove the worktree when the item is fully done.
+      present changed paths + verdict.
+   5. Serialize Git mutations. A checkpoint need not wait for unrelated unfinished items.
+   6. Clean up only authorized worktrees whose work is preserved.
 6. **Base goes red → stop new landings** — fix forward on the shared base before continuing.
    Never weaken tests to unblock the queue.
 7. **Report** — keep a status table in the state file (item / branch / gate / checker /
    landed). End with exactly what remains, why, and what you need from the user.
 
 Never let sub-agents merge concurrently. Never parallelize overlapping edits. Never land
-without a SAFE checker verdict and a green post-rebase gate.
+without a SAFE checker verdict and green applicable checks on the integrated candidate.

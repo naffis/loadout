@@ -31,9 +31,9 @@ Overlapping files → **sequence** (`running-a-dev-cycle` / `ship-a-feature`). U
 ## Workflow
 
 1. **Work set** — enumerate items + files each will touch. Confirm set and concurrency before launch.
-2. **Cap 3** — 1 item → inline, no orchestration. 2–3 → parallel. More → waves of at most 3.
+2. **Start with one writer** — add writers only when parallel work is authorized, file/resource ownership is disjoint, and project maxWriters permits it. Otherwise sequence. One coordinator owns Git and shared processes.
 3. **Launch** — `Task` `generalPurpose`, `run_in_background: true`. Each prompt is self-contained: absolute checkout path; full task + acceptance; follow `running-a-dev-cycle` / `ship-a-feature` to a green gate + self-review; **stop before landing**; `no-shortcuts`; edits stay unstaged. Bookkeeping stays with you.
-4. **Land serially, yourself (maker ≠ checker)** — sub-agents do not merge. One item at a time: independent checker (`reviewer` / `security-reviewer`, or `/review-bugbot` / `/review-security`) against that item's contract; finding → back to maker; don't land on fail. Re-verify the gate on the latest base (`rebasing-a-branch` if a branch exists). Commit/PR **only if asked**. Finish this item before the next. Shared-base CI red → stop new landings.
+4. **Land serially, yourself (maker ≠ checker)** — sub-agents do not merge. One item at a time: independent checker (`reviewer` / `security-reviewer`, or `/review-bugbot` / `/review-security`) against that item's contract; finding → back to maker; don't land on fail. Reuse matching evidence; validate affected integration points, then the completed batch. Required per-merge gates remain applicable. Commit/PR **only if asked**. Finish this item before the next. Shared-base CI red → stop new landings.
 5. **Report**
 
 | Item | Path/branch | Gate | Checker | Landed |
@@ -43,7 +43,7 @@ For anything not landed: where it stopped, why, and what you need.
 
 ## Opt-in: worktrees
 
-Only when `shared-working-tree` is **not** installed, or the user **explicitly** asks for worktree isolation:
+Only when the user **explicitly** asks for worktree isolation:
 
 ```bash
 git worktree add ../<repo>-<slug> -b <branch-name>

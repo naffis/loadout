@@ -24,7 +24,7 @@ Frontier models (2026) need **less prescription**, not more. Anthropic: start fr
 
 **Keep**
 
-- House invariants the model will violate (`git-safety`, `no-stash`, whole-tree commit, maker ≠ checker)
+- House invariants the model will violate (`git-safety`, `no-stash`, ready-batch checkpoints, required independent review)
 - Unique routing / anti-triggers between loadout skills
 - Unique output formats (next-prompt fence, verdicts, RECEIPT quotes)
 - Gotchas that defy reasonable assumptions
@@ -57,7 +57,9 @@ A 200-line checklist the model already knows **hurts**: it burns attention and g
 - Destructive or high-stakes skills set `disable-model-invocation: true`.
 - House structure: `## Trigger`, `## Workflow` (numbered, house steps only), optional `## Guardrails` / `## Never do`, `## Pairs with`. Skip `## Suggested Checks` unless the check is a unique command.
 - Diagnose / audit / review, and any skill that hands to a fresh chat: last output is `_shared/next-prompt.md`.
-- Isolated verification: if the skill claims done, name a **readonly checker** (`flight-checker`, `reviewer`, `/review`) — never a same-context self-grade.
+- Verification: name objective evidence. Require a **readonly checker** when the project,
+  user, or specialized review contract requires it. Reuse a matching review; do not add
+  another checker solely because one skill hands off to another.
 - Human-facing reply: `_shared/plain-english-brief.md`. Run the procedure; do not dump it.
 
 ## Workflow

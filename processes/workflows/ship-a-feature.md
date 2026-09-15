@@ -35,7 +35,7 @@ uses:
       verifying-session-surfaces-cmd,
     ]
 gate: "<project test + lint command>"
-stop_condition: "tests and lint pass, review-build PASS (or justified skip for trivial diffs), reviewer reports no correctness/intent gaps, PR opened"
+stop_condition: "applicable batch checks pass, required review satisfied, docs match behavior; commit/PR only if asked"
 state: ".loadout/state/ship-a-feature.md"
 ---
 
@@ -45,24 +45,27 @@ End-to-end recipe for landing a non-trivial but well-understood change. For high
 unfamiliar, or decision-heavy work, use `plan-then-build` instead (`/plan` →
 `/review-plan` → implement → `/review-build`).
 
-1. **Plan** — `planning-a-change`: explore the code, write and stress-test a short plan.
-2. **Implement** — smallest safe change first, following existing patterns.
-3. **Test** — `writing-tests`: cover the new behavior, edge cases, and error paths (not just lines — `test-coverage`); bug fixes get a failing-then-passing test (`regression-test`).
-4. **Verify** — run the `gate` command; show the evidence.
-   4b. **Session surfaces** — when the change added or updated a user-visible
-   surface (UI/API/CLI/MCP/job/flag), run `verifying-session-surfaces`
-   (`/verify-surfaces`) before claiming the feature works. Live evidence, then
-   `root-cause-fix` any BROKEN. Skip only for library-only diffs with no
-   reachable consumer, and say so.
-5. **Update docs in the same change** — `updating-docs`: README/API/docstrings/config/changelog for anything the change altered (`documentation-updates`).
-   5b. **In-flight check** — after substantial edits, before claiming done, run
-   `deep-flight` (`/deep-flight`): chosen layer still holds, shortcut RECEIPT,
-   quoted gates, readonly `flight-checker`. Not `deep-dive`.
-6. **Review the build** — `review-build` (`/review-build`): ground-truth diff, plan/request
-   trace, shortcut sweep, gate with pasted output. Prefer a fresh chat when stakes are
-   above a one-file tweak. Skip only for truly trivial diffs, and say so.
-7. **Review (maker ≠ checker)** — dispatch the `reviewer` agent on the diff vs the plan. Fix correctness/intent gaps; ignore over-engineering suggestions.
-   7b. **Post-flight (optional, same session)** — when the user asks for a final pass, or the session accumulated deferred work / multi-surface fixes, run `post-flight` (`/post-flight`) before wrapping up.
-8. **Commit & PR** — `writing-commit-messages`, then `opening-a-pr` with a validation-first description. For a noisy or large diff, `making-a-pr-reviewable` first (tidy history, reviewer guidance).
+1. **Frame** — use a short acceptance contract; plan only to resolve uncertainty.
+   Keep the existing checkout and warm services. Default to one writer.
+2. **Implement and test** — cover changed behavior and meaningful failure paths;
+   bug fixes get regression proof. Use focused tests and diagnostics while editing.
+3. **Validate the batch** — run the applicable project gate once when the coherent
+   change is ready. Reuse matching results from the same inputs. Broaden checks
+   for shared interfaces, config/dependencies, uncertain impact, or required gates.
+4. **Exercise relevant surfaces** — for changed UI/API/CLI behavior, obtain evidence
+   through the relevant surface. Use `verifying-session-surfaces` for a requested
+   session-wide exercise or changes spanning several surfaces; do not expand every
+   local fix into a full product audit.
+5. **Update docs** — change matching docs/changelog when behavior or procedures change.
+6. **Review once at the appropriate scope** — satisfy required independent review.
+   Use `review-build` for plan compliance or material risk. Use `deep-flight` when
+   correcting actual mid-build drift, and `post-flight` when requested or warranted
+   by accumulated gaps. A matching completed checker/review satisfies overlapping
+   handoffs; retain specialized security or other project-required reviews.
+7. **Hand off** — report behavior, evidence, and remaining required gates. Commit,
+   push, or PR only when explicitly authorized. Use a coherent ready batch via
+   `committing-on-shared-trunk` when applicable; unrelated WIP stays out.
 
-Run each step as a verified loop (`agentic-loop`): write the stop contract, verify against ground truth, keep edits unstaged. Hand-off: planning-a-change produces the plan the reviewer checks against. The state file records what's done so a resumed run continues cleanly.
+A workflow step does not create another full-test/reviewer cycle by itself. The
+adopted `.loadout/engineering/WORKFLOW.md` and `project.json` route coordination
+and validation; actual project CI/release gates remain required.

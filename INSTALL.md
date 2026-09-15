@@ -17,6 +17,15 @@ Invokable skill mirror (once `meta` is installed): **`equipping-loadout`**.
 
 ---
 
+## Adopt the portable workflow in an existing project
+
+Use `/adopt-engineering` from the meta plugin, or invoke `adopting-engineering`.
+Default reviewed revision: `2f539afbdf4a724c0542f1c03c69ef46af036cb1`.
+The skill inspects the project and implements adoption with engineering
+plan/apply/check; it preserves architecture, project docs, security, and required gates.
+This route is separate from starter installation and generic update below.
+See [the adoption instructions](docs/adopt-portable-engineering-prompt.md).
+
 ## Scope
 
 | Directory                      | Role                                                                                                                      |
@@ -134,7 +143,7 @@ Do **not** bulk-install the catalog. More assets: `npx github:naffis/loadout add
 `loadout list` after the user asks. For a slower progressive equip, follow `bootstrap-project`.
 
 **Optional — shared trunk kit** (parallel agents on one local checkout; no per-agent
-branches/worktrees/stashes; commit-all when asked). Add when that is the project's model:
+branches/worktrees/stashes; coherent ready-batch checkpoints when asked). Add when that is the project's model:
 
 ```bash
 npx github:naffis/loadout add \

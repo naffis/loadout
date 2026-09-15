@@ -37,7 +37,12 @@ Write it before starting (TodoWrite, scratch, or PR body). Authoring: `reference
 
 ### 2. Independent checker (maker ≠ checker)
 
-Objective ground truth first: project typecheck, affected tests, lint, regression that fails-on-revert (`regression-test.mdc`). Preserve why a check failed. For shippable work, a **fresh** `reviewer` / `security-reviewer` (or Cursor `bugbot` / `security-review`) reads the diff against the contract. See `references/subagents-and-parallelism.md`.
+Objective ground truth first: project typecheck, affected tests, lint, regression that fails-on-revert (`regression-test.mdc`). Preserve why a check failed. Use a **fresh** `reviewer` / `security-reviewer` when independent review is required, requested, or justified by material risk. Reuse matching review evidence across handoffs. See `references/subagents-and-parallelism.md`.
+
+Use focused feedback during edits and one applicable validation pass for the completed
+batch. Before a heavy run, check existing results/runs and whether inputs changed. Keep
+required CI/release gates; no duplicate full suites at each phase or skill transition.
+For adopted projects, read `.loadout/engineering/WORKFLOW.md` and `project.json`.
 
 ### 3–4. Durable memory + context budget
 

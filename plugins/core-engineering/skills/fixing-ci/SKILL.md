@@ -7,7 +7,11 @@ description: >
 
 # Fixing CI
 
-CI is red. Classify, then fix the cause.
+CI is red. Inspect the failing candidate/run and logs once; classify, then fix the cause.
+One owner investigates a failure. Check existing runs before requesting another.
+Retry a demonstrated transient infrastructure failure within a bounded budget;
+never rerun unchanged failures hoping for green. Continue independent work while
+required CI runs; keep dependent landing blocked when its assumptions are invalid.
 
 | Class | Do |
 | --- | --- |

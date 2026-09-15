@@ -1,97 +1,34 @@
 ---
 name: committing-on-shared-trunk
-description: >
-  Commit the entire shared trunk working tree — no branches, stashes, or session-scoped staging. Use when the user asks to commit or push on a shared-tree checkout.
+description: Checkpoint a coherent batch of ready files in a shared checkout. Use when the user asks to commit or push; preserves unrelated and unfinished work.
 ---
 
 # Committing on shared trunk
 
-## Trigger
+Use only with explicit commit authority; push needs its own authority. Stay on
+the existing authorized branch. No automatic branches, worktrees, PRs, or stashes.
 
-User **explicitly** asked to commit and/or push. Load before any `git add` /
-`git commit`.
-
-## Preconditions
-
-1. Confirm the message authorizes commit (and push if pushing). If not → stop.
-2. Trunk from `AGENTS.md` (or current branch if it already is trunk). Other
-   branch without an ask → stop and ask. Do not create a branch.
-3. **Never** `git stash` (any form). Never invent a branch, worktree, or PR.
-
-## Workflow
-
-```
-Commit Progress:
-- [ ] Inventory full working tree
-- [ ] Secret scan
-- [ ] Stage ALL eligible files
-- [ ] Message covers whole tree
-- [ ] Commit
-- [ ] Pull without stash (if pushing)
-- [ ] Push (only if asked)
-- [ ] Verify clean tree (ignored files OK)
-```
-
-### 1. Inventory the full tree
-
-`git status` and `git diff`. List **every** modified and untracked path — not
-"files I touched this session." Half-written, conflict markers, or in-progress
-edits you should not land → **stop and ask**. Leave the tree untouched.
-
-### 2. Secret scan
-
-Refuse `.env`, `.env.*` (except committed examples), credential JSON, key
-files. Leave secrets unstaged / gitignored; warn; continue with the rest if
-safe. `.gitignore` is the boundary.
-
-### 3. Stage everything eligible
-
-`git add -A`. Do not unstage "other agents' files." Only exclusions: secrets
-and paths the user named to skip.
-
-### 4. Message covers all agents
-
-Read the **full** staged diff. `type(scope): summary` for the combined change.
-Other themes as body bullets — do not omit them. One commit of the whole tree
-unless they asked to split.
-
-### 5. Commit
-
-If a hook rejects: fix, stage with the rest, **new** commit — do not amend
-unless amend rules all pass.
-
-### 6. Pull / push (only if asked to push)
-
-Commit-first so the dirty tree is never stashed:
-
-```bash
-git pull --ff-only origin <trunk>
-# If ff-only fails after commit: git pull --rebase origin <trunk>
-# If that still fails: STOP and ask. Never stash.
-git push origin <trunk>
-```
-
-Wait for CI/staging green when the project requires it.
-
-### 7. Done
-
-`git status` clean (ignored OK). Report SHA and that **all** previously dirty
-eligible files were included.
-
-## Anti-patterns
-
-| Anti-pattern | Do instead |
-| --- | --- |
-| `git add path/only/mine` | `git add -A` |
-| `git stash` then pull | Commit all first, then pull |
-| `git checkout -b …` for this commit | Stay on trunk |
-| Message that ignores other agents' files | Body lists every theme staged |
-| "Focused commit" leaving sibling WIP | Land the whole tree |
-| Open a PR because a skill mentioned PRs | Push trunk unless user asked for a PR |
+1. Inventory the entire working tree **and index**. Identify ready paths, owners,
+   dependencies, secrets, and unrelated WIP. Do not unstage pre-existing work or
+   include it without understanding its intended batch.
+2. The coordinator freezes a coherent set of ready files briefly. Include required
+   code, tests, docs, generated output, and interface dependencies together.
+   Leave unrelated/unfinished work in place. If one file mixes ready and unfinished
+   work, coordinate with its owner before staging it.
+3. Refuse secrets (.env, credential JSON, keys; committed examples excepted).
+   Stage explicit reviewed paths. Inspect the complete staged diff and validate
+   using the project's applicable batch checks; reuse matching existing evidence.
+4. Write a conventional commit describing the staged batch. Honor hooks. A rejected
+   commit needs a corrected new attempt; do not bypass hooks or amend by habit.
+5. If asked to push, coordinate any synchronization first. Unfinished WIP must not
+   be swept into a commit to make pulling convenient. If synchronization would
+   disturb it, pause that operation. No routine rebase/squash cycle.
+6. Report SHA, included paths, remaining WIP, and validation state. A dirty tree
+   with unrelated work is expected. Required CI/release gates still apply; a
+   checkpoint is not a deployment.
 
 ## Pairs with
 
 - rules: `git-safety`, `shared-working-tree`, `no-stash`, `commit-and-pr-conventions`
-- skills: `writing-commit-messages` (message shape only; scope = whole tree here),
-  `reviewing-and-shipping`
+- skills: `writing-commit-messages`, `reviewing-and-shipping`
 - workflows: `ship-a-feature`, `plan-then-build`, `clear-the-queue`

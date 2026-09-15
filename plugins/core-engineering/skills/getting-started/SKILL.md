@@ -81,7 +81,7 @@ Kickoff prompt:
   (planning-a-change). Implement the smallest safe change, add tests for the new
   behavior and error paths, update docs in the same change. Gate: `npm test && npm run lint`.
   Done when: <verifiable condition>. Then dispatch the reviewer subagent. Commit
-  the whole tree on trunk if asked (`committing-on-shared-trunk`). PR only if asked.
+  a coherent ready batch on the existing checkout if asked (`committing-on-shared-trunk`). PR only if asked.
 ```
 
 ## Guardrails

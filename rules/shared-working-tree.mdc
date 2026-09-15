@@ -1,38 +1,20 @@
 ---
-description: Parallel agents share one local trunk working tree — no per-agent branches, worktrees, or stashes
+description: One writer in the existing checkout by default; coordinate ownership before authorized parallel edits
 alwaysApply: true
 ---
 
-# Shared working tree (parallel agents)
+# Shared working tree
 
-Multiple agents run in parallel against **one** local checkout of the integration trunk
-(name it in `AGENTS.md`, e.g. `dev` or `main`). They do not get private branches or
-worktrees unless the user explicitly asks.
-
-## Operating model
-
-- Every agent reads and writes the same working tree.
-- Edits stay unstaged until the user asks to commit.
-- When the user asks to commit, land **all** dirty eligible files — including work from
-  other chats/agents — via `committing-on-shared-trunk`.
-- Coordination is social (don't wipe, don't stash, don't branch), not isolation via git.
-
-## Never do (isolation anti-patterns)
-
-| Urge | Forbidden response |
-| --- | --- |
-| "Clean tree for pull" | `git stash`, move files to `/tmp` |
-| "Keep my commit focused" | Stage only this session's files |
-| "Avoid collisions" | `git checkout -b …`, `git worktree add …` |
-| "Undo my mistakes" | `git reset --hard`, `git clean -fd`, restore whole tree |
-
-## When files collide
-
-If another agent touched the same files or the tree looks mid-edit / conflicted: **stop,
-leave the tree intact, ask the user**. Do not resolve by stashing or branching.
-
-## Precedence
-
-When this rule is installed, it wins over skills that default to per-agent worktrees
-(`orchestrating-parallel-agents`, `clear-the-queue`, `build-as-graph`, best-of-N) unless
-the user explicitly requests isolation. Disjoint allowlists required for parallel edits.
+- Default to one writer in the existing checkout; reuse warm services.
+- Extra writers require authorized parallel work, disjoint whole-file ownership,
+  stable shared interfaces, and one coordinator for Git and shared processes.
+  Respect project.json maxWriters when adopted; it grants no spawn permission.
+- Leave edits unstaged until a commit is requested. The coordinator checkpoints
+  a coherent, dependency-complete batch of ready files via
+  `committing-on-shared-trunk`; unfinished or unrelated WIP stays out.
+- Never stash, reset/clean WIP, globally format, or kill shared processes as
+  housekeeping. No automatic per-task branch/worktree/PR lifecycle.
+- On unexpected overlapping edits, pause affected work and reconcile ownership;
+  continue independent work. Ask only if ownership cannot be resolved.
+- Use .loadout/engineering/WORKFLOW.md when adopted. Existing project requirements
+  and authorization still apply; resolve conflicts before the affected action.

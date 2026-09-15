@@ -33,9 +33,9 @@ back, and you iterate until the evaluation is clean. It works when (a) the crite
 and (b) feedback demonstrably improves the result — exactly the case for code with tests. Two
 guardrails:
 
-- **The maker must not be the sole checker.** The model that wrote the code rationalizes its
-  own diff. For shippable work, get an independent signal — the objective gates below, and a
-  fresh reviewer sub-agent (see `subagents-and-parallelism.md`).
+- **Use objective evidence.** Independent review applies when required by the project,
+  requested, or justified by material risk. A matching completed review can satisfy
+  several skill handoffs; do not automatically dispatch a reviewer per unit.
 - **Bound the iteration.** Respect the budget field. If you're still red after the ceiling,
   stop and report what you tried and what's blocking — don't loop forever.
 
@@ -62,15 +62,25 @@ project's real commands (discover them from `package.json` scripts, the CI confi
 
 | Signal | How | When |
 | --- | --- | --- |
-| Type safety | the project's typecheck (scope to a package if it has them) | After any source edit |
-| Unit / behavior | the affected test file, then the package/suite | After a logic change |
+| Type safety | the project's typecheck (scope to a package if it has them) | Incrementally while editing; once per completed batch if not incremental |
+| Unit / behavior | the affected test file, then the package/suite | Focused during iteration; affected subsystem/batch at completion |
 | Lints on your edits | your linter on the files you touched | After substantive edits |
 | Regression proof | a new test, fails-on-revert | Every bug fix |
-| Independent review | the `reviewer` agent (or a `bugbot`/`security-review` sub-agent) | Before presenting shippable work |
+| Independent review | the `reviewer` agent (or a `bugbot`/`security-review` sub-agent) | Required/requested review or material risk, on the completed candidate |
 
 The full "what makes a change *done*" contract is `definition-of-done.mdc` — the repo-wide
 acceptance test (behavior + tests + docs/changelog + any surface registration, in the SAME
 change). Read it as the outer contract your task-level contract must also satisfy.
+
+### Avoid duplicate validation
+
+Reuse results only when relevant source, tests, configuration, dependencies, toolchain,
+and environment match. Changes invalidate affected evidence; unknown impact broadens
+to the subsystem or required suite. One owner runs an expensive check. Keep services
+warm, continue independent work while it runs, and do not launch full suites from
+every worker. Record scope, command, candidate/inputs, result, and elapsed time.
+Required release checks remain in force; partial, skipped, cancelled, or zero-test
+runs are not passes. Do not build a scheduler just to implement these defaults.
 
 ## 5. Verification is still on you
 
@@ -90,6 +100,6 @@ Even a green contract is a claim, not a guarantee of correctness:
 - [ ] Regression test fails before the fix, passes after?
 - [ ] No green-by-cheating (`any`, ignore-comments, swallowed errors, deleted assertions)?
 - [ ] Typecheck + affected tests green?
-- [ ] Independent checker ran on shippable work?
+- [ ] Required/requested independent review satisfied for this candidate?
 - [ ] Failure paths + one edge case covered, not just the happy path?
 - [ ] `definition-of-done.mdc` rows for this change satisfied in the SAME change?

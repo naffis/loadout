@@ -4,7 +4,7 @@ uses:
   rules: [refactor-discipline, size-limits, testing-conventions, no-shortcuts, definition-of-done, documentation-updates]
   skills: [reviewing-code-quality, refactoring-code, writing-tests, updating-docs, reviewing-and-shipping]
   agents: [reviewer]
-gate: "<project typecheck + test + lint command>; characterization tests green before and after every move"
+gate: "<project typecheck + test + lint command>; focused characterization tests green between moves; full applicable gate at batch completion"
 stop_condition: "scoped maintainability findings addressed with behavior-preserving moves only, gate green throughout, reviewer verdict SAFE (no behavior change), docs updated if public seams moved"
 state: ".loadout/state/safe-refactor.md"
 ---
@@ -31,7 +31,8 @@ tests don't exist and can't reasonably be added — say so and stop.
    the plan short and in the state file; this is not `create-plan` unless the refactor is
    cross-cutting and high-risk (then escalate to `plan-then-build`).
 5. **Move in small pure steps** — `refactoring-code`: extract, move, rename, re-export. Run
-   the `gate` after **each** step (green → green). Keep public APIs stable where possible;
+   focused characterization checks after **each** step (green → green), then the
+   full applicable `gate` once for the completed batch. Keep public APIs stable where possible;
    if a signature must change, update call sites in the same step. No side quests.
 6. **Docs if seams moved** — `updating-docs` for import guides / module docs / ADRs only when
    a public boundary changed (`documentation-updates`, `definition-of-done`). Skip doc churn

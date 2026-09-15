@@ -1,7 +1,7 @@
 # Task file template
 
-Write to `.loadout/tasks/<slug>/TASK.md` for **every** topology choice (including
-single-loop). This file is the contract for `decompose`, `implement-node`, and
+Write to `.loadout/tasks/<slug>/TASK.md` for pipeline/graph coordination or a durable
+single-loop handoff. This file is the contract for `decompose`, `implement-node`, and
 `integrate`. Only `task-topology` / `decompose` may redefine units and allowlists;
 implementers read, they do not edit topology.
 
@@ -33,7 +33,7 @@ Status vocabulary (everywhere): `pending` | `running` | `PASSED` | `FAILED` |
 
 ## Full-suite verifier
 
-<!-- Project gate; used by integrate after each merge and at the end -->
+<!-- Project gate; used by integrate at the completed batch boundary -->
 `<command>`
 
 ## Units

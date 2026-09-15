@@ -19,12 +19,13 @@ Read the `agentic-loop` skill for the full discipline; its references cover the 
 2. **Verify against ground truth** — the project's typecheck, the affected test, the linter,
    and a regression test that fails-on-revert. A red gate is the honest signal, never
    something to suppress (`no-shortcuts`, `regression-test`).
-3. **The maker isn't the sole checker** — for shippable work run an independent checker in a
-   fresh context (the `reviewer`/`security-reviewer` agent) against the contract.
+3. **Review at the appropriate boundary** — use independent review when required by the
+   project, requested, or warranted by material risk. Reuse a matching completed review;
+   an ordinary edit does not automatically need another agent or review cycle.
 4. **State lives outside the window** — `TodoWrite` for in-task memory; a durable file /
    ticket for cross-session work so a fresh context resumes exactly where this stopped.
 5. **Manage the context budget** — just-in-time retrieval over front-loading; compact when the
-   window fills; isolate broad exploration in an `explorer` sub-agent.
+   window fills; use an `explorer` for broad independent work only when delegation is authorized.
 6. **Bounded autonomy, git-safe** — chain edit->verify->fix cycles to a green contract, but
    NEVER stage/commit/branch/push/PR unless the user explicitly asks; edits stay unstaged
    (`commit-and-pr-conventions`).

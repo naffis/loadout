@@ -9,4 +9,6 @@ alwaysApply: false
 - Structure tests Arrange-Act-Assert; one behavior per test; name the expected behavior, not the method.
 - Mock only at true external boundaries (network, clock, filesystem, third-party SDKs). Don't mock the unit under test or stub internal collaborators you could use for real.
 - Prefer factories/builders with explicit overrides over giant fixtures; assert on meaningful values, not snapshots of everything.
-- Test behavior and edge cases, not coverage for its own sake. A passing test you didn't watch fail isn't trusted.
+- Test behavior and edge cases, not coverage for its own sake. For new regression tests, demonstrate the defect before the fix and a pass after.
+  Existing unchanged tests do not need an artificial red run. Use focused tests while
+  editing, then applicable batch checks; zero matching tests is not a pass.

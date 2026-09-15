@@ -12,7 +12,7 @@ description: >
 | `review-build` | Came from a written plan / high stakes |
 | `hunting-defects` | Named package, no single known bug |
 
-Commit only if asked. Shared-trunk → whole tree (`committing-on-shared-trunk`); don't leave sibling WIP unstaged. PR only if asked (`opening-a-pr`). Show gate evidence. `git-safety` / `no-stash`.
+Commit only if asked. Shared-trunk → coherent ready batch (`committing-on-shared-trunk`); leave unrelated WIP untouched. PR only if asked (`opening-a-pr`). Show gate evidence. `git-safety` / `no-stash`.
 
 ## Pairs with
 

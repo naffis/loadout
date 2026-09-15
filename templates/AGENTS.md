@@ -16,8 +16,8 @@ the file **when that task happens**. Do not paste skill bodies here.
 
 - Install: `<cmd>`
 - Dev: `<cmd>`
-- Test: `<cmd>` (prefer running focused tests)
-- Lint / typecheck: `<cmd>`
+- Validation mappings: `.loadout/engineering/project.json` when adopted; otherwise
+  `<development-doc>` — read when selecting focused, batch, or release checks
 
 ## Conventions
 
@@ -28,9 +28,10 @@ the file **when that task happens**. Do not paste skill bodies here.
 ## Workflow
 
 - Diagnose / review / plan replies: what's going on, what to do, any decision (`_shared/plain-english-brief.md`). Details only if asked.
-- Integration trunk: `<dev|main|…>`. Optional shared-tree kit: parallel agents share one local
-  trunk checkout — no per-agent branches/worktrees/stashes; when asked to commit, land all
-  eligible dirty files (`committing-on-shared-trunk`).
+- Integration trunk: `<dev|main|…>`. Default: one writer in the existing
+  checkout. Authorized parallel work requires file/resource ownership and one Git
+  coordinator. When asked to commit, checkpoint a coherent ready batch
+  (`committing-on-shared-trunk`); leave unrelated WIP in place.
 - Branch/PR etiquette: <branch naming> · PRs only when explicitly asked · target `<integration branch>` · conventional commits.
 
 ## Index (pointers, not essays)
@@ -42,7 +43,7 @@ the file **when that task happens**. Do not paste skill bodies here.
 ## Do not
 
 - Commit secrets or PII; read them from env / secret store.
-- `git stash`, create a feature branch, or selectively stage "only my files" when the shared-tree kit is installed.
+- Stash or discard WIP; create branches/worktrees/PRs without authorization.
 - <project-specific footgun>
 
 > Nested `AGENTS.md` files in subdirectories override these for that area.

@@ -29,8 +29,17 @@ routing: `hunting-defects/references/family.md`.
 Do **not** launch a `generalPurpose` Task with the maker's rationalizations.
 
 1. **`flight-checker`** subagent — `readonly: true`, fresh, no `resume`.
-2. Native Cursor `/review` / `reviewer` / `/review-bugbot` **in addition**.
+2. Native Cursor `/review` / `reviewer` / `/review-bugbot` can satisfy the independent
+   review when it covers the same contract and evidence. Do not add another review
+   just for a different skill name; retain any explicitly required specialized checker.
 3. Same-session degrade cannot yield CLEAN / ON-COURSE.
+
+## Validation reuse
+
+These specialized passes apply when requested, required, or justified by their scope.
+They are not a mandatory chain for every change. Share candidate-scoped gate output
+and review evidence across passes; repeat only after relevant changes, a discovered
+gap, or an existing project requirement. Never call stale or incomplete evidence green.
 
 ## Mechanical receipts
 

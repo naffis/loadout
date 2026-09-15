@@ -86,7 +86,7 @@ From the best-practices guide (these are the highest-signal workflow patterns):
   → a verification subagent. **Show evidence, don't assert success.**
 - **Explore → plan → code → commit.** Use plan mode to separate research from
   implementation; skip planning for one-sentence diffs.
-- **Maker ≠ checker.** Use a fresh **subagent** to review the diff against the plan in a
+- **Independent review where required or valuable.** Use a fresh **subagent** to review the completed candidate in a
   clean context ("report gaps, not style preferences"; over-zealous reviewers cause
   over-engineering). Writer/Reviewer across two sessions; tests-first by a second agent.
 - **Subagents for investigation** keep the main context clean (context is the fundamental
@@ -352,7 +352,7 @@ Re-surveyed after frontier models started claiming they “don’t need most com
 | [Cursor — Skills](https://cursor.com/docs/skills) + [Rules](https://cursor.com/docs/context/rules) | Built-ins: `/review`, `/review-bugbot`, `/review-security`, `/loop`, `/canvas`, `/migrate-to-skills`. Nested project skills auto-scope. `paths` not `globs` for new skills. |
 | [AGENTS.md](https://agents.md/) (AAIF / Linux Foundation) | Cross-tool README for agents: commands, conventions, gotchas. Nested; closest wins. Sample files are **short**. No required schema. |
 
-**What this catalog keeps (models still fail these):** house git (`git-safety`, `no-stash`, whole-tree commit), maker ≠ checker + RECEIPT scripts, unique routing/anti-triggers, unique output fences (`next-prompt`, verdicts), project gotchas.
+**What this catalog keeps (models still fail these):** house git (`git-safety`, `no-stash`, ready-batch checkpoints), maker ≠ checker + RECEIPT scripts, unique routing/anti-triggers, unique output fences (`next-prompt`, verdicts), project gotchas.
 
 **What this catalog no longer teaches:** generic TDD, how to rebase, how to write a PR, coverage pyramids, 5-whys essays, ACI tool-design lectures, “why this matters” openers.
 

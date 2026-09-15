@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "tools": [
+    "codex",
+    "grok",
+    "claude",
+    "cursor"
+  ],
+  "files": {
+    ".loadout/engineering/WORKFLOW.md": "22d6ac363e1c353ead3688f910339af23376c3fc7ec63843665c59b44a63d197",
+    ".agents/skills/working-agentically/SKILL.md": "1c3e960996b72bd816b802537c857401f7b0ad69628a977f0763ddd67efbcac8",
+    ".grok/skills/working-agentically/SKILL.md": "1c3e960996b72bd816b802537c857401f7b0ad69628a977f0763ddd67efbcac8",
+    ".claude/skills/working-agentically/SKILL.md": "1c3e960996b72bd816b802537c857401f7b0ad69628a977f0763ddd67efbcac8",
+    ".cursor/rules/loadout-engineering.mdc": "a89472829edea58c3572271300cc6a1c5c25f610ef001fd623ebafb14c7886cb"
+  },
+  "blocks": {
+    "AGENTS.md": {
+      "fragment": "\n\n<!-- loadout:engineering:start -->\nFor the adopted engineering workflow, read .loadout/engineering/WORKFLOW.md\nand .loadout/engineering/project.json. Preserve applicable project and nested\ninstructions; report conflicts instead of silently overriding them.\n<!-- loadout:engineering:end -->\n",
+      "created": false
+    },
+    "CLAUDE.md": {
+      "fragment": "\n\n<!-- loadout:engineering:start -->\nFor the adopted engineering workflow, read .loadout/engineering/WORKFLOW.md\nand .loadout/engineering/project.json. Preserve applicable project and nested\ninstructions; report conflicts instead of silently overriding them.\n<!-- loadout:engineering:end -->\n",
+      "created": false
+    }
+  }
+}
