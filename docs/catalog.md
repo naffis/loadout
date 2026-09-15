@@ -17,7 +17,7 @@ on, what to do, any decision). Details only if asked.
 
 ---
 
-## Skills (66)
+## Skills (67)
 
 ### Getting started (start here)
 
@@ -32,6 +32,7 @@ on, what to do, any decision). Details only if asked.
 
 | Skill                           | What / when                                                                                                                                                                                                | Call                                                          |
 | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| `working-agentically`          | Apply the explicitly adopted portable shared-checkout process; preserve project constraints, coordinate writers, and reuse validation. | adopted `.loadout/engineering` profile / explicit adoption request |
 | `agentic-loop`                  | Run a non-trivial task as a verifiable perceive→plan→act→observe→verify→reflect loop: stop-condition contract, ground-truth verification, maker≠checker, durable memory, context budget, bounded autonomy. | long-horizon/multi-step work; "run this as a loop"            |
 | `running-a-dev-cycle`           | Adaptive end-to-end cycle: classify a task (QUICK/ENHANCEMENT/INTEGRATION/INVESTIGATION/ITERATION) and route it through the lightest path, each phase an agentic loop.                                     | "build this end to end" / "autonomous mode"                   |
 | `orchestrating-parallel-agents` | Run N independent items in parallel — one writer by default; authorized parallel work with ownership and a writer cap; worktrees only if requested; serialized landing.                       | "do these in parallel" / "clear the queue"                    |
@@ -314,6 +315,9 @@ composes and optional `gate` / `stop_condition` / `state`.
 
 ## Reference docs (`docs/`)
 
+`portable-engineering` documents the opt-in process profile and safe installer;
+`adopt-portable-engineering-prompt` is the reusable migration prompt for each project.
+
 `doc-install` / repo-root `INSTALL.md` (agent _use this_ / _update to latest_ contract),
 `usage` (this guide's companion), `catalog` (this file), `external-practices` (Anthropic/Cursor
 conventions), `agentic-patterns` (the 2026 agentic-coding pattern catalog behind these assets),
@@ -327,5 +331,5 @@ review without a known bug — generic core + consumer overlay).
 | `adopting-engineering` | Implement pinned workflow adoption or update in an existing project, preserving its architecture, docs, and gates. |
 | `adopt-engineering-cmd` (`/adopt-engineering`) | Thin meta-plugin wrapper for the adoption skill. |
 | `doc-portable-engineering` | Ownership, client adapters, configuration, and dedicated CLI lifecycle. |
-| `doc-adopt-portable-engineering` | Reusable adoption prompt and reviewed skill default. |
+| `doc-adopt-portable-engineering-prompt` | Reusable adoption prompt and reviewed skill default. |
 | `doc-efficient-agent-development` | Research, rationale, audit findings, and measurement guidance. |

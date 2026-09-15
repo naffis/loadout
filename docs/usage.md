@@ -4,6 +4,11 @@ How to install loadout, how each kind of asset loads and how you invoke it, and 
 pieces work together. For a one-line description of every asset, see
 [`catalog.md`](./catalog.md).
 
+For the opt-in shared-checkout workflow across CLI agents, use
+[portable engineering](./portable-engineering.md) and its
+[per-project adoption prompt](./adopt-portable-engineering-prompt.md). Its dedicated
+installer is separate from the legacy install/update flows below.
+
 > **New to a project and not sure where to begin?** Run **`/start`** (or ask
 > _"I want to build X — what should I do?"_). The `getting-started` skill clarifies the
 > goal, picks the right workflow, decides manual vs autonomous loop, and hands you a
@@ -27,7 +32,8 @@ to install them. Each component lives where it loads:
 | **Template / doc / runbook** | Starter files and reference material              | You read/use them; the CLI vendors them into the project                       |
 
 The golden rule: **a constraint is a rule, a procedure is a skill, must-happen enforcement
-is a hook, standing knowledge is `AGENTS.md`.**
+is a hook, critical invariants and routing belong in `AGENTS.md`; detailed standing
+knowledge belongs in the project docs it references.**
 
 ---
 
@@ -337,8 +343,8 @@ frontmatter, composition references, orphaned files, and lockfile integrity). CI
 ## Developing this loadout repository
 
 The source layout and distribution model are in README.md and
-agent-harness-engineering.md. The TypeScript CLI remains the legacy installer;
-portable adoption uses the separately pinned CLI described in the adoption skill.
+agent-harness-engineering.md. The TypeScript CLI includes both legacy installation and dedicated engineering
+commands. Portable adoption uses the reviewed revision selected by the adoption skill.
 Node >=18 is the package contract; CI uses Node 20. Do not change dependencies or
 CLI behavior as part of a documentation/process adoption.
 
@@ -372,8 +378,7 @@ local loadout checkout, any agent can read
 project. No global installation or plugin refresh is performed by adoption.
 
 This skill defaults to the reviewed full SHA, obtains that source outside the
-consumer, reads its adoption contract, and runs engineering plan/apply/check. The
-legacy CLI in this checkout does not expose those commands. See the skill for the
+consumer, reads its adoption contract, and runs engineering plan/apply/check. This checkout also exposes those commands after a build. See the skill for the
 tested source-build fallback when npm Git-package execution fails.
 
 For an update, supply a new reviewed SHA, keep the existing adapter selection,

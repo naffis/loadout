@@ -15,6 +15,14 @@ Progressive day-one path (slower, more deliberate): [`bootstrap-project`](./proc
 
 Invokable skill mirror (once `meta` is installed): **`equipping-loadout`**.
 
+**Portable/shared-checkout engineering adoption:** if that is the requested scope,
+follow [portable engineering](./docs/portable-engineering.md) and the
+[project adoption prompt](./docs/adopt-portable-engineering-prompt.md) instead of
+Flow A/B below. Use `engineering plan/apply/check/remove` from a pinned loadout
+revision. This opt-in profile preserves existing instruction text and separates
+managed process from project-owned architecture/config; it does not install the
+legacy starter or change hooks, CI, or global settings.
+
 ---
 
 ## Adopt the portable workflow in an existing project

@@ -9,9 +9,7 @@ project, then reuse the same reviewed loadout commit in the remaining projects.
 
 ## Adopt without replacing AGENTS.md
 
-This checkout's legacy CLI predates these commands. The `adopting-engineering`
-skill builds the reviewed external revision once; it does not modify the local CLI.
-Use that pinned loadout checkout/ref with these commands from a project's Git tree:
+Use a pinned loadout checkout/ref with these commands from a project's Git tree:
 
 ```bash
 loadout engineering plan --tools codex,grok,claude,cursor

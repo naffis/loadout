@@ -54,4 +54,4 @@ These commands install process files; they do not execute project validation.
 ## Pairs with
 
 - skills: `equipping-loadout`, `skill-author`, `rule-author`
-- docs: `doc-portable-engineering`, `doc-adopt-portable-engineering`
+- docs: `doc-portable-engineering`, `doc-adopt-portable-engineering-prompt`

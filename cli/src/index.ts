@@ -5,6 +5,7 @@ import { doctor } from "./commands/doctor.js";
 import { init } from "./commands/init.js";
 import { list } from "./commands/list.js";
 import { update } from "./commands/update.js";
+import { engineering } from "./commands/engineering.js";
 import { c, info } from "./lib/log.js";
 
 const HELP = `${c.bold("loadout")} — equip projects with skills, rules, docs, and workflows.
@@ -19,6 +20,8 @@ ${c.bold("Commands:")}
                        Pull latest, three-way merge, and install missing starter/uses deps
   diff <id>            Show upstream vs local for one asset (Phase 3)
   doctor               Validate manifests, frontmatter, and composition refs
+  engineering <plan|apply|check|remove>
+                       Adopt a portable workflow without replacing project instructions
   help                 Show this message
 
 ${c.dim("Docs: README.md, docs/usage.md")}`;
@@ -38,6 +41,8 @@ function main(argv: string[]): number {
       return update(rest);
     case "diff":
       return diff(rest);
+    case "engineering":
+      return engineering(rest);
     case undefined:
     case "help":
     case "--help":

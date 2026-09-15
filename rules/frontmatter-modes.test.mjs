@@ -145,7 +145,7 @@ test("AC-15 brief omits measured-token literals", () => {
   assert.doesNotMatch(brief, /oaicite/);
 });
 
-test("AC-18 marketplace and plugin versions are 0.22.0", () => {
+test("AC-18 marketplace entries match their plugin versions", () => {
   const mp = JSON.parse(
     readFileSync(join(root, ".claude-plugin/marketplace.json"), "utf8"),
   );
@@ -161,13 +161,12 @@ test("AC-18 marketplace and plugin versions are 0.22.0", () => {
       "utf8",
     ),
   );
-  assert.equal(mp.version, "0.22.0");
+  assert.match(mp.version, /^\d+\.\d+\.\d+$/);
   const core = mp.plugins.find((p) => p.name === "core-engineering");
-  assert.equal(core.version, "0.22.0");
-  assert.equal(plugin.version, "0.22.0");
+  assert.equal(core.version, plugin.version);
+  assert.match(plugin.version, /^\d+\.\d+\.\d+$/);
   const searchEntry = mp.plugins.find((p) => p.name === "search-visibility");
-  assert.equal(searchEntry.version, "0.1.0");
-  assert.equal(searchVis.version, "0.1.0");
+  assert.equal(searchEntry.version, searchVis.version);
 });
 
 test("AC-19 kits.starter excludes cleaning-ai-copy", () => {

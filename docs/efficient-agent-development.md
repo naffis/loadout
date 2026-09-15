@@ -66,13 +66,13 @@ are separate implementation decisions with their own evidence and authorization.
 
 - Managed process revision: `2f539afbdf4a724c0542f1c03c69ef46af036cb1` from
   `https://github.com/naffis/loadout`. Project commands: [usage](usage.md).
-- This checkout predates that CLI; the pinned source was built outside the project.
+- At initial adoption this checkout predated that CLI; the pinned source was built outside the project.
   Local npm's Git-package execution failed with `GitFetcher requires an Arborist
   constructor to pack a tarball`; the source-checkout route worked.
 - Repo installation and client discovery results are recorded after verification
   below. Global settings and cached plugins are outside this adoption's edit scope.
 
-### Verification and remaining conflicts
+### Initial adoption verification and remaining conflicts
 
 - Pinned `engineering plan`, `apply`, and `check` succeeded. Managed hashes and
   exact equality with the pinned WORKFLOW.md were independently checked.
@@ -104,7 +104,8 @@ are separate implementation decisions with their own evidence and authorization.
 Cross-client activation and downstream rollout remain partial because of the
 global conflicts and trust state above. The new command is available from the
 updated meta plugin after publication/installation, or by directing an agent to
-the local skill file now. No commit, push, plugin publication, or release was requested.
+the local skill file now. The initial adoption left edits unstaged; commit and push
+were authorized afterward. Plugin publication and release remain separate.
 
 ### Changed files
 
@@ -162,3 +163,11 @@ the local skill file now. No commit, push, plugin publication, or release was re
 - `rules/testing-conventions.mdc`
 - `templates/AGENTS.md`
 - `templates/CLAUDE.md`
+
+### Synchronization for the authorized push
+
+The remote dev branch already contained the pinned engineering implementation.
+Merged that commit while preserving the new adoption skill and efficiency changes.
+The combined CLI now includes engineering commands. Registry references use the
+upstream `doc-adopt-portable-engineering-prompt` ID, and documentation reflects the
+combined installation. Upstream CLI code and release versions were retained.
